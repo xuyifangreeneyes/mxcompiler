@@ -1,0 +1,11 @@
+int main () {
+    return func(3,1);
+}
+
+int func(int a, int b) {
+    if (a >= 3 && b <= 1) { 
+        if (b - 2 * a < a && b-3*a>0 || a > b &&  (a - 2 * b < 0 || a - b < b)) return 1;
+    }
+    else if (a > 0) return 2; 
+    return 0;
+}   

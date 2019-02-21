@@ -1,0 +1,10 @@
+*.class
+
+.vscode/
+
+.idea/
+
+*.DS_Store
+
+bin/
+out/
