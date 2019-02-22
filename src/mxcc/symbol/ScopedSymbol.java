@@ -3,7 +3,7 @@ package mxcc.symbol;
 import java.util.Map;
 
 public abstract class ScopedSymbol extends Symbol implements Scope {
-    Scope enclosingScope;
+    private Scope enclosingScope;
 
     public ScopedSymbol(String name, Type type, Scope enclosingScope) {
         super(name, type);
@@ -24,10 +24,9 @@ public abstract class ScopedSymbol extends Symbol implements Scope {
 
     public void define(Symbol sym) {
         if (getMembers().containsKey(sym.name)) {
-            // TODO: throw a compile error
+            throw new RuntimeException("The symbol has been declared in the same scope");
         }
         getMembers().put(sym.name, sym);
-        sym.scope = this;
     }
 
     public Scope getEnclosingScope() { return enclosingScope; }

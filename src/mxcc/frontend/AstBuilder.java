@@ -7,13 +7,16 @@ import mxcc.parser.MxBaseVisitor;
 import mxcc.symbol.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 
 
 public class AstBuilder extends MxBaseVisitor<AstNode> {
     private Scope currentScope;
+
+    public Program build(MxParser.ProgramContext ctx) {
+        return (Program) visit(ctx);
+    }
 
     @Override
     public AstNode visitProgram(MxParser.ProgramContext ctx) {
@@ -24,7 +27,7 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
             if (childNode instanceof Decl) {
                 decls.add((Decl) childNode);
             } else {
-                //TODO: throw a compile error
+                throw new RuntimeException("Get unexpected statement in global scope");
             }
         }
         Program node = new Program(decls, currentScope);
@@ -34,10 +37,12 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
 
     @Override
     public AstNode visitVarDecl(MxParser.VarDeclContext ctx) {
-        VariableSymbol var = new VariableSymbol(ctx.Identifier().getText());
-        currentScope.define(var);
-        return new VariableDecl((TypeNode) visit(ctx.type()), var,
+        VariableSymbol var = new VariableSymbol(ctx.Identifier().getText(), null);
+        VariableDecl node = new VariableDecl((TypeNode) visit(ctx.type()), var,
                 (ctx.expr() == null) ? null : (Expr) visit(ctx.expr()), currentScope);
+        currentScope.define(var);
+        var.def = node;
+        return node;
     }
 
     @Override
@@ -51,7 +56,7 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
             if (childNode instanceof Decl) {
                 decls.add((Decl) childNode);
             } else {
-                //TODO: throw a compile error
+                throw new RuntimeException("Get unexpected statement in class");
             }
         }
         ClassDecl node = new ClassDecl(classSymbol, decls, currentScope);
@@ -73,12 +78,14 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
         }
         List<VariableDecl> paramList = new ArrayList<>();
         MxParser.ParameterDeclsContext paramDecls = ctx.parameterDecls();
-        for (ParseTree child : paramDecls.parameterDecl()) {
-            AstNode childNode = visit(child);
-            if (childNode instanceof VariableDecl) {
-                paramList.add((VariableDecl) childNode);
-            } else {
-                //TODO: throw a compile error
+        if (paramDecls != null) {
+            for (ParseTree child : paramDecls.parameterDecl()) {
+                AstNode childNode = visit(child);
+                if (childNode instanceof VariableDecl) {
+                    paramList.add((VariableDecl) childNode);
+                } else {
+                    throw new RuntimeException("Get unexpected parameter declaration in function");
+                }
             }
         }
         List<Stmt> stmts = new ArrayList<>();
@@ -88,7 +95,7 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
             if (childNode instanceof Stmt) {
                 stmts.add((Stmt) childNode);
             } else {
-                //TODO: throw a compile error
+                throw new RuntimeException("Get unexpected statement in function");
             }
         }
         FunctionDecl node = new FunctionDecl(func, retType, paramList, stmts, currentScope);
@@ -98,10 +105,19 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
     }
 
     @Override
+    public AstNode visitParameterDecl(MxParser.ParameterDeclContext ctx) {
+        VariableSymbol var = new VariableSymbol(ctx.Identifier().getText(), null);
+        VariableDecl node = new VariableDecl((TypeNode) visit(ctx.type()), var, null, currentScope);
+        currentScope.define(var);
+        var.def = node;
+        return node;
+    }
+
+    @Override
     public AstNode visitClassConstructor(MxParser.ClassConstructorContext ctx) {
         String constructorName = ctx.Identifier().getText();
         if (!constructorName.equals(currentScope.getScopeName())) {
-            //TODO: throw a error: constructor's name is not consistent with class
+            throw new RuntimeException("Constructor's name is not consistent with class");
         }
         FunctionSymbol func = new FunctionSymbol(constructorName, currentScope);
         currentScope.define(func);
@@ -114,10 +130,10 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
             if (childNode instanceof Stmt) {
                 stmts.add((Stmt) childNode);
             } else {
-                //TODO: throw a compile error
+                throw new RuntimeException("Get unexpected statement in constructor");
             }
         }
-        FunctionDecl node = new FunctionDecl(func, null, null, stmts, currentScope);
+        FunctionDecl node = new FunctionDecl(func, null, new ArrayList<>(), stmts, currentScope);
         func.def = node;
         currentScope = currentScope.getEnclosingScope();
         return node;
@@ -143,12 +159,22 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
         return node;
     }
 
+    @Override
+    public AstNode visitVarDeclStat(MxParser.VarDeclStatContext ctx) {
+        return new VariableDeclStmt((VariableDecl) visit(ctx.varDecl()), currentScope);
+    }
 
+    @Override
+    public AstNode visitExprStat(MxParser.ExprStatContext ctx) {
+        return visit(ctx.expr());
+    }
 
     @Override
     public AstNode visitForStat(MxParser.ForStatContext ctx) {
-        return new ForStmt((Expr) visit(ctx.init), (Expr) visit(ctx.cond),
-                (Expr) visit(ctx.step), (Stmt) visit(ctx.statement()), currentScope);
+        Expr init = (ctx.init == null) ? null : (Expr) visit(ctx.init);
+        Expr cond = (ctx.cond == null) ? null : (Expr) visit(ctx.cond);
+        Expr step = (ctx.step == null) ? null : (Expr) visit(ctx.step);
+        return new ForStmt(init, cond, step, (Stmt) visit(ctx.statement()), currentScope);
     }
 
     @Override
@@ -159,7 +185,7 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
     @Override
     public AstNode visitIfStatement(MxParser.IfStatementContext ctx) {
         return new IfStmt((Expr) visit(ctx.expr()), (Stmt) visit(ctx.statement(0)),
-                ctx.statement(1) == null ? null : (Stmt) visit(ctx.statement(1)), currentScope);
+                ctx.statement().size() == 1 ? null : (Stmt) visit(ctx.statement(1)), currentScope);
     }
 
     @Override
@@ -178,6 +204,11 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
     }
 
     @Override
+    public AstNode visitBlankStat(MxParser.BlankStatContext ctx) {
+        return new EmptyStmt(currentScope);
+    }
+
+    @Override
     public AstNode visitBinaryExpr(MxParser.BinaryExprContext ctx) {
         BinaryExpr.BinaryOp op;
         switch (ctx.op.getType()) {
@@ -186,6 +217,8 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
             case MxParser.MOD: op = BinaryExpr.BinaryOp.MOD; break;
             case MxParser.ADD: op = BinaryExpr.BinaryOp.ADD; break;
             case MxParser.SUB: op = BinaryExpr.BinaryOp.SUB; break;
+            case MxParser.LSFT: op = BinaryExpr.BinaryOp.LSFT; break;
+            case MxParser.RSFT: op = BinaryExpr.BinaryOp.RSFT; break;
             case MxParser.LT: op = BinaryExpr.BinaryOp.LT; break;
             case MxParser.GT: op = BinaryExpr.BinaryOp.GT; break;
             case MxParser.LE: op = BinaryExpr.BinaryOp.LE; break;
@@ -198,7 +231,7 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
             case MxParser.AND: op = BinaryExpr.BinaryOp.AND; break;
             case MxParser.OR: op = BinaryExpr.BinaryOp.OR; break;
             case MxParser.ASSIGN: op = BinaryExpr.BinaryOp.ASSIGN; break;
-            default: //TODO: throw a compile error
+            default: throw new RuntimeException("Get unexpected operator at BinaryExpr" + ctx.op.getText());
         }
         return new BinaryExpr(op, (Expr) visit(ctx.left), (Expr) visit(ctx.right), currentScope);
     }
@@ -213,7 +246,7 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
             case MxParser.SUB: op = UnaryExpr.UnaryOp.NEG; break;
             case MxParser.NOT: op = UnaryExpr.UnaryOp.NOT; break;
             case MxParser.BITNOT: op = UnaryExpr.UnaryOp.BIT_NOT; break;
-            default: //TODO: throw a compile error
+            default: throw new RuntimeException("Get unexpected operator at UnaryExpr");
         }
         return new UnaryExpr(op, (Expr) visit(ctx.expr()), currentScope);
     }
@@ -224,7 +257,7 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
         switch (ctx.op.getType()) {
             case MxParser.INC: op = UnaryExpr.UnaryOp.INC_SUF; break;
             case MxParser.DEC: op = UnaryExpr.UnaryOp.DEC_SUF; break;
-            default: //TODO: throw a compile error
+            default: throw new RuntimeException("Get unexpected operator at UnaryExpr");
         }
         return new UnaryExpr(op, (Expr) visit(ctx.expr()), currentScope);
     }
@@ -237,9 +270,81 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
             case MxParser.BoolConstant: return new BoolConst(Boolean.valueOf(literal), currentScope);
             case MxParser.StringConstant: return new StringConst(literal.substring(1, literal.length() - 1), currentScope);
             case MxParser.NULL: return new NullLiteral(currentScope);
-            default: //TODO: throw a compile error
+            default: throw new RuntimeException("Get unexpected constant type");
         }
-        return null;
+    }
+
+    @Override
+    public AstNode visitIdExpr(MxParser.IdExprContext ctx) {
+        return new IdentifierExpr(ctx.Identifier().getText(), currentScope);
+    }
+
+    @Override
+    public AstNode visitSubscriptAccess(MxParser.SubscriptAccessContext ctx) {
+        return new ArrayAccess((Expr) visit(ctx.array), (Expr) visit(ctx.subscript), currentScope);
+    }
+
+    @Override
+    public AstNode visitMemberAccess(MxParser.MemberAccessContext ctx) {
+        return new MemberAccess((Expr) visit(ctx.expr()),
+                                new IdentifierExpr(ctx.Identifier().getText(), currentScope),
+                                currentScope);
+    }
+
+    @Override
+    public AstNode visitFunctionCall(MxParser.FunctionCallContext ctx) {
+        List<Expr> args = new ArrayList<>();
+        MxParser.ParameterListContext paramList = ctx.parameterList();
+        if (paramList != null) {
+            for (ParseTree child : paramList.expr()) {
+                AstNode childNode = visit(child);
+                if (childNode instanceof Expr) {
+                    args.add((Expr) childNode);
+                } else {
+                    throw new RuntimeException("Get unexpected parameter in function call");
+                }
+            }
+        }
+        return new FunctionCall((Expr) visit(ctx.expr()), args, currentScope);
+    }
+
+    @Override
+    public AstNode visitNewCreator(MxParser.NewCreatorContext ctx) {
+        return visit(ctx.creator());
+    }
+
+    @Override
+    public AstNode visitErrorCreator(MxParser.ErrorCreatorContext ctx) {
+        throw new RuntimeException("Array dimension specification in new expression should be left aligned");
+    }
+
+    @Override
+    public AstNode visitNonArrayCreator(MxParser.NonArrayCreatorContext ctx) {
+        return new NewExpr(ctx.nonArrayType().getText(), new ArrayList<>(), 0, currentScope);
+    }
+
+    @Override
+    public AstNode visitArrayCreator(MxParser.ArrayCreatorContext ctx) {
+        List<Expr> args = new ArrayList<>();
+        for (ParseTree child : ctx.expr()) {
+            AstNode childNode = visit(child);
+            if (childNode instanceof Expr) {
+                args.add((Expr)childNode);
+            } else {
+                throw new RuntimeException("Get unexpected subscript when creating an array");
+            }
+        }
+        return new NewExpr(ctx.nonArrayType().getText(), args, ctx.LBRACK().size(), currentScope);
+    }
+
+    @Override
+    public AstNode visitParenExpr(MxParser.ParenExprContext ctx) {
+        return visit(ctx.expr());
+    }
+
+    @Override
+    public AstNode visitThisExpr(MxParser.ThisExprContext ctx) {
+        return new IdentifierExpr("this", currentScope);
     }
 
 }

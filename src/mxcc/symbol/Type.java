@@ -1,6 +1,6 @@
 package mxcc.symbol;
 
 public interface Type {
-    public String getName();
+    String getName();
     // public boolean isSameType(Type rhs);
 }

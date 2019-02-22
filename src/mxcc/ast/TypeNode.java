@@ -4,13 +4,17 @@ import mxcc.symbol.Scope;
 import mxcc.symbol.Type;
 
 public class TypeNode extends AstNode {
-    private String baseType;
-    private int dim;
-    private Type type;
+    public final String baseType;
+    public final int dim;
+    public Type type;
 
     public TypeNode(String baseType, int dim, Scope scope) {
         super(scope);
         this.baseType = baseType;
         this.dim = dim;
+    }
+
+    public void accept(AstVisitor visitor) {
+        visitor.visit(this);
     }
 }

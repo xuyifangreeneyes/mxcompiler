@@ -4,15 +4,16 @@ import mxcc.symbol.Scope;
 
 public class BinaryExpr extends Expr {
     public enum BinaryOp {
-        MUL, DIV, MOD, ADD, SUB,
+        MUL, DIV, MOD,
+        ADD, SUB, LSFT, RSFT,
         LT, GT, LE, GE, EQ, NEQ,
         BIT_AND, BIT_OR, BIT_XOR,
         AND, OR, ASSIGN,
     }
 
-    private BinaryOp op;
-    private Expr left;
-    private Expr right;
+    public final BinaryOp op;
+    public final Expr left;
+    public final Expr right;
 
     public BinaryExpr(BinaryOp op, Expr left, Expr right, Scope scope) {
         super(scope);
@@ -21,4 +22,7 @@ public class BinaryExpr extends Expr {
         this.right = right;
     }
 
+    public void accept(AstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

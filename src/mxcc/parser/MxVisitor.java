@@ -207,12 +207,12 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitContinueStat(MxParser.ContinueStatContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code nonArrayCreator}
+	 * Visit a parse tree produced by the {@code errorCreator}
 	 * labeled alternative in {@link MxParser#creator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNonArrayCreator(MxParser.NonArrayCreatorContext ctx);
+	T visitErrorCreator(MxParser.ErrorCreatorContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code arrayCreator}
 	 * labeled alternative in {@link MxParser#creator}.
@@ -220,6 +220,13 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitArrayCreator(MxParser.ArrayCreatorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code nonArrayCreator}
+	 * labeled alternative in {@link MxParser#creator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNonArrayCreator(MxParser.NonArrayCreatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MxParser#constant}.
 	 * @param ctx the parse tree

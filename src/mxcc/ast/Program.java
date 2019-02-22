@@ -5,7 +5,11 @@ import mxcc.symbol.Scope;
 import java.util.List;
 
 public class Program extends AstNode {
-    private List<Decl> decls;
+    public final List<Decl> decls;
 
     public Program(List<Decl> decls, Scope scope) { super(scope); this.decls = decls; }
+
+    public void accept(AstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

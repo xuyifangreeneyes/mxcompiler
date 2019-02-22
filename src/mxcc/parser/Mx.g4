@@ -75,8 +75,9 @@ jumpStatement
     ;
 
 creator
-    : nonArrayType (LPAREN RPAREN)?                        # nonArrayCreator
-    | nonArrayType (LBRACK expr RBRACK)+ (LBRACK RBRACK)*  # arrayCreator
+    : nonArrayType (LBRACK expr RBRACK)+ (LBRACK RBRACK)+ (LBRACK expr RBRACK)+  # errorCreator
+    | nonArrayType (LBRACK expr RBRACK)+ (LBRACK RBRACK)*                        # arrayCreator
+    | nonArrayType (LPAREN RPAREN)?                                              # nonArrayCreator
     ;
 
 constant

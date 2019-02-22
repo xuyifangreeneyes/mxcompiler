@@ -18,7 +18,7 @@ public abstract class BaseScope implements Scope {
 
     public void define(Symbol sym) {
         if (symbols.containsKey(sym.name)) {
-            // TODO: throw a compile error
+            throw new RuntimeException("The symbol has been declared in the same scope");
         }
         symbols.put(sym.name, sym);
         sym.scope = this;

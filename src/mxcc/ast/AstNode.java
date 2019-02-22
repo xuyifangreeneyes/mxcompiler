@@ -3,8 +3,9 @@ package mxcc.ast;
 import mxcc.symbol.Scope;
 
 public abstract class AstNode {
-    private Scope scope;
+    public final Scope scope;
 
     public AstNode(Scope scope) { this.scope = scope; }
-    public Scope getScope() { return scope; }
+
+    public abstract void accept(AstVisitor visitor);
 }

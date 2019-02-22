@@ -3,10 +3,10 @@ package mxcc.ast;
 import mxcc.symbol.Scope;
 
 public class ForStmt extends Stmt {
-    private Expr init;
-    private Expr cond;
-    private Expr step;
-    private Stmt body;
+    public final Expr init;
+    public final Expr cond;
+    public final Expr step;
+    public final Stmt body;
 
     public ForStmt(Expr init, Expr cond, Expr step, Stmt body, Scope scope) {
         super(scope);
@@ -14,5 +14,9 @@ public class ForStmt extends Stmt {
         this.cond = cond;
         this.step = step;
         this.body = body;
+    }
+
+    public void accept(AstVisitor visitor) {
+        visitor.visit(this);
     }
 }

@@ -6,10 +6,10 @@ import mxcc.symbol.Scope;
 import java.util.List;
 
 public class FunctionDecl extends Decl {
-    private FunctionSymbol func;
-    private TypeNode retType;
-    private List<VariableDecl> paramList;
-    private List<Stmt> stmts;
+    public final FunctionSymbol func;
+    public final TypeNode retType;
+    public final List<VariableDecl> paramList;
+    public final List<Stmt> stmts;
 
     public FunctionDecl(FunctionSymbol func, TypeNode retType, List<VariableDecl> paramList,
                         List<Stmt> stmts, Scope parent) {
@@ -18,5 +18,9 @@ public class FunctionDecl extends Decl {
         this.retType = retType;
         this.paramList = paramList;
         this.stmts = stmts;
+    }
+
+    public void accept(AstVisitor visitor) {
+        visitor.visit(this);
     }
 }

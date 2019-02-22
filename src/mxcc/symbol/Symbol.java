@@ -5,7 +5,6 @@ import mxcc.ast.AstNode;
 public class Symbol {
     public String name;
     public Type type;
-    public Scope scope;
     public AstNode def;
 
     public Symbol(String name) { this.name = name; }
@@ -14,7 +13,6 @@ public class Symbol {
 
     public String toString() {
         String s = "";
-        if (scope != null) s = scope.getScopeName() + ".";
         if (type != null) return "<" + s + getName() + ":" + type + ">";
         return s + getName();
     }

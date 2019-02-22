@@ -1,5 +1,6 @@
 package test;
 
+import mxcc.frontend.AstBuilder;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
@@ -42,7 +43,6 @@ public class ParserTest {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         MxParser parser = new MxParser(tokens);
         parser.setErrorHandler(new BailErrorStrategy());
-
         parser.program();
     }
 

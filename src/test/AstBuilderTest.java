@@ -1,5 +1,6 @@
-package mxcc;
+package test;
 
+import mxcc.ast.AstPrinter;
 import mxcc.ast.Program;
 import mxcc.frontend.AstBuilder;
 import mxcc.parser.MxLexer;
@@ -9,7 +10,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-public class Mxcc {
+public class AstBuilderTest {
     private Program ast;
 
     public static void main(String[] args) {
@@ -22,6 +23,8 @@ public class Mxcc {
             MxParser.ProgramContext programContext = parser.program();
             AstBuilder astBuilder = new AstBuilder();
             Program ast = astBuilder.build(programContext);
+            AstPrinter printer = new AstPrinter(System.out);
+            printer.print(ast);
         } catch (Exception e) {
             e.printStackTrace(System.err);
             System.exit(1);
