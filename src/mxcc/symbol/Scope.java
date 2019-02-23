@@ -8,4 +8,5 @@ public interface Scope {
     void define(Symbol sym);
 
     Symbol resolve(String name);
+
 }

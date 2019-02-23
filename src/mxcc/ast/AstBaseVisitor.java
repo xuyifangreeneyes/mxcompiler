@@ -1,6 +1,11 @@
 package mxcc.ast;
 
 public class AstBaseVisitor implements AstVisitor {
+    public void visit(AstNode node) {
+        if (node == null) return;
+        node.accept(this);
+    }
+
     public void visit(Program node) {}
     public void visit(TypeNode node) {}
 

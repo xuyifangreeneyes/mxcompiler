@@ -21,7 +21,6 @@ public abstract class BaseScope implements Scope {
             throw new RuntimeException("The symbol has been declared in the same scope");
         }
         symbols.put(sym.name, sym);
-        sym.scope = this;
     }
 
     public Scope getEnclosingScope() { return enclosingScope; }

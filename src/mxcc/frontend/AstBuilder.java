@@ -1,5 +1,7 @@
 package mxcc.frontend;
 
+import mxcc.utility.Location;
+
 import mxcc.ast.*;
 import mxcc.parser.MxParser;
 import mxcc.parser.MxBaseVisitor;
@@ -20,7 +22,7 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
 
     @Override
     public AstNode visitProgram(MxParser.ProgramContext ctx) {
-        currentScope = new GlobalScope();
+        currentScope = new GlobalSymbolTable();
         List<Decl> decls = new ArrayList<>();
         for (ParseTree child : ctx.declaration()) {
             AstNode childNode = visit(child);
@@ -37,12 +39,17 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
 
     @Override
     public AstNode visitVarDecl(MxParser.VarDeclContext ctx) {
-        VariableSymbol var = new VariableSymbol(ctx.Identifier().getText(), null);
-        VariableDecl node = new VariableDecl((TypeNode) visit(ctx.type()), var,
-                (ctx.expr() == null) ? null : (Expr) visit(ctx.expr()), currentScope);
-        currentScope.define(var);
-        var.def = node;
-        return node;
+        if (currentScope instanceof ClassSymbol) {
+            VariableSymbol var = new VariableSymbol(ctx.Identifier().getText(), null);
+            VariableDecl node = new VariableDecl((TypeNode) visit(ctx.type()), var,
+                    (ctx.expr() == null) ? null : (Expr) visit(ctx.expr()), currentScope);
+            currentScope.define(var);
+            var.def = node;
+            return node;
+        }
+        return new VariableDecl((TypeNode) visit(ctx.type()), ctx.Identifier().getText(),
+                                (ctx.expr() == null) ? null : (Expr) visit(ctx.expr()), currentScope);
+
     }
 
     @Override

@@ -1,8 +1,8 @@
 package mxcc.ast;
 
-import mxcc.symbol.Type;
-
 public interface AstVisitor {
+    void visit(AstNode node);
+
     void visit(Program node);
     void visit(TypeNode node);
 

@@ -1,11 +1,11 @@
 package mxcc.ast;
 
 import mxcc.symbol.Scope;
-import mxcc.symbol.VariableSymbol;
+import mxcc.symbol.Symbol;
 
 public class IdentifierExpr extends Expr {
     public final String name;
-    public VariableSymbol var;
+    public Symbol var;
 
     public IdentifierExpr(String name, Scope scope) {
         super(scope);

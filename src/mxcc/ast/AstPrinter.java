@@ -10,11 +10,6 @@ public class AstPrinter extends AstBaseVisitor {
         this.out = out;
     }
 
-    public void print(AstNode node) {
-        if (node == null) return;
-        node.accept(this);
-    }
-
     private void addIndent() {
         indent += "\t";
     }
@@ -41,14 +36,14 @@ public class AstPrinter extends AstBaseVisitor {
     public void visit(Program node) {
         println(getNodeName(node));
         addIndent();
-        node.decls.forEach(this::print);
+        node.decls.forEach(this::visit);
         subIndent();
     }
 
     public void visit(VariableDecl node) {
         println(getNodeName(node) + " " + getTypeName(node.typeNode) + " " + node.var.name);
         addIndent();
-        print(node.init);
+        visit(node.init);
         subIndent();
     }
 
@@ -59,61 +54,61 @@ public class AstPrinter extends AstBaseVisitor {
         }
         println(s.toString());
         addIndent();
-        node.stmts.forEach(this::print);
+        node.stmts.forEach(this::visit);
         subIndent();
     }
 
     public void visit(ClassDecl node) {
         println(getNodeName(node) + " " + node.classSymbol.name);
         addIndent();
-        node.decls.forEach(this::print);
+        node.decls.forEach(this::visit);
         subIndent();
     }
 
     public void visit(BlockStmt node) {
         println(getNodeName(node));
         addIndent();
-        node.stmts.forEach(this::print);
+        node.stmts.forEach(this::visit);
         subIndent();
     }
 
     public void visit(VariableDeclStmt node) {
         println(getNodeName(node));
         addIndent();
-        print(node.decl);
+        visit(node.decl);
         subIndent();
     }
 
     public void visit(IfStmt node) {
         println(getNodeName(node));
         addIndent();
-        print(node.cond);
-        print(node.then);
+        visit(node.cond);
+        visit(node.then);
         subIndent();
     }
 
     public void visit(ForStmt node) {
         println(getNodeName(node));
         addIndent();
-        print(node.init);
-        print(node.cond);
-        print(node.step);
-        print(node.body);
+        visit(node.init);
+        visit(node.cond);
+        visit(node.step);
+        visit(node.body);
         subIndent();
     }
 
     public void visit(WhileStmt node) {
         println(getNodeName(node));
         addIndent();
-        print(node.cond);
-        print(node.body);
+        visit(node.cond);
+        visit(node.body);
         subIndent();
     }
 
     public void visit(ReturnStmt node) {
         println(getNodeName(node));
         addIndent();
-        print(node.value);
+        visit(node.value);
         subIndent();
     }
 
@@ -132,39 +127,39 @@ public class AstPrinter extends AstBaseVisitor {
     public void visit(BinaryExpr node) {
         println(getNodeName(node) + " " + node.op);
         addIndent();
-        print(node.left);
-        print(node.right);
+        visit(node.left);
+        visit(node.right);
         subIndent();
     }
 
     public void visit(UnaryExpr node) {
         println(getNodeName(node) + " " + node.op);
         addIndent();
-        print(node.expr);
+        visit(node.expr);
         subIndent();
     }
 
     public void visit(FunctionCall node) {
         println(getNodeName(node));
         addIndent();
-        print(node.caller);
-        node.args.forEach(this::print);
+        visit(node.caller);
+        node.args.forEach(this::visit);
         subIndent();
     }
 
     public void visit(ArrayAccess node) {
         println(getNodeName(node));
         addIndent();
-        print(node.container);
-        print(node.subscript);
+        visit(node.container);
+        visit(node.subscript);
         subIndent();
     }
 
     public void visit(MemberAccess node) {
         println(getNodeName(node));
         addIndent();
-        print(node.container);
-        print(node.member);
+        visit(node.container);
+        visit(node.member);
         subIndent();
     }
 
@@ -175,7 +170,7 @@ public class AstPrinter extends AstBaseVisitor {
         }
         println(s.toString());
         addIndent();
-        node.dimArgs.forEach(this::print);
+        node.dimArgs.forEach(this::visit);
         subIndent();
     }
 

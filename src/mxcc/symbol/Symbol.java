@@ -5,6 +5,7 @@ import mxcc.ast.AstNode;
 public class Symbol {
     public String name;
     public Type type;
+    // def is needed only in VariableDecl, ClassDecl, FunctionDecl
     public AstNode def;
 
     public Symbol(String name) { this.name = name; }

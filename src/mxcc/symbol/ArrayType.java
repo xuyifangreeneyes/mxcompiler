@@ -16,4 +16,10 @@ public class ArrayType implements Type {
         }
         return name.toString();
     }
+
+    public boolean isSameType(Type type) {
+        if (!(type instanceof ArrayType)) return false;
+        ArrayType arrayType = (ArrayType) type;
+        return baseType.isSameType(arrayType.baseType) && dim == arrayType.dim;
+    }
 }

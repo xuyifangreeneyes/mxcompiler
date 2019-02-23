@@ -24,7 +24,7 @@ public class AstBuilderTest {
             AstBuilder astBuilder = new AstBuilder();
             Program ast = astBuilder.build(programContext);
             AstPrinter printer = new AstPrinter(System.out);
-            printer.print(ast);
+            printer.visit(ast);
         } catch (Exception e) {
             e.printStackTrace(System.err);
             System.exit(1);
