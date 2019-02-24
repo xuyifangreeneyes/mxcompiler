@@ -3,22 +3,26 @@ package mxcc.frontend;
 import mxcc.ast.*;
 import mxcc.symbol.ArrayType;
 import mxcc.symbol.BaseType;
+import mxcc.symbol.Scope;
 import mxcc.symbol.Symbol;
 
 public class TypeResolver extends AstBaseVisitor {
 
+    private Scope globalScope;
+
     public void visit(Program node) {
+        globalScope = node.scope;
         node.decls.forEach(this::visit);
     }
 
     public void visit(TypeNode node) {
         if (node == null) return;
-        Symbol base = node.scope.resolve(node.baseType);
+        Symbol base = globalScope.resolve(node.baseType);
         if (base instanceof BaseType) {
             if (node.dim == 0) node.type = (BaseType) base;
             else node.type = new ArrayType((BaseType) base, node.dim);
         } else {
-            throw new RuntimeException("Cannot resolve type");
+            throw new RuntimeException("Cannot resolve type " + node.baseType + " " + node.dim);
         }
     }
 
@@ -30,7 +34,7 @@ public class TypeResolver extends AstBaseVisitor {
 
     public void visit(FunctionDecl node) {
         visit(node.retType);
-        node.func.type = node.retType.type;
+        if (node.retType != null) node.func.type = node.retType.type;
         node.paramList.forEach(this::visit);
         node.stmts.forEach(this::visit);
     }

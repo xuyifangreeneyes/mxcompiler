@@ -41,7 +41,8 @@ public class AstPrinter extends AstBaseVisitor {
     }
 
     public void visit(VariableDecl node) {
-        println(getNodeName(node) + " " + getTypeName(node.typeNode) + " " + node.var.name);
+        String varName = (node.var == null) ? node.varName : node.var.name;
+        println(getNodeName(node) + " " + getTypeName(node.typeNode) + " " + varName);
         addIndent();
         visit(node.init);
         subIndent();

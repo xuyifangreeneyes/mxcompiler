@@ -2,7 +2,6 @@ package mxcc.symbol;
 
 import mxcc.ast.FunctionDecl;
 import mxcc.ast.VariableDecl;
-import sun.jvm.hotspot.debugger.cdbg.Sym;
 
 import java.util.*;
 

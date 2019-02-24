@@ -11,6 +11,7 @@ import static mxcc.symbol.GlobalSymbolTable.*;
 
 public class SemanticChecker extends AstBaseVisitor {
 
+    private Scope globalScope;
     private FunctionSymbol currentFunction = null;
     private int loopLayers = 0;
 
@@ -29,12 +30,13 @@ public class SemanticChecker extends AstBaseVisitor {
     }
 
     public void visit(Program node) {
+        globalScope = node.scope;
         node.decls.forEach(this::visit);
     }
 
     public void visit(TypeNode node) {
         if (node == null || node.type != null) return;
-        Symbol base = node.scope.resolve(node.baseType);
+        Symbol base = globalScope.resolve(node.baseType);
         if (base instanceof BaseType) {
             if (node.dim == 0) node.type = (BaseType) base;
             else node.type = new ArrayType((BaseType) base, node.dim);
@@ -184,6 +186,10 @@ public class SemanticChecker extends AstBaseVisitor {
                 if (!operandType.isSameType(BOOL_TYPE))
                     throw new RuntimeException("Operands of " + node.op + " must be BOOL");
                 node.type = BOOL_TYPE;
+                return;
+            case EQ:
+            case NEQ:
+                node.type = BOOL_TYPE;
         }
     }
 
@@ -200,6 +206,7 @@ public class SemanticChecker extends AstBaseVisitor {
                     throw new RuntimeException("Operand of " + node.op + " must be lvalue");
                 node.isLvalue = (node.op == INC || node.op == DEC);
                 node.type = INT_TYPE;
+                return;
             case POS:
             case NEG:
             case BIT_NOT:
@@ -207,6 +214,7 @@ public class SemanticChecker extends AstBaseVisitor {
                     throw new RuntimeException("Operand of " + node.op + " must be INT");
                 node.isLvalue = false;
                 node.type = INT_TYPE;
+                return;
             case NOT:
                 if (!node.expr.type.isSameType(BOOL_TYPE))
                     throw new RuntimeException("Operand of " + node.op + " must be BOOL");
@@ -289,8 +297,8 @@ public class SemanticChecker extends AstBaseVisitor {
 
 
     public void visit(NewExpr node) {
-        Symbol s = node.scope.resolve(node.baseType);
-        if (!(s instanceof ClassSymbol))
+        Symbol s = globalScope.resolve(node.baseType);
+        if (!(s instanceof BaseType))
             throw new RuntimeException("Cannot find class constructor");
         for (Expr dimArg : node.dimArgs) {
             visit(dimArg);
@@ -298,7 +306,8 @@ public class SemanticChecker extends AstBaseVisitor {
                 throw new RuntimeException("Dimension expression of NewExpr should be INT");
         }
         node.isLvalue = false;
-        node.type = (node.dim == 0) ? (ClassSymbol) s : new ArrayType((ClassSymbol) s, node.dim);
+        BaseType baseType = (BaseType) s;
+        node.type = (node.dim == 0) ? baseType : new ArrayType(baseType, node.dim);
     }
 
     public void visit(IdentifierExpr node) {

@@ -24,7 +24,7 @@ public abstract class ScopedSymbol extends Symbol implements Scope {
 
     public void define(Symbol sym) {
         if (getMembers().containsKey(sym.name)) {
-            throw new RuntimeException("The symbol has been declared in the same scope");
+            throw new RuntimeException("The symbol " + sym.name + " has been declared in the same scope");
         }
         getMembers().put(sym.name, sym);
     }
