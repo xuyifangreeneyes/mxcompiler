@@ -4,10 +4,10 @@ import mxcc.symbol.Scope;
 
 public class IfStmt extends Stmt {
     public final Expr cond;
-    public final Stmt then;
-    public final Stmt otherwise;
+    public final BlockStmt then;
+    public final BlockStmt otherwise;
 
-    public IfStmt(Expr cond, Stmt then, Stmt otherwise, Scope scope) {
+    public IfStmt(Expr cond, BlockStmt then, BlockStmt otherwise, Scope scope) {
         super(scope);
         this.cond = cond;
         this.then = then;

@@ -6,9 +6,9 @@ public class ForStmt extends Stmt {
     public final Expr init;
     public final Expr cond;
     public final Expr step;
-    public final Stmt body;
+    public final BlockStmt body;
 
-    public ForStmt(Expr init, Expr cond, Expr step, Stmt body, Scope scope) {
+    public ForStmt(Expr init, Expr cond, Expr step, BlockStmt body, Scope scope) {
         super(scope);
         this.init = init;
         this.cond = cond;

@@ -1,7 +1,5 @@
 package mxcc.frontend;
 
-import mxcc.utility.Location;
-
 import mxcc.ast.*;
 import mxcc.parser.MxParser;
 import mxcc.parser.MxBaseVisitor;
@@ -74,6 +72,8 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
 
     @Override
     public AstNode visitFunctionDecl(MxParser.FunctionDeclContext ctx) {
+        if (currentScope instanceof ClassSymbol && ctx.Identifier().getText().equals(((ClassSymbol) currentScope).getName()))
+            throw new RuntimeException("Member function cannot hava the same name with class");
         FunctionSymbol func = new FunctionSymbol(ctx.Identifier().getText(), currentScope);
         currentScope.define(func);
         currentScope = func;
@@ -176,23 +176,34 @@ public class AstBuilder extends MxBaseVisitor<AstNode> {
         return visit(ctx.expr());
     }
 
+    private BlockStmt packStmtAsBlock(MxParser.StatementContext ctx) {
+        if (ctx instanceof MxParser.BlockStatContext)
+            return (BlockStmt) visit(((MxParser.BlockStatContext) ctx).block());
+        currentScope = new LocalScope(currentScope);
+        List<Stmt> innerStmts = new ArrayList<>();
+        innerStmts.add((Stmt) visit(ctx));
+        BlockStmt blockStmt = new BlockStmt(innerStmts, currentScope);
+        currentScope = currentScope.getEnclosingScope();
+        return blockStmt;
+    }
+
     @Override
     public AstNode visitForStat(MxParser.ForStatContext ctx) {
         Expr init = (ctx.init == null) ? null : (Expr) visit(ctx.init);
         Expr cond = (ctx.cond == null) ? null : (Expr) visit(ctx.cond);
         Expr step = (ctx.step == null) ? null : (Expr) visit(ctx.step);
-        return new ForStmt(init, cond, step, (Stmt) visit(ctx.statement()), currentScope);
+        return new ForStmt(init, cond, step, packStmtAsBlock(ctx.statement()), currentScope);
     }
 
     @Override
     public AstNode visitWhileStat(MxParser.WhileStatContext ctx) {
-        return new WhileStmt((Expr) visit(ctx.expr()), (Stmt) visit(ctx.statement()), currentScope);
+        return new WhileStmt((Expr) visit(ctx.expr()), packStmtAsBlock(ctx.statement()), currentScope);
     }
 
     @Override
     public AstNode visitIfStatement(MxParser.IfStatementContext ctx) {
-        return new IfStmt((Expr) visit(ctx.expr()), (Stmt) visit(ctx.statement(0)),
-                ctx.statement().size() == 1 ? null : (Stmt) visit(ctx.statement(1)), currentScope);
+        return new IfStmt((Expr) visit(ctx.expr()), packStmtAsBlock(ctx.statement(0)),
+                ctx.statement().size() == 1 ? null : packStmtAsBlock(ctx.statement(1)), currentScope);
     }
 
     @Override

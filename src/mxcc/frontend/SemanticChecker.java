@@ -31,6 +31,14 @@ public class SemanticChecker extends AstBaseVisitor {
 
     public void visit(Program node) {
         globalScope = node.scope;
+        Symbol s = globalScope.resolve("main");
+        if (!(s instanceof FunctionSymbol))
+            throw new RuntimeException("Cannot find main function");
+        FunctionSymbol mainFunc = (FunctionSymbol) s;
+        if (!(mainFunc.type.isSameType(INT_TYPE)))
+            throw new RuntimeException("Return type of main must be INT");
+        if (mainFunc.getParamTypes().size() != 0)
+            throw new RuntimeException("There is no parameter in main");
         node.decls.forEach(this::visit);
     }
 
@@ -46,15 +54,14 @@ public class SemanticChecker extends AstBaseVisitor {
     }
 
     public void visit(VariableDecl node) {
+        if (node.init != null) visit(node.init);
         if (node.var == null) {
             visit(node.typeNode);
             node.var = new VariableSymbol(node.varName, node.typeNode.type);
             node.scope.define(node.var);
             node.var.def = node;
         }
-        if (node.init == null) return;
-        visit(node.init);
-        if (!(assignable(node.var.type, node.init.type))) {
+        if (node.init != null && !(assignable(node.var.type, node.init.type))) {
             throw new RuntimeException("Cannot assign " + node.init.type.getName() +
                                        " to " + node.var.type.getName());
         }
@@ -71,6 +78,7 @@ public class SemanticChecker extends AstBaseVisitor {
     }
 
     public void visit(BlockStmt node) {
+        if (node == null) return;
         node.stmts.forEach(this::visit);
     }
 
@@ -313,7 +321,7 @@ public class SemanticChecker extends AstBaseVisitor {
     public void visit(IdentifierExpr node) {
         if (node.name == "this") {
             ClassSymbol theClass = getEnclosingClass(node.scope);
-            node.isLvalue = true;
+            node.isLvalue = false;
             node.type = theClass;
             return;
         }

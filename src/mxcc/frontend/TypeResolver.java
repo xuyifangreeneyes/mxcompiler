@@ -44,6 +44,7 @@ public class TypeResolver extends AstBaseVisitor {
     }
 
     public void visit(BlockStmt node) {
+        if (node == null) return;
         node.stmts.forEach(this::visit);
     }
 
