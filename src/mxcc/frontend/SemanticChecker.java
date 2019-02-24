@@ -236,7 +236,16 @@ public class SemanticChecker extends AstBaseVisitor {
     }
 
     public void visit(ArrayAccess node) {
-        
+        visit(node.container);
+        if (!(node.container.type instanceof ArrayType))
+            throw new RuntimeException("Container of ArrayAccess must be ArrayType");
+        visit(node.subscript);
+        if (!(node.subscript.type.isSameType(INT_TYPE)))
+            throw new RuntimeException("Subscript of ArrayAccess must be INT");
+        node.isLvalue = true;
+        ArrayType containerType = (ArrayType) node.container.type;
+        if (containerType.dim == 1) node.type = containerType.baseType;
+        else node.type = new ArrayType(containerType.baseType, containerType.dim - 1);
     }
 
     public void visit(MemberAccess node) {
@@ -250,8 +259,8 @@ public class SemanticChecker extends AstBaseVisitor {
                 return;
             }
             if (s instanceof FunctionSymbol) {
-                node.type = (FunctionSymbol) s;
                 node.isLvalue = false;
+                node.type = (FunctionSymbol) s;
                 return;
             }
             throw new RuntimeException("Cannot resolve " + node.member.name + " in class " + scope.getName());
@@ -259,8 +268,8 @@ public class SemanticChecker extends AstBaseVisitor {
             if (node.container.type.isSameType(STRING_TYPE)) {
                 Symbol s = node.scope.resolve("string." + node.member.name);
                 if (s instanceof FunctionSymbol) {
-                    node.type = (FunctionSymbol) s;
                     node.isLvalue = false;
+                    node.type = (FunctionSymbol) s;
                     return;
                 }
                 throw new RuntimeException("Cannot resolve " + node.member.name + " in string's builtin functions");
@@ -268,8 +277,8 @@ public class SemanticChecker extends AstBaseVisitor {
             if (node.container.type instanceof ArrayType) {
                 Symbol s = node.scope.resolve("array." + node.member.name);
                 if (s instanceof FunctionSymbol) {
-                    node.type = (FunctionSymbol) s;
                     node.isLvalue = false;
+                    node.type = (FunctionSymbol) s;
                     return;
                 }
                 throw new RuntimeException("Cannot resolve " + node.member.name + " in array's builtin functions");
@@ -279,4 +288,57 @@ public class SemanticChecker extends AstBaseVisitor {
     }
 
 
+    public void visit(NewExpr node) {
+        Symbol s = node.scope.resolve(node.baseType);
+        if (!(s instanceof ClassSymbol))
+            throw new RuntimeException("Cannot find class constructor");
+        for (Expr dimArg : node.dimArgs) {
+            visit(dimArg);
+            if (!(dimArg.type.isSameType(INT_TYPE)))
+                throw new RuntimeException("Dimension expression of NewExpr should be INT");
+        }
+        node.isLvalue = false;
+        node.type = (node.dim == 0) ? (ClassSymbol) s : new ArrayType((ClassSymbol) s, node.dim);
+    }
+
+    public void visit(IdentifierExpr node) {
+        if (node.name == "this") {
+            ClassSymbol theClass = getEnclosingClass(node.scope);
+            node.isLvalue = true;
+            node.type = theClass;
+            return;
+        }
+        node.var = node.scope.resolve(node.name);
+        if (node.var instanceof VariableSymbol) {
+            node.isLvalue = true;
+            node.type = ((VariableSymbol) node.var).type;
+            return;
+        }
+        if (node.var instanceof FunctionSymbol) {
+            node.isLvalue = false;
+            node.type = (FunctionSymbol) node.var;
+            return;
+        }
+        throw new RuntimeException("Cannot resolve " + node.name + " in IdentifierExpr");
+    }
+
+    public void visit(IntConst node) {
+        node.isLvalue = false;
+        node.type = INT_TYPE;
+    }
+
+    public void visit(BoolConst node) {
+        node.isLvalue = false;
+        node.type = BOOL_TYPE;
+    }
+
+    public void visit(StringConst node) {
+        node.isLvalue = false;
+        node.type = STRING_TYPE;
+    }
+
+    public void visit(NullLiteral node) {
+        node.isLvalue = false;
+        node.type = NULL_TYPE;
+    }
 }

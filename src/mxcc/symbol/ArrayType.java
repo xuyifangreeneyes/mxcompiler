@@ -1,8 +1,8 @@
 package mxcc.symbol;
 
 public class ArrayType implements Type {
-    private BaseType baseType;
-    private int dim;
+    public final BaseType baseType;
+    public final int dim;
 
     public ArrayType(BaseType baseType, int dim) {
         this.baseType = baseType;
