@@ -319,7 +319,7 @@ public class SemanticChecker extends AstBaseVisitor {
     }
 
     public void visit(IdentifierExpr node) {
-        if (node.name == "this") {
+        if (node.name.equals("this")) {
             ClassSymbol theClass = getEnclosingClass(node.scope);
             node.isLvalue = false;
             node.type = theClass;
