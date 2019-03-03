@@ -75,6 +75,14 @@ public class SemanticChecker extends AstBaseVisitor {
 
     public void visit(ClassDecl node) {
         node.decls.forEach(this::visit);
+        ClassSymbol classSymbol = node.classSymbol;
+        int offset = 0;
+        for (Symbol symbol : classSymbol.members.values()) {
+            if (!(symbol instanceof VariableSymbol)) continue;
+            VariableSymbol var = (VariableSymbol) symbol;
+            classSymbol.layout.put(var.name, offset);
+            offset += 4;
+        }
     }
 
     public void visit(BlockStmt node) {
@@ -270,6 +278,7 @@ public class SemanticChecker extends AstBaseVisitor {
             ClassSymbol scope = (ClassSymbol) node.container.type;
             Symbol s = scope.localResolve(node.member.name);
             if (s instanceof VariableSymbol) {
+                // maybe cast is not needed
                 node.type = ((VariableSymbol) s).type;
                 node.isLvalue = true;
                 return;
@@ -328,6 +337,7 @@ public class SemanticChecker extends AstBaseVisitor {
         node.var = node.scope.resolve(node.name);
         if (node.var instanceof VariableSymbol) {
             node.isLvalue = true;
+            // maybe cast is not needed
             node.type = ((VariableSymbol) node.var).type;
             return;
         }

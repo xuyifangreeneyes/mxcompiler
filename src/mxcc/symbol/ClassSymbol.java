@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class ClassSymbol extends ScopedSymbol implements Scope, BaseType {
     public Map<String, Symbol> members = new LinkedHashMap<>();
+    // record offset for each data member
+    public Map<String, Integer> layout = new LinkedHashMap<>();
 
     public ClassSymbol(String name, Scope enclosingScope) {
         super(name, enclosingScope);

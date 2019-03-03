@@ -82,6 +82,7 @@ public class IRBuilder extends AstBaseVisitor {
             Register argVal = curFunc.makeRegister("argVal");
             curFunc.args.add(argVal);
             Register argAddr = curFunc.makeRegister("argAddr");
+            node.paramList.get(i).var.reg = argAddr;
             curBB.appendFront(new Alloca(argAddr, 4));
             curBB.append(new Store(argVal, argAddr));
         }
@@ -211,7 +212,7 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
 
-    public Operand getExprAddr(Expr expr) {
+    public Operand getTargetAddr(Expr expr) {
         if (expr instanceof IdentifierExpr) {
             // the identifier should be a single variable rather than a function or a class member
             Symbol s = ((IdentifierExpr) expr).var;
@@ -220,14 +221,37 @@ public class IRBuilder extends AstBaseVisitor {
         }
         if (expr instanceof MemberAccess) {
             MemberAccess memberAccess = (MemberAccess) expr;
-            Operand baseAddr = getExprAddr(memberAccess.container);
-
+            Operand baseAddr = getTargetAddr(memberAccess.container);
+            assert memberAccess.container.type instanceof ClassSymbol;
+            return getMemberAddr(baseAddr, (ClassSymbol) memberAccess.container.type, memberAccess.member.name);
+        }
+        if (expr instanceof UnaryExpr) {
+            UnaryExpr unaryExpr = (UnaryExpr) expr;
+            assert unaryExpr.op == UnaryExpr.UnaryOp.INC || unaryExpr.op == UnaryExpr.UnaryOp.DEC;
+            return getTargetAddr(unaryExpr.expr);
+        }
+        if (expr instanceof ArrayAccess) {
+            ArrayAccess arrayAccess = (ArrayAccess) expr;
+            Operand arrayAddr = getTargetAddr(arrayAccess.container);
+            Register baseAddr = curFunc.makeRegister("arrayBaseAddr");
+            curBB.append(new Load(baseAddr, arrayAddr));
+            visit(arrayAccess.subscript);
+            Operand index = arrayAccess.subscript.val;
+            Register offset = curFunc.makeRegister("offset");
+            curBB.append(new BinaryOperation(offset, BinaryOperation.BinaryOp.MUL, index, new IntImmediate(4)));
+            Register elementAddr = curFunc.makeRegister("elementAddr");
+            curBB.append(new BinaryOperation(elementAddr, BinaryOperation.BinaryOp.ADD, baseAddr, offset));
+            return elementAddr;
         }
         assert false;
+        return null;
     }
 
     public Operand getMemberAddr(Operand baseAddr, ClassSymbol classSymbol, String memberName) {
-
+        IntImmediate offset = new IntImmediate(classSymbol.layout.get(memberName));
+        Register memberAddr = curFunc.makeRegister("memberAddr");
+        curBB.append(new BinaryOperation(memberAddr, BinaryOperation.BinaryOp.ADD, baseAddr, offset));
+        return memberAddr;
     }
 
     public void visit(BinaryExpr node) {
