@@ -4,9 +4,9 @@ import mxcc.ast.*;
 import mxcc.ir.*;
 import mxcc.symbol.ClassSymbol;
 import mxcc.symbol.Scope;
+import mxcc.symbol.Symbol;
+import mxcc.symbol.VariableSymbol;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 public class IRBuilder extends AstBaseVisitor {
@@ -52,9 +52,9 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     public void visit(VariableDecl node) {
-        Register varAddr = curFunc.makeRegister();
+        Register varAddr = curFunc.makeRegister("varAddr");
         node.var.reg = varAddr;
-        curFunc.getStartBB().addAlloca(new Alloca(varAddr, 4));
+        curFunc.getStartBB().appendFront(new Alloca(varAddr, 4));
         if (node.init != null) {
             visit(node.init);
             curBB.append(new Store(node.init.val, varAddr));
@@ -69,23 +69,30 @@ public class IRBuilder extends AstBaseVisitor {
         curFunc = new Function(funcName);
         module.funcs.put(funcName, curFunc);
         curBB = curFunc.getStartBB();
-        int numOfArgs = node.paramList.size();
-        Register thisVal = isMember ? curFunc.makeRegister() : null;
-        List<Register> args = new ArrayList<>();
-        for (int i = 0; i < numOfArgs; ++i)
-            args.add(curFunc.makeRegister());
+
         if (isMember) {
-            thisAddr = curFunc.makeRegister();
-            curBB.addAlloca(new Alloca(thisAddr, 4));
+            Register thisVal = curFunc.makeRegister("thisVal");
+            curFunc.args.add(thisVal);
+            thisAddr = curFunc.makeRegister("thisAddr");
+            curBB.appendFront(new Alloca(thisAddr, 4));
             curBB.append(new Store(thisVal, thisAddr));
         }
-        for (int i = 0; i < numOfArgs; ++i) {
-            Register varAddr = curFunc.makeRegister();
-            node.paramList.get(i).var.reg = varAddr;
-            curBB.addAlloca(new Alloca(varAddr, 4));
-            curBB.append(new Store(args.get(i), varAddr));
+
+        for (int i = 0; i < node.paramList.size(); ++i) {
+            Register argVal = curFunc.makeRegister("argVal");
+            curFunc.args.add(argVal);
+            Register argAddr = curFunc.makeRegister("argAddr");
+            curBB.appendFront(new Alloca(argAddr, 4));
+            curBB.append(new Store(argVal, argAddr));
         }
+
         node.stmts.forEach(this::visit);
+    }
+
+    public void visit(ClassDecl node) {
+        for (Decl decl : node.decls) {
+            if (decl instanceof FunctionDecl) visit(decl);
+        }
     }
 
     public void visit(BlockStmt node) {
@@ -127,7 +134,7 @@ public class IRBuilder extends AstBaseVisitor {
     public void visit(ForStmt node) {
         BasicBlock forCondBB = new BasicBlock(curFunc, "for_cond");
         BasicBlock forBodyBB = new BasicBlock(curFunc, "for_body");
-        BasicBlock forStepBB = new BasicBlock(curFunc, "for_step")
+        BasicBlock forStepBB = new BasicBlock(curFunc, "for_step");
         BasicBlock forEndBB = new BasicBlock(curFunc, "for_end");
 
         curBB.addNext(forCondBB);
@@ -199,10 +206,34 @@ public class IRBuilder extends AstBaseVisitor {
         if (!curBB.isEnded()) curBB.append(new DirectBranch(loopEndStack.peek()));
     }
 
-
     public void visit(ContinueStmt node) {
         if (!curBB.isEnded()) curBB.append(new DirectBranch(loopNextStack.peek()));
     }
 
+
+    public Operand getExprAddr(Expr expr) {
+        if (expr instanceof IdentifierExpr) {
+            // the identifier should be a single variable rather than a function or a class member
+            Symbol s = ((IdentifierExpr) expr).var;
+            assert s instanceof VariableSymbol;
+            return ((VariableSymbol) s).reg;
+        }
+        if (expr instanceof MemberAccess) {
+            MemberAccess memberAccess = (MemberAccess) expr;
+            Operand baseAddr = getExprAddr(memberAccess.container);
+
+        }
+        assert false;
+    }
+
+    public Operand getMemberAddr(Operand baseAddr, ClassSymbol classSymbol, String memberName) {
+
+    }
+
+    public void visit(BinaryExpr node) {
+        if (node.op == BinaryExpr.BinaryOp.ASSIGN) {
+
+        }
+    }
 
 }

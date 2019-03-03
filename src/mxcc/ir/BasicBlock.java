@@ -18,6 +18,17 @@ public class BasicBlock {
         return tail instanceof BranchInst;
     }
 
+    public void appendFront(Instruction inst) {
+        if (isEnded())
+            throw new RuntimeException("BasicBlock is ended");
+        if (head == null) {
+            head = tail = inst;
+        } else {
+            head.addPrev(inst);
+            head = inst;
+        }
+    }
+
     public void append(Instruction inst) {
         if (isEnded())
             throw new RuntimeException("BasicBlock is ended");
@@ -26,23 +37,6 @@ public class BasicBlock {
         } else {
             tail.addNext(inst);
             tail = inst;
-        }
-    }
-
-    public void addAlloca(Alloca alloca) {
-        if (tail == null) {
-            head = tail = alloca;
-        } else {
-            if (!(head instanceof Alloca)) {
-                head.addPrev(alloca);
-                head = alloca;
-            }
-            Instruction inst = head;
-            while (inst.next instanceof Alloca) {
-                inst = inst.next;
-            }
-            inst.addNext(alloca);
-            if (tail == inst) tail = alloca;
         }
     }
 
