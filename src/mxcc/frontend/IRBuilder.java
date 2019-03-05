@@ -9,6 +9,8 @@ import mxcc.symbol.VariableSymbol;
 
 import java.util.Stack;
 
+import static mxcc.symbol.GlobalSymbolTable.STRING_TYPE;
+
 public class IRBuilder extends AstBaseVisitor {
     private Module module = new Module();
     private Function curFunc;
@@ -18,33 +20,14 @@ public class IRBuilder extends AstBaseVisitor {
 
     private Register thisAddr;
 
-    private boolean isLogicExpr(Expr node) {
+    private boolean isLogicOpExpr(Expr node) {
         if (node instanceof BinaryExpr) {
             BinaryExpr.BinaryOp op = ((BinaryExpr) node).op;
             return op == BinaryExpr.BinaryOp.AND || op == BinaryExpr.BinaryOp.OR;
         }
         if (node instanceof UnaryExpr)
             return ((UnaryExpr) node).op == UnaryExpr.UnaryOp.NOT;
-        return node instanceof BoolConst;
-    }
-
-    private void processLogicBinaryExpr(BinaryExpr node) {
-        if (node.op == BinaryExpr.BinaryOp.AND) {
-            node.left.ifTrueBB = new BasicBlock(curFunc, "lhs_true");
-            node.left.ifFalseBB = node.ifFalseBB;
-            curBB.addNext(node.left.ifTrueBB);
-            visit(node.left);
-            curBB = node.left.ifTrueBB;
-        } else {
-            node.left.ifTrueBB = node.ifTrueBB;
-            node.left.ifFalseBB = new BasicBlock(curFunc, "lhs_false");
-            curBB.addNext(node.left.ifFalseBB);
-            visit(node.left);
-            curBB = node.left.ifFalseBB;
-        }
-        node.right.ifTrueBB = node.ifTrueBB;
-        node.right.ifFalseBB = node.ifFalseBB;
-        visit(node.right);
+        return false;
     }
 
     public void visit(Program node) {
@@ -254,10 +237,160 @@ public class IRBuilder extends AstBaseVisitor {
         return memberAddr;
     }
 
+    private void processAssign(BinaryExpr node) {
+        if (isLogicOpExpr(node.right)) {
+            node.right.ifTrueBB = new BasicBlock(curFunc, "bool_true");
+            node.right.ifFalseBB = new BasicBlock(curFunc, "bool_false");
+            BasicBlock mergeBB = new BasicBlock(curFunc, "bool_merge");
+
+            curBB.addNext(node.right.ifTrueBB);
+            node.right.ifTrueBB.addNext(node.right.ifFalseBB);
+            node.right.ifFalseBB.addNext(mergeBB);
+
+            visit(node.right);
+
+            Register boolValAddr = curFunc.makeRegister("boolValAddr");
+            node.right.ifTrueBB.append(new Store(new IntImmediate(1), boolValAddr));
+            node.right.ifFalseBB.append(new Store(new IntImmediate(0), boolValAddr));
+            Register boolVal = curFunc.makeRegister("boolVal");
+            node.right.val = boolVal;
+            mergeBB.append(new Load(boolVal, boolValAddr));
+
+            curBB = mergeBB;
+        } else {
+            visit(node.right);
+        }
+        Operand lhsAddr = getTargetAddr(node.left);
+        curBB.append(new Store(node.right.val, lhsAddr));
+    }
+
+    private void processBinaryLogic(BinaryExpr node) {
+        if (node.op == BinaryExpr.BinaryOp.AND) {
+            node.left.ifTrueBB = new BasicBlock(curFunc, "lhs_true");
+            node.left.ifFalseBB = node.ifFalseBB;
+            curBB.addNext(node.left.ifTrueBB);
+            visit(node.left);
+            curBB = node.left.ifTrueBB;
+        } else {
+            node.left.ifTrueBB = node.ifTrueBB;
+            node.left.ifFalseBB = new BasicBlock(curFunc, "lhs_false");
+            curBB.addNext(node.left.ifFalseBB);
+            visit(node.left);
+            curBB = node.left.ifFalseBB;
+        }
+        node.right.ifTrueBB = node.ifTrueBB;
+        node.right.ifFalseBB = node.ifFalseBB;
+        visit(node.right);
+    }
+
+    private void processBinaryString(BinaryExpr node) {
+
+    }
+
+    private void processBinaryInt(BinaryExpr node) {
+        visit(node.left);
+        visit(node.right);
+        BinaryOperation.BinaryOp op = null;
+        switch (node.op) {
+            case LT: op = BinaryOperation.BinaryOp.LT; break;
+            case GT: op = BinaryOperation.BinaryOp.GT; break;
+            case LE: op = BinaryOperation.BinaryOp.LE; break;
+            case GE: op = BinaryOperation.BinaryOp.GE; break;
+            case EQ: op = BinaryOperation.BinaryOp.EQ; break;
+            case NEQ: op = BinaryOperation.BinaryOp.NEQ; break;
+            case MUL: op = BinaryOperation.BinaryOp.MUL; break;
+            case DIV: op = BinaryOperation.BinaryOp.DIV; break;
+            case MOD: op = BinaryOperation.BinaryOp.MOD; break;
+            case ADD: op = BinaryOperation.BinaryOp.ADD; break;
+            case SUB: op = BinaryOperation.BinaryOp.SUB; break;
+            case LSFT: op = BinaryOperation.BinaryOp.LSFT; break;
+            case RSFT: op = BinaryOperation.BinaryOp.RSFT; break;
+            case BIT_AND: op = BinaryOperation.BinaryOp.BIT_AND; break;
+            case BIT_OR: op = BinaryOperation.BinaryOp.BIT_OR; break;
+            case BIT_XOR: op = BinaryOperation.BinaryOp.BIT_XOR; break;
+        }
+        Register res = curFunc.makeRegister("res");
+        node.val = res;
+        curBB.append(new BinaryOperation(res, op, node.left.val, node.right.val));
+        if (node.ifTrueBB != null)
+            curBB.append(new CondBranch(res, node.ifTrueBB, node.ifFalseBB));
+    }
+
     public void visit(BinaryExpr node) {
         if (node.op == BinaryExpr.BinaryOp.ASSIGN) {
-
+            processAssign(node);
+            return;
         }
+        if (node.op == BinaryExpr.BinaryOp.AND || node.op == BinaryExpr.BinaryOp.OR) {
+            processBinaryLogic(node);
+            return;
+        }
+        if (node.left.type.isSameType(STRING_TYPE)) {
+            processBinaryString(node);
+            return;
+        }
+        processBinaryInt(node);
+    }
+
+    public void visit(UnaryExpr node) {
+        if (node.op == UnaryExpr.UnaryOp.NOT) {
+            node.expr.ifTrueBB = node.ifFalseBB;
+            node.expr.ifFalseBB = node.ifTrueBB;
+            visit(node.expr);
+            return;
+        }
+
+        visit(node.expr);
+        Register res;
+        switch (node.op) {
+            case INC:
+                res = curFunc.makeRegister("res");
+                node.val = res;
+                curBB.append(new UnaryOperation(res, UnaryOperation.UnaryOp.INC, node.expr.val));
+                // TODO
+                break;
+            case DEC:
+                res = curFunc.makeRegister("res");
+                node.val = res;
+                curBB.append(new UnaryOperation(res, UnaryOperation.UnaryOp.DEC, node.expr.val));
+                // TODO
+                break;
+            case INC_SUF:
+                // TODO
+                break;
+            case DEC_SUF:
+                // TODO
+                break;
+            case POS:
+                node.val = node.expr.val;
+                break;
+            case NEG:
+                res = curFunc.makeRegister("res");
+                node.val = res;
+                curBB.append(new UnaryOperation(res, UnaryOperation.UnaryOp.NEG, node.expr.val));
+                break;
+            case BIT_NOT:
+                res = curFunc.makeRegister("res");
+                node.val = res;
+                curBB.append(new UnaryOperation(res, UnaryOperation.UnaryOp.BIT_NOT, node.expr.val));
+                break;
+        }
+    }
+
+    public void visit(IntConst node) {
+        node.val = new IntImmediate(node.value);
+    }
+
+    public void visit(BoolConst node) {
+        node.val = new IntImmediate(node.value ? 1 : 0);
+    }
+
+    public void visit(StringConst node) {
+        // TODO
+    }
+
+    public void visit(NullLiteral node) {
+        node.val = new IntImmediate(0);
     }
 
 }
