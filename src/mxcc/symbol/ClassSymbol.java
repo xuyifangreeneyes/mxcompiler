@@ -7,13 +7,10 @@ public class ClassSymbol extends ScopedSymbol implements Scope, BaseType {
     public Map<String, Symbol> members = new LinkedHashMap<>();
     // record offset for each data member
     public Map<String, Integer> layout = new LinkedHashMap<>();
+    public int byteSize;
 
     public ClassSymbol(String name, Scope enclosingScope) {
         super(name, enclosingScope);
-    }
-
-    public Symbol resolveMember(String name) {
-        return members.get(name);
     }
 
     public Map<String, Symbol> getMembers() { return members; }

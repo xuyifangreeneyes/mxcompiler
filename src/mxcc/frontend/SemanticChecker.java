@@ -83,6 +83,7 @@ public class SemanticChecker extends AstBaseVisitor {
             classSymbol.layout.put(var.name, offset);
             offset += 4;
         }
+        classSymbol.byteSize = offset;
     }
 
     public void visit(BlockStmt node) {

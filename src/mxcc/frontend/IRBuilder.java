@@ -4,9 +4,7 @@ import mxcc.ast.*;
 import mxcc.ir.*;
 import mxcc.symbol.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 import static mxcc.symbol.GlobalSymbolTable.STRING_TYPE;
 import static mxcc.symbol.GlobalSymbolTable.VOID_TYPE;
@@ -54,7 +52,7 @@ public class IRBuilder extends AstBaseVisitor {
         curBB = curFunc.getStartBB();
 
         if (isMember) {
-            // thisVal  class*
+            // thisVal class*
             // thisAddr class**
             Register thisVal = curFunc.makeRegister("thisVal");
             curFunc.args.add(thisVal);
@@ -408,7 +406,7 @@ public class IRBuilder extends AstBaseVisitor {
             visit(argExpr);
             args.add(argExpr.val);
         }
-        curBB.append(new Call(node.func.IRFunc, dst, args));
+        curBB.append(new Call(node.func, dst, args));
         node.val = dst;
     }
 
@@ -426,8 +424,37 @@ public class IRBuilder extends AstBaseVisitor {
         node.val = memberVal;
     }
 
-    public void visit(NewExpr node) {
+    private void processNonarrayNew(NewExpr node) {
+        Register classPtr = curFunc.makeRegister("classPtr");
+        assert node.type instanceof ClassSymbol;
+        ClassSymbol classSymbol = (ClassSymbol) node.type;
+        curBB.append(new Malloc(classPtr, classSymbol.byteSize));
+        if (classSymbol.members.containsKey(classSymbol.name)) {
+            Symbol s = classSymbol.localResolve(classSymbol.name);
+            assert s instanceof FunctionSymbol;
+            List<Operand> args = new ArrayList<>();
+            args.add(classPtr);
+            curBB.append(new Call((FunctionSymbol) s, null, args));
+        }
+        node.val = classPtr;
+    }
 
+    private void processArrayNew(NewExpr node) {
+
+    }
+
+    public void visit(NewExpr node) {
+        if (node.dim == 0) {
+            // int a = new int; bool b = new bool; string c = new string;
+            // These are illegal but have not been checked.
+            processNonarrayNew(node);
+            return;
+        }
+        Queue<Operand> dimSizes = new LinkedList<>();
+        for (Expr expr : node.dimArgs) {
+            visit(expr);
+            dimSizes.offer(expr.val);
+        }
     }
 
     public void visit(IdentifierExpr node) {

@@ -1,0 +1,5 @@
+VariableDecl and FunctionDecl in class need to check whether it has the same name with class name.
+The bug needs fixing.
+
+int a = new int; bool b = new bool; string c = new string; 
+These are illegal but have not been checked.
