@@ -2,12 +2,15 @@ package mxcc.symbol;
 
 import mxcc.ast.FunctionDecl;
 import mxcc.ast.VariableDecl;
+import mxcc.ir.Function;
 
 import java.util.*;
 
 public class FunctionSymbol extends ScopedSymbol implements Type {
     // include parameters and local variables
     Map<String, Symbol> symbols = new LinkedHashMap<>();
+
+    public Function IRFunc;
 
     public FunctionSymbol(String name, Type retType, Scope parent, Symbol... params) {
         super(name, retType, parent);
@@ -20,6 +23,10 @@ public class FunctionSymbol extends ScopedSymbol implements Type {
 
     public boolean isConstructor() {
         return type == null;
+    }
+
+    public boolean isClassMember() {
+        return getEnclosingScope() instanceof ClassSymbol;
     }
 
     public List<Type> getParamTypes() {

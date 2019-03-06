@@ -1,6 +1,6 @@
 package mxcc.ir;
 
-public class BinaryOperation extends AssignInst {
+public class BinaryOperation extends Instruction {
     public enum BinaryOp {
         MUL, DIV, MOD,
         ADD, SUB, LSFT, RSFT,
@@ -8,12 +8,13 @@ public class BinaryOperation extends AssignInst {
         BIT_AND, BIT_OR, BIT_XOR,
     }
 
+    private Register dst;
     private BinaryOp op;
     private Operand lhs;
     private Operand rhs;
 
-    public BinaryOperation(Register reg, BinaryOp op, Operand lhs, Operand rhs) {
-        super(reg);
+    public BinaryOperation(Register dst, BinaryOp op, Operand lhs, Operand rhs) {
+        this.dst = dst;
         this.op = op;
         this.lhs = lhs;
         this.rhs = rhs;
