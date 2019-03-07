@@ -1,12 +1,10 @@
 package mxcc.ir;
 
 public class Register extends Operand {
-    private String name;
-    private int id;
+    protected String name;
 
-    public Register(String hint, int id) {
-        this.id = id;
-        this.name = "%" + hint + "_" + id;
+    public Register(String name) {
+        this.name = name;
     }
 
     public String toString() {

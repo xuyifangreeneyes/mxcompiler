@@ -19,8 +19,7 @@ public class BasicBlock {
     }
 
     public void appendFront(Instruction inst) {
-        if (isEnded())
-            throw new RuntimeException("BasicBlock is ended");
+        if (isEnded()) return;
         if (head == null) {
             head = tail = inst;
         } else {
@@ -30,8 +29,7 @@ public class BasicBlock {
     }
 
     public void append(Instruction inst) {
-        if (isEnded())
-            throw new RuntimeException("BasicBlock is ended");
+        if (isEnded()) return;
         if (tail == null) {
             head = tail = inst;
         } else {

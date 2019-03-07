@@ -4,5 +4,6 @@ The bug needs fixing.
 int a = new int; bool b = new bool; string c = new string; 
 These are illegal but have not been checked.
 
-Are all of registers used in IRInstruction from current BB?
+if BB is ended, then calling append cannot append BB and should not arise an exception.
+Giving a return value which denotes whether appending successes is a better idea.
 

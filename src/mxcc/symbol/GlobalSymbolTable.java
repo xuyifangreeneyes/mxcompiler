@@ -37,6 +37,27 @@ public class GlobalSymbolTable extends BaseScope {
     public final static FunctionSymbol ARRAY_SIZE
             = new FunctionSymbol("array.size", INT_TYPE, null);
 
+    public final static FunctionSymbol STR_ADD
+            = new FunctionSymbol("#stringAdd", STRING_TYPE, null, new VariableSymbol("str1", STRING_TYPE), new VariableSymbol("str2", STRING_TYPE));
+
+    public final static FunctionSymbol STR_EQ
+            = new FunctionSymbol("#stringEq", BOOL_TYPE, null, new VariableSymbol("str1", STRING_TYPE), new VariableSymbol("str2", STRING_TYPE));
+
+    public final static FunctionSymbol STR_NEQ
+            = new FunctionSymbol("#stringNeq", BOOL_TYPE, null, new VariableSymbol("str1", STRING_TYPE), new VariableSymbol("str2", STRING_TYPE));
+
+    public final static FunctionSymbol STR_LT
+            = new FunctionSymbol("#stringLt", BOOL_TYPE, null, new VariableSymbol("str1", STRING_TYPE), new VariableSymbol("str2", STRING_TYPE));
+
+    public final static FunctionSymbol STR_GT
+            = new FunctionSymbol("#stringGt", BOOL_TYPE, null, new VariableSymbol("str1", STRING_TYPE), new VariableSymbol("str2", STRING_TYPE));
+
+    public final static FunctionSymbol STR_LE
+            = new FunctionSymbol("#stringLe", BOOL_TYPE, null, new VariableSymbol("str1", STRING_TYPE), new VariableSymbol("str2", STRING_TYPE));
+
+    public final static FunctionSymbol STR_GE
+            = new FunctionSymbol("#stringGe", BOOL_TYPE, null, new VariableSymbol("str1", STRING_TYPE), new VariableSymbol("str2", STRING_TYPE));
+
     private void initTypeSystem() {
         define(INT_TYPE);
         define(BOOL_TYPE);

@@ -6,6 +6,8 @@ import mxcc.ir.Function;
 
 import java.util.*;
 
+import static mxcc.symbol.GlobalSymbolTable.*;
+
 public class FunctionSymbol extends ScopedSymbol implements Type {
     // include parameters and local variables
     Map<String, Symbol> symbols = new LinkedHashMap<>();
@@ -27,6 +29,14 @@ public class FunctionSymbol extends ScopedSymbol implements Type {
 
     public boolean isClassMember() {
         return getEnclosingScope() instanceof ClassSymbol;
+    }
+
+    public boolean isStringBuiltinFunction() {
+        return this == STR_LENGTH || this == STR_SUBSTRING || this == STR_PARSE_INT || this == STR_ORD;
+    }
+
+    public boolean isArrayBuiltinFunction() {
+        return this == ARRAY_SIZE;
     }
 
     public List<Type> getParamTypes() {

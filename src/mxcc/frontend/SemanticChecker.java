@@ -174,7 +174,7 @@ public class SemanticChecker extends AstBaseVisitor {
         switch (node.op) {
             case ADD:
                 if (!operandType.isSameType(INT_TYPE) && !operandType.isSameType(STRING_TYPE))
-                    throw new RuntimeException("Operands of" + node.op + "must be INT or STRING");
+                    throw new RuntimeException("Operands of " + node.op + " must be INT or STRING");
                 node.type = operandType;
                 return;
             case SUB:

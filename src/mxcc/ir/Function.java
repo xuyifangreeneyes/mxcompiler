@@ -7,22 +7,24 @@ public class Function {
     private String name;
     private BasicBlock head;
     private BasicBlock tail;
-    public List<Register> args = new ArrayList<>();
+    // not sure whether it is needed
+    public List<LocalReg> args = new ArrayList<>();
 
     private int RegCounter = 0;
 
-    public Function(String name) {
+    public Function(String name, boolean isBuiltin) {
         this.name = name;
-        head = tail = new BasicBlock(this, this.name + "_entry");
+        if (!isBuiltin) {
+            head = tail = new BasicBlock(this, this.name + "_entry");
+        }
     }
-
 
     public BasicBlock getStartBB() {
         return head;
     }
 
-    public Register makeRegister(String hint) {
-        Register reg = new Register(hint, RegCounter);
+    public LocalReg makeLocalReg(String hint) {
+        LocalReg reg = new LocalReg(hint, RegCounter);
         ++RegCounter;
         return reg;
     }

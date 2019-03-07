@@ -6,8 +6,7 @@ import mxcc.symbol.*;
 
 import java.util.*;
 
-import static mxcc.symbol.GlobalSymbolTable.STRING_TYPE;
-import static mxcc.symbol.GlobalSymbolTable.VOID_TYPE;
+import static mxcc.symbol.GlobalSymbolTable.*;
 
 public class IRBuilder extends AstBaseVisitor {
     private Module module = new Module();
@@ -16,7 +15,7 @@ public class IRBuilder extends AstBaseVisitor {
     private Stack<BasicBlock> loopNextStack = new Stack<>();
     private Stack<BasicBlock> loopEndStack = new Stack<>();
 
-    private Register thisAddr;
+    private LocalReg thisAddr;
 
     private boolean isLogicOpExpr(Expr node) {
         if (node instanceof BinaryExpr) {
@@ -33,7 +32,19 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     public void visit(VariableDecl node) {
-        Register varAddr = curFunc.makeRegister("varAddr");
+        if (node.scope instanceof ClassSymbol) return;
+        if (node.scope instanceof GlobalSymbolTable) {
+            GlobalReg globalVarAddr = new GlobalReg(node.varName);
+            node.var.reg = globalVarAddr;
+            if (node.init != null) {
+                curFunc = module.funcs.get("#globalInit");
+                curBB = curFunc.getStartBB();
+                visit(node.init);
+                curBB.append(new Store(node.init.val, globalVarAddr));
+            }
+        }
+
+        LocalReg varAddr = curFunc.makeLocalReg("varAddr");
         node.var.reg = varAddr;
         curFunc.getStartBB().appendFront(new Alloca(varAddr, 4));
         if (node.init != null) {
@@ -46,7 +57,7 @@ public class IRBuilder extends AstBaseVisitor {
         boolean isMember = node.func.isClassMember();
         String funcName = node.func.name;
         if (isMember) funcName = node.scope.getEnclosingScope().getScopeName() + "#" + funcName;
-        curFunc = new Function(funcName);
+        curFunc = new Function(funcName, false);
         node.func.IRFunc = curFunc;
         module.funcs.put(funcName, curFunc);
         curBB = curFunc.getStartBB();
@@ -54,17 +65,17 @@ public class IRBuilder extends AstBaseVisitor {
         if (isMember) {
             // thisVal class*
             // thisAddr class**
-            Register thisVal = curFunc.makeRegister("thisVal");
+            LocalReg thisVal = curFunc.makeLocalReg("thisVal");
             curFunc.args.add(thisVal);
-            thisAddr = curFunc.makeRegister("thisAddr");
+            thisAddr = curFunc.makeLocalReg("thisAddr");
             curBB.appendFront(new Alloca(thisAddr, 4));
             curBB.append(new Store(thisVal, thisAddr));
         }
 
         for (int i = 0; i < node.paramList.size(); ++i) {
-            Register argVal = curFunc.makeRegister("argVal");
+            LocalReg argVal = curFunc.makeLocalReg("argVal");
             curFunc.args.add(argVal);
-            Register argAddr = curFunc.makeRegister("argAddr");
+            LocalReg argAddr = curFunc.makeLocalReg("argAddr");
             node.paramList.get(i).var.reg = argAddr;
             curBB.appendFront(new Alloca(argAddr, 4));
             curBB.append(new Store(argVal, argAddr));
@@ -104,12 +115,12 @@ public class IRBuilder extends AstBaseVisitor {
 
         curBB = trueBB;
         visit(node.then);
-        if (!curBB.isEnded()) curBB.append(new DirectBranch(mergeBB));
+        curBB.append(new DirectBranch(mergeBB));
 
         if (hasElse) {
             curBB = falseBB;
             visit(node.otherwise);
-            if (!curBB.isEnded()) curBB.append(new DirectBranch(mergeBB));
+            curBB.append(new DirectBranch(mergeBB));
         }
 
         curBB = mergeBB;
@@ -130,7 +141,7 @@ public class IRBuilder extends AstBaseVisitor {
         loopEndStack.push(forEndBB);
 
         if (node.init != null) visit(node.init);
-        if (!curBB.isEnded()) curBB.append(new DirectBranch(forCondBB));
+        curBB.append(new DirectBranch(forCondBB));
 
         curBB = forCondBB;
         if (node.cond != null) {
@@ -141,11 +152,11 @@ public class IRBuilder extends AstBaseVisitor {
 
         curBB = forBodyBB;
         visit(node.body);
-        if (!curBB.isEnded()) curBB.append(new DirectBranch(forStepBB));
+        curBB.append(new DirectBranch(forStepBB));
 
         curBB = forStepBB;
         if (node.step != null) visit(node.step);
-        if (!curBB.isEnded()) curBB.append(new DirectBranch(forCondBB));
+        curBB.append(new DirectBranch(forCondBB));
 
         loopNextStack.pop();
         loopEndStack.pop();
@@ -165,7 +176,7 @@ public class IRBuilder extends AstBaseVisitor {
         loopNextStack.push(whileCondBB);
         loopEndStack.push(whileEndBB);
 
-        if (!curBB.isEnded()) curBB.append(new DirectBranch(whileCondBB));
+        curBB.append(new DirectBranch(whileCondBB));
 
         curBB = whileCondBB;
         node.cond.ifTrueBB = whileBodyBB;
@@ -174,7 +185,7 @@ public class IRBuilder extends AstBaseVisitor {
 
         curBB = whileBodyBB;
         visit(node.body);
-        if (!curBB.isEnded()) curBB.append(new DirectBranch(whileCondBB));
+        curBB.append(new DirectBranch(whileCondBB));
 
         loopNextStack.pop();
         loopEndStack.pop();
@@ -183,23 +194,29 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     public void visit(ReturnStmt node) {
-        // TODO
+        if (node.value != null) visit(node.value);
+        curBB.append(new Return(node.value == null ? null : node.value.val));
     }
 
     public void visit(BreakStmt node) {
-        if (!curBB.isEnded()) curBB.append(new DirectBranch(loopEndStack.peek()));
+        curBB.append(new DirectBranch(loopEndStack.peek()));
     }
 
     public void visit(ContinueStmt node) {
-        if (!curBB.isEnded()) curBB.append(new DirectBranch(loopNextStack.peek()));
+        curBB.append(new DirectBranch(loopNextStack.peek()));
     }
 
 
     private Operand getTargetAddr(Expr expr) {
         if (expr instanceof IdentifierExpr) {
-            // the identifier should be a single variable rather than a function or a class member
             IdentifierExpr idExpr = (IdentifierExpr) expr;
             if (idExpr.name.equals("this")) return thisAddr;
+            if (idExpr.var.def.scope instanceof ClassSymbol) {
+                ClassSymbol classSymbol = (ClassSymbol) idExpr.var.def.scope;
+                LocalReg classPtr = curFunc.makeLocalReg("classPtr");
+                curBB.append(new Load(classPtr, thisAddr));
+                return getMemberAddr(classPtr, classSymbol, idExpr.name);
+            }
             Symbol s = idExpr.var;
             assert s instanceof VariableSymbol;
             return ((VariableSymbol) s).reg;
@@ -207,7 +224,7 @@ public class IRBuilder extends AstBaseVisitor {
         if (expr instanceof MemberAccess) {
             MemberAccess memberAccess = (MemberAccess) expr;
             Operand classPtrPrt = getTargetAddr(memberAccess.container);
-            Register classPtr = curFunc.makeRegister("classPtr");
+            LocalReg classPtr = curFunc.makeLocalReg("classPtr");
             curBB.append(new Load(classPtr, classPtrPrt));
             if (expr.type instanceof FunctionSymbol) return classPtr;
             assert memberAccess.container.type instanceof ClassSymbol;
@@ -224,15 +241,15 @@ public class IRBuilder extends AstBaseVisitor {
             // arrayPtr int*
             // array structure [n, element_0, element_1, ..., element_n-1]
             Operand arrayPtrPtr = getTargetAddr(arrayAccess.container);
-            Register arrayPtr = curFunc.makeRegister("arrayPtr");
+            LocalReg arrayPtr = curFunc.makeLocalReg("arrayPtr");
             curBB.append(new Load(arrayPtr, arrayPtrPtr));
-            Register arrayBase = curFunc.makeRegister("arrayBase");
+            LocalReg arrayBase = curFunc.makeLocalReg("arrayBase");
             curBB.append(new BinaryOperation(arrayBase, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(4)));
             visit(arrayAccess.subscript);
             Operand index = arrayAccess.subscript.val;
-            Register offset = curFunc.makeRegister("offset");
+            LocalReg offset = curFunc.makeLocalReg("offset");
             curBB.append(new BinaryOperation(offset, BinaryOperation.BinaryOp.MUL, index, new IntImmediate(4)));
-            Register elementAddr = curFunc.makeRegister("elementAddr");
+            LocalReg elementAddr = curFunc.makeLocalReg("elementAddr");
             curBB.append(new BinaryOperation(elementAddr, BinaryOperation.BinaryOp.ADD, arrayBase, offset));
             return elementAddr;
         }
@@ -242,7 +259,7 @@ public class IRBuilder extends AstBaseVisitor {
 
     private Operand getMemberAddr(Operand baseAddr, ClassSymbol classSymbol, String memberName) {
         IntImmediate offset = new IntImmediate(classSymbol.layout.get(memberName));
-        Register memberAddr = curFunc.makeRegister("memberAddr");
+        LocalReg memberAddr = curFunc.makeLocalReg("memberAddr");
         curBB.append(new BinaryOperation(memberAddr, BinaryOperation.BinaryOp.ADD, baseAddr, offset));
         return memberAddr;
     }
@@ -259,10 +276,10 @@ public class IRBuilder extends AstBaseVisitor {
 
             visit(node.right);
 
-            Register boolValAddr = curFunc.makeRegister("boolValAddr");
+            LocalReg boolValAddr = curFunc.makeLocalReg("boolValAddr");
             node.right.ifTrueBB.append(new Store(new IntImmediate(1), boolValAddr));
             node.right.ifFalseBB.append(new Store(new IntImmediate(0), boolValAddr));
-            Register boolVal = curFunc.makeRegister("boolVal");
+            LocalReg boolVal = curFunc.makeLocalReg("boolVal");
             node.right.val = boolVal;
             mergeBB.append(new Load(boolVal, boolValAddr));
 
@@ -294,7 +311,25 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     private void processBinaryString(BinaryExpr node) {
-
+        visit(node.left);
+        visit(node.right);
+        LocalReg res = curFunc.makeLocalReg("res");
+        List<Operand> args = new ArrayList<>();
+        args.add(node.left.val);
+        args.add(node.right.val);
+        switch (node.op) {
+            case ADD: curBB.append(new Call(STR_ADD, res, args)); break;
+            case EQ: curBB.append(new Call(STR_EQ, res, args)); break;
+            case NEQ: curBB.append(new Call(STR_NEQ, res, args)); break;
+            case LT: curBB.append(new Call(STR_LT, res, args)); break;
+            case GT: curBB.append(new Call(STR_GT, res, args)); break;
+            case LE: curBB.append(new Call(STR_LE, res, args)); break;
+            case GE: curBB.append(new Call(STR_GE, res, args)); break;
+        }
+        node.val = res;
+        if (node.type.isSameType(BOOL_TYPE) && node.ifTrueBB != null) {
+            curBB.append(new CondBranch(res, node.ifTrueBB, node.ifFalseBB));
+        }
     }
 
     private void processBinaryInt(BinaryExpr node) {
@@ -319,11 +354,12 @@ public class IRBuilder extends AstBaseVisitor {
             case BIT_OR: op = BinaryOperation.BinaryOp.BIT_OR; break;
             case BIT_XOR: op = BinaryOperation.BinaryOp.BIT_XOR; break;
         }
-        Register res = curFunc.makeRegister("res");
-        node.val = res;
+        LocalReg res = curFunc.makeLocalReg("res");
         curBB.append(new BinaryOperation(res, op, node.left.val, node.right.val));
-        if (node.ifTrueBB != null)
+        node.val = res;
+        if (node.type.isSameType(BOOL_TYPE) && node.ifTrueBB != null) {
             curBB.append(new CondBranch(res, node.ifTrueBB, node.ifFalseBB));
+        }
     }
 
     public void visit(BinaryExpr node) {
@@ -344,8 +380,8 @@ public class IRBuilder extends AstBaseVisitor {
 
     private void processIncDec(UnaryExpr node) {
         Operand addr = getTargetAddr(node.expr);
-        Register oldVal = curFunc.makeRegister("oldVal");
-        Register newVal = curFunc.makeRegister("newVal");
+        LocalReg oldVal = curFunc.makeLocalReg("oldVal");
+        LocalReg newVal = curFunc.makeLocalReg("newVal");
         UnaryOperation.UnaryOp op = (node.op == UnaryExpr.UnaryOp.INC || node.op == UnaryExpr.UnaryOp.INC_SUF) ?
                                      UnaryOperation.UnaryOp.INC : UnaryOperation.UnaryOp.DEC;
         curBB.append(new Load(oldVal, addr));
@@ -379,7 +415,7 @@ public class IRBuilder extends AstBaseVisitor {
                 break;
             case NEG:
             case BIT_NOT:
-                Register res = curFunc.makeRegister("res");
+                LocalReg res = curFunc.makeLocalReg("res");
                 UnaryOperation.UnaryOp op = (node.op == UnaryExpr.UnaryOp.NEG) ?
                                              UnaryOperation.UnaryOp.NEG : UnaryOperation.UnaryOp.BIT_NOT;
                 curBB.append(new UnaryOperation(res, op, node.expr.val));
@@ -390,18 +426,19 @@ public class IRBuilder extends AstBaseVisitor {
 
     public void visit(FunctionCall node) {
         // built-in function hasn't been considered yet
-        Register dst = node.func.type.isSameType(VOID_TYPE) ? null : curFunc.makeRegister("res");
+        LocalReg dst = node.func.type.isSameType(VOID_TYPE) ? null : curFunc.makeLocalReg("res");
         List<Operand> args = new ArrayList<>();
         if (node.func.isClassMember()) {
-            Operand classPtrPtr;
             if (node.caller instanceof MemberAccess) {
-                classPtrPtr = getTargetAddr(node.caller);
+                args.add(getTargetAddr(node.caller));
             } else {
-                classPtrPtr = thisAddr;
+                LocalReg classPtr = curFunc.makeLocalReg("classPtr");
+                curBB.append(new Load(classPtr, thisAddr));
+                args.add(classPtr);
             }
-            Register classPtr = curFunc.makeRegister("classPtr");
-            curBB.append(new Load(classPtr, classPtrPtr));
-            args.add(classPtr);
+        }
+        if (node.func.isStringBuiltinFunction() || node.func.isArrayBuiltinFunction()) {
+            args.add(getTargetAddr(node.caller));
         }
         for (Expr argExpr : node.args) {
             visit(argExpr);
@@ -413,20 +450,20 @@ public class IRBuilder extends AstBaseVisitor {
 
     public void visit(ArrayAccess node) {
         Operand elementAddr = getTargetAddr(node);
-        Register elementVal = curFunc.makeRegister("elementVal");
+        LocalReg elementVal = curFunc.makeLocalReg("elementVal");
         curBB.append(new Load(elementVal, elementAddr));
         node.val = elementVal;
     }
 
     public void visit(MemberAccess node) {
         Operand memberAddr = getTargetAddr(node);
-        Register memberVal = curFunc.makeRegister("memberVal");
+        LocalReg memberVal = curFunc.makeLocalReg("memberVal");
         curBB.append(new Load(memberVal, memberAddr));
         node.val = memberVal;
     }
 
     private void processNonarrayNew(NewExpr node) {
-        Register classPtr = curFunc.makeRegister("classPtr");
+        LocalReg classPtr = curFunc.makeLocalReg("classPtr");
         assert node.type instanceof ClassSymbol;
         ClassSymbol classSymbol = (ClassSymbol) node.type;
         curBB.append(new Malloc(classPtr, new IntImmediate(classSymbol.byteSize)));
@@ -441,11 +478,11 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     private Operand generateArrayNew(ClassSymbol element, int dim, Queue<Operand> dimSizes) {
-        Register arrayPtr = curFunc.makeRegister("arrayPtr");
+        LocalReg arrayPtr = curFunc.makeLocalReg("arrayPtr");
         Operand firstDim = dimSizes.poll();
-        Register memberLength = curFunc.makeRegister("memberLength");
+        LocalReg memberLength = curFunc.makeLocalReg("memberLength");
         curBB.append(new BinaryOperation(memberLength, BinaryOperation.BinaryOp.MUL, firstDim, new IntImmediate(4)));
-        Register arrayLength = curFunc.makeRegister("arrayLength");
+        LocalReg arrayLength = curFunc.makeLocalReg("arrayLength");
         curBB.append(new BinaryOperation(arrayLength, BinaryOperation.BinaryOp.ADD, memberLength, new IntImmediate(4)));
         curBB.append(new Malloc(arrayPtr, arrayLength));
         curBB.append(new Store(firstDim, arrayPtr));
@@ -472,18 +509,18 @@ public class IRBuilder extends AstBaseVisitor {
         loopNextStack.push(forStepBB);
         loopEndStack.push(forEndBB);
 
-        Register arrayEndPos = curFunc.makeRegister("arrayEndPos");
+        LocalReg arrayEndPos = curFunc.makeLocalReg("arrayEndPos");
         curBB.append(new BinaryOperation(arrayEndPos, BinaryOperation.BinaryOp.ADD, arrayPtr, arrayLength));
-        Register startPos = curFunc.makeRegister("startPos");
+        LocalReg startPos = curFunc.makeLocalReg("startPos");
         curBB.append(new BinaryOperation(startPos, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(4)));
-        Register storageCell = curFunc.makeRegister("storageCell");
+        LocalReg storageCell = curFunc.makeLocalReg("storageCell");
         curBB.append(new Store(startPos, storageCell));
         curBB.append(new DirectBranch(forCondBB));
 
         curBB = forCondBB;
-        Register pos = curFunc.makeRegister("pos");
+        LocalReg pos = curFunc.makeLocalReg("pos");
         curBB.append(new Load(pos, storageCell));
-        Register condition = curFunc.makeRegister("condition");
+        LocalReg condition = curFunc.makeLocalReg("condition");
         curBB.append(new BinaryOperation(condition, BinaryOperation.BinaryOp.LT, pos, arrayEndPos));
         curBB.append(new CondBranch(condition, forBodyBB, forEndBB));
 
@@ -492,7 +529,7 @@ public class IRBuilder extends AstBaseVisitor {
         curBB.append(new DirectBranch(forStepBB));
 
         curBB = forStepBB;
-        Register nextPos = curFunc.makeRegister("pos");
+        LocalReg nextPos = curFunc.makeLocalReg("pos");
         curBB.append(new BinaryOperation(nextPos, BinaryOperation.BinaryOp.ADD, pos, new IntImmediate(4)));
         curBB.append(new Store(nextPos, storageCell));
         curBB.append(new DirectBranch(forCondBB));
@@ -529,7 +566,7 @@ public class IRBuilder extends AstBaseVisitor {
 
     public void visit(IdentifierExpr node) {
         Operand idAddr = getTargetAddr(node);
-        Register idVal = curFunc.makeRegister("idVal");
+        LocalReg idVal = curFunc.makeLocalReg("idVal");
         curBB.append(new Load(idVal, idAddr));
         node.val = idVal;
     }
@@ -543,7 +580,12 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     public void visit(StringConst node) {
-        // TODO
+        StringLiteral s = module.stringPool.get(node.value);
+        if (s == null) {
+            s = new StringLiteral(node.value);
+            module.stringPool.put(node.value, s);
+        }
+        node.val = s;
     }
 
     public void visit(NullLiteral node) {
