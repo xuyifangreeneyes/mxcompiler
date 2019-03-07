@@ -22,4 +22,8 @@ public class ArrayType implements Type {
         ArrayType arrayType = (ArrayType) type;
         return baseType.isSameType(arrayType.baseType) && dim == arrayType.dim;
     }
+
+    public BaseType getBaseType() {
+        return baseType;
+    }
 }

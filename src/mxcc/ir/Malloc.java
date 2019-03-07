@@ -2,9 +2,9 @@ package mxcc.ir;
 
 public class Malloc extends Instruction {
     private Register dst;
-    private int size;
+    private Operand size;
 
-    public Malloc(Register dst, int size) {
+    public Malloc(Register dst, Operand size) {
         this.dst = dst;
         this.size = size;
     }

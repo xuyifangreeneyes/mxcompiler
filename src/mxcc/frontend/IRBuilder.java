@@ -183,7 +183,7 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     public void visit(ReturnStmt node) {
-
+        // TODO
     }
 
     public void visit(BreakStmt node) {
@@ -220,13 +220,14 @@ public class IRBuilder extends AstBaseVisitor {
         }
         if (expr instanceof ArrayAccess) {
             ArrayAccess arrayAccess = (ArrayAccess) expr;
-            Operand classPtrPtr = getTargetAddr(arrayAccess.container);
-            Register classPtr = curFunc.makeRegister("arrayClassPtr");
-            curBB.append(new Load(classPtr, classPtrPtr));
+            // arrayPtrPtr int**
+            // arrayPtr int*
+            // array structure [n, element_0, element_1, ..., element_n-1]
+            Operand arrayPtrPtr = getTargetAddr(arrayAccess.container);
             Register arrayPtr = curFunc.makeRegister("arrayPtr");
-            curBB.append(new BinaryOperation(arrayPtr, BinaryOperation.BinaryOp.ADD, classPtr, new IntImmediate(4)));
+            curBB.append(new Load(arrayPtr, arrayPtrPtr));
             Register arrayBase = curFunc.makeRegister("arrayBase");
-            curBB.append(new Load(arrayBase, arrayPtr));
+            curBB.append(new BinaryOperation(arrayBase, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(4)));
             visit(arrayAccess.subscript);
             Operand index = arrayAccess.subscript.val;
             Register offset = curFunc.makeRegister("offset");
@@ -428,7 +429,7 @@ public class IRBuilder extends AstBaseVisitor {
         Register classPtr = curFunc.makeRegister("classPtr");
         assert node.type instanceof ClassSymbol;
         ClassSymbol classSymbol = (ClassSymbol) node.type;
-        curBB.append(new Malloc(classPtr, classSymbol.byteSize));
+        curBB.append(new Malloc(classPtr, new IntImmediate(classSymbol.byteSize)));
         if (classSymbol.members.containsKey(classSymbol.name)) {
             Symbol s = classSymbol.localResolve(classSymbol.name);
             assert s instanceof FunctionSymbol;
@@ -439,8 +440,81 @@ public class IRBuilder extends AstBaseVisitor {
         node.val = classPtr;
     }
 
-    private void processArrayNew(NewExpr node) {
+    private Operand generateArrayNew(ClassSymbol element, int dim, Queue<Operand> dimSizes) {
+        Register arrayPtr = curFunc.makeRegister("arrayPtr");
+        Operand firstDim = dimSizes.poll();
+        Register memberLength = curFunc.makeRegister("memberLength");
+        curBB.append(new BinaryOperation(memberLength, BinaryOperation.BinaryOp.MUL, firstDim, new IntImmediate(4)));
+        Register arrayLength = curFunc.makeRegister("arrayLength");
+        curBB.append(new BinaryOperation(arrayLength, BinaryOperation.BinaryOp.ADD, memberLength, new IntImmediate(4)));
+        curBB.append(new Malloc(arrayPtr, arrayLength));
+        curBB.append(new Store(firstDim, arrayPtr));
 
+        if (dimSizes.isEmpty()) {
+            // new int[5]
+            // new int[5][]
+            // new A[5]
+            // new A[5][]
+            // new string[5]
+            return arrayPtr;
+        }
+
+        BasicBlock forCondBB = new BasicBlock(curFunc, "new_for_cond");
+        BasicBlock forBodyBB = new BasicBlock(curFunc, "new_for_body");
+        BasicBlock forStepBB = new BasicBlock(curFunc, "new_for_step");
+        BasicBlock forEndBB = new BasicBlock(curFunc, "new_for_end");
+
+        curBB.addNext(forCondBB);
+        forCondBB.addNext(forBodyBB);
+        forBodyBB.addNext(forStepBB);
+        forStepBB.addNext(forEndBB);
+
+        loopNextStack.push(forStepBB);
+        loopEndStack.push(forEndBB);
+
+        Register arrayEndPos = curFunc.makeRegister("arrayEndPos");
+        curBB.append(new BinaryOperation(arrayEndPos, BinaryOperation.BinaryOp.ADD, arrayPtr, arrayLength));
+        Register startPos = curFunc.makeRegister("startPos");
+        curBB.append(new BinaryOperation(startPos, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(4)));
+        Register storageCell = curFunc.makeRegister("storageCell");
+        curBB.append(new Store(startPos, storageCell));
+        curBB.append(new DirectBranch(forCondBB));
+
+        curBB = forCondBB;
+        Register pos = curFunc.makeRegister("pos");
+        curBB.append(new Load(pos, storageCell));
+        Register condition = curFunc.makeRegister("condition");
+        curBB.append(new BinaryOperation(condition, BinaryOperation.BinaryOp.LT, pos, arrayEndPos));
+        curBB.append(new CondBranch(condition, forBodyBB, forEndBB));
+
+        curBB = forBodyBB;
+        curBB.append(new Store(generateArrayNew(element, dim - 1, dimSizes), pos));
+        curBB.append(new DirectBranch(forStepBB));
+
+        curBB = forStepBB;
+        Register nextPos = curFunc.makeRegister("pos");
+        curBB.append(new BinaryOperation(nextPos, BinaryOperation.BinaryOp.ADD, pos, new IntImmediate(4)));
+        curBB.append(new Store(nextPos, storageCell));
+        curBB.append(new DirectBranch(forCondBB));
+
+        loopNextStack.pop();
+        loopEndStack.pop();
+
+        curBB = forEndBB;
+
+        return arrayPtr;
+    }
+
+    private void processArrayNew(NewExpr node) {
+        Queue<Operand> dimSizes = new LinkedList<>();
+        for (Expr expr : node.dimArgs) {
+            visit(expr);
+            dimSizes.offer(expr.val);
+        }
+        assert node.type instanceof ArrayType;
+        Type elementType = ((ArrayType) node.type).getBaseType();
+        assert elementType instanceof ClassSymbol;
+        node.val = generateArrayNew((ClassSymbol) elementType, node.dim, dimSizes);
     }
 
     public void visit(NewExpr node) {
@@ -450,11 +524,7 @@ public class IRBuilder extends AstBaseVisitor {
             processNonarrayNew(node);
             return;
         }
-        Queue<Operand> dimSizes = new LinkedList<>();
-        for (Expr expr : node.dimArgs) {
-            visit(expr);
-            dimSizes.offer(expr.val);
-        }
+        processArrayNew(node);
     }
 
     public void visit(IdentifierExpr node) {

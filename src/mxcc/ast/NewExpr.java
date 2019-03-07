@@ -1,7 +1,6 @@
 package mxcc.ast;
 
 import mxcc.symbol.Scope;
-import mxcc.symbol.Type;
 import java.util.List;
 
 public class NewExpr extends Expr {
