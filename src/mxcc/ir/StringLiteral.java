@@ -13,6 +13,10 @@ public class StringLiteral extends Operand {
     }
 
     public String toString() {
-        return "@str_" + id + " " + "\"" + value + "\"";
+        return "$str_" + id;
+    }
+
+    public String getValue() {
+        return value;
     }
 }

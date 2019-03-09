@@ -33,7 +33,7 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     public void visit(Program node) {
-        curInitBB = module.funcs.get("#globalInit").getStartBB();
+        curInitBB = module.funcs.get("#global#init").getStartBB();
         node.decls.forEach(this::visit);
     }
 
@@ -46,11 +46,15 @@ public class IRBuilder extends AstBaseVisitor {
         if (node.scope instanceof ClassSymbol) return;
         if (node.scope instanceof GlobalSymbolTable) {
             GlobalReg globalVarAddr = new GlobalReg(node.varName);
+            module.globalRegs.add(globalVarAddr);
             node.var.reg = globalVarAddr;
             if (node.init != null) {
+                curFunc = module.funcs.get("#global#init");
                 curBB = curInitBB;
                 processVariableDeclInit(globalVarAddr, node.init);
+                curInitBB = curBB;
             }
+            return;
         }
 
         LocalReg varAddr = curFunc.makeLocalReg("varAddr");
@@ -67,7 +71,7 @@ public class IRBuilder extends AstBaseVisitor {
         if (isMember) funcName = node.scope.getEnclosingScope().getScopeName() + "#" + funcName;
         curFunc = new Function(funcName, false);
         node.func.IRFunc = curFunc;
-        module.funcs.put(funcName, curFunc);
+        module.defineFunction(curFunc);
         curBB = curFunc.getStartBB();
 
         if (isMember) {

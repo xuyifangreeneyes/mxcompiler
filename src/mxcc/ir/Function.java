@@ -14,9 +14,9 @@ public class Function {
     private int BBCounter = 0;
 
     public Function(String name, boolean isBuiltin) {
-        this.name = name;
+        this.name = "#" + name;
         if (!isBuiltin) {
-            head = tail = makeBB(this.name + "_entry");
+            head = tail = makeBB("entry");
         }
     }
 

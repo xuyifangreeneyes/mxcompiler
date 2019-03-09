@@ -28,11 +28,11 @@ public class AstPrinter extends AstBaseVisitor {
 
     private String getTypeName(TypeNode node) {
         if (node == null) return "";
-        String typeName = node.baseType;
+        StringBuilder typeName = new StringBuilder(node.baseType);
         for (int i = 0; i < node.dim; ++i) {
-            typeName += "[]";
+            typeName.append("[]");
         }
-        return typeName;
+        return typeName.toString();
     }
 
     public void visit(Program node) {

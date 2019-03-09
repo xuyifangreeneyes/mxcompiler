@@ -32,10 +32,11 @@ public class IRPrinter implements IRVisitor {
     public void visit(Module node) {
         for (GlobalReg globalReg : node.globalRegs) {
             println(globalReg.toString());
+            out.println();
         }
-        out.println();
         for (StringLiteral stringLiteral : node.stringPool.values()) {
-            println(stringLiteral.toString());
+            println(stringLiteral.toString() + " \"" + stringLiteral.getValue() + "\"");
+            out.println();
         }
         for (Function function : node.funcs.values()) {
             visit(function);
@@ -45,10 +46,10 @@ public class IRPrinter implements IRVisitor {
 
     public void visit(Function node) {
         if (node.isBuiltin()) {
-            out.println("define " + node.getName());
+            out.println(node.getName());
             return;
         }
-        StringBuilder funcSignature = new StringBuilder("define " + node.getName() + " ( ");
+        StringBuilder funcSignature = new StringBuilder(node.getName() + " ( ");
         for (LocalReg arg : node.args) {
             funcSignature.append(arg).append(" ");
         }
