@@ -24,4 +24,8 @@ public abstract class Instruction {
         if (this.prev != null) this.prev.next = this.next;
         if (this.next != null) this.next.prev = this.prev;
     }
+
+    public void accept(IRVisitor visitor) {
+        visitor.visit(this);
+    }
 }

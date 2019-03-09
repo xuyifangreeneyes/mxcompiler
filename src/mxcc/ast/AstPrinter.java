@@ -18,7 +18,9 @@ public class AstPrinter extends AstBaseVisitor {
         indent = indent.substring(0, indent.length() - 1);
     }
 
-    private void println(String s) { this.out.println(indent + s); }
+    private void println(String s) {
+        this.out.println(indent + s);
+    }
 
     private String getNodeName(AstNode node) {
         return "<" + node.getClass().getSimpleName() + ">";

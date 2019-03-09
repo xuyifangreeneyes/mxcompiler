@@ -20,4 +20,24 @@ public class BinaryOperation extends Instruction {
         this.rhs = rhs;
     }
 
+    public Register getDst() {
+        return dst;
+    }
+
+    public BinaryOp getOp() {
+        return op;
+    }
+
+    public Operand getLhs() {
+        return lhs;
+    }
+
+    public Operand getRhs() {
+        return rhs;
+    }
+
+    public void accept(IRVisitor visitor) {
+        visitor.visit(this);
+    }
+
 }

@@ -8,4 +8,16 @@ public class Store extends Instruction {
         this.val = val;
         this.addr = addr;
     }
+
+    public Operand getAddr() {
+        return addr;
+    }
+
+    public Operand getVal() {
+        return val;
+    }
+
+    public void accept(IRVisitor visitor) {
+        visitor.visit(this);
+    }
 }

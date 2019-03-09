@@ -4,14 +4,20 @@ public class BasicBlock {
     private Instruction head;
     private Instruction tail;
     private Function parent;
+    private int id;
     private String name;
 
-    private BasicBlock prev;
-    private BasicBlock next;
+    public BasicBlock prev;
+    public BasicBlock next;
 
-    public BasicBlock(Function parent, String name) {
+    public BasicBlock(Function parent, int id, String name) {
         this.parent = parent;
+        this.id = id;
         this.name = name;
+    }
+
+    public Instruction getFirstInst() {
+        return head;
     }
 
     public boolean isEnded() {
@@ -55,5 +61,13 @@ public class BasicBlock {
     public void delete() {
         if (this.prev != null) this.prev.next = this.next;
         if (this.next != null) this.next.prev = this.prev;
+    }
+
+    public int getLabel() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 }

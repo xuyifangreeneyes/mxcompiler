@@ -14,4 +14,20 @@ public class Call extends Instruction {
         this.dst = dst;
         this.args = args;
     }
+
+    public Register getDst() {
+        return dst;
+    }
+
+    public String getName() {
+        return func.IRFunc.getName();
+    }
+
+    public List<Operand> getArgs() {
+        return args;
+    }
+
+    public void accept(IRVisitor visitor) {
+        visitor.visit(this);
+    }
 }

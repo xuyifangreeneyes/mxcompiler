@@ -8,4 +8,16 @@ public class Alloca extends Instruction {
         this.dst = dst;
         this.size = size;
     }
+
+    public Register getDst() {
+        return dst;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void accept(IRVisitor visitor) {
+        visitor.visit(this);
+    }
 }

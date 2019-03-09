@@ -4,6 +4,7 @@ The bug needs fixing.
 int a = new int; bool b = new bool; string c = new string; 
 These are illegal but have not been checked.
 
-if BB is ended, then calling append cannot append BB and should not arise an exception.
-Giving a return value which denotes whether appending successes is a better idea.
+Now calling append after BB is ended will do nothing.
 
+when dealing with assign in ir, calculate lhs's address first and then calculate rhs's value, which can 
+save a pair of store and load if rhs is logicOpExpr. Not sure in this way whether there is any side effect.

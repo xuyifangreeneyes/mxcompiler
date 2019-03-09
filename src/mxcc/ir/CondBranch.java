@@ -10,4 +10,20 @@ public class CondBranch extends BranchInst {
         this.ifTrue = ifTrue;
         this.ifFalse = ifFalse;
     }
+
+    public Operand getCond() {
+        return cond;
+    }
+
+    public BasicBlock getIfTrue() {
+        return ifTrue;
+    }
+
+    public BasicBlock getIfFalse() {
+        return ifFalse;
+    }
+
+    public void accept(IRVisitor visitor) {
+        visitor.visit(this);
+    }
 }

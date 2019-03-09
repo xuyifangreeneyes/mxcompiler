@@ -8,4 +8,16 @@ public class Malloc extends Instruction {
         this.dst = dst;
         this.size = size;
     }
+
+    public Register getDst() {
+        return dst;
+    }
+
+    public Operand getSize() {
+        return size;
+    }
+
+    public void accept(IRVisitor visitor) {
+        visitor.visit(this);
+    }
 }

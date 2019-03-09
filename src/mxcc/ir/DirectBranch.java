@@ -7,4 +7,11 @@ public class DirectBranch extends BranchInst {
         this.target = target;
     }
 
+    public BasicBlock getTarget() {
+        return target;
+    }
+
+    public void accept(IRVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -10,12 +10,13 @@ public class Function {
     // not sure whether it is needed
     public List<LocalReg> args = new ArrayList<>();
 
-    private int RegCounter = 0;
+    private int LocalRegCounter = 0;
+    private int BBCounter = 0;
 
     public Function(String name, boolean isBuiltin) {
         this.name = name;
         if (!isBuiltin) {
-            head = tail = new BasicBlock(this, this.name + "_entry");
+            head = tail = makeBB(this.name + "_entry");
         }
     }
 
@@ -24,10 +25,23 @@ public class Function {
     }
 
     public LocalReg makeLocalReg(String hint) {
-        LocalReg reg = new LocalReg(hint, RegCounter);
-        ++RegCounter;
+        LocalReg reg = new LocalReg(hint, LocalRegCounter);
+        ++LocalRegCounter;
         return reg;
     }
 
+    public BasicBlock makeBB(String name) {
+        BasicBlock BB = new BasicBlock(this, BBCounter, name);
+        ++BBCounter;
+        return BB;
+    }
+
+    public boolean isBuiltin() {
+        return head == null;
+    }
+
+    public String getName() {
+        return name;
+    }
 
 }

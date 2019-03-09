@@ -6,4 +6,8 @@ public class IntImmediate extends Operand {
     public IntImmediate(int val) {
         this.val = val;
     }
+
+    public String toString() {
+        return String.valueOf(val);
+    }
 }
