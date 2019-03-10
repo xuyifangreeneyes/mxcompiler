@@ -1,0 +1,20 @@
+<Program>
+	<FunctionDecl> int main
+		<VariableDeclStmt>
+			<VariableDecl> int a
+				<IntConst> 3
+		<VariableDeclStmt>
+			<VariableDecl> int b
+				<IntConst> 4
+		<VariableDeclStmt>
+			<VariableDecl> int c
+				<BinaryExpr> ADD
+					<IdentifierExpr> a
+					<IdentifierExpr> b
+		<FunctionCall>
+			<IdentifierExpr> print
+			<FunctionCall>
+				<IdentifierExpr> toString
+				<IdentifierExpr> c
+		<ReturnStmt>
+			<IntConst> 0

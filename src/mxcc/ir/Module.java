@@ -22,7 +22,7 @@ public class Module {
         PRINTLN.IRFunc = new Function("println", true);
         GET_STRING.IRFunc = new Function("getString", true);
         GET_INT.IRFunc = new Function("getInt", true);
-        TO_STRING.IRFunc = new Function("getInt", true);
+        TO_STRING.IRFunc = new Function("toString", true);
         STR_LENGTH.IRFunc = new Function("string#length", true);
         STR_SUBSTRING.IRFunc = new Function("string#substring", true);
         STR_PARSE_INT.IRFunc = new Function("string#parseInt", true);

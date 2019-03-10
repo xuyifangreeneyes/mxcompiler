@@ -46,10 +46,10 @@ public class IRPrinter implements IRVisitor {
 
     public void visit(Function node) {
         if (node.isBuiltin()) {
-            out.println(node.getName());
+            out.println("define " + node.getName());
             return;
         }
-        StringBuilder funcSignature = new StringBuilder(node.getName() + " ( ");
+        StringBuilder funcSignature = new StringBuilder("define " + node.getName() + " ( ");
         for (LocalReg arg : node.args) {
             funcSignature.append(arg).append(" ");
         }

@@ -8,3 +8,7 @@ Now calling append after BB is ended will do nothing.
 
 when dealing with assign in ir, calculate lhs's address first and then calculate rhs's value, which can 
 save a pair of store and load if rhs is logicOpExpr. Not sure in this way whether there is any side effect.
+
+how does string store in memory? if I get a new string at runtime(such as #getString or #toString), I should 
+check whether the string exists in const string pool of memory, but how?
+

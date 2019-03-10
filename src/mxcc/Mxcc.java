@@ -15,14 +15,18 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-import java.io.IOException;
+import java.io.*;
 
 public class Mxcc {
     private Program ast;
     private Module ir;
 
     private void buildAST() throws IOException {
-        CharStream input = CharStreams.fromStream(System.in);
+        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.mx");
+        if (!fileName.exists()) {
+            throw new RuntimeException("cannot find a.mx");
+        }
+        CharStream input = CharStreams.fromStream(new FileInputStream(fileName));
         MxLexer lexer = new MxLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         MxParser parser = new MxParser(tokens);
@@ -32,8 +36,14 @@ public class Mxcc {
         ast = astBuilder.build(programContext);
     }
 
-    private void printAST() {
-        AstPrinter printer = new AstPrinter(System.out);
+    private void printAST() throws IOException {
+        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.ast");
+        if (!fileName.exists()) {
+            if (!fileName.createNewFile()) {
+                throw new RuntimeException("cannot create a.ast");
+            }
+        }
+        AstPrinter printer = new AstPrinter(new PrintStream(fileName));
         printer.visit(ast);
     }
 
@@ -50,8 +60,14 @@ public class Mxcc {
         ir = irBuilder.getModule();
     }
 
-    private void printIR() {
-        IRPrinter printer = new IRPrinter(System.out);
+    private void printIR() throws IOException {
+        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.ll");
+        if (!fileName.exists()) {
+            if (!fileName.createNewFile()) {
+                throw new RuntimeException("cannot create a.ll");
+            }
+        }
+        IRPrinter printer = new IRPrinter(new PrintStream(fileName));
         printer.visit(ir);
     }
 
