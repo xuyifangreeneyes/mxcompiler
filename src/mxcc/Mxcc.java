@@ -22,11 +22,12 @@ public class Mxcc {
     private Module ir;
 
     private void buildAST() throws IOException {
-        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.mx");
-        if (!fileName.exists()) {
-            throw new RuntimeException("cannot find a.mx");
-        }
-        CharStream input = CharStreams.fromStream(new FileInputStream(fileName));
+//        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.mx");
+//        if (!fileName.exists()) {
+//            throw new RuntimeException("cannot find a.mx");
+//        }
+//        CharStream input = CharStreams.fromStream(new FileInputStream(fileName));
+        CharStream input = CharStreams.fromStream(System.in);
         MxLexer lexer = new MxLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         MxParser parser = new MxParser(tokens);
@@ -61,19 +62,20 @@ public class Mxcc {
     }
 
     private void printIR() throws IOException {
-        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.ll");
-        if (!fileName.exists()) {
-            if (!fileName.createNewFile()) {
-                throw new RuntimeException("cannot create a.ll");
-            }
-        }
-        IRPrinter printer = new IRPrinter(new PrintStream(fileName));
+//        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.ll");
+//        if (!fileName.exists()) {
+//            if (!fileName.createNewFile()) {
+//                throw new RuntimeException("cannot create a.ll");
+//            }
+//        }
+//        IRPrinter printer = new IRPrinter(new PrintStream(fileName));
+        IRPrinter printer = new IRPrinter(System.out);
         printer.visit(ir);
     }
 
     private void run() throws IOException {
         buildAST();
-        printAST();
+//        printAST();
         sematicCheck();
         buildIR();
         printIR();

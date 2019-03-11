@@ -12,3 +12,5 @@ save a pair of store and load if rhs is logicOpExpr. Not sure in this way whethe
 how does string store in memory? if I get a new string at runtime(such as #getString or #toString), I should 
 check whether the string exists in const string pool of memory, but how?
 
+logic shortcut in function call parameters
+

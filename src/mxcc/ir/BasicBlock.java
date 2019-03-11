@@ -25,7 +25,6 @@ public class BasicBlock {
     }
 
     public void appendFront(Instruction inst) {
-        if (isEnded()) return;
         if (head == null) {
             head = tail = inst;
         } else {

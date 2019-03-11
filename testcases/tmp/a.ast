@@ -1,20 +1,44 @@
 <Program>
+	<VariableDecl> int a
+		<IntConst> 0
+	<ClassDecl> A
+		<FunctionDecl> int f
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> b
+				<IdentifierExpr> a
+		<VariableDecl> int b
 	<FunctionDecl> int main
 		<VariableDeclStmt>
-			<VariableDecl> int a
-				<IntConst> 3
+			<VariableDecl> int[][] graph
+				<NewExpr> int[][]
+					<IntConst> 3
+		<BinaryExpr> ASSIGN
+			<ArrayAccess>
+				<IdentifierExpr> graph
+				<IntConst> 0
+			<NullLiteral>
+		<BinaryExpr> ASSIGN
+			<ArrayAccess>
+				<IdentifierExpr> graph
+				<IntConst> 1
+			<NewExpr> int[]
+				<IntConst> 10
+		<BinaryExpr> ASSIGN
+			<ArrayAccess>
+				<IdentifierExpr> graph
+				<IntConst> 2
+			<NewExpr> int[]
+				<IntConst> 30
 		<VariableDeclStmt>
-			<VariableDecl> int b
-				<IntConst> 4
-		<VariableDeclStmt>
-			<VariableDecl> int c
-				<BinaryExpr> ADD
-					<IdentifierExpr> a
-					<IdentifierExpr> b
-		<FunctionCall>
-			<IdentifierExpr> print
-			<FunctionCall>
-				<IdentifierExpr> toString
-				<IdentifierExpr> c
+			<VariableDecl> int i
+				<IntConst> 0
+		<ForStmt>
+			<BinaryExpr> AND
+				<BinaryExpr> EQ
+					<IdentifierExpr> i
+					<IntConst> 1
+				<BoolConst> true
+			<BlockStmt>
+				<BreakStmt>
 		<ReturnStmt>
 			<IntConst> 0

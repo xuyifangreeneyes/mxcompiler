@@ -1,7 +1,6 @@
 package mxcc.ir;
 
 import java.io.PrintStream;
-import java.util.List;
 
 import static jdk.nashorn.internal.objects.NativeString.toLowerCase;
 
@@ -118,6 +117,8 @@ public class IRPrinter implements IRVisitor {
     }
 
     public void visit(CondBranch node) {
+        if (node.getIfFalse() == null)
+            System.out.println("null false");
         println("br " + node.getCond() + " <" + node.getIfTrue().getLabel() + "> <" + node.getIfFalse().getLabel() + ">");
     }
 

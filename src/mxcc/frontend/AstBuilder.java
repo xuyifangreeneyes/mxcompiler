@@ -10,7 +10,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import java.util.List;
 import java.util.ArrayList;
 
-
 public class AstBuilder extends MxBaseVisitor<AstNode> {
     private Scope currentScope;
 

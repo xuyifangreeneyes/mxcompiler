@@ -1,5 +1,7 @@
 package mxcc.ir;
 
+import mxcc.utility.StringHandler;
+
 import java.io.*;
 import java.util.*;
 
@@ -26,7 +28,6 @@ public class IRInterpreter {
     private static class Func {
         String name;
         BB entry;
-        int retVal = 0;
         List<String> args = new ArrayList<>();
         Map<Integer, BB> blocks = new HashMap<>();
 
@@ -38,9 +39,9 @@ public class IRInterpreter {
     private Map<String, Func> funcs = new HashMap<>();
     private Func curFunc;
     private BB curBB;
-    private boolean meetTerminator = false;
+    private int retVal;
     private Map<String, Integer> staticRegs = new HashMap<>();
-    private Map<String, Integer> localRegs = new HashMap<>();
+    private Map<String, Integer> localRegs = null;
     // Map<startAddress, stringValue>
     private Map<Integer, String> memString = new HashMap<>();
     // Map<stringValue, startAddress>
@@ -134,7 +135,7 @@ public class IRInterpreter {
                     memString.put(memPtr, strVal);
                     stringPool.put(strVal, memPtr);
                     staticRegs.put(words.get(0), memPtr);
-                    memPtr += strVal.getBytes().length;
+                    memPtr += strVal.getBytes().length + 1;
                     break;
                 case '@':
                     staticRegs.put(words.get(0), memPtr);
@@ -197,15 +198,16 @@ public class IRInterpreter {
                 memPtr += getOperandValue(inst.src1);
                 break;
             case "load":
+//                System.out.println(inst.dst + " = load " + inst.src1);
                 int loadAddr = getOperandValue(inst.src1);
                 assert memInt.containsKey(loadAddr);
-                writeReg(inst.dst, memInt.get(loadAddr));
+                writeReg(inst.dst, memInt.getOrDefault(loadAddr, 0));
                 break;
             case "store":
+//                System.out.println("store " + inst.src1 + " " + inst.src2);
                 memInt.put(getOperandValue(inst.src2), getOperandValue(inst.src1));
                 break;
             case "br":
-                meetTerminator = true;
                 if (inst.dst == null) {
                     curBB = curFunc.blocks.get(Integer.parseInt(inst.src1));
                 } else {
@@ -213,10 +215,11 @@ public class IRInterpreter {
                 }
                 break;
             case "ret":
-                meetTerminator = true;
                 curBB = null;
                 if (inst.src1 != null) {
-                    curFunc.retVal = getOperandValue(inst.src1);
+                    retVal = getOperandValue(inst.src1);
+                } else {
+                    retVal = 0;
                 }
                 break;
             case "mul":
@@ -299,7 +302,7 @@ public class IRInterpreter {
         int strPtr = memPtr;
         memString.put(strPtr, strVal);
         stringPool.put(strVal, strPtr);
-        memPtr += strVal.getBytes().length;
+        memPtr += strVal.getBytes().length + 1;
         return strPtr;
     }
 
@@ -319,11 +322,19 @@ public class IRInterpreter {
 
     private int runBuiltinFunc(String funcName, List<Integer> argVals) throws IOException {
         if (funcName.equals("#getString")) {
-            String strVal = scanner.nextLine();
-            return addString(strVal);
+            if (scanner.hasNext()) {
+                String strVal = scanner.next();
+                return addString(strVal);
+            } else {
+                throw new RuntimeException("cannot get string");
+            }
         }
         if (funcName.equals("#getInt")) {
-            return scanner.nextInt();
+            if (scanner.hasNextInt()) {
+                return scanner.nextInt();
+            } else {
+                throw new RuntimeException("cannot get int");
+            }
         }
         if (funcName.equals("#toString")) {
             String strVal = String.valueOf(argVals.get(0));
@@ -336,12 +347,12 @@ public class IRInterpreter {
         assert memString.containsKey(argVals.get(0));
         if (funcName.equals("#print")) {
             String str = memString.get(argVals.get(0));
-            System.out.print(str);
+            System.out.print(StringHandler.unescape(str));
             return 0;
         }
         if (funcName.equals("#println")) {
             String str = memString.get(argVals.get(0));
-            System.out.println(str);
+            System.out.println(StringHandler.unescape(str));
             return 0;
         }
         if (funcName.equals("#string#length")) {
@@ -391,37 +402,54 @@ public class IRInterpreter {
         if (builtinFuncs.contains(funcName)) {
             return runBuiltinFunc(funcName, argVals);
         }
-        Func func = funcs.get(funcName);
-        for (int i = 0; i < func.args.size(); ++i) {
-            writeReg(func.args.get(i), argVals.get(i));
+
+        Func enclosingFunc = curFunc;
+        curFunc = funcs.get(funcName);
+        BB enclosingBB = curBB;
+        curBB = curFunc.entry;
+        Map<String, Integer> enclosingLocalRegs = localRegs;
+        localRegs = new HashMap<>();
+
+        for (int i = 0; i < curFunc.args.size(); ++i) {
+            writeReg(curFunc.args.get(i), argVals.get(i));
         }
-        curBB = func.entry;
         while (curBB != null) {
-            meetTerminator = false;
             List<Inst> instList = curBB.instList;
-            for (Inst inst : instList) {
-                runInst(inst);
+            if (instList.isEmpty()) {
+                curBB = curBB.next;
+            } else {
+                for (Inst inst : instList) {
+                    runInst(inst);
+                }
+                String lastOp = instList.get(instList.size() - 1).op;
+                if (!lastOp.equals("br") && !lastOp.equals("ret")) curBB = curBB.next;
             }
-            if (!meetTerminator) curBB = curBB.next;
         }
-        localRegs.clear();
-        return func.retVal;
+
+        curFunc = enclosingFunc;
+        curBB = enclosingBB;
+        localRegs = enclosingLocalRegs;
+
+        return retVal;
     }
 
-    public void run() throws IOException {
+    public int run() throws IOException {
+        curFunc = null;
         runFunc("#global#init", new ArrayList<>());
-        runFunc("#main", new ArrayList<>());
+        int exitCode = runFunc("#main", new ArrayList<>());
         scanner.close();
+        return exitCode;
     }
 
     public static void main(String[] args) throws IOException {
-        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.ll");
+//        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.ll");
+        File fileName = new File(args[0]);
         if (!fileName.exists()) {
             throw new RuntimeException("cannot find a.ll");
         }
         IRInterpreter interpreter = new IRInterpreter(new FileInputStream(fileName));
         interpreter.parse();
-        interpreter.run();
+        System.exit(interpreter.run());
     }
 
 }
