@@ -1,5 +1,8 @@
 package mxcc.ir;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BasicBlock {
     private Instruction head;
     private Instruction tail;
@@ -68,5 +71,18 @@ public class BasicBlock {
 
     public String getName() {
         return name;
+    }
+
+    public List<BasicBlock> getSuccessors() {
+        List<BasicBlock> successors = new ArrayList<>();
+        if (tail instanceof DirectBranch) {
+            successors.add(((DirectBranch) tail).getTarget());
+        }
+        if (tail instanceof CondBranch) {
+            successors.add(((CondBranch) tail).getIfTrue());
+            successors.add(((CondBranch) tail).getIfFalse());
+        }
+        // every basicBlock's tail is a BranchInst
+        return successors;
     }
 }
