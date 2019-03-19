@@ -13,7 +13,8 @@ public class BinaryOperation extends Instruction {
     private Operand lhs;
     private Operand rhs;
 
-    public BinaryOperation(Register dst, BinaryOp op, Operand lhs, Operand rhs) {
+    public BinaryOperation(BasicBlock parent, Register dst, BinaryOp op, Operand lhs, Operand rhs) {
+        super(parent);
         this.dst = dst;
         this.op = op;
         this.lhs = lhs;

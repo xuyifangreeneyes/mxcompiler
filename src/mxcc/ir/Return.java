@@ -3,7 +3,8 @@ package mxcc.ir;
 public class Return extends BranchInst {
     private Operand retVal;
 
-    public Return(Operand retVal) {
+    public Return(BasicBlock parent, Operand retVal) {
+        super(parent);
         this.retVal = retVal;
     }
 

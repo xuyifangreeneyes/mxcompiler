@@ -14,6 +14,8 @@ public interface IRVisitor {
     void visit(BinaryOperation node);
     void visit(UnaryOperation ndoe);
     void visit(Call node);
+    void visit(Phi node);
+    void visit(Move node);
 
     void visit(CondBranch node);
     void visit(DirectBranch node);

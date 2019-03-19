@@ -1,44 +1,314 @@
 <Program>
-	<VariableDecl> int a
-		<IntConst> 0
-	<ClassDecl> A
-		<FunctionDecl> int f
+	<ClassDecl> Mo
+		<VariableDecl> int ang
+		<VariableDecl> int sec
+		<VariableDecl> string world
+	<ClassDecl> RedBoy
+		<VariableDecl> int num
+	<VariableDecl> int age
+		<IntConst> 1000000
+	<VariableDecl> string eng
+		<StringConst> Four score and seven years ago
+	<FunctionDecl> int travel
+		<VariableDeclStmt>
+			<VariableDecl> int a
+				<IntConst> 10000000
+		<ReturnStmt>
+			<IdentifierExpr> a
+	<FunctionDecl> void journalists string location
+		<IfStmt>
+			<BinaryExpr> EQ
+				<IdentifierExpr> location
+				<StringConst> HongKong
+			<BlockStmt>
+				<FunctionCall>
+					<IdentifierExpr> print
+					<StringConst> naive!\n
+				<FunctionCall>
+					<IdentifierExpr> print
+					<StringConst> fast!\n
+				<FunctionCall>
+					<IdentifierExpr> println
+					<StringConst> too young\\too simple.
+	<FunctionDecl> Mo xu Mo m0 RedBoy boys
+		<VariableDeclStmt>
+			<VariableDecl> int i
+		<ForStmt>
 			<BinaryExpr> ASSIGN
-				<IdentifierExpr> b
-				<IdentifierExpr> a
-		<VariableDecl> int b
+				<IdentifierExpr> i
+				<IntConst> 0
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<MemberAccess>
+					<IdentifierExpr> boys
+					<IdentifierExpr> num
+			<UnaryExpr> INC
+				<IdentifierExpr> i
+			<BlockStmt>
+				<UnaryExpr> INC_SUF
+					<MemberAccess>
+						<IdentifierExpr> m0
+						<IdentifierExpr> sec
+		<ReturnStmt>
+			<IdentifierExpr> m0
 	<FunctionDecl> int main
 		<VariableDeclStmt>
-			<VariableDecl> int[][] graph
-				<NewExpr> int[][]
+			<VariableDecl> int a
+		<VariableDeclStmt>
+			<VariableDecl> int b
+		<VariableDeclStmt>
+			<VariableDecl> int c
+		<VariableDeclStmt>
+			<VariableDecl> int year
+				<IntConst> 2016
+		<VariableDeclStmt>
+			<VariableDecl> string tell
+				<StringConst> wukefengggao\n
+		<EmptyStmt>
+		<VariableDeclStmt>
+			<VariableDecl> bool zici
+				<BoolConst> true
+		<VariableDeclStmt>
+			<VariableDecl> bool nozici
+				<BoolConst> false
+		<VariableDeclStmt>
+			<VariableDecl> RedBoy boy
+				<NewExpr> RedBoy
+		<VariableDeclStmt>
+			<VariableDecl> RedBoy[] boys
+				<NewExpr> RedBoy[]
 					<IntConst> 3
+		<VariableDeclStmt>
+			<VariableDecl> RedBoy[][][] boyss
+				<NewExpr> RedBoy[][][]
+					<IntConst> 1
+					<IntConst> 2
+					<IntConst> 3
+		<VariableDeclStmt>
+			<VariableDecl> Mo haha
+				<NewExpr> Mo
+		<BoolConst> false
+		<BoolConst> true
+		<NullLiteral>
+		<IntConst> 123
+		<StringConst> Four score and seven years ago\n\\\"
 		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> graph
-				<IntConst> 0
-			<NullLiteral>
+			<IdentifierExpr> a
+			<IntConst> 1
 		<BinaryExpr> ASSIGN
+			<IdentifierExpr> b
+			<IntConst> 2
+		<BinaryExpr> ADD
+			<IdentifierExpr> a
+			<IdentifierExpr> b
+		<BinaryExpr> SUB
+			<IdentifierExpr> a
+			<IdentifierExpr> b
+		<BinaryExpr> MUL
+			<IdentifierExpr> a
+			<IdentifierExpr> b
+		<BinaryExpr> DIV
+			<IdentifierExpr> a
+			<IdentifierExpr> b
+		<BinaryExpr> MOD
+			<IdentifierExpr> a
+			<IdentifierExpr> b
+		<BinaryExpr> LT
+			<IdentifierExpr> a
+			<IntConst> 1
+		<BinaryExpr> GT
+			<IdentifierExpr> a
+			<IntConst> 2
+		<BinaryExpr> EQ
+			<IdentifierExpr> a
+			<IdentifierExpr> b
+		<BinaryExpr> NEQ
+			<IdentifierExpr> a
+			<IdentifierExpr> b
+		<BinaryExpr> LE
+			<IdentifierExpr> a
+			<IdentifierExpr> b
+		<BinaryExpr> GE
+			<IdentifierExpr> a
+			<IdentifierExpr> b
+		<VariableDeclStmt>
+			<VariableDecl> bool g
+		<VariableDeclStmt>
+			<VariableDecl> bool h
+		<BinaryExpr> AND
+			<IdentifierExpr> g
+			<IdentifierExpr> h
+		<BinaryExpr> OR
+			<IdentifierExpr> g
+			<IdentifierExpr> h
+		<UnaryExpr> NOT
+			<IdentifierExpr> g
+		<BinaryExpr> LSFT
+			<IdentifierExpr> a
+			<IntConst> 1
+		<BinaryExpr> RSFT
+			<IdentifierExpr> a
+			<IntConst> 2
+		<UnaryExpr> BIT_NOT
+			<IdentifierExpr> a
+		<BinaryExpr> BIT_OR
+			<IdentifierExpr> a
+			<IdentifierExpr> b
+		<BinaryExpr> BIT_XOR
+			<IdentifierExpr> a
+			<IdentifierExpr> b
+		<BinaryExpr> BIT_AND
+			<IdentifierExpr> a
+			<IdentifierExpr> b
+		<UnaryExpr> INC
+			<IdentifierExpr> a
+		<UnaryExpr> INC_SUF
+			<IdentifierExpr> b
+		<MemberAccess>
+			<IdentifierExpr> boy
+			<IdentifierExpr> num
+		<MemberAccess>
 			<ArrayAccess>
-				<IdentifierExpr> graph
-				<IntConst> 1
-			<NewExpr> int[]
-				<IntConst> 10
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> graph
+				<IdentifierExpr> boys
 				<IntConst> 2
-			<NewExpr> int[]
-				<IntConst> 30
+			<IdentifierExpr> num
+		<MemberAccess>
+			<ArrayAccess>
+				<ArrayAccess>
+					<ArrayAccess>
+						<IdentifierExpr> boyss
+						<IntConst> 1
+					<IntConst> 2
+				<IntConst> 3
+			<IdentifierExpr> num
+		<FunctionCall>
+			<IdentifierExpr> xu
+			<NewExpr> Mo
+			<NullLiteral>
 		<VariableDeclStmt>
 			<VariableDecl> int i
 				<IntConst> 0
 		<ForStmt>
-			<BinaryExpr> AND
-				<BinaryExpr> EQ
-					<IdentifierExpr> i
-					<IntConst> 1
-				<BoolConst> true
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IntConst> 0
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IntConst> 3
+			<UnaryExpr> INC
+				<IdentifierExpr> i
 			<BlockStmt>
+				<FunctionCall>
+					<IdentifierExpr> xu
+					<IdentifierExpr> haha
+					<ArrayAccess>
+						<IdentifierExpr> boys
+						<IdentifierExpr> i
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IntConst> 0
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IntConst> 3
+			<UnaryExpr> INC
+				<IdentifierExpr> i
+			<BlockStmt>
+				<FunctionCall>
+					<IdentifierExpr> xu
+					<IdentifierExpr> haha
+					<ArrayAccess>
+						<IdentifierExpr> boys
+						<IdentifierExpr> i
+		<ForStmt>
+			<BlockStmt>
+				<EmptyStmt>
+		<BinaryExpr> ASSIGN
+			<IdentifierExpr> i
+			<IntConst> 0
+		<WhileStmt>
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IdentifierExpr> year
+			<BlockStmt>
+				<FunctionCall>
+					<IdentifierExpr> print
+					<FunctionCall>
+						<IdentifierExpr> toString
+						<IdentifierExpr> i
+		<WhileStmt>
+			<BoolConst> true
+			<BlockStmt>
+				<EmptyStmt>
+		<IfStmt>
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IdentifierExpr> year
+			<BlockStmt>
+				<FunctionCall>
+					<IdentifierExpr> print
+					<FunctionCall>
+						<IdentifierExpr> toString
+						<FunctionCall>
+							<IdentifierExpr> travel
+		<IfStmt>
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IdentifierExpr> year
+			<BlockStmt>
+				<FunctionCall>
+					<IdentifierExpr> print
+					<FunctionCall>
+						<IdentifierExpr> toString
+						<FunctionCall>
+							<IdentifierExpr> travel
+		<BinaryExpr> ASSIGN
+			<IdentifierExpr> i
+			<IntConst> 0
+		<WhileStmt>
+			<BoolConst> true
+			<BlockStmt>
+				<IfStmt>
+					<BinaryExpr> EQ
+						<IdentifierExpr> i
+						<IdentifierExpr> year
+					<BlockStmt>
+						<BreakStmt>
+				<UnaryExpr> INC
+					<IdentifierExpr> i
+		<BinaryExpr> ASSIGN
+			<IdentifierExpr> i
+			<IntConst> 0
+		<WhileStmt>
+			<BoolConst> true
+			<BlockStmt>
+				<IfStmt>
+					<BinaryExpr> LT
+						<IdentifierExpr> i
+						<IdentifierExpr> year
+					<BlockStmt>
+						<UnaryExpr> INC
+							<IdentifierExpr> i
+						<ContinueStmt>
 				<BreakStmt>
+		<VariableDeclStmt>
+			<VariableDecl> string tmpstr
+				<StringConst> test
+		<FunctionCall>
+			<IdentifierExpr> print
+			<FunctionCall>
+				<IdentifierExpr> toString
+				<FunctionCall>
+					<MemberAccess>
+						<IdentifierExpr> tmpstr
+						<IdentifierExpr> length
+		<FunctionCall>
+			<IdentifierExpr> print
+			<FunctionCall>
+				<MemberAccess>
+					<IdentifierExpr> tmpstr
+					<IdentifierExpr> substring
+				<IntConst> 1
+				<IntConst> 2
 		<ReturnStmt>
 			<IntConst> 0

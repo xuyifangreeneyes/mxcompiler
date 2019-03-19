@@ -1,21 +1,21 @@
 package mxcc.ir;
 
-public class Malloc extends Instruction {
+public class Move extends Instruction {
     private Register dst;
-    private Operand size;
+    private Operand src;
 
-    public Malloc(BasicBlock parent, Register dst, Operand size) {
+    public Move(BasicBlock parent, Register dst, Operand src) {
         super(parent);
         this.dst = dst;
-        this.size = size;
+        this.src = src;
     }
 
     public Register getDst() {
         return dst;
     }
 
-    public Operand getSize() {
-        return size;
+    public Operand getSrc() {
+        return src;
     }
 
     public void accept(IRVisitor visitor) {

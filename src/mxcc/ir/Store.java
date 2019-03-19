@@ -4,7 +4,8 @@ public class Store extends Instruction {
     private Operand val;
     private Operand addr;
 
-    public Store(Operand val, Operand addr) {
+    public Store(BasicBlock parent, Operand val, Operand addr) {
+        super(parent);
         this.val = val;
         this.addr = addr;
     }

@@ -4,7 +4,8 @@ public class Alloca extends Instruction {
     private LocalReg dst;
     private int size;
 
-    public Alloca(LocalReg dst, int size) {
+    public Alloca(BasicBlock parent, LocalReg dst, int size) {
+        super(parent);
         this.dst = dst;
         this.size = size;
     }

@@ -116,6 +116,19 @@ public class IRPrinter implements IRVisitor {
         println(funcCall.toString());
     }
 
+    public void visit(Phi node) {
+        StringBuilder phi = new StringBuilder(node.getDst() + " = phi");
+        for (BasicBlock pred : node.getSource().keySet()) {
+            Operand var = node.getSource().get(pred);
+            phi.append(" <").append(pred.getLabel()).append("> ").append(var);
+        }
+        println(phi.toString());
+    }
+
+    public void visit(Move node) {
+        println("move " + node.getDst() + " " + node.getSrc());
+    }
+
     public void visit(CondBranch node) {
         if (node.getIfFalse() == null)
             System.out.println("null false");

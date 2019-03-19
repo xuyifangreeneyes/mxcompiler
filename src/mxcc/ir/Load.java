@@ -4,7 +4,8 @@ public class Load extends Instruction {
     private Register dst;
     private Operand addr;
 
-    public Load(Register dst, Operand addr) {
+    public Load(BasicBlock parent, Register dst, Operand addr) {
+        super(parent);
         this.dst = dst;
         this.addr = addr;
     }

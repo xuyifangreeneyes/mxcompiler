@@ -13,6 +13,7 @@ public class IRInterpreter {
         String src1;
         String src2;
         List<String> args;
+        Map<Integer, String> phiSource;
     }
 
     private static class BB {
@@ -38,6 +39,7 @@ public class IRInterpreter {
 
     private Map<String, Func> funcs = new HashMap<>();
     private Func curFunc;
+    private BB predBB;
     private BB curBB;
     private int retVal;
     private Map<String, Integer> staticRegs = new HashMap<>();
@@ -100,6 +102,11 @@ public class IRInterpreter {
                     inst.src2 = words.get(3).substring(1, words.get(3).length() - 1);
                 }
                 break;
+            case "move":
+                inst.op = words.get(0);
+                inst.dst = words.get(1);
+                inst.src1 = words.get(2);
+                break;
             default:
                 if (words.get(words.size() - 1).equals(")")) {
                     int indexOfFuncName;
@@ -117,8 +124,17 @@ public class IRInterpreter {
                 } else {
                     inst.dst = words.get(0);
                     inst.op = words.get(2);
-                    inst.src1 = words.get(3);
-                    if (words.size() == 5) inst.src2 = words.get(4);
+                    if (inst.op.equals("phi")) {
+                        inst.phiSource = new HashMap<>();
+                        int i = 3;
+                        while (i < words.size()) {
+                            inst.phiSource.put(Integer.parseInt(words.get(i).substring(1, words.get(i).length() - 1)), words.get(i + 1));
+                            i += 2;
+                        }
+                    } else {
+                        inst.src1 = words.get(3);
+                        if (words.size() == 5) inst.src2 = words.get(4);
+                    }
                 }
         }
         curBB.instList.add(inst);
@@ -208,6 +224,7 @@ public class IRInterpreter {
                 memInt.put(getOperandValue(inst.src2), getOperandValue(inst.src1));
                 break;
             case "br":
+                predBB = curBB;
                 if (inst.dst == null) {
                     curBB = curFunc.blocks.get(Integer.parseInt(inst.src1));
                 } else {
@@ -215,12 +232,19 @@ public class IRInterpreter {
                 }
                 break;
             case "ret":
+                predBB = curBB;
                 curBB = null;
                 if (inst.src1 != null) {
                     retVal = getOperandValue(inst.src1);
                 } else {
                     retVal = 0;
                 }
+                break;
+            case "phi":
+                writeReg(inst.dst, getOperandValue(inst.phiSource.get(predBB.id)));
+                break;
+            case "move":
+                writeReg(inst.dst, getOperandValue(inst.src1));
                 break;
             case "mul":
                 writeReg(inst.dst, getOperandValue(inst.src1) * getOperandValue(inst.src2));
@@ -405,7 +429,9 @@ public class IRInterpreter {
 
         Func enclosingFunc = curFunc;
         curFunc = funcs.get(funcName);
+        BB enclosingPredBB = predBB;
         BB enclosingBB = curBB;
+        predBB = null;
         curBB = curFunc.entry;
         Map<String, Integer> enclosingLocalRegs = localRegs;
         localRegs = new HashMap<>();
@@ -416,17 +442,22 @@ public class IRInterpreter {
         while (curBB != null) {
             List<Inst> instList = curBB.instList;
             if (instList.isEmpty()) {
+                predBB = curBB;
                 curBB = curBB.next;
             } else {
                 for (Inst inst : instList) {
                     runInst(inst);
                 }
                 String lastOp = instList.get(instList.size() - 1).op;
-                if (!lastOp.equals("br") && !lastOp.equals("ret")) curBB = curBB.next;
+                if (!lastOp.equals("br") && !lastOp.equals("ret")) {
+                    predBB = curBB;
+                    curBB = curBB.next;
+                }
             }
         }
 
         curFunc = enclosingFunc;
+        predBB = enclosingPredBB;
         curBB = enclosingBB;
         localRegs = enclosingLocalRegs;
 
@@ -442,7 +473,7 @@ public class IRInterpreter {
     }
 
     public static void main(String[] args) throws IOException {
-//        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.ll");
+//        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a_ssa.ll");
         File fileName = new File(args[0]);
         if (!fileName.exists()) {
             throw new RuntimeException("cannot find a.ll");

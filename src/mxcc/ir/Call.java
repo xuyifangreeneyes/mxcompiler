@@ -9,7 +9,8 @@ public class Call extends Instruction {
     private Register dst;
     private List<Operand> args;
 
-    public Call(FunctionSymbol func, Register dst, List<Operand> args) {
+    public Call(BasicBlock parent, FunctionSymbol func, Register dst, List<Operand> args) {
+        super(parent);
         this.func = func;
         this.dst = dst;
         this.args = args;

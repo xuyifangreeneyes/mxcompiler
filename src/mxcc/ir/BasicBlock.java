@@ -13,6 +13,8 @@ public class BasicBlock {
     public BasicBlock prev;
     public BasicBlock next;
 
+    private List<BasicBlock> successors;
+
     public BasicBlock(Function parent, int id, String name) {
         this.parent = parent;
         this.id = id;
@@ -21,6 +23,18 @@ public class BasicBlock {
 
     public Instruction getFirstInst() {
         return head;
+    }
+
+    public Instruction getLastInst() {
+        return tail;
+    }
+
+    public void setFirstInst(Instruction inst) {
+        head = inst;
+    }
+
+    public void setLastInst(Instruction inst) {
+        tail = inst;
     }
 
     public boolean isEnded() {
@@ -74,15 +88,17 @@ public class BasicBlock {
     }
 
     public List<BasicBlock> getSuccessors() {
-        List<BasicBlock> successors = new ArrayList<>();
-        if (tail instanceof DirectBranch) {
-            successors.add(((DirectBranch) tail).getTarget());
+        if (successors == null) {
+            successors = new ArrayList<>();
+            if (tail instanceof DirectBranch) {
+                successors.add(((DirectBranch) tail).getTarget());
+            }
+            if (tail instanceof CondBranch) {
+                successors.add(((CondBranch) tail).getIfTrue());
+                successors.add(((CondBranch) tail).getIfFalse());
+            }
+            // every basicBlock's tail is a BranchInst
         }
-        if (tail instanceof CondBranch) {
-            successors.add(((CondBranch) tail).getIfTrue());
-            successors.add(((CondBranch) tail).getIfFalse());
-        }
-        // every basicBlock's tail is a BranchInst
         return successors;
     }
 }

@@ -10,6 +10,7 @@ import mxcc.ir.IRPrinter;
 import mxcc.ir.Module;
 import mxcc.parser.MxLexer;
 import mxcc.parser.MxParser;
+import mxcc.ssa.SSAConstructor;
 import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -61,16 +62,25 @@ public class Mxcc {
         ir = irBuilder.getModule();
     }
 
-    private void printIR() throws IOException {
-//        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.ll");
-//        if (!fileName.exists()) {
-//            if (!fileName.createNewFile()) {
-//                throw new RuntimeException("cannot create a.ll");
-//            }
-//        }
-//        IRPrinter printer = new IRPrinter(new PrintStream(fileName));
-        IRPrinter printer = new IRPrinter(System.out);
+    private void printIR(String pathName) throws IOException {
+        IRPrinter printer;
+        if (pathName != null) {
+            File fileName = new File(pathName);
+            if (!fileName.exists()) {
+                if (!fileName.createNewFile()) {
+                    throw new RuntimeException("cannot create a.ll");
+                }
+            }
+            printer = new IRPrinter(new PrintStream(fileName));
+        } else {
+           printer = new IRPrinter(System.out);
+        }
         printer.visit(ir);
+    }
+
+    private void SSAtransform() throws IOException {
+        SSAConstructor.process(ir);
+//        printIR("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a_ssa.ll");
     }
 
     private void run() throws IOException {
@@ -78,7 +88,9 @@ public class Mxcc {
 //        printAST();
         sematicCheck();
         buildIR();
-        printIR();
+//        printIR("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.ll");
+        SSAtransform();
+        printIR(null);
     }
 
     public static void main(String[] args) {

@@ -14,3 +14,6 @@ check whether the string exists in const string pool of memory, but how?
 
 logic shortcut in function call parameters
 
+self-loop does not strictly dominate itself?
+
+ssa does not transform global variable for now.

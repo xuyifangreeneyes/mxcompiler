@@ -9,7 +9,8 @@ public class UnaryOperation extends Instruction {
     private UnaryOp op;
     private Operand src;
 
-    public UnaryOperation(Register dst, UnaryOp op, Operand src) {
+    public UnaryOperation(BasicBlock parent, Register dst, UnaryOp op, Operand src) {
+        super(parent);
         this.dst = dst;
         this.op = op;
         this.src = src;
