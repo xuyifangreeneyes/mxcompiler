@@ -14,6 +14,11 @@ public class Call extends Instruction {
         this.func = func;
         this.dst = dst;
         this.args = args;
+
+        defReg = dst;
+        for (Operand arg : args) {
+            if (arg instanceof Register) useRegs.add((Register) arg);
+        }
     }
 
     public Register getDst() {

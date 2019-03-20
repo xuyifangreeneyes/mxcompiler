@@ -8,6 +8,9 @@ public class Store extends Instruction {
         super(parent);
         this.val = val;
         this.addr = addr;
+
+        if (val instanceof Register) useRegs.add((Register) val);
+        if (addr instanceof Register) useRegs.add((Register) addr);
     }
 
     public Operand getAddr() {

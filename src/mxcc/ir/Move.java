@@ -8,6 +8,9 @@ public class Move extends Instruction {
         super(parent);
         this.dst = dst;
         this.src = src;
+
+        defReg = dst;
+        if (src instanceof Register) useRegs.add((Register) src);
     }
 
     public Register getDst() {

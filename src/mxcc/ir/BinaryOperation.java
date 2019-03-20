@@ -19,6 +19,10 @@ public class BinaryOperation extends Instruction {
         this.op = op;
         this.lhs = lhs;
         this.rhs = rhs;
+
+        defReg = dst;
+        if (lhs instanceof Register) useRegs.add((Register) lhs);
+        if (rhs instanceof Register) useRegs.add((Register) rhs);
     }
 
     public Register getDst() {

@@ -10,6 +10,7 @@ import mxcc.ir.IRPrinter;
 import mxcc.ir.Module;
 import mxcc.parser.MxLexer;
 import mxcc.parser.MxParser;
+import mxcc.ssa.NaiveDeadCodeElimination;
 import mxcc.ssa.SSAConstructor;
 import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
@@ -79,8 +80,10 @@ public class Mxcc {
     }
 
     private void SSAtransform() throws IOException {
-        SSAConstructor.process(ir);
+        SSAConstructor.visit(ir);
 //        printIR("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a_ssa.ll");
+        NaiveDeadCodeElimination.visit(ir);
+//        printIR("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a_dce.ll");
     }
 
     private void run() throws IOException {

@@ -14,6 +14,9 @@ public class UnaryOperation extends Instruction {
         this.dst = dst;
         this.op = op;
         this.src = src;
+
+        defReg = dst;
+        if (src instanceof Register) useRegs.add((Register) src);
     }
 
     public Register getDst() {

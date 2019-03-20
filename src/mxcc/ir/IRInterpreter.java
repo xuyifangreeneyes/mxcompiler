@@ -473,7 +473,7 @@ public class IRInterpreter {
     }
 
     public static void main(String[] args) throws IOException {
-//        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a_ssa.ll");
+//        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a_dce.ll");
         File fileName = new File(args[0]);
         if (!fileName.exists()) {
             throw new RuntimeException("cannot find a.ll");

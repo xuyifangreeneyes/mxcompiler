@@ -5,7 +5,7 @@ import mxcc.ir.*;
 
 import java.util.*;
 
-public class SSAConstructor extends SSATransformer {
+public class SSAConstructor extends Pass {
     // Map<BB, dominators>
     private Map<BasicBlock, List<BasicBlock>> dominatorMap = new HashMap<>();
     // Map<BB, nodes which it immediately dominates>
@@ -15,11 +15,11 @@ public class SSAConstructor extends SSATransformer {
 
     private Map<Register, LocalReg> reachingDef = new HashMap<>();
 
-    public static void process(Module module) {
+    public static void visit(Module module) {
         for(Function func : module.funcs.values()) {
             if (func.isBuiltin()) continue;
             SSAConstructor constructor = new SSAConstructor(func);
-            constructor.build();
+            constructor.pass();
         }
     }
 
@@ -27,7 +27,7 @@ public class SSAConstructor extends SSATransformer {
         super(irFunc);
     }
 
-    private void build() {
+    private void pass() {
         preprocess();
         insertPhiFunction();
         renameVariables();

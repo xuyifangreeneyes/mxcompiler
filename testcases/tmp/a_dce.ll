@@ -60,22 +60,19 @@ define #main ( ) {
 
 define #A#func1 ( %thisVal_0 %argVal_2 %argVal_4 ) {
 <0> entry
-	%argAddr_5 = alloca 4
-	%argAddr_3 = alloca 4
-	%thisAddr_1 = alloca 4
-	store %thisVal_0 %thisAddr_1
-	store %argVal_2 %argAddr_3
-	store %argVal_4 %argAddr_5
-	%classPtr_6 = load %thisAddr_1
-	%classPtr_7 = load %thisAddr_1
+	move %varDef_17 %thisVal_0
+	move %varDef_18 %argVal_2
+	move %varDef_19 %argVal_4
+	move %classPtr_6 %varDef_17
+	move %classPtr_7 %varDef_17
 	%memberAddr_8 = add %classPtr_7 0
 	%memberVal_9 = load %memberAddr_8
-	%idVal_10 = load %argAddr_3
+	move %idVal_10 %varDef_18
 	%res_11 = mul %memberVal_9 %idVal_10
-	%classPtr_12 = load %thisAddr_1
+	move %classPtr_12 %varDef_17
 	%memberAddr_13 = add %classPtr_12 4
 	%memberVal_14 = load %memberAddr_13
-	%idVal_15 = load %argAddr_5
+	move %idVal_15 %varDef_19
 	%res_16 = mul %memberVal_14 %idVal_15
 	#A#func2 ( %classPtr_6 %res_11 %res_16 )
 
@@ -83,24 +80,19 @@ define #A#func1 ( %thisVal_0 %argVal_2 %argVal_4 ) {
 
 define #A#func2 ( %thisVal_0 %argVal_2 %argVal_4 ) {
 <0> entry
-	%argAddr_5 = alloca 4
-	%argAddr_3 = alloca 4
-	%thisAddr_1 = alloca 4
-	store %thisVal_0 %thisAddr_1
-	store %argVal_2 %argAddr_3
-	store %argVal_4 %argAddr_5
-	%classPtr_6 = load %thisAddr_1
-	%classPtr_7 = load %thisAddr_1
+	move %varDef_21 %thisVal_0
+	move %classPtr_6 %varDef_21
+	move %classPtr_7 %varDef_21
 	%memberAddr_8 = add %classPtr_7 0
 	%idVal_9 = load %memberAddr_8
-	%classPtr_10 = load %thisAddr_1
+	move %classPtr_10 %varDef_21
 	%memberAddr_11 = add %classPtr_10 0
 	%memberVal_12 = load %memberAddr_11
 	%res_13 = mul %idVal_9 %memberVal_12
-	%classPtr_14 = load %thisAddr_1
+	move %classPtr_14 %varDef_21
 	%memberAddr_15 = add %classPtr_14 4
 	%idVal_16 = load %memberAddr_15
-	%classPtr_17 = load %thisAddr_1
+	move %classPtr_17 %varDef_21
 	%memberAddr_18 = add %classPtr_17 4
 	%memberVal_19 = load %memberAddr_18
 	%res_20 = mul %idVal_16 %memberVal_19
@@ -110,29 +102,26 @@ define #A#func2 ( %thisVal_0 %argVal_2 %argVal_4 ) {
 
 define #A#set ( %thisVal_0 %argVal_2 %argVal_4 ) {
 <0> entry
-	%argAddr_5 = alloca 4
-	%argAddr_3 = alloca 4
-	%thisAddr_1 = alloca 4
-	store %thisVal_0 %thisAddr_1
-	store %argVal_2 %argAddr_3
-	store %argVal_4 %argAddr_5
-	%classPtr_10 = load %thisAddr_1
-	%classPtr_11 = load %thisAddr_1
+	move %varDef_25 %thisVal_0
+	move %varDef_26 %argVal_2
+	move %varDef_27 %argVal_4
+	move %classPtr_10 %varDef_25
+	move %classPtr_11 %varDef_25
 	%memberAddr_12 = add %classPtr_11 0
 	%idVal_13 = load %memberAddr_12
-	%classPtr_14 = load %thisAddr_1
+	move %classPtr_14 %varDef_25
 	%memberAddr_15 = add %classPtr_14 4
 	%idVal_16 = load %memberAddr_15
 	%res_9 = #A#set ( %classPtr_10 %idVal_13 %idVal_16 )
-	%classPtr_17 = load %thisAddr_1
+	move %classPtr_17 %varDef_25
 	%memberAddr_18 = add %classPtr_17 0
 	%memberVal_19 = load %memberAddr_18
-	%classPtr_20 = load %thisAddr_1
+	move %classPtr_20 %varDef_25
 	%memberAddr_21 = add %classPtr_20 4
 	%memberVal_22 = load %memberAddr_21
 	%res_8 = #A#set ( %res_9 %memberVal_19 %memberVal_22 )
-	%idVal_23 = load %argAddr_3
-	%idVal_24 = load %argAddr_5
+	move %idVal_23 %varDef_26
+	move %idVal_24 %varDef_27
 	%res_7 = #A#set ( %res_8 %idVal_23 %idVal_24 )
 	%res_6 = #A#getThis ( %res_7 )
 	ret %res_6
@@ -141,25 +130,21 @@ define #A#set ( %thisVal_0 %argVal_2 %argVal_4 ) {
 
 define #A#copy ( %thisVal_0 %argVal_2 ) {
 <0> entry
-	%argAddr_3 = alloca 4
-	%thisAddr_1 = alloca 4
-	store %thisVal_0 %thisAddr_1
-	store %argVal_2 %argAddr_3
-	%idVal_4 = load %thisAddr_1
+	move %varDef_5 %thisVal_0
+	move %idVal_4 %varDef_5
 	ret %idVal_4
 
 }
 
 define #A#getThis ( %thisVal_0 ) {
 <0> entry
-	%thisAddr_1 = alloca 4
-	store %thisVal_0 %thisAddr_1
-	%classPtr_7 = load %thisAddr_1
+	move %varDef_9 %thisVal_0
+	move %classPtr_7 %varDef_9
 	%res_6 = #A#getThis ( %classPtr_7 )
 	%res_5 = #A#getThis ( %res_6 )
 	%res_4 = #A#getThis ( %res_5 )
 	%res_3 = #A#getThis ( %res_4 )
-	%idVal_8 = load %thisAddr_1
+	move %idVal_8 %varDef_9
 	%res_2 = #A#copy ( %res_3 %idVal_8 )
 	ret %res_2
 

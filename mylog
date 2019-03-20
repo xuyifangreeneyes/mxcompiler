@@ -17,3 +17,8 @@ logic shortcut in function call parameters
 self-loop does not strictly dominate itself?
 
 ssa does not transform global variable for now.
+
+maybe dst of instruction can be LocalReg. fix it later.
+
+alloca and malloc have no side effect when eliminating dead code ??
+

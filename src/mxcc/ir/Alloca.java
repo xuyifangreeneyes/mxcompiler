@@ -8,6 +8,8 @@ public class Alloca extends Instruction {
         super(parent);
         this.dst = dst;
         this.size = size;
+
+        defReg = dst;
     }
 
     public LocalReg getDst() {

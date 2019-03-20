@@ -6,6 +6,8 @@ public class Return extends BranchInst {
     public Return(BasicBlock parent, Operand retVal) {
         super(parent);
         this.retVal = retVal;
+
+        if (retVal instanceof Register) useRegs.add((Register) retVal);
     }
 
     public Operand getRetVal() {

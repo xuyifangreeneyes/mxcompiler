@@ -10,6 +10,8 @@ public class CondBranch extends BranchInst {
         this.cond = cond;
         this.ifTrue = ifTrue;
         this.ifFalse = ifFalse;
+
+        if (cond instanceof Register) useRegs.add((Register) cond);
     }
 
     public Operand getCond() {

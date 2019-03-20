@@ -8,6 +8,9 @@ public class Load extends Instruction {
         super(parent);
         this.dst = dst;
         this.addr = addr;
+
+        defReg = dst;
+        if (addr instanceof Register) useRegs.add((Register) addr);
     }
 
     public Register getDst() {

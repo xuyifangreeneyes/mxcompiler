@@ -1,314 +1,112 @@
 <Program>
-	<ClassDecl> Mo
-		<VariableDecl> int ang
-		<VariableDecl> int sec
-		<VariableDecl> string world
-	<ClassDecl> RedBoy
-		<VariableDecl> int num
-	<VariableDecl> int age
-		<IntConst> 1000000
-	<VariableDecl> string eng
-		<StringConst> Four score and seven years ago
-	<FunctionDecl> int travel
-		<VariableDeclStmt>
-			<VariableDecl> int a
-				<IntConst> 10000000
-		<ReturnStmt>
-			<IdentifierExpr> a
-	<FunctionDecl> void journalists string location
-		<IfStmt>
-			<BinaryExpr> EQ
-				<IdentifierExpr> location
-				<StringConst> HongKong
-			<BlockStmt>
-				<FunctionCall>
-					<IdentifierExpr> print
-					<StringConst> naive!\n
-				<FunctionCall>
-					<IdentifierExpr> print
-					<StringConst> fast!\n
-				<FunctionCall>
-					<IdentifierExpr> println
-					<StringConst> too young\\too simple.
-	<FunctionDecl> Mo xu Mo m0 RedBoy boys
-		<VariableDeclStmt>
-			<VariableDecl> int i
-		<ForStmt>
-			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
-				<IntConst> 0
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<MemberAccess>
-					<IdentifierExpr> boys
-					<IdentifierExpr> num
-			<UnaryExpr> INC
-				<IdentifierExpr> i
-			<BlockStmt>
-				<UnaryExpr> INC_SUF
-					<MemberAccess>
-						<IdentifierExpr> m0
-						<IdentifierExpr> sec
-		<ReturnStmt>
-			<IdentifierExpr> m0
+	<VariableDecl> A object
 	<FunctionDecl> int main
-		<VariableDeclStmt>
-			<VariableDecl> int a
-		<VariableDeclStmt>
-			<VariableDecl> int b
-		<VariableDeclStmt>
-			<VariableDecl> int c
-		<VariableDeclStmt>
-			<VariableDecl> int year
-				<IntConst> 2016
-		<VariableDeclStmt>
-			<VariableDecl> string tell
-				<StringConst> wukefengggao\n
-		<EmptyStmt>
-		<VariableDeclStmt>
-			<VariableDecl> bool zici
-				<BoolConst> true
-		<VariableDeclStmt>
-			<VariableDecl> bool nozici
-				<BoolConst> false
-		<VariableDeclStmt>
-			<VariableDecl> RedBoy boy
-				<NewExpr> RedBoy
-		<VariableDeclStmt>
-			<VariableDecl> RedBoy[] boys
-				<NewExpr> RedBoy[]
-					<IntConst> 3
-		<VariableDeclStmt>
-			<VariableDecl> RedBoy[][][] boyss
-				<NewExpr> RedBoy[][][]
-					<IntConst> 1
-					<IntConst> 2
-					<IntConst> 3
-		<VariableDeclStmt>
-			<VariableDecl> Mo haha
-				<NewExpr> Mo
-		<BoolConst> false
-		<BoolConst> true
-		<NullLiteral>
-		<IntConst> 123
-		<StringConst> Four score and seven years ago\n\\\"
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> a
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> b
-			<IntConst> 2
-		<BinaryExpr> ADD
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<BinaryExpr> SUB
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<BinaryExpr> MUL
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<BinaryExpr> DIV
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<BinaryExpr> MOD
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<BinaryExpr> LT
-			<IdentifierExpr> a
-			<IntConst> 1
-		<BinaryExpr> GT
-			<IdentifierExpr> a
-			<IntConst> 2
-		<BinaryExpr> EQ
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<BinaryExpr> NEQ
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<BinaryExpr> LE
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<BinaryExpr> GE
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<VariableDeclStmt>
-			<VariableDecl> bool g
-		<VariableDeclStmt>
-			<VariableDecl> bool h
-		<BinaryExpr> AND
-			<IdentifierExpr> g
-			<IdentifierExpr> h
-		<BinaryExpr> OR
-			<IdentifierExpr> g
-			<IdentifierExpr> h
-		<UnaryExpr> NOT
-			<IdentifierExpr> g
-		<BinaryExpr> LSFT
-			<IdentifierExpr> a
-			<IntConst> 1
-		<BinaryExpr> RSFT
-			<IdentifierExpr> a
-			<IntConst> 2
-		<UnaryExpr> BIT_NOT
-			<IdentifierExpr> a
-		<BinaryExpr> BIT_OR
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<BinaryExpr> BIT_XOR
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<BinaryExpr> BIT_AND
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<UnaryExpr> INC
-			<IdentifierExpr> a
-		<UnaryExpr> INC_SUF
-			<IdentifierExpr> b
-		<MemberAccess>
-			<IdentifierExpr> boy
-			<IdentifierExpr> num
-		<MemberAccess>
-			<ArrayAccess>
-				<IdentifierExpr> boys
-				<IntConst> 2
-			<IdentifierExpr> num
-		<MemberAccess>
-			<ArrayAccess>
-				<ArrayAccess>
-					<ArrayAccess>
-						<IdentifierExpr> boyss
-						<IntConst> 1
-					<IntConst> 2
-				<IntConst> 3
-			<IdentifierExpr> num
 		<FunctionCall>
-			<IdentifierExpr> xu
-			<NewExpr> Mo
-			<NullLiteral>
-		<VariableDeclStmt>
-			<VariableDecl> int i
-				<IntConst> 0
-		<ForStmt>
-			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
-				<IntConst> 0
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<IntConst> 3
-			<UnaryExpr> INC
-				<IdentifierExpr> i
-			<BlockStmt>
-				<FunctionCall>
-					<IdentifierExpr> xu
-					<IdentifierExpr> haha
-					<ArrayAccess>
-						<IdentifierExpr> boys
-						<IdentifierExpr> i
-		<ForStmt>
-			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
-				<IntConst> 0
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<IntConst> 3
-			<UnaryExpr> INC
-				<IdentifierExpr> i
-			<BlockStmt>
-				<FunctionCall>
-					<IdentifierExpr> xu
-					<IdentifierExpr> haha
-					<ArrayAccess>
-						<IdentifierExpr> boys
-						<IdentifierExpr> i
-		<ForStmt>
-			<BlockStmt>
-				<EmptyStmt>
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> i
-			<IntConst> 0
-		<WhileStmt>
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<IdentifierExpr> year
-			<BlockStmt>
-				<FunctionCall>
-					<IdentifierExpr> print
-					<FunctionCall>
-						<IdentifierExpr> toString
-						<IdentifierExpr> i
-		<WhileStmt>
-			<BoolConst> true
-			<BlockStmt>
-				<EmptyStmt>
-		<IfStmt>
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<IdentifierExpr> year
-			<BlockStmt>
-				<FunctionCall>
-					<IdentifierExpr> print
-					<FunctionCall>
-						<IdentifierExpr> toString
-						<FunctionCall>
-							<IdentifierExpr> travel
-		<IfStmt>
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<IdentifierExpr> year
-			<BlockStmt>
-				<FunctionCall>
-					<IdentifierExpr> print
-					<FunctionCall>
-						<IdentifierExpr> toString
-						<FunctionCall>
-							<IdentifierExpr> travel
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> i
-			<IntConst> 0
-		<WhileStmt>
-			<BoolConst> true
-			<BlockStmt>
-				<IfStmt>
-					<BinaryExpr> EQ
-						<IdentifierExpr> i
-						<IdentifierExpr> year
-					<BlockStmt>
-						<BreakStmt>
-				<UnaryExpr> INC
-					<IdentifierExpr> i
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> i
-			<IntConst> 0
-		<WhileStmt>
-			<BoolConst> true
-			<BlockStmt>
-				<IfStmt>
-					<BinaryExpr> LT
-						<IdentifierExpr> i
-						<IdentifierExpr> year
-					<BlockStmt>
-						<UnaryExpr> INC
-							<IdentifierExpr> i
-						<ContinueStmt>
-				<BreakStmt>
-		<VariableDeclStmt>
-			<VariableDecl> string tmpstr
-				<StringConst> test
+			<MemberAccess>
+				<IdentifierExpr> object
+				<IdentifierExpr> func1
+			<IntConst> 2
+			<IntConst> 3
 		<FunctionCall>
-			<IdentifierExpr> print
-			<FunctionCall>
-				<IdentifierExpr> toString
+			<MemberAccess>
 				<FunctionCall>
 					<MemberAccess>
-						<IdentifierExpr> tmpstr
-						<IdentifierExpr> length
+						<IdentifierExpr> object
+						<IdentifierExpr> set
+					<IntConst> 0
+					<IntConst> 1
+				<IdentifierExpr> set
+			<IntConst> 1
+			<IntConst> 0
 		<FunctionCall>
-			<IdentifierExpr> print
+			<MemberAccess>
+				<FunctionCall>
+					<MemberAccess>
+						<IdentifierExpr> object
+						<IdentifierExpr> copy
+					<FunctionCall>
+						<MemberAccess>
+							<IdentifierExpr> object
+							<IdentifierExpr> getThis
+				<IdentifierExpr> copy
 			<FunctionCall>
 				<MemberAccess>
-					<IdentifierExpr> tmpstr
-					<IdentifierExpr> substring
-				<IntConst> 1
-				<IntConst> 2
+					<FunctionCall>
+						<MemberAccess>
+							<IdentifierExpr> object
+							<IdentifierExpr> getThis
+					<IdentifierExpr> getThis
 		<ReturnStmt>
 			<IntConst> 0
+	<ClassDecl> A
+		<FunctionDecl> void func1 int x int y
+			<FunctionCall>
+				<IdentifierExpr> func2
+				<BinaryExpr> MUL
+					<MemberAccess>
+						<IdentifierExpr> this
+						<IdentifierExpr> x
+					<IdentifierExpr> x
+				<BinaryExpr> MUL
+					<MemberAccess>
+						<IdentifierExpr> this
+						<IdentifierExpr> y
+					<IdentifierExpr> y
+		<FunctionDecl> void func2 int xx int yy
+			<FunctionCall>
+				<IdentifierExpr> func1
+				<BinaryExpr> MUL
+					<IdentifierExpr> x
+					<MemberAccess>
+						<IdentifierExpr> this
+						<IdentifierExpr> x
+				<BinaryExpr> MUL
+					<IdentifierExpr> y
+					<MemberAccess>
+						<IdentifierExpr> this
+						<IdentifierExpr> y
+		<FunctionDecl> A set int xx int yy
+			<ReturnStmt>
+				<FunctionCall>
+					<MemberAccess>
+						<FunctionCall>
+							<MemberAccess>
+								<FunctionCall>
+									<MemberAccess>
+										<FunctionCall>
+											<IdentifierExpr> set
+											<IdentifierExpr> x
+											<IdentifierExpr> y
+										<IdentifierExpr> set
+									<MemberAccess>
+										<IdentifierExpr> this
+										<IdentifierExpr> x
+									<MemberAccess>
+										<IdentifierExpr> this
+										<IdentifierExpr> y
+								<IdentifierExpr> set
+							<IdentifierExpr> xx
+							<IdentifierExpr> yy
+						<IdentifierExpr> getThis
+		<FunctionDecl> A copy A other
+			<ReturnStmt>
+				<IdentifierExpr> this
+		<FunctionDecl> A getThis
+			<ReturnStmt>
+				<FunctionCall>
+					<MemberAccess>
+						<FunctionCall>
+							<MemberAccess>
+								<FunctionCall>
+									<MemberAccess>
+										<FunctionCall>
+											<MemberAccess>
+												<FunctionCall>
+													<IdentifierExpr> getThis
+												<IdentifierExpr> getThis
+										<IdentifierExpr> getThis
+								<IdentifierExpr> getThis
+						<IdentifierExpr> copy
+					<IdentifierExpr> this
+		<VariableDecl> int x
+		<VariableDecl> int y

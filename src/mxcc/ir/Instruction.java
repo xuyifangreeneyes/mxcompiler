@@ -1,12 +1,26 @@
 package mxcc.ir;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Instruction {
     private BasicBlock parent;
     public Instruction prev;
     public Instruction next;
 
+    protected Register defReg;
+    protected List<Register> useRegs = new ArrayList<>();
+
     public Instruction(BasicBlock parent) {
         this.parent = parent;
+    }
+
+    public Register getDefReg() {
+        return defReg;
+    }
+
+    public List<Register> getUseRegs() {
+        return useRegs;
     }
 
     public void addPrev(Instruction prevInst) {

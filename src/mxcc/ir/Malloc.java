@@ -8,6 +8,9 @@ public class Malloc extends Instruction {
         super(parent);
         this.dst = dst;
         this.size = size;
+
+        defReg = dst;
+        if (size instanceof Register) useRegs.add((Register) size);
     }
 
     public Register getDst() {

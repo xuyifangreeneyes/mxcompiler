@@ -15,6 +15,7 @@ public class Phi extends Instruction {
 
     public void acceptSource(BasicBlock bb, Operand var) {
         source.put(bb, var);
+        if (var instanceof Register) useRegs.add((Register) var);
     }
 
     public Map<BasicBlock, Operand> getSource() {
@@ -31,6 +32,7 @@ public class Phi extends Instruction {
 
     public void setDst(Register dst) {
         this.dst = dst;
+        defReg = dst;
     }
 
     public void accept(IRVisitor visitor) {
