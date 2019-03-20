@@ -9,6 +9,11 @@ public class UnaryOperation extends Instruction {
     private UnaryOp op;
     private Operand src;
 
+    private void collectUseRegs() {
+        useRegs.clear();
+        if (src instanceof Register) useRegs.add((Register) src);
+    }
+
     public UnaryOperation(BasicBlock parent, Register dst, UnaryOp op, Operand src) {
         super(parent);
         this.dst = dst;
@@ -16,7 +21,6 @@ public class UnaryOperation extends Instruction {
         this.src = src;
 
         defReg = dst;
-        if (src instanceof Register) useRegs.add((Register) src);
     }
 
     public Register getDst() {
@@ -29,6 +33,11 @@ public class UnaryOperation extends Instruction {
 
     public Operand getSrc() {
         return src;
+    }
+
+    public void replaceOperand(Operand oldVal, Operand newVal) {
+        if (src == oldVal) src = newVal;
+        collectUseRegs();
     }
 
     public void accept(IRVisitor visitor) {

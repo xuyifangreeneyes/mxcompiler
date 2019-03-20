@@ -13,6 +13,12 @@ public class BinaryOperation extends Instruction {
     private Operand lhs;
     private Operand rhs;
 
+    private void collectUseRegs() {
+        useRegs.clear();
+        if (lhs instanceof Register) useRegs.add((Register) lhs);
+        if (rhs instanceof Register) useRegs.add((Register) rhs);
+    }
+
     public BinaryOperation(BasicBlock parent, Register dst, BinaryOp op, Operand lhs, Operand rhs) {
         super(parent);
         this.dst = dst;
@@ -21,8 +27,7 @@ public class BinaryOperation extends Instruction {
         this.rhs = rhs;
 
         defReg = dst;
-        if (lhs instanceof Register) useRegs.add((Register) lhs);
-        if (rhs instanceof Register) useRegs.add((Register) rhs);
+        collectUseRegs();
     }
 
     public Register getDst() {
@@ -39,6 +44,12 @@ public class BinaryOperation extends Instruction {
 
     public Operand getRhs() {
         return rhs;
+    }
+
+    public void replaceOperand(Operand oldVal, Operand newVal) {
+        if (lhs == oldVal) lhs = newVal;
+        if (rhs == oldVal) rhs = newVal;
+        collectUseRegs();
     }
 
     public void accept(IRVisitor visitor) {

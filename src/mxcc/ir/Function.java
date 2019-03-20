@@ -1,17 +1,19 @@
 package mxcc.ir;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Function {
     private String name;
     private BasicBlock head;
     private BasicBlock tail;
-    // not sure whether it is needed
     public List<LocalReg> args = new ArrayList<>();
 
     private int LocalRegCounter = 0;
     private int BBCounter = 0;
+
+    // for data flow analysis
+    public Map<Register, Instruction> defMap = new LinkedHashMap<>();
+    public Map<Register, Set<Instruction>> useMap = new LinkedHashMap<>();
 
     public Function(String name, boolean isBuiltin) {
         this.name = "#" + name;

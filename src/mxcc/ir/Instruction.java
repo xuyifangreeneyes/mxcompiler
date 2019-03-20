@@ -53,6 +53,14 @@ public abstract class Instruction {
         if (this == parent.getLastInst()) parent.setLastInst(newInst);
     }
 
+    public BasicBlock getParentBB() {
+        return parent;
+    }
+
+    public void replaceOperand(Operand oldVal, Operand newVal) {
+        // this function is overloaded in some subclasses
+    }
+
     public void accept(IRVisitor visitor) {
         visitor.visit(this);
     }

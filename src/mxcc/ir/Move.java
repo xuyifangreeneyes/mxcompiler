@@ -4,13 +4,18 @@ public class Move extends Instruction {
     private Register dst;
     private Operand src;
 
+    private void collectUseRegs() {
+        useRegs.clear();
+        if (src instanceof Register) useRegs.add((Register) src);
+    }
+
     public Move(BasicBlock parent, Register dst, Operand src) {
         super(parent);
         this.dst = dst;
         this.src = src;
 
         defReg = dst;
-        if (src instanceof Register) useRegs.add((Register) src);
+        collectUseRegs();
     }
 
     public Register getDst() {
@@ -19,6 +24,11 @@ public class Move extends Instruction {
 
     public Operand getSrc() {
         return src;
+    }
+
+    public void replaceOperand(Operand oldVal, Operand newVal) {
+        if (src == oldVal) src = newVal;
+        collectUseRegs();
     }
 
     public void accept(IRVisitor visitor) {

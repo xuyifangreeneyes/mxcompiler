@@ -1,4 +1,4 @@
-package mxcc.ssa;
+package mxcc.optim;
 
 import javafx.util.Pair;
 import mxcc.ir.*;

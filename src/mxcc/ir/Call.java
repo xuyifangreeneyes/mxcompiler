@@ -9,6 +9,13 @@ public class Call extends Instruction {
     private Register dst;
     private List<Operand> args;
 
+    private void collectUseRegs() {
+        useRegs.clear();
+        for (Operand arg : args) {
+            if (arg instanceof Register) useRegs.add((Register) arg);
+        }
+    }
+
     public Call(BasicBlock parent, FunctionSymbol func, Register dst, List<Operand> args) {
         super(parent);
         this.func = func;
@@ -16,9 +23,7 @@ public class Call extends Instruction {
         this.args = args;
 
         defReg = dst;
-        for (Operand arg : args) {
-            if (arg instanceof Register) useRegs.add((Register) arg);
-        }
+        collectUseRegs();
     }
 
     public Register getDst() {
@@ -31,6 +36,13 @@ public class Call extends Instruction {
 
     public List<Operand> getArgs() {
         return args;
+    }
+
+    public void replaceOperand(Operand oldVal, Operand newVal) {
+        for (int i  = 0; i < args.size(); ++i) {
+            if (args.get(i) == oldVal) args.set(i, newVal);
+        }
+        collectUseRegs();
     }
 
     public void accept(IRVisitor visitor) {

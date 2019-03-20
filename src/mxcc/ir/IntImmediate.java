@@ -10,4 +10,8 @@ public class IntImmediate extends Operand {
     public String toString() {
         return String.valueOf(val);
     }
+
+    public int getVal() {
+        return val;
+    }
 }

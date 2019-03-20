@@ -8,10 +8,11 @@ import mxcc.frontend.SemanticChecker;
 import mxcc.frontend.TypeResolver;
 import mxcc.ir.IRPrinter;
 import mxcc.ir.Module;
+import mxcc.optim.DefUseCollector;
 import mxcc.parser.MxLexer;
 import mxcc.parser.MxParser;
-import mxcc.ssa.NaiveDeadCodeElimination;
-import mxcc.ssa.SSAConstructor;
+import mxcc.optim.DeadCodeElimination;
+import mxcc.optim.SSAConstructor;
 import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -82,7 +83,8 @@ public class Mxcc {
     private void SSAtransform() throws IOException {
         SSAConstructor.visit(ir);
 //        printIR("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a_ssa.ll");
-        NaiveDeadCodeElimination.visit(ir);
+        DefUseCollector.visit(ir);
+        DeadCodeElimination.visit(ir);
 //        printIR("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a_dce.ll");
     }
 

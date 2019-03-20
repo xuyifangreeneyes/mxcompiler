@@ -5,13 +5,18 @@ public class CondBranch extends BranchInst {
     private BasicBlock ifTrue;
     private BasicBlock ifFalse;
 
+    private void collectUseRegs() {
+        useRegs.clear();
+        if (cond instanceof Register) useRegs.add((Register) cond);
+    }
+
     public CondBranch(BasicBlock parent, Operand cond, BasicBlock ifTrue, BasicBlock ifFalse) {
         super(parent);
         this.cond = cond;
         this.ifTrue = ifTrue;
         this.ifFalse = ifFalse;
 
-        if (cond instanceof Register) useRegs.add((Register) cond);
+        collectUseRegs();
     }
 
     public Operand getCond() {
@@ -24,6 +29,11 @@ public class CondBranch extends BranchInst {
 
     public BasicBlock getIfFalse() {
         return ifFalse;
+    }
+
+    public void replaceOperand(Operand oldVal, Operand newVal) {
+        if (cond == oldVal) cond = newVal;
+        collectUseRegs();
     }
 
     public void accept(IRVisitor visitor) {
