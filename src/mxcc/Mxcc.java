@@ -8,6 +8,7 @@ import mxcc.frontend.SemanticChecker;
 import mxcc.frontend.TypeResolver;
 import mxcc.ir.IRPrinter;
 import mxcc.ir.Module;
+import mxcc.optim.ConstantFolding;
 import mxcc.optim.ConstantPropagation;
 import mxcc.parser.MxLexer;
 import mxcc.parser.MxParser;
@@ -88,10 +89,12 @@ public class Mxcc {
     private void SSAtransform() throws IOException {
         SSAConstructor.visit(ir);
         if (Config.debugMode) printIR("a_ssa.ll");
-        DeadCodeElimination.visit(ir);
-        if (Config.debugMode) printIR("a_dce.ll");
-        ConstantPropagation.visit(ir);
-        if (Config.debugMode) printIR("a_cp.ll");
+        for (int i = 0; i < 3; ++i) {
+            DeadCodeElimination.visit(ir);
+            ConstantPropagation.visit(ir);
+            ConstantFolding.visit(ir);
+        }
+        if (Config.debugMode) printIR("a_optim.ll");
     }
 
     private void run() throws IOException {

@@ -32,8 +32,10 @@ public class ConstantPropagation extends Pass {
         BasicBlock bb = irFunc.getStartBB();
         while (bb != null) {
             Instruction inst = bb.getFirstInst();
-            while (inst instanceof Move || inst instanceof Phi) {
-                workList.add(inst);
+            while (inst != null) {
+                if (inst instanceof Move || inst instanceof Phi) {
+                    workList.add(inst);
+                }
                 inst = inst.next;
             }
             bb = bb.next;
