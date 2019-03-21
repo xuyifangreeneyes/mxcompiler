@@ -91,7 +91,7 @@ public class SSAConstructor extends Pass {
                         changedReachingDef.put(varAddr, reachingDef.get(varAddr));
                     }
                     reachingDef.put(varAddr, varDef);
-                    inst.replace(new Move(curBB, varDef, storeInst.getVal()));
+                    inst.replacedBy(new Move(curBB, varDef, storeInst.getVal()));
                 }
             }
             if (inst instanceof Phi) {
@@ -110,7 +110,7 @@ public class SSAConstructor extends Pass {
                 Register varAddr = (Register) loadInst.getAddr();
                 if (reachingDef.containsKey(varAddr)) {
                     LocalReg varDef = reachingDef.get(varAddr);
-                    inst.replace(new Move(curBB, loadInst.getDst(), varDef == null ? new IntImmediate(0) : varDef));
+                    inst.replacedBy(new Move(curBB, loadInst.getDst(), varDef == null ? new IntImmediate(0) : varDef));
                 }
             }
             inst = inst.next;

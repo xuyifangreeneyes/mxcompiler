@@ -41,30 +41,22 @@ define #global#init ( ) {
 
 define #check ( %argVal_0 %argVal_2 ) {
 <0> entry
-	move %varDef_11 %argVal_0
-	move %varDef_12 %argVal_2
-	move %idVal_5 %varDef_11
-	move %idVal_6 %varDef_12
-	%res_7 = lt %idVal_5 %idVal_6
+	%res_7 = lt %argVal_0 %argVal_2
 	br %res_7 <4> <2>
 
 <4> lhs_true
-	move %idVal_8 %varDef_11
-	%res_9 = ge %idVal_8 0
+	%res_9 = ge %argVal_0 0
 	br %res_9 <1> <2>
 
 <1> bool_true
-	move %varDef_13 1
 	br <3>
 
 <2> bool_false
-	move %varDef_14 0
 	br <3>
 
 <3> bool_merge
-	%varDef_15 = phi <1> %varDef_13 <2> %varDef_14
-	move %boolVal_10 %varDef_15
-	ret %boolVal_10
+	%varDef_15 = phi <1> 1 <2> 0
+	ret %varDef_15
 
 }
 
@@ -96,16 +88,12 @@ define #main ( ) {
 
 <1> for_cond
 	%varDef_690 = phi <0> %varDef_689 <3> %varDef_691
-	move %idVal_27 %varDef_690
-	move %idVal_28 %varDef_677
-	move %idVal_29 %varDef_677
-	%res_30 = mul %idVal_28 %idVal_29
-	%res_31 = lt %idVal_27 %res_30
+	%res_30 = mul %varDef_677 %varDef_677
+	%res_31 = lt %varDef_690 %res_30
 	br %res_31 <2> <4>
 
 <2> for_body
-	move %arrayPtr_32 %varDef_688
-	%arrayBase_33 = add %arrayPtr_32 4
+	%arrayBase_33 = add %varDef_688 4
 	move %idVal_34 %varDef_690
 	%offset_35 = mul %idVal_34 4
 	%elementAddr_36 = add %arrayBase_33 %offset_35
@@ -113,15 +101,12 @@ define #main ( ) {
 	br <3>
 
 <3> for_step
-	move %oldVal_38 %varDef_690
-	%newVal_39 = inc %oldVal_38
+	%newVal_39 = inc %varDef_690
 	move %varDef_691 %newVal_39
 	br <1>
 
 <4> for_end
-	move %idVal_40 %varDef_677
-	move %idVal_41 %varDef_677
-	%res_42 = mul %idVal_40 %idVal_41
+	%res_42 = mul %varDef_677 %varDef_677
 	%memberLength_44 = mul %res_42 4
 	%arrayLength_45 = add %memberLength_44 4
 	%arrayPtr_43 = malloc %arrayLength_45
@@ -132,16 +117,12 @@ define #main ( ) {
 
 <5> for_cond
 	%varDef_694 = phi <4> %varDef_693 <7> %varDef_695
-	move %idVal_46 %varDef_694
-	move %idVal_47 %varDef_677
-	move %idVal_48 %varDef_677
-	%res_49 = mul %idVal_47 %idVal_48
-	%res_50 = lt %idVal_46 %res_49
+	%res_49 = mul %varDef_677 %varDef_677
+	%res_50 = lt %varDef_694 %res_49
 	br %res_50 <6> <8>
 
 <6> for_body
-	move %arrayPtr_51 %varDef_692
-	%arrayBase_52 = add %arrayPtr_51 4
+	%arrayBase_52 = add %varDef_692 4
 	move %idVal_53 %varDef_694
 	%offset_54 = mul %idVal_53 4
 	%elementAddr_55 = add %arrayBase_52 %offset_54
@@ -149,34 +130,29 @@ define #main ( ) {
 	br <7>
 
 <7> for_step
-	move %oldVal_57 %varDef_694
-	%newVal_58 = inc %oldVal_57
+	%newVal_58 = inc %varDef_694
 	move %varDef_695 %newVal_58
 	br <5>
 
 <8> for_end
-	move %idVal_59 %varDef_677
-	%memberLength_61 = mul %idVal_59 4
+	%memberLength_61 = mul %varDef_677 4
 	%arrayLength_62 = add %memberLength_61 4
 	%arrayPtr_60 = malloc %arrayLength_62
-	store %idVal_59 %arrayPtr_60
+	store %varDef_677 %arrayPtr_60
 	move %varDef_696 %arrayPtr_60
 	move %varDef_697 0
 	br <9>
 
 <9> for_cond
 	%varDef_698 = phi <8> %varDef_697 <11> %varDef_703
-	move %idVal_63 %varDef_698
-	move %idVal_64 %varDef_677
-	%res_65 = lt %idVal_63 %idVal_64
+	%res_65 = lt %varDef_698 %varDef_677
 	br %res_65 <10> <12>
 
 <10> for_body
-	move %idVal_66 %varDef_677
-	%memberLength_68 = mul %idVal_66 4
+	%memberLength_68 = mul %varDef_677 4
 	%arrayLength_69 = add %memberLength_68 4
 	%arrayPtr_67 = malloc %arrayLength_69
-	store %idVal_66 %arrayPtr_67
+	store %varDef_677 %arrayPtr_67
 	move %arrayPtr_70 %varDef_696
 	%arrayBase_71 = add %arrayPtr_70 4
 	move %idVal_72 %varDef_698
@@ -188,9 +164,7 @@ define #main ( ) {
 
 <13> for_cond
 	%varDef_701 = phi <10> %varDef_700 <15> %varDef_702
-	move %idVal_75 %varDef_701
-	move %idVal_76 %varDef_677
-	%res_77 = lt %idVal_75 %idVal_76
+	%res_77 = lt %varDef_701 %varDef_677
 	br %res_77 <14> <16>
 
 <14> for_body
@@ -209,8 +183,7 @@ define #main ( ) {
 	br <15>
 
 <15> for_step
-	move %oldVal_90 %varDef_701
-	%newVal_91 = inc %oldVal_90
+	%newVal_91 = inc %varDef_701
 	move %varDef_702 %newVal_91
 	br <13>
 
@@ -218,18 +191,15 @@ define #main ( ) {
 	br <11>
 
 <11> for_step
-	move %oldVal_93 %varDef_698
-	%newVal_94 = inc %oldVal_93
+	%newVal_94 = inc %varDef_698
 	move %varDef_703 %newVal_94
 	br <9>
 
 <12> for_end
-	move %idVal_95 %varDef_680
-	move %arrayPtr_96 %varDef_688
-	%arrayBase_97 = add %arrayPtr_96 4
+	%arrayBase_97 = add %varDef_688 4
 	%offset_98 = mul 0 4
 	%elementAddr_99 = add %arrayBase_97 %offset_98
-	store %idVal_95 %elementAddr_99
+	store %varDef_680 %elementAddr_99
 	move %idVal_100 %varDef_681
 	move %arrayPtr_101 %varDef_692
 	%arrayBase_102 = add %arrayPtr_101 4
@@ -253,14 +223,11 @@ define #main ( ) {
 	%varDef_704 = phi <12> %varDef_678 <77> %varDef_767
 	%varDef_705 = phi <12> %varDef_679 <77> %varDef_765
 	%varDef_706 = phi <12> %varDef_687 <77> %varDef_766
-	move %idVal_115 %varDef_704
-	move %idVal_116 %varDef_705
-	%res_117 = le %idVal_115 %idVal_116
+	%res_117 = le %varDef_704 %varDef_705
 	br %res_117 <18> <19>
 
 <18> while_body
-	move %arrayPtr_118 %varDef_696
-	%arrayBase_119 = add %arrayPtr_118 4
+	%arrayBase_119 = add %varDef_696 4
 	move %arrayPtr_120 %varDef_688
 	%arrayBase_121 = add %arrayPtr_120 4
 	move %idVal_122 %varDef_704
@@ -303,14 +270,11 @@ define #main ( ) {
 	br %res_153 <23> <21>
 
 <23> lhs_true
-	move %idVal_157 %varDef_712
-	move %idVal_158 %varDef_677
-	%res_156 = #check ( %idVal_157 %idVal_158 )
+	%res_156 = #check ( %varDef_712 %varDef_677 )
 	br %res_156 <22> <21>
 
 <22> lhs_true
-	move %arrayPtr_159 %varDef_696
-	%arrayBase_160 = add %arrayPtr_159 4
+	%arrayBase_160 = add %varDef_696 4
 	move %idVal_161 %varDef_711
 	%offset_162 = mul %idVal_161 4
 	%elementAddr_163 = add %arrayBase_160 %offset_162
@@ -325,8 +289,7 @@ define #main ( ) {
 	br %res_171 <20> <21>
 
 <20> if_true
-	move %idVal_172 %varDef_705
-	%res_173 = add %idVal_172 1
+	%res_173 = add %varDef_705 1
 	move %varDef_713 %res_173
 	move %idVal_174 %varDef_711
 	move %arrayPtr_175 %varDef_688
@@ -361,24 +324,20 @@ define #main ( ) {
 	br %res_200 <26> <25>
 
 <26> lhs_true
-	move %idVal_201 %varDef_712
-	move %idVal_202 %varDef_683
-	%res_203 = eq %idVal_201 %idVal_202
+	%res_203 = eq %varDef_712 %varDef_683
 	br %res_203 <24> <25>
 
 <24> if_true
-	move %varDef_714 1
 	br <25>
 
 <25> if_merge
-	%varDef_715 = phi <20> %varDef_706 <26> %varDef_706 <24> %varDef_714
+	%varDef_715 = phi <20> %varDef_706 <26> %varDef_706 <24> 1
 	br <21>
 
 <21> if_merge
 	%varDef_716 = phi <18> %varDef_705 <23> %varDef_705 <22> %varDef_705 <25> %varDef_713
 	%varDef_717 = phi <18> %varDef_706 <23> %varDef_706 <22> %varDef_706 <25> %varDef_715
-	move %arrayPtr_204 %varDef_688
-	%arrayBase_205 = add %arrayPtr_204 4
+	%arrayBase_205 = add %varDef_688 4
 	move %idVal_206 %varDef_704
 	%offset_207 = mul %idVal_206 4
 	%elementAddr_208 = add %arrayBase_205 %offset_207
@@ -399,14 +358,11 @@ define #main ( ) {
 	br %res_218 <30> <28>
 
 <30> lhs_true
-	move %idVal_222 %varDef_719
-	move %idVal_223 %varDef_677
-	%res_221 = #check ( %idVal_222 %idVal_223 )
+	%res_221 = #check ( %varDef_719 %varDef_677 )
 	br %res_221 <29> <28>
 
 <29> lhs_true
-	move %arrayPtr_224 %varDef_696
-	%arrayBase_225 = add %arrayPtr_224 4
+	%arrayBase_225 = add %varDef_696 4
 	move %idVal_226 %varDef_718
 	%offset_227 = mul %idVal_226 4
 	%elementAddr_228 = add %arrayBase_225 %offset_227
@@ -421,8 +377,7 @@ define #main ( ) {
 	br %res_236 <27> <28>
 
 <27> if_true
-	move %idVal_237 %varDef_716
-	%res_238 = add %idVal_237 1
+	%res_238 = add %varDef_716 1
 	move %varDef_720 %res_238
 	move %idVal_239 %varDef_718
 	move %arrayPtr_240 %varDef_688
@@ -457,24 +412,20 @@ define #main ( ) {
 	br %res_265 <33> <32>
 
 <33> lhs_true
-	move %idVal_266 %varDef_719
-	move %idVal_267 %varDef_683
-	%res_268 = eq %idVal_266 %idVal_267
+	%res_268 = eq %varDef_719 %varDef_683
 	br %res_268 <31> <32>
 
 <31> if_true
-	move %varDef_721 1
 	br <32>
 
 <32> if_merge
-	%varDef_722 = phi <27> %varDef_717 <33> %varDef_717 <31> %varDef_721
+	%varDef_722 = phi <27> %varDef_717 <33> %varDef_717 <31> 1
 	br <28>
 
 <28> if_merge
 	%varDef_723 = phi <21> %varDef_716 <30> %varDef_716 <29> %varDef_716 <32> %varDef_720
 	%varDef_724 = phi <21> %varDef_717 <30> %varDef_717 <29> %varDef_717 <32> %varDef_722
-	move %arrayPtr_269 %varDef_688
-	%arrayBase_270 = add %arrayPtr_269 4
+	%arrayBase_270 = add %varDef_688 4
 	move %idVal_271 %varDef_704
 	%offset_272 = mul %idVal_271 4
 	%elementAddr_273 = add %arrayBase_270 %offset_272
@@ -495,14 +446,11 @@ define #main ( ) {
 	br %res_283 <37> <35>
 
 <37> lhs_true
-	move %idVal_287 %varDef_726
-	move %idVal_288 %varDef_677
-	%res_286 = #check ( %idVal_287 %idVal_288 )
+	%res_286 = #check ( %varDef_726 %varDef_677 )
 	br %res_286 <36> <35>
 
 <36> lhs_true
-	move %arrayPtr_289 %varDef_696
-	%arrayBase_290 = add %arrayPtr_289 4
+	%arrayBase_290 = add %varDef_696 4
 	move %idVal_291 %varDef_725
 	%offset_292 = mul %idVal_291 4
 	%elementAddr_293 = add %arrayBase_290 %offset_292
@@ -517,8 +465,7 @@ define #main ( ) {
 	br %res_301 <34> <35>
 
 <34> if_true
-	move %idVal_302 %varDef_723
-	%res_303 = add %idVal_302 1
+	%res_303 = add %varDef_723 1
 	move %varDef_727 %res_303
 	move %idVal_304 %varDef_725
 	move %arrayPtr_305 %varDef_688
@@ -553,24 +500,20 @@ define #main ( ) {
 	br %res_330 <40> <39>
 
 <40> lhs_true
-	move %idVal_331 %varDef_726
-	move %idVal_332 %varDef_683
-	%res_333 = eq %idVal_331 %idVal_332
+	%res_333 = eq %varDef_726 %varDef_683
 	br %res_333 <38> <39>
 
 <38> if_true
-	move %varDef_728 1
 	br <39>
 
 <39> if_merge
-	%varDef_729 = phi <34> %varDef_724 <40> %varDef_724 <38> %varDef_728
+	%varDef_729 = phi <34> %varDef_724 <40> %varDef_724 <38> 1
 	br <35>
 
 <35> if_merge
 	%varDef_730 = phi <28> %varDef_723 <37> %varDef_723 <36> %varDef_723 <39> %varDef_727
 	%varDef_731 = phi <28> %varDef_724 <37> %varDef_724 <36> %varDef_724 <39> %varDef_729
-	move %arrayPtr_334 %varDef_688
-	%arrayBase_335 = add %arrayPtr_334 4
+	%arrayBase_335 = add %varDef_688 4
 	move %idVal_336 %varDef_704
 	%offset_337 = mul %idVal_336 4
 	%elementAddr_338 = add %arrayBase_335 %offset_337
@@ -591,14 +534,11 @@ define #main ( ) {
 	br %res_348 <44> <42>
 
 <44> lhs_true
-	move %idVal_352 %varDef_733
-	move %idVal_353 %varDef_677
-	%res_351 = #check ( %idVal_352 %idVal_353 )
+	%res_351 = #check ( %varDef_733 %varDef_677 )
 	br %res_351 <43> <42>
 
 <43> lhs_true
-	move %arrayPtr_354 %varDef_696
-	%arrayBase_355 = add %arrayPtr_354 4
+	%arrayBase_355 = add %varDef_696 4
 	move %idVal_356 %varDef_732
 	%offset_357 = mul %idVal_356 4
 	%elementAddr_358 = add %arrayBase_355 %offset_357
@@ -613,8 +553,7 @@ define #main ( ) {
 	br %res_366 <41> <42>
 
 <41> if_true
-	move %idVal_367 %varDef_730
-	%res_368 = add %idVal_367 1
+	%res_368 = add %varDef_730 1
 	move %varDef_734 %res_368
 	move %idVal_369 %varDef_732
 	move %arrayPtr_370 %varDef_688
@@ -649,24 +588,20 @@ define #main ( ) {
 	br %res_395 <47> <46>
 
 <47> lhs_true
-	move %idVal_396 %varDef_733
-	move %idVal_397 %varDef_683
-	%res_398 = eq %idVal_396 %idVal_397
+	%res_398 = eq %varDef_733 %varDef_683
 	br %res_398 <45> <46>
 
 <45> if_true
-	move %varDef_735 1
 	br <46>
 
 <46> if_merge
-	%varDef_736 = phi <41> %varDef_731 <47> %varDef_731 <45> %varDef_735
+	%varDef_736 = phi <41> %varDef_731 <47> %varDef_731 <45> 1
 	br <42>
 
 <42> if_merge
 	%varDef_737 = phi <35> %varDef_730 <44> %varDef_730 <43> %varDef_730 <46> %varDef_734
 	%varDef_738 = phi <35> %varDef_731 <44> %varDef_731 <43> %varDef_731 <46> %varDef_736
-	move %arrayPtr_399 %varDef_688
-	%arrayBase_400 = add %arrayPtr_399 4
+	%arrayBase_400 = add %varDef_688 4
 	move %idVal_401 %varDef_704
 	%offset_402 = mul %idVal_401 4
 	%elementAddr_403 = add %arrayBase_400 %offset_402
@@ -687,14 +622,11 @@ define #main ( ) {
 	br %res_413 <51> <49>
 
 <51> lhs_true
-	move %idVal_417 %varDef_740
-	move %idVal_418 %varDef_677
-	%res_416 = #check ( %idVal_417 %idVal_418 )
+	%res_416 = #check ( %varDef_740 %varDef_677 )
 	br %res_416 <50> <49>
 
 <50> lhs_true
-	move %arrayPtr_419 %varDef_696
-	%arrayBase_420 = add %arrayPtr_419 4
+	%arrayBase_420 = add %varDef_696 4
 	move %idVal_421 %varDef_739
 	%offset_422 = mul %idVal_421 4
 	%elementAddr_423 = add %arrayBase_420 %offset_422
@@ -709,8 +641,7 @@ define #main ( ) {
 	br %res_431 <48> <49>
 
 <48> if_true
-	move %idVal_432 %varDef_737
-	%res_433 = add %idVal_432 1
+	%res_433 = add %varDef_737 1
 	move %varDef_741 %res_433
 	move %idVal_434 %varDef_739
 	move %arrayPtr_435 %varDef_688
@@ -745,24 +676,20 @@ define #main ( ) {
 	br %res_460 <54> <53>
 
 <54> lhs_true
-	move %idVal_461 %varDef_740
-	move %idVal_462 %varDef_683
-	%res_463 = eq %idVal_461 %idVal_462
+	%res_463 = eq %varDef_740 %varDef_683
 	br %res_463 <52> <53>
 
 <52> if_true
-	move %varDef_742 1
 	br <53>
 
 <53> if_merge
-	%varDef_743 = phi <48> %varDef_738 <54> %varDef_738 <52> %varDef_742
+	%varDef_743 = phi <48> %varDef_738 <54> %varDef_738 <52> 1
 	br <49>
 
 <49> if_merge
 	%varDef_744 = phi <42> %varDef_737 <51> %varDef_737 <50> %varDef_737 <53> %varDef_741
 	%varDef_745 = phi <42> %varDef_738 <51> %varDef_738 <50> %varDef_738 <53> %varDef_743
-	move %arrayPtr_464 %varDef_688
-	%arrayBase_465 = add %arrayPtr_464 4
+	%arrayBase_465 = add %varDef_688 4
 	move %idVal_466 %varDef_704
 	%offset_467 = mul %idVal_466 4
 	%elementAddr_468 = add %arrayBase_465 %offset_467
@@ -783,14 +710,11 @@ define #main ( ) {
 	br %res_478 <58> <56>
 
 <58> lhs_true
-	move %idVal_482 %varDef_747
-	move %idVal_483 %varDef_677
-	%res_481 = #check ( %idVal_482 %idVal_483 )
+	%res_481 = #check ( %varDef_747 %varDef_677 )
 	br %res_481 <57> <56>
 
 <57> lhs_true
-	move %arrayPtr_484 %varDef_696
-	%arrayBase_485 = add %arrayPtr_484 4
+	%arrayBase_485 = add %varDef_696 4
 	move %idVal_486 %varDef_746
 	%offset_487 = mul %idVal_486 4
 	%elementAddr_488 = add %arrayBase_485 %offset_487
@@ -805,8 +729,7 @@ define #main ( ) {
 	br %res_496 <55> <56>
 
 <55> if_true
-	move %idVal_497 %varDef_744
-	%res_498 = add %idVal_497 1
+	%res_498 = add %varDef_744 1
 	move %varDef_748 %res_498
 	move %idVal_499 %varDef_746
 	move %arrayPtr_500 %varDef_688
@@ -841,24 +764,20 @@ define #main ( ) {
 	br %res_525 <61> <60>
 
 <61> lhs_true
-	move %idVal_526 %varDef_747
-	move %idVal_527 %varDef_683
-	%res_528 = eq %idVal_526 %idVal_527
+	%res_528 = eq %varDef_747 %varDef_683
 	br %res_528 <59> <60>
 
 <59> if_true
-	move %varDef_749 1
 	br <60>
 
 <60> if_merge
-	%varDef_750 = phi <55> %varDef_745 <61> %varDef_745 <59> %varDef_749
+	%varDef_750 = phi <55> %varDef_745 <61> %varDef_745 <59> 1
 	br <56>
 
 <56> if_merge
 	%varDef_751 = phi <49> %varDef_744 <58> %varDef_744 <57> %varDef_744 <60> %varDef_748
 	%varDef_752 = phi <49> %varDef_745 <58> %varDef_745 <57> %varDef_745 <60> %varDef_750
-	move %arrayPtr_529 %varDef_688
-	%arrayBase_530 = add %arrayPtr_529 4
+	%arrayBase_530 = add %varDef_688 4
 	move %idVal_531 %varDef_704
 	%offset_532 = mul %idVal_531 4
 	%elementAddr_533 = add %arrayBase_530 %offset_532
@@ -879,14 +798,11 @@ define #main ( ) {
 	br %res_543 <65> <63>
 
 <65> lhs_true
-	move %idVal_547 %varDef_754
-	move %idVal_548 %varDef_677
-	%res_546 = #check ( %idVal_547 %idVal_548 )
+	%res_546 = #check ( %varDef_754 %varDef_677 )
 	br %res_546 <64> <63>
 
 <64> lhs_true
-	move %arrayPtr_549 %varDef_696
-	%arrayBase_550 = add %arrayPtr_549 4
+	%arrayBase_550 = add %varDef_696 4
 	move %idVal_551 %varDef_753
 	%offset_552 = mul %idVal_551 4
 	%elementAddr_553 = add %arrayBase_550 %offset_552
@@ -901,8 +817,7 @@ define #main ( ) {
 	br %res_561 <62> <63>
 
 <62> if_true
-	move %idVal_562 %varDef_751
-	%res_563 = add %idVal_562 1
+	%res_563 = add %varDef_751 1
 	move %varDef_755 %res_563
 	move %idVal_564 %varDef_753
 	move %arrayPtr_565 %varDef_688
@@ -937,24 +852,20 @@ define #main ( ) {
 	br %res_590 <68> <67>
 
 <68> lhs_true
-	move %idVal_591 %varDef_754
-	move %idVal_592 %varDef_683
-	%res_593 = eq %idVal_591 %idVal_592
+	%res_593 = eq %varDef_754 %varDef_683
 	br %res_593 <66> <67>
 
 <66> if_true
-	move %varDef_756 1
 	br <67>
 
 <67> if_merge
-	%varDef_757 = phi <62> %varDef_752 <68> %varDef_752 <66> %varDef_756
+	%varDef_757 = phi <62> %varDef_752 <68> %varDef_752 <66> 1
 	br <63>
 
 <63> if_merge
 	%varDef_758 = phi <56> %varDef_751 <65> %varDef_751 <64> %varDef_751 <67> %varDef_755
 	%varDef_759 = phi <56> %varDef_752 <65> %varDef_752 <64> %varDef_752 <67> %varDef_757
-	move %arrayPtr_594 %varDef_688
-	%arrayBase_595 = add %arrayPtr_594 4
+	%arrayBase_595 = add %varDef_688 4
 	move %idVal_596 %varDef_704
 	%offset_597 = mul %idVal_596 4
 	%elementAddr_598 = add %arrayBase_595 %offset_597
@@ -975,14 +886,11 @@ define #main ( ) {
 	br %res_608 <72> <70>
 
 <72> lhs_true
-	move %idVal_612 %varDef_761
-	move %idVal_613 %varDef_677
-	%res_611 = #check ( %idVal_612 %idVal_613 )
+	%res_611 = #check ( %varDef_761 %varDef_677 )
 	br %res_611 <71> <70>
 
 <71> lhs_true
-	move %arrayPtr_614 %varDef_696
-	%arrayBase_615 = add %arrayPtr_614 4
+	%arrayBase_615 = add %varDef_696 4
 	move %idVal_616 %varDef_760
 	%offset_617 = mul %idVal_616 4
 	%elementAddr_618 = add %arrayBase_615 %offset_617
@@ -997,8 +905,7 @@ define #main ( ) {
 	br %res_626 <69> <70>
 
 <69> if_true
-	move %idVal_627 %varDef_758
-	%res_628 = add %idVal_627 1
+	%res_628 = add %varDef_758 1
 	move %varDef_762 %res_628
 	move %idVal_629 %varDef_760
 	move %arrayPtr_630 %varDef_688
@@ -1033,44 +940,37 @@ define #main ( ) {
 	br %res_655 <75> <74>
 
 <75> lhs_true
-	move %idVal_656 %varDef_761
-	move %idVal_657 %varDef_683
-	%res_658 = eq %idVal_656 %idVal_657
+	%res_658 = eq %varDef_761 %varDef_683
 	br %res_658 <73> <74>
 
 <73> if_true
-	move %varDef_763 1
 	br <74>
 
 <74> if_merge
-	%varDef_764 = phi <69> %varDef_759 <75> %varDef_759 <73> %varDef_763
+	%varDef_764 = phi <69> %varDef_759 <75> %varDef_759 <73> 1
 	br <70>
 
 <70> if_merge
 	%varDef_765 = phi <63> %varDef_758 <72> %varDef_758 <71> %varDef_758 <74> %varDef_762
 	%varDef_766 = phi <63> %varDef_759 <72> %varDef_759 <71> %varDef_759 <74> %varDef_764
-	move %idVal_659 %varDef_766
-	%res_660 = eq %idVal_659 1
+	%res_660 = eq %varDef_766 1
 	br %res_660 <76> <77>
 
 <76> if_true
 	br <19>
 
 <77> if_merge
-	move %idVal_661 %varDef_704
-	%res_662 = add %idVal_661 1
+	%res_662 = add %varDef_704 1
 	move %varDef_767 %res_662
 	br <17>
 
 <19> while_end
 	%varDef_769 = phi <17> %varDef_706 <76> %varDef_766
-	move %idVal_663 %varDef_769
-	%res_664 = eq %idVal_663 1
+	%res_664 = eq %varDef_769 1
 	br %res_664 <78> <79>
 
 <78> if_true
-	move %arrayPtr_666 %varDef_696
-	%arrayBase_667 = add %arrayPtr_666 4
+	%arrayBase_667 = add %varDef_696 4
 	move %idVal_668 %varDef_682
 	%offset_669 = mul %idVal_668 4
 	%elementAddr_670 = add %arrayBase_667 %offset_669

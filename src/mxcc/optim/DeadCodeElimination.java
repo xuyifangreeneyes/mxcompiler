@@ -17,24 +17,39 @@ public class DeadCodeElimination extends Pass {
         super(irFunc);
     }
 
+    private void pass() {
+        collectDefUseRelation();
+        eliminateDeadCode();
+    }
+
     private boolean hasSideEffect(Instruction inst) {
         // alloca and malloc have no side effect ??
         return inst instanceof Call;
     }
 
-    private void pass() {
-        LinkedList<Register> workList = new LinkedList<>(irFunc.defMap.keySet());
+    private void eliminateDeadCode() {
+        LinkedList<Register> workList = new LinkedList<>(defMap.keySet());
+        Set<Register> workSet = new HashSet<>(workList);
         while (!workList.isEmpty()) {
             Register var = workList.poll();
-            if (!irFunc.useMap.get(var).isEmpty()) continue;
-            Instruction defInst = irFunc.defMap.get(var);
+            workSet.remove(var);
+            if (!useMap.get(var).isEmpty()) continue;
+            Instruction defInst = defMap.get(var);
             // defInst == null means that var is a function parameter or global variable
             if (defInst == null || hasSideEffect(defInst)) continue;
             defInst.delete();
+
+//            System.out.println(defInst.getDefReg());
+
             for (Register useReg : defInst.getUseRegs()) {
-                irFunc.useMap.get(useReg).remove(defInst);
-                workList.add(useReg);
+                useMap.get(useReg).remove(defInst);
+                if (!workSet.contains(useReg)) {
+                    workList.add(useReg);
+                    workSet.add(useReg);
+                }
             }
+            defMap.remove(var);
+            useMap.remove(var);
         }
     }
 

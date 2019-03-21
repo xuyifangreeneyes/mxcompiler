@@ -21,6 +21,7 @@ public class UnaryOperation extends Instruction {
         this.src = src;
 
         defReg = dst;
+        collectUseRegs();
     }
 
     public Register getDst() {

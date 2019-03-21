@@ -1,5 +1,6 @@
 package mxcc.ir;
 
+import mxcc.utility.Config;
 import mxcc.utility.StringHandler;
 
 import java.io.*;
@@ -184,16 +185,15 @@ public class IRInterpreter {
     }
 
     private void writeReg(String regName, int val) {
-        if (regName.startsWith("%")) {
-            assert !localRegs.containsKey(regName);
-            localRegs.put(regName, val);
-        }
-        assert false;
+        assert regName.startsWith("%");
+//        System.out.println(regName);
+        localRegs.put(regName, val);
     }
 
     private int getOperandValue(String operand) {
         if (operand.startsWith("%")) {
             assert localRegs.containsKey(operand);
+//            System.out.println(operand);
             return localRegs.get(operand);
         }
         if (operand.startsWith("@") || operand.startsWith("$")) {
@@ -216,7 +216,7 @@ public class IRInterpreter {
             case "load":
 //                System.out.println(inst.dst + " = load " + inst.src1);
                 int loadAddr = getOperandValue(inst.src1);
-                assert memInt.containsKey(loadAddr);
+//                assert memInt.containsKey(loadAddr);
                 writeReg(inst.dst, memInt.getOrDefault(loadAddr, 0));
                 break;
             case "store":
@@ -473,8 +473,13 @@ public class IRInterpreter {
     }
 
     public static void main(String[] args) throws IOException {
-//        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a_dce.ll");
-        File fileName = new File(args[0]);
+        File fileName;
+
+        if (Config.debugMode) {
+            fileName = new File(Config.tmpPath + "a_cp.ll");
+        } else {
+            fileName = new File(args[0]);
+        }
         if (!fileName.exists()) {
             throw new RuntimeException("cannot find a.ll");
         }

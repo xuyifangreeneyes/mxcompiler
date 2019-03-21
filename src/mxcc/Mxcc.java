@@ -8,11 +8,12 @@ import mxcc.frontend.SemanticChecker;
 import mxcc.frontend.TypeResolver;
 import mxcc.ir.IRPrinter;
 import mxcc.ir.Module;
-import mxcc.optim.DefUseCollector;
+import mxcc.optim.ConstantPropagation;
 import mxcc.parser.MxLexer;
 import mxcc.parser.MxParser;
 import mxcc.optim.DeadCodeElimination;
 import mxcc.optim.SSAConstructor;
+import mxcc.utility.Config;
 import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -25,12 +26,16 @@ public class Mxcc {
     private Module ir;
 
     private void buildAST() throws IOException {
-//        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.mx");
-//        if (!fileName.exists()) {
-//            throw new RuntimeException("cannot find a.mx");
-//        }
-//        CharStream input = CharStreams.fromStream(new FileInputStream(fileName));
-        CharStream input = CharStreams.fromStream(System.in);
+        CharStream input;
+        if (Config.debugMode) {
+            File fileName = new File(Config.tmpPath + "a.mx");
+            if (!fileName.exists()) {
+                throw new RuntimeException("cannot find a.mx");
+            }
+            input = CharStreams.fromStream(new FileInputStream(fileName));
+        } else {
+            input = CharStreams.fromStream(System.in);
+        }
         MxLexer lexer = new MxLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         MxParser parser = new MxParser(tokens);
@@ -41,7 +46,7 @@ public class Mxcc {
     }
 
     private void printAST() throws IOException {
-        File fileName = new File("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.ast");
+        File fileName = new File(Config.tmpPath + "a.ast");
         if (!fileName.exists()) {
             if (!fileName.createNewFile()) {
                 throw new RuntimeException("cannot create a.ast");
@@ -64,10 +69,10 @@ public class Mxcc {
         ir = irBuilder.getModule();
     }
 
-    private void printIR(String pathName) throws IOException {
+    private void printIR(String output) throws IOException {
         IRPrinter printer;
-        if (pathName != null) {
-            File fileName = new File(pathName);
+        if (output != null) {
+            File fileName = new File(Config.tmpPath + output);
             if (!fileName.exists()) {
                 if (!fileName.createNewFile()) {
                     throw new RuntimeException("cannot create a.ll");
@@ -82,20 +87,21 @@ public class Mxcc {
 
     private void SSAtransform() throws IOException {
         SSAConstructor.visit(ir);
-//        printIR("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a_ssa.ll");
-        DefUseCollector.visit(ir);
+        if (Config.debugMode) printIR("a_ssa.ll");
         DeadCodeElimination.visit(ir);
-//        printIR("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a_dce.ll");
+        if (Config.debugMode) printIR("a_dce.ll");
+        ConstantPropagation.visit(ir);
+        if (Config.debugMode) printIR("a_cp.ll");
     }
 
     private void run() throws IOException {
         buildAST();
-//        printAST();
+        if (Config.debugMode) printAST();
         sematicCheck();
         buildIR();
-//        printIR("/Users/xuyifan/Documents/compiler/mxcompiler/testcases/tmp/a.ll");
+        if (Config.debugMode) printIR("a.ll");
         SSAtransform();
-        printIR(null);
+        if (!Config.debugMode) printIR(null);
     }
 
     public static void main(String[] args) {

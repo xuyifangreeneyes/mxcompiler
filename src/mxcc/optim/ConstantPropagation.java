@@ -1,9 +1,13 @@
 package mxcc.optim;
 
+import javafx.util.Pair;
 import mxcc.ir.*;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
+// constant propagation and copy propagation
 public class ConstantPropagation extends Pass {
 
     public static void visit(Module module) {
@@ -18,12 +22,17 @@ public class ConstantPropagation extends Pass {
         super(irFunc);
     }
 
-    private LinkedList<Instruction> collectInst() {
+    private void pass() {
+        collectDefUseRelation();
+        propagateConstant();
+    }
+
+    private LinkedList<Instruction> collectMoveAndPhi() {
         LinkedList<Instruction> workList = new LinkedList<>();
         BasicBlock bb = irFunc.getStartBB();
         while (bb != null) {
             Instruction inst = bb.getFirstInst();
-            while (inst != null) {
+            while (inst instanceof Move || inst instanceof Phi) {
                 workList.add(inst);
                 inst = inst.next;
             }
@@ -32,48 +41,82 @@ public class ConstantPropagation extends Pass {
         return workList;
     }
 
-    private void pass() {
-        LinkedList<Instruction> workList = collectInst();
-        while (!workList.isEmpty()) {
-            Instruction inst = workList.poll();
-            if (inst instanceof Phi) {
-                Phi phiInst = (Phi) inst;
-                boolean isConstant = true;
-                boolean gotFirstValue = false;
-                int constantValue = 0;
-                for (Operand operand : phiInst.getSource().values()) {
-                    if (!(operand instanceof IntImmediate)) {
-                        isConstant = false;
+    private Pair<Boolean, Operand> checkPhi(Phi phiInst) {
+        boolean ok = true;
+        boolean gotFirstVal = false;
+        Operand firstVal = null;
+        boolean isInt = false;
+        int intVal = 0;
+        for (Operand val : phiInst.getSource().values()) {
+            if (gotFirstVal) {
+                if (isInt) {
+                    if (!(val instanceof IntImmediate) || ((IntImmediate) val).getVal() != intVal) {
+                        ok = false;
                         break;
                     }
-                    int value = ((IntImmediate) operand).getVal();
-                    if (gotFirstValue) {
-                        if (constantValue != value) {
-                            isConstant = false;
-                            break;
-                        }
-                    } else {
-                        constantValue = value;
-                        gotFirstValue = true;
+                } else {
+                    if (val != firstVal) {
+                        ok = false;
+                        break;
                     }
                 }
-                if (isConstant) {
-                    Move moveInst = new Move(phiInst.getParentBB(), phiInst.getDst(), new IntImmediate(constantValue));
-                    phiInst.replace(moveInst);
-                    irFunc.defMap.put(phiInst.getDst(), moveInst);
+            } else {
+                gotFirstVal = true;
+                firstVal = val;
+                if (firstVal instanceof IntImmediate) {
+                    isInt = true;
+                    intVal = ((IntImmediate) firstVal).getVal();
+                }
+            }
+        }
+        return new Pair<>(ok, firstVal);
+    }
+
+    private void propagateConstant() {
+        LinkedList<Instruction> workList = collectMoveAndPhi();
+        Set<Instruction> workSet = new HashSet<>(workList);
+        while (!workList.isEmpty()) {
+            Instruction inst = workList.poll();
+            workSet.remove(inst);
+            if (inst instanceof Phi) {
+                Phi phiInst = (Phi) inst;
+                Pair<Boolean, Operand> checkResult = checkPhi(phiInst);
+                boolean ok = checkResult.getKey();
+                Operand value = checkResult.getValue();
+                if (ok) {
+                    Move moveInst = new Move(phiInst.getParentBB(), phiInst.getDst(), value);
+                    phiInst.replacedBy(moveInst);
+                    workList.add(moveInst);
+                    workSet.add(moveInst);
+                    defMap.put(phiInst.getDst(), moveInst);
+                    if (value instanceof Register) {
+                        Register reg = (Register) value;
+                        useMap.get(reg).remove(phiInst);
+                        useMap.get(reg).add(moveInst);
+                    }
                 }
             }
             if (inst instanceof Move) {
                 Move moveInst = (Move) inst;
-                if (!(moveInst.getSrc() instanceof IntImmediate)) continue;
                 moveInst.delete();
-                Register reg = moveInst.getDst();
-                IntImmediate value = (IntImmediate) moveInst.getSrc();
-                for (Instruction use : irFunc.useMap.get(reg)) {
-                    use.replaceOperand(reg, value);
+                Register dst = moveInst.getDst();
+                Operand src = moveInst.getSrc();
+                if (src instanceof Register) {
+                    useMap.get(src).remove(moveInst);
                 }
-                irFunc.defMap.remove(reg);
-                irFunc.useMap.remove(reg);
+//                System.out.println(dst);
+                for (Instruction use : useMap.get(dst)) {
+                    use.replaceOperand(dst, src);
+                    if (use instanceof Phi && !workSet.contains(use)) {
+                        workList.add(use);
+                        workSet.add(use);
+                    }
+                    if (src instanceof Register) {
+                        useMap.get(src).add(use);
+                    }
+                }
+                defMap.remove(dst);
+                useMap.remove(dst);
             }
         }
     }

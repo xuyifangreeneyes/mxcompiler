@@ -11,10 +11,6 @@ public class Function {
     private int LocalRegCounter = 0;
     private int BBCounter = 0;
 
-    // for data flow analysis
-    public Map<Register, Instruction> defMap = new LinkedHashMap<>();
-    public Map<Register, Set<Instruction>> useMap = new LinkedHashMap<>();
-
     public Function(String name, boolean isBuiltin) {
         this.name = "#" + name;
         if (!isBuiltin) {
