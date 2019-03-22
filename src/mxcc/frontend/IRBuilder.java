@@ -8,6 +8,18 @@ import java.util.*;
 
 import static mxcc.symbol.GlobalSymbolTable.*;
 
+
+// For any node whose type is BOOL_TYPE, how are node.ifTrueBB and node.ifFalseBB set up?
+// 1. [ if (node) {...} ( else {...} ) ]
+//    They are set up in IfStmt.
+// 2. [ bool a = node; ] / [ a = node; ] / [ a == node ] / [return node] / [ call(node, ...) ] / [ node; ]
+//    They are set up in visitExpr.
+// 3. [ subNode_1 && subNode_2 ] / [ subNode_1 || subNode_2 ] subNode.ifTrueBB and subNode.ifFalseBB come from node.
+// 4. [ ! subNode ] subNode.ifTrueBB and subNode.ifFalseBB come from node.
+// 5. [ call(...) ] / [ lhs ==/!=/</>/<=/>= rhs ] / [ true / false ] / [ bool variable ] We can call them bool terminator.
+//    Add a br if node.ifTrueBB != null.
+
+
 public class IRBuilder extends AstBaseVisitor {
     private Module module = new Module();
     private Function curFunc;
@@ -38,7 +50,7 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     private void processVariableDeclInit(Operand varAddr, Expr init) {
-        processAssignRhs(init);
+        visitExpr(init);
         curBB.append(new Store(curBB, init.val, varAddr));
     }
 
@@ -93,7 +105,13 @@ public class IRBuilder extends AstBaseVisitor {
             curBB.append(new Store(curBB, argVal, argAddr));
         }
 
-        node.stmts.forEach(this::visit);
+        for (Stmt stmt : node.stmts) {
+            if (stmt instanceof Expr) {
+                visitExpr((Expr) stmt);
+            } else {
+                visit(stmt);
+            }
+        }
     }
 
     public void visit(ClassDecl node) {
@@ -103,7 +121,13 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     public void visit(BlockStmt node) {
-        node.stmts.forEach(this::visit);
+        for (Stmt stmt : node.stmts) {
+            if (stmt instanceof Expr) {
+                visitExpr((Expr) stmt);
+            } else {
+                visit(stmt);
+            }
+        }
     }
 
     public void visit(VariableDeclStmt node) {
@@ -152,7 +176,7 @@ public class IRBuilder extends AstBaseVisitor {
         loopNextStack.push(forStepBB);
         loopEndStack.push(forEndBB);
 
-        if (node.init != null) visit(node.init);
+        if (node.init != null) visitExpr(node.init);
         curBB.append(new DirectBranch(curBB, forCondBB));
 
         curBB = forCondBB;
@@ -167,7 +191,7 @@ public class IRBuilder extends AstBaseVisitor {
         curBB.append(new DirectBranch(curBB, forStepBB));
 
         curBB = forStepBB;
-        if (node.step != null) visit(node.step);
+        if (node.step != null) visitExpr(node.step);
         curBB.append(new DirectBranch(curBB, forCondBB));
 
         loopNextStack.pop();
@@ -210,7 +234,7 @@ public class IRBuilder extends AstBaseVisitor {
             curBB.append(new Return(curBB, null));
             return;
         }
-        processAssignRhs(node.value);
+        visitExpr(node.value);
         curBB.append(new Return(curBB, node.value.val));
     }
 
@@ -243,7 +267,7 @@ public class IRBuilder extends AstBaseVisitor {
 
             if ((memberAccess.type instanceof FunctionSymbol) &&
                     ((memberAccess.container instanceof FunctionCall) || (memberAccess.container instanceof StringConst))) {
-                visit(memberAccess.container);
+                visitExpr(memberAccess.container);
                 return memberAccess.container.val;
             }
 
@@ -275,7 +299,7 @@ public class IRBuilder extends AstBaseVisitor {
             curBB.append(new Load(curBB, arrayPtr, arrayPtrPtr));
             LocalReg arrayBase = curFunc.makeLocalReg("arrayBase");
             curBB.append(new BinaryOperation(curBB, arrayBase, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(4)));
-            visit(arrayAccess.subscript);
+            visitExpr(arrayAccess.subscript);
             Operand index = arrayAccess.subscript.val;
             LocalReg offset = curFunc.makeLocalReg("offset");
             curBB.append(new BinaryOperation(curBB, offset, BinaryOperation.BinaryOp.MUL, index, new IntImmediate(4)));
@@ -294,50 +318,42 @@ public class IRBuilder extends AstBaseVisitor {
         return memberAddr;
     }
 
-    private void processAssignRhs(Expr rhs) {
-        if (isLogicOpExpr(rhs)) {
-            rhs.ifTrueBB = curFunc.makeBB("bool_true");
-            rhs.ifFalseBB = curFunc.makeBB("bool_false");
+    private void visitExpr(Expr expr) {
+        if (isLogicOpExpr(expr)) {
+            expr.ifTrueBB = curFunc.makeBB("bool_true");
+            expr.ifFalseBB = curFunc.makeBB("bool_false");
             BasicBlock mergeBB = curFunc.makeBB("bool_merge");
 
-            curBB.addNext(rhs.ifTrueBB);
-            rhs.ifTrueBB.addNext(rhs.ifFalseBB);
-            rhs.ifFalseBB.addNext(mergeBB);
+            curBB.addNext(expr.ifTrueBB);
+            expr.ifTrueBB.addNext(expr.ifFalseBB);
+            expr.ifFalseBB.addNext(mergeBB);
 
             LocalReg boolValAddr = curFunc.makeLocalReg("boolValAddr");
             curFunc.getStartBB().appendFront(new Alloca(curFunc.getStartBB(), boolValAddr, 4));
 
-            visit(rhs);
+            visit(expr);
 
-            rhs.ifTrueBB.append(new Store(rhs.ifTrueBB, new IntImmediate(1), boolValAddr));
-            rhs.ifTrueBB.append(new DirectBranch(rhs.ifTrueBB, mergeBB));
-            rhs.ifFalseBB.append(new Store(rhs.ifFalseBB, new IntImmediate(0), boolValAddr));
-            rhs.ifFalseBB.append(new DirectBranch(rhs.ifFalseBB, mergeBB));
+            expr.ifTrueBB.append(new Store(expr.ifTrueBB, new IntImmediate(1), boolValAddr));
+            expr.ifTrueBB.append(new DirectBranch(expr.ifTrueBB, mergeBB));
+            expr.ifFalseBB.append(new Store(expr.ifFalseBB, new IntImmediate(0), boolValAddr));
+            expr.ifFalseBB.append(new DirectBranch(expr.ifFalseBB, mergeBB));
             LocalReg boolVal = curFunc.makeLocalReg("boolVal");
             mergeBB.append(new Load(mergeBB, boolVal, boolValAddr));
-            rhs.val = boolVal;
+            expr.val = boolVal;
 
             curBB = mergeBB;
         } else {
-            visit(rhs);
+            visit(expr);
         }
     }
 
     private void processAssign(BinaryExpr node) {
-        processAssignRhs(node.right);
+        visitExpr(node.right);
         Operand lhsAddr = getTargetAddr(node.left);
         curBB.append(new Store(curBB, node.right.val, lhsAddr));
     }
 
     private void processBinaryLogic(BinaryExpr node) {
-        boolean alone = node.ifTrueBB == null;
-        BasicBlock mergeBB = null;
-        if (alone) {
-            mergeBB = curFunc.makeBB("bool_merge");
-            curBB.addNext(mergeBB);
-            node.ifTrueBB = node.ifFalseBB = mergeBB;
-        }
-
         if (node.op == BinaryExpr.BinaryOp.AND) {
             node.left.ifTrueBB = curFunc.makeBB("lhs_true");
             node.left.ifFalseBB = node.ifFalseBB;
@@ -354,10 +370,6 @@ public class IRBuilder extends AstBaseVisitor {
         node.right.ifTrueBB = node.ifTrueBB;
         node.right.ifFalseBB = node.ifFalseBB;
         visit(node.right);
-
-        if (alone) {
-            curBB = mergeBB;
-        }
     }
 
     private void addCondBranch(Expr node) {
@@ -367,8 +379,8 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     private void processBinaryString(BinaryExpr node) {
-        visit(node.left);
-        visit(node.right);
+        visitExpr(node.left);
+        visitExpr(node.right);
         LocalReg res = curFunc.makeLocalReg("res");
         List<Operand> args = new ArrayList<>();
         args.add(node.left.val);
@@ -387,8 +399,8 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     private void processBinaryInt(BinaryExpr node) {
-        visit(node.left);
-        visit(node.right);
+        visitExpr(node.left);
+        visitExpr(node.right);
         BinaryOperation.BinaryOp op = null;
         switch (node.op) {
             case LT: op = BinaryOperation.BinaryOp.LT; break;
@@ -454,7 +466,7 @@ public class IRBuilder extends AstBaseVisitor {
             return;
         }
 
-        visit(node.expr);
+        visitExpr(node.expr);
         switch (node.op) {
             case INC:
             case DEC:
@@ -492,7 +504,7 @@ public class IRBuilder extends AstBaseVisitor {
             args.add(getTargetAddr(node.caller));
         }
         for (Expr argExpr : node.args) {
-            processAssignRhs(argExpr);
+            visitExpr(argExpr);
             args.add(argExpr.val);
         }
         curBB.append(new Call(curBB, node.func, dst, args));
@@ -600,7 +612,7 @@ public class IRBuilder extends AstBaseVisitor {
     private void processArrayNew(NewExpr node) {
         Queue<Operand> dimSizes = new LinkedList<>();
         for (Expr expr : node.dimArgs) {
-            visit(expr);
+            visitExpr(expr);
             dimSizes.offer(expr.val);
         }
         assert node.type instanceof ArrayType;

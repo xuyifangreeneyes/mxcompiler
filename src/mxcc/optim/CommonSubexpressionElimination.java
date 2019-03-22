@@ -59,7 +59,7 @@ public class CommonSubexpressionElimination extends Pass {
         while (inst != null) {
             if (inst instanceof BinaryOperation) {
                 BinaryOperation binaryInst = (BinaryOperation) inst;
-                System.out.println(binaryInst.getDst() + " = " + binaryInst.getOp() + " " + binaryInst.getLhs() + " " + binaryInst.getRhs());
+//                System.out.println(binaryInst.getDst() + " = " + binaryInst.getOp() + " " + binaryInst.getLhs() + " " + binaryInst.getRhs());
                 BinaryExpr binaryExpr = new BinaryExpr(binaryInst.getLhs().toString(),
                         binaryInst.getRhs().toString(), binaryInst.getOp().toString());
                 if (binaryExprTable.containsKey(binaryExpr)) {
