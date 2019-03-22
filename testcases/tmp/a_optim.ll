@@ -64,7 +64,6 @@ define #main ( ) {
 <0> entry
 	%res_16 = #getInt ( )
 	%res_18 = sub %res_16 1
-	%res_20 = sub %res_16 1
 	%res_23 = mul %res_16 %res_16
 	%memberLength_25 = mul %res_23 4
 	%arrayLength_26 = add %memberLength_25 4
@@ -197,21 +196,14 @@ define #main ( ) {
 	%arrayPtr_128 = load %elementAddr_127
 	%arrayBase_129 = add %arrayPtr_128 4
 	%arrayBase_131 = add %arrayPtr_43 4
-	%offset_133 = mul %varDef_704 4
-	%elementAddr_134 = add %arrayBase_131 %offset_133
+	%elementAddr_134 = add %arrayBase_131 %offset_123
 	%elementVal_135 = load %elementAddr_134
 	%offset_136 = mul %elementVal_135 4
 	%elementAddr_137 = add %arrayBase_129 %offset_136
 	%elementVal_138 = load %elementAddr_137
-	%arrayBase_140 = add %arrayPtr_24 4
-	%offset_142 = mul %varDef_704 4
-	%elementAddr_143 = add %arrayBase_140 %offset_142
-	%elementVal_144 = load %elementAddr_143
+	%elementVal_144 = load %elementAddr_124
 	%res_145 = sub %elementVal_144 1
-	%arrayBase_147 = add %arrayPtr_43 4
-	%offset_149 = mul %varDef_704 4
-	%elementAddr_150 = add %arrayBase_147 %offset_149
-	%elementVal_151 = load %elementAddr_150
+	%elementVal_151 = load %elementAddr_134
 	%res_152 = sub %elementVal_151 2
 	%res_153 = #check ( %res_145 %res_16 )
 	br %res_153 <23> <21>
@@ -239,8 +231,7 @@ define #main ( ) {
 	%elementAddr_179 = add %arrayBase_176 %offset_178
 	store %res_145 %elementAddr_179
 	%arrayBase_182 = add %arrayPtr_43 4
-	%offset_184 = mul %res_173 4
-	%elementAddr_185 = add %arrayBase_182 %offset_184
+	%elementAddr_185 = add %arrayBase_182 %offset_178
 	store %res_152 %elementAddr_185
 	%res_187 = add %elementVal_138 1
 	%arrayBase_189 = add %arrayPtr_60 4
@@ -255,7 +246,7 @@ define #main ( ) {
 	br %res_200 <26> <25>
 
 <26> lhs_true
-	%res_203 = eq %res_152 %res_20
+	%res_203 = eq %res_152 %res_18
 	br %res_203 <24> <25>
 
 <24> if_true
@@ -274,8 +265,7 @@ define #main ( ) {
 	%elementVal_209 = load %elementAddr_208
 	%res_210 = sub %elementVal_209 1
 	%arrayBase_212 = add %arrayPtr_43 4
-	%offset_214 = mul %varDef_704 4
-	%elementAddr_215 = add %arrayBase_212 %offset_214
+	%elementAddr_215 = add %arrayBase_212 %offset_207
 	%elementVal_216 = load %elementAddr_215
 	%res_217 = add %elementVal_216 2
 	%res_218 = #check ( %res_210 %res_16 )
@@ -304,8 +294,7 @@ define #main ( ) {
 	%elementAddr_244 = add %arrayBase_241 %offset_243
 	store %res_210 %elementAddr_244
 	%arrayBase_247 = add %arrayPtr_43 4
-	%offset_249 = mul %res_238 4
-	%elementAddr_250 = add %arrayBase_247 %offset_249
+	%elementAddr_250 = add %arrayBase_247 %offset_243
 	store %res_217 %elementAddr_250
 	%res_252 = add %elementVal_138 1
 	%arrayBase_254 = add %arrayPtr_60 4
@@ -320,7 +309,7 @@ define #main ( ) {
 	br %res_265 <33> <32>
 
 <33> lhs_true
-	%res_268 = eq %res_217 %res_20
+	%res_268 = eq %res_217 %res_18
 	br %res_268 <31> <32>
 
 <31> if_true
@@ -339,8 +328,7 @@ define #main ( ) {
 	%elementVal_274 = load %elementAddr_273
 	%res_275 = add %elementVal_274 1
 	%arrayBase_277 = add %arrayPtr_43 4
-	%offset_279 = mul %varDef_704 4
-	%elementAddr_280 = add %arrayBase_277 %offset_279
+	%elementAddr_280 = add %arrayBase_277 %offset_272
 	%elementVal_281 = load %elementAddr_280
 	%res_282 = sub %elementVal_281 2
 	%res_283 = #check ( %res_275 %res_16 )
@@ -369,8 +357,7 @@ define #main ( ) {
 	%elementAddr_309 = add %arrayBase_306 %offset_308
 	store %res_275 %elementAddr_309
 	%arrayBase_312 = add %arrayPtr_43 4
-	%offset_314 = mul %res_303 4
-	%elementAddr_315 = add %arrayBase_312 %offset_314
+	%elementAddr_315 = add %arrayBase_312 %offset_308
 	store %res_282 %elementAddr_315
 	%res_317 = add %elementVal_138 1
 	%arrayBase_319 = add %arrayPtr_60 4
@@ -385,7 +372,7 @@ define #main ( ) {
 	br %res_330 <40> <39>
 
 <40> lhs_true
-	%res_333 = eq %res_282 %res_20
+	%res_333 = eq %res_282 %res_18
 	br %res_333 <38> <39>
 
 <38> if_true
@@ -404,8 +391,7 @@ define #main ( ) {
 	%elementVal_339 = load %elementAddr_338
 	%res_340 = add %elementVal_339 1
 	%arrayBase_342 = add %arrayPtr_43 4
-	%offset_344 = mul %varDef_704 4
-	%elementAddr_345 = add %arrayBase_342 %offset_344
+	%elementAddr_345 = add %arrayBase_342 %offset_337
 	%elementVal_346 = load %elementAddr_345
 	%res_347 = add %elementVal_346 2
 	%res_348 = #check ( %res_340 %res_16 )
@@ -434,8 +420,7 @@ define #main ( ) {
 	%elementAddr_374 = add %arrayBase_371 %offset_373
 	store %res_340 %elementAddr_374
 	%arrayBase_377 = add %arrayPtr_43 4
-	%offset_379 = mul %res_368 4
-	%elementAddr_380 = add %arrayBase_377 %offset_379
+	%elementAddr_380 = add %arrayBase_377 %offset_373
 	store %res_347 %elementAddr_380
 	%res_382 = add %elementVal_138 1
 	%arrayBase_384 = add %arrayPtr_60 4
@@ -450,7 +435,7 @@ define #main ( ) {
 	br %res_395 <47> <46>
 
 <47> lhs_true
-	%res_398 = eq %res_347 %res_20
+	%res_398 = eq %res_347 %res_18
 	br %res_398 <45> <46>
 
 <45> if_true
@@ -469,8 +454,7 @@ define #main ( ) {
 	%elementVal_404 = load %elementAddr_403
 	%res_405 = sub %elementVal_404 2
 	%arrayBase_407 = add %arrayPtr_43 4
-	%offset_409 = mul %varDef_704 4
-	%elementAddr_410 = add %arrayBase_407 %offset_409
+	%elementAddr_410 = add %arrayBase_407 %offset_402
 	%elementVal_411 = load %elementAddr_410
 	%res_412 = sub %elementVal_411 1
 	%res_413 = #check ( %res_405 %res_16 )
@@ -499,8 +483,7 @@ define #main ( ) {
 	%elementAddr_439 = add %arrayBase_436 %offset_438
 	store %res_405 %elementAddr_439
 	%arrayBase_442 = add %arrayPtr_43 4
-	%offset_444 = mul %res_433 4
-	%elementAddr_445 = add %arrayBase_442 %offset_444
+	%elementAddr_445 = add %arrayBase_442 %offset_438
 	store %res_412 %elementAddr_445
 	%res_447 = add %elementVal_138 1
 	%arrayBase_449 = add %arrayPtr_60 4
@@ -515,7 +498,7 @@ define #main ( ) {
 	br %res_460 <54> <53>
 
 <54> lhs_true
-	%res_463 = eq %res_412 %res_20
+	%res_463 = eq %res_412 %res_18
 	br %res_463 <52> <53>
 
 <52> if_true
@@ -534,8 +517,7 @@ define #main ( ) {
 	%elementVal_469 = load %elementAddr_468
 	%res_470 = sub %elementVal_469 2
 	%arrayBase_472 = add %arrayPtr_43 4
-	%offset_474 = mul %varDef_704 4
-	%elementAddr_475 = add %arrayBase_472 %offset_474
+	%elementAddr_475 = add %arrayBase_472 %offset_467
 	%elementVal_476 = load %elementAddr_475
 	%res_477 = add %elementVal_476 1
 	%res_478 = #check ( %res_470 %res_16 )
@@ -564,8 +546,7 @@ define #main ( ) {
 	%elementAddr_504 = add %arrayBase_501 %offset_503
 	store %res_470 %elementAddr_504
 	%arrayBase_507 = add %arrayPtr_43 4
-	%offset_509 = mul %res_498 4
-	%elementAddr_510 = add %arrayBase_507 %offset_509
+	%elementAddr_510 = add %arrayBase_507 %offset_503
 	store %res_477 %elementAddr_510
 	%res_512 = add %elementVal_138 1
 	%arrayBase_514 = add %arrayPtr_60 4
@@ -580,7 +561,7 @@ define #main ( ) {
 	br %res_525 <61> <60>
 
 <61> lhs_true
-	%res_528 = eq %res_477 %res_20
+	%res_528 = eq %res_477 %res_18
 	br %res_528 <59> <60>
 
 <59> if_true
@@ -599,8 +580,7 @@ define #main ( ) {
 	%elementVal_534 = load %elementAddr_533
 	%res_535 = add %elementVal_534 2
 	%arrayBase_537 = add %arrayPtr_43 4
-	%offset_539 = mul %varDef_704 4
-	%elementAddr_540 = add %arrayBase_537 %offset_539
+	%elementAddr_540 = add %arrayBase_537 %offset_532
 	%elementVal_541 = load %elementAddr_540
 	%res_542 = sub %elementVal_541 1
 	%res_543 = #check ( %res_535 %res_16 )
@@ -629,8 +609,7 @@ define #main ( ) {
 	%elementAddr_569 = add %arrayBase_566 %offset_568
 	store %res_535 %elementAddr_569
 	%arrayBase_572 = add %arrayPtr_43 4
-	%offset_574 = mul %res_563 4
-	%elementAddr_575 = add %arrayBase_572 %offset_574
+	%elementAddr_575 = add %arrayBase_572 %offset_568
 	store %res_542 %elementAddr_575
 	%res_577 = add %elementVal_138 1
 	%arrayBase_579 = add %arrayPtr_60 4
@@ -645,7 +624,7 @@ define #main ( ) {
 	br %res_590 <68> <67>
 
 <68> lhs_true
-	%res_593 = eq %res_542 %res_20
+	%res_593 = eq %res_542 %res_18
 	br %res_593 <66> <67>
 
 <66> if_true
@@ -664,8 +643,7 @@ define #main ( ) {
 	%elementVal_599 = load %elementAddr_598
 	%res_600 = add %elementVal_599 2
 	%arrayBase_602 = add %arrayPtr_43 4
-	%offset_604 = mul %varDef_704 4
-	%elementAddr_605 = add %arrayBase_602 %offset_604
+	%elementAddr_605 = add %arrayBase_602 %offset_597
 	%elementVal_606 = load %elementAddr_605
 	%res_607 = add %elementVal_606 1
 	%res_608 = #check ( %res_600 %res_16 )
@@ -694,8 +672,7 @@ define #main ( ) {
 	%elementAddr_634 = add %arrayBase_631 %offset_633
 	store %res_600 %elementAddr_634
 	%arrayBase_637 = add %arrayPtr_43 4
-	%offset_639 = mul %res_628 4
-	%elementAddr_640 = add %arrayBase_637 %offset_639
+	%elementAddr_640 = add %arrayBase_637 %offset_633
 	store %res_607 %elementAddr_640
 	%res_642 = add %elementVal_138 1
 	%arrayBase_644 = add %arrayPtr_60 4
@@ -710,7 +687,7 @@ define #main ( ) {
 	br %res_655 <75> <74>
 
 <75> lhs_true
-	%res_658 = eq %res_607 %res_20
+	%res_658 = eq %res_607 %res_18
 	br %res_658 <73> <74>
 
 <73> if_true
@@ -744,8 +721,7 @@ define #main ( ) {
 	%elementAddr_670 = add %arrayBase_667 %offset_669
 	%arrayPtr_671 = load %elementAddr_670
 	%arrayBase_672 = add %arrayPtr_671 4
-	%offset_674 = mul %res_20 4
-	%elementAddr_675 = add %arrayBase_672 %offset_674
+	%elementAddr_675 = add %arrayBase_672 %offset_669
 	%elementVal_676 = load %elementAddr_675
 	%res_665 = #toString ( %elementVal_676 )
 	#println ( %res_665 )

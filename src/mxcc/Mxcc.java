@@ -8,12 +8,9 @@ import mxcc.frontend.SemanticChecker;
 import mxcc.frontend.TypeResolver;
 import mxcc.ir.IRPrinter;
 import mxcc.ir.Module;
-import mxcc.optim.ConstantFolding;
-import mxcc.optim.ConstantPropagation;
+import mxcc.optim.*;
 import mxcc.parser.MxLexer;
 import mxcc.parser.MxParser;
-import mxcc.optim.DeadCodeElimination;
-import mxcc.optim.SSAConstructor;
 import mxcc.utility.Config;
 import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
@@ -93,6 +90,7 @@ public class Mxcc {
             DeadCodeElimination.visit(ir);
             ConstantPropagation.visit(ir);
             ConstantFolding.visit(ir);
+            CommonSubexpressionElimination.visit(ir);
         }
         if (Config.debugMode) printIR("a_optim.ll");
     }
