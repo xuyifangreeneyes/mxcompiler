@@ -36,7 +36,13 @@ public class CondBranch extends BranchInst {
         collectUseRegs();
     }
 
+    public void replaceTarget(BasicBlock oldTarget, BasicBlock newTarget) {
+        if (ifTrue == oldTarget) ifTrue = newTarget;
+        if (ifFalse == oldTarget) ifFalse = newTarget;
+    }
+
     public void accept(IRVisitor visitor) {
         visitor.visit(this);
     }
+
 }

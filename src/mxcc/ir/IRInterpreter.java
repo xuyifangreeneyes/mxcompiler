@@ -241,6 +241,7 @@ public class IRInterpreter {
                 }
                 break;
             case "phi":
+//                System.out.println()
                 writeReg(inst.dst, getOperandValue(inst.phiSource.get(predBB.id)));
                 break;
             case "move":
@@ -477,6 +478,7 @@ public class IRInterpreter {
 
         if (Config.debugMode) {
             fileName = new File(Config.tmpPath + "a_optim.ll");
+//            fileName = new File(Config.tmpPath + "a_cfg_1.ll");
         } else {
             fileName = new File(args[0]);
         }

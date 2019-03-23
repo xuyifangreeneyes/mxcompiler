@@ -21,6 +21,7 @@ public class SSAConstructor extends Pass {
             SSAConstructor constructor = new SSAConstructor(func);
             constructor.pass();
         }
+        module.isSSA = true;
     }
 
     private SSAConstructor(Function irFunc) {
@@ -153,9 +154,9 @@ public class SSAConstructor extends Pass {
 
     // self-loop does not strictly dominate itself ?
     private boolean strictlyDominate(BasicBlock bb1, BasicBlock bb2) {
-        if (dominatorMap.get(bb2) == null) {
-            System.out.println(bb2.getName() + " null");
-        }
+//        if (dominatorMap.get(bb2) == null) {
+//            System.out.println(bb2.getName() + " null");
+//        }
         return dominatorMap.get(bb2).contains(bb1) && bb1 != bb2;
     }
 

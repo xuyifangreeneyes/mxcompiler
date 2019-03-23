@@ -12,6 +12,10 @@ public class DirectBranch extends BranchInst {
         return target;
     }
 
+    public void replaceTarget(BasicBlock newTarget) {
+        target = newTarget;
+    }
+
     public void accept(IRVisitor visitor) {
         visitor.visit(this);
     }

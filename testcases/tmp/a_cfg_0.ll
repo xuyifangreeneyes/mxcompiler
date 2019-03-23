@@ -51,9 +51,12 @@ define #ClassA#ClassA ( %thisVal_0 ) {
 	store 1 %memberAddr_5
 	%memberAddr_7 = add %thisVal_0 8
 	store 0 %memberAddr_7
-	%arrayPtr_8 = malloc 404
+	move %memberLength_9 400
+	%arrayLength_10 = add %memberLength_9 4
+	%arrayPtr_8 = malloc %arrayLength_10
 	store 100 %arrayPtr_8
-	store %arrayPtr_8 %memberAddr_7
+	move %memberAddr_12 %memberAddr_7
+	store %arrayPtr_8 %memberAddr_12
 	ret 
 
 }
@@ -97,10 +100,11 @@ define #Main ( %argVal_0 ) {
 	br %res_29 <1> <2>
 
 <1> if_true
+	move %newVal_32 1
 	br <2>
 
 <2> if_merge
-	%varDef_79 = phi <0> 0 <1> 1
+	%varDef_79 = phi <0> 0 <1> %newVal_32
 	%res_35 = #string#le ( $str_1 $str_2 )
 	br %res_35 <3> <4>
 

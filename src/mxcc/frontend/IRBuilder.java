@@ -294,9 +294,17 @@ public class IRBuilder extends AstBaseVisitor {
             // arrayPtrPtr int**
             // arrayPtr int*
             // array structure [n, element_0, element_1, ..., element_n-1]
-            Operand arrayPtrPtr = getTargetAddr(arrayAccess.container);
-            LocalReg arrayPtr = curFunc.makeLocalReg("arrayPtr");
-            curBB.append(new Load(curBB, arrayPtr, arrayPtrPtr));
+
+            LocalReg arrayPtr;
+            if (arrayAccess.container instanceof NewExpr) {
+                visitExpr(arrayAccess.container);
+                arrayPtr = (LocalReg) arrayAccess.container.val;
+            } else {
+                Operand arrayPtrPtr = getTargetAddr(arrayAccess.container);
+                arrayPtr = curFunc.makeLocalReg("arrayPtr");
+                curBB.append(new Load(curBB, arrayPtr, arrayPtrPtr));
+            }
+
             LocalReg arrayBase = curFunc.makeLocalReg("arrayBase");
             curBB.append(new BinaryOperation(curBB, arrayBase, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(4)));
             visitExpr(arrayAccess.subscript);
@@ -307,6 +315,10 @@ public class IRBuilder extends AstBaseVisitor {
             curBB.append(new BinaryOperation(curBB, elementAddr, BinaryOperation.BinaryOp.ADD, arrayBase, offset));
             return elementAddr;
         }
+//        System.out.println(expr.getClass().toString());
+//        if (expr instanceof NewExpr) {
+//            System.out.println(((NewExpr) expr).baseType);
+//        }
         assert false;
         return null;
     }

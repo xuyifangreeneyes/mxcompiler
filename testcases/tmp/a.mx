@@ -1,127 +1,167 @@
-///////////////////////////////////
-
-int countA;
-int countB;
-int countC;
-C something;
-
-class A
-{
-	A a;
-	B b;
-	A()
-	{
-		idx = countA++;
-		if(idx % 2 == 0)
-		{
-			a = new A;
-			if(countB % 2 == 0)
-				b = new B;
-			else
-				b = null;
-		}
-		else
-			a = null;
-		c = new C[2][];
-		c[0] = (new C[6][6][6][6])[2][3][3];
-		c[1] = null;
-		if(c.size() != 2)
-			println("Oops!");
-	}
-	C[] getc0()
-	{
-		return c[0];
-	}
-	C[][] c;
-	int idx;
+//class delc
+class Mo{
+	int ang;
+	int sec;
+	string world;
 }
 
-class B
-{
-	int idx;
-	C c;
-	B()
-	{
-		idx = countB++;
-		c = (new A).getc0()[0].Me().Me();
+class RedBoy{
+	int num;
+}
+
+//global delc
+int age = 1000000;
+string eng = "Four score and seven years ago";
+
+
+//function delc
+int travel(){
+	int a = 10000000;
+	return a;
+}
+
+void journalists(string location){
+	if (location == "HongKong"){
+		print("naive!\n");
+		print("fast!\n");
+		println("too young\\too simple.");
 	}
 }
 
-class C
-{
-	int idx;
-	C()
-	{
-		this.idx = countC++;
-		str = toString(idx);
-		something = Me();
+Mo xu(Mo m0, RedBoy boys){
+    int i;
+	for (i = 0; i < boys.num; ++i){
+		m0.sec++;
 	}
-	C Me() { return this; }
-	string str;
+	return m0;
 }
 
-void count()
-{
-	countA = 0;
-	countB = 0;
-	countC = 0;
-	B b = new B;
-	println(toString(countA) + " " + toString(countB) + " " + toString(countC));
-	countA = 1;
-	countB = 1;
-	countC = 1;
-	b = new B;
-	print(toString(countA-1) + " " + toString(countB-1) + " " + toString(countC-1));
-	print("\n");
-	println(toString(something.Me().str.substring(1, something.str.length()-1).parseInt()));
-	string temp = toString(something.str.ord(42 & 21));
-	if(temp < something.str)
-		println(something.str + ">" + temp);
-	else
-		println(something.str + "<=" + temp);
-}
+int main(){
+	//test initialization
+	int a;
+	int b;
+	int c;
+	int year = 2016;
+	string tell = "wukefengggao\n";;
+	bool zici = true;
+	bool nozici = false;
+	RedBoy boy = new RedBoy;//default initializer is "()"-free
+	RedBoy[] boys = new RedBoy[3];
+	RedBoy[][][] boyss = new RedBoy[1][2][3];
+	Mo haha = new Mo;
 
-///////////////////////////////////
+	//test for constant
+	false;
+	true;
+	null;
+	123;
+	"Four score and seven years ago\n\\\"";
 
-int main()
-{
-	{{{;};{}}};
-	int i;
-	for(i=0;;i++)
-		if(((i ^ 891 & 759) == 666) == !false)
-		{
-			println(toString(i));
-			int i = 0;
-			println(toString(i));
-			{
-				int i = 1;
-				println(toString(i));
-			}
-			count();
-			break;
-		}
-	while(true)
-	{
-		if(i % 2 == 0)
+	//test for opeartion
+	a = 1;
+	b = 2;
+	// a = b = c;//be aware of the right association
+
+	a + b;
+	a - b;
+	a * b;
+	a / b;
+	a % b;
+
+	a < 1;
+	a > 2;
+	a == b;
+	a != b;
+	a <= b;
+	a >= b;
+
+    bool g;
+    bool h;
+	g && h;
+	g || h;
+	!g;
+
+	a << 1;
+	a >> 2;
+	~a;
+	a | b;
+	a ^ b;
+	a & b;
+
+	++a;
+	b++;
+	// (++a)++;
+
+	boy.num;
+
+	boys[2].num;
+	boyss[1][2][3].num;
+
+	xu(new Mo, null);
+
+	//test for iteration
+	int i = 0;
+	for (i = 0; i < 3; ++i){
+		xu(haha, boys[i]);
+	}
+	for (i = 0; i < 3; ++i) xu(haha, boys[i]);
+	for (;;);
+	i = 0;
+	while(i < year) print(toString(i));
+	while(true) ;
+
+	//test for if
+	if (i < year){
+		print(toString(travel()));
+	}
+	else{
+		print("naive!\n");
+	}
+
+	if (i < year) print(toString(travel()));
+	else if (i == year) print("naive!\n");
+	else print("too young!\\");
+
+	i = 0;
+	while(true){
+		if (i == year) break;
+		++i;
+	}
+
+	i = 0;
+	while(true){
+		if (i < year) {
+			++i;
 			continue;
-		print(toString(i)+",");
+		}
+		break;
 	}
-	println("");
+
+	string tmpstr = "test";
+	print(toString(tmpstr.length()));
+	print(tmpstr.substring(1,2));
+
 	return 0;
 }
 
 
-
 /*!! metadata:
 === comment ===
-naive-test-515030910628-zhangzhekai.txt
-naive test by zk
-=== assert ===
-success_compile
-=== phase ===
-semantic extended
+Test basic rules-basic_test-yurongyou.mx
 === is_public ===
 True
+=== assert ===
+success_compile
+=== timeout ===
+0
+=== input ===
+
+=== phase ===
+semantic pretest
+=== output ===
+
+=== exitcode ===
+
 
 !!*/
 

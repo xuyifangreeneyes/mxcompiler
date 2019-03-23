@@ -1,7 +1,9 @@
 package mxcc.ir;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class Instruction {
     private BasicBlock parent;
@@ -11,7 +13,7 @@ public abstract class Instruction {
     private boolean deleted = false;
 
     protected Register defReg;
-    protected List<Register> useRegs = new ArrayList<>();
+    protected Set<Register> useRegs = new HashSet<>();
 
     public Instruction(BasicBlock parent) {
         this.parent = parent;
@@ -21,7 +23,7 @@ public abstract class Instruction {
         return defReg;
     }
 
-    public List<Register> getUseRegs() {
+    public Set<Register> getUseRegs() {
         return useRegs;
     }
 
@@ -67,6 +69,10 @@ public abstract class Instruction {
 
     public boolean isDeleted() {
         return deleted;
+    }
+
+    public void setParentBB(BasicBlock parent) {
+        this.parent = parent;
     }
 
     public void accept(IRVisitor visitor) {

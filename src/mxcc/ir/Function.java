@@ -22,6 +22,18 @@ public class Function {
         return head;
     }
 
+    public BasicBlock getLastBB() {
+        return tail;
+    }
+
+    public void setStartBB(BasicBlock bb) {
+        head = bb;
+    }
+
+    public void setLastBB(BasicBlock bb) {
+        tail = bb;
+    }
+
     public LocalReg makeLocalReg(String hint) {
         LocalReg reg = new LocalReg(hint, LocalRegCounter);
         ++LocalRegCounter;

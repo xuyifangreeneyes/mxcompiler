@@ -49,7 +49,7 @@ public class ConstantPropagation extends Pass {
         Operand firstVal = null;
         boolean isInt = false;
         int intVal = 0;
-        for (Operand val : phiInst.getSource().values()) {
+        for (Operand val : phiInst.getAllSource().values()) {
             if (gotFirstVal) {
                 if (isInt) {
                     if (!(val instanceof IntImmediate) || ((IntImmediate) val).getVal() != intVal) {

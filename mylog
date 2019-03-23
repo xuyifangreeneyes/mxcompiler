@@ -22,3 +22,4 @@ maybe dst of instruction can be LocalReg. fix it later.
 
 alloca and malloc have no side effect when eliminating dead code ??
 
+Some visitExpr can be replaced by visit in order to reduce cast. Maybe do it later.

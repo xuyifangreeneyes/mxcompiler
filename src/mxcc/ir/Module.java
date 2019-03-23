@@ -13,6 +13,8 @@ public class Module {
     public Map<String, StringLiteral> stringPool = new LinkedHashMap<>();
     public List<GlobalReg> globalRegs = new ArrayList<>();
 
+    public boolean isSSA = false;
+
     public void defineFunction(Function function) {
         funcs.put(function.getName(), function);
     }

@@ -51,7 +51,8 @@ define #ClassA#ClassA ( %thisVal_0 ) {
 	store 1 %memberAddr_5
 	%memberAddr_7 = add %thisVal_0 8
 	store 0 %memberAddr_7
-	%arrayPtr_8 = malloc 404
+	move %arrayLength_10 404
+	%arrayPtr_8 = malloc %arrayLength_10
 	store 100 %arrayPtr_8
 	store %arrayPtr_8 %memberAddr_7
 	ret 

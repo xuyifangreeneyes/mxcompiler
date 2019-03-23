@@ -198,63 +198,24 @@ define #Main ( %argVal_0 ) {
 	%idVal_55 = load %varAddr_25
 	%res_56 = #string#add ( %idVal_54 %idVal_55 )
 	%res_57 = #string#eq ( %res_53 %res_56 )
-	br %res_57 <9> <10>
+	br %res_57 <9> <13>
 
 <9> if_true
 	%idVal_58 = load %varAddr_26
 	%oldVal_59 = load %varAddr_26
 	%newVal_60 = inc %oldVal_59
 	store %newVal_60 %varAddr_26
-	br <11>
-
-<10> if_false
-	br 0 <12> <13>
-
-<12> if_true
-	%idVal_61 = load %varAddr_26
-	%oldVal_62 = load %varAddr_26
-	%newVal_63 = dec %oldVal_62
-	store %newVal_63 %varAddr_26
-	br <14>
+	br <20>
 
 <13> if_false
 	%idVal_64 = load %varAddr_26
 	%oldVal_65 = load %varAddr_26
 	%newVal_66 = dec %oldVal_65
 	store %newVal_66 %varAddr_26
-	br <14>
-
-<14> if_merge
-	br <11>
-
-<11> if_merge
-	br <15>
-
-<15> for_cond
-	br <16>
-
-<16> for_body
-	br <18>
-
-<17> for_step
-	br <15>
-
-<18> for_end
-	br <19>
-
-<19> while_cond
-	br 1 <20> <21>
+	br <20>
 
 <20> while_body
-	br <19>
-
-<21> while_end
-	%idVal_67 = load %varAddr_24
-	#println ( %idVal_67 )
-	%idVal_68 = load %varAddr_25
-	#print ( %idVal_68 )
-	%idVal_69 = load %varAddr_26
-	ret %idVal_69
+	br <20>
 
 }
 
