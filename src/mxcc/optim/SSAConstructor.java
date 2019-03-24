@@ -189,6 +189,7 @@ public class SSAConstructor extends Pass {
 
     // delete a BB in cfg and make dfs search from function entry
     // the deletedBB is dominator of those untouched BBs
+    // TODO: change type of touchedBBs from List to Set
     private void touch(BasicBlock curBB, BasicBlock deletedBB, List<BasicBlock> touchedBBs) {
         if (curBB == deletedBB || touchedBBs.contains(curBB)) return;
         touchedBBs.add(curBB);

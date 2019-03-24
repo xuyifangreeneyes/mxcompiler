@@ -2,6 +2,7 @@ package mxcc.optim;
 
 import javafx.util.Pair;
 import mxcc.ir.*;
+import mxcc.utility.Config;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -13,6 +14,7 @@ public class ConstantPropagation extends Pass {
     public static void visit(Module module) {
         for (Function func : module.funcs.values()) {
             if (func.isBuiltin()) continue;
+            if (Config.debugMode) System.out.println("constantPropagation in " + func.getName());
             ConstantPropagation cp = new ConstantPropagation(func);
             cp.pass();
         }

@@ -35,6 +35,7 @@ public class CFGSimplifier extends Pass {
             eliminateDeadBlock();
             if (!modified) break;
         }
+        eliminateUnreachableBlocks();
     }
 
     private void buildCFG() {
@@ -58,12 +59,15 @@ public class CFGSimplifier extends Pass {
     }
 
     private void mergeBlock() {
-        BasicBlock bb = irFunc.getStartBB();
+        // irFunc.getStartBB() is not allowed merging to other BB
+        BasicBlock bb = irFunc.getStartBB().next;
         while (bb != null) {
             if (succMap.get(bb).size() == 1) {
                 BasicBlock succ = succMap.get(bb).iterator().next();
 //                System.out.println("[ " + bb.getParentFunc().getName() + "<" + bb.getLabel() + "> <" + succ.getLabel() + "> ]");
-                if (predMap.get(succ).size() == 1) {
+
+                // Succ is not allowed being irFunc.getStartBB() since it is entry of function.
+                if (predMap.get(succ).size() == 1 && succ != irFunc.getStartBB()) {
 
                     assert predMap.get(succ).iterator().next() == bb;
                     // succ has only one predecessor, which indicates that it can't be a join node.
@@ -100,6 +104,7 @@ public class CFGSimplifier extends Pass {
     }
 
     private void eliminateDeadBlock() {
+        // irFunc.getStartBB() is not allowed deleting
         BasicBlock bb = irFunc.getStartBB().next;
         while (bb != null) {
             if (predMap.get(bb).isEmpty()) {
@@ -131,9 +136,30 @@ public class CFGSimplifier extends Pass {
     }
 
 
+    private void touch(BasicBlock curBB, Set<BasicBlock> touchedBBs) {
+        if (touchedBBs.contains(curBB)) return;
+        touchedBBs.add(curBB);
+        for (BasicBlock succ : succMap.get(curBB)) {
+            touch(succ, touchedBBs);
+        }
+    }
+
+    private void eliminateUnreachableBlocks() {
+        Set<BasicBlock> touchedBBs = new HashSet<>();
+        touch(irFunc.getStartBB(), touchedBBs);
+        BasicBlock bb = irFunc.getStartBB();
+        while (bb != null) {
+            if (!touchedBBs.contains(bb)) {
+                bb.delete();
+            }
+            bb = bb.next;
+        }
+    }
+
     // cannot apply to IR in SSA mode
     private void removeSingleBranchBlock() {
-        BasicBlock bb = irFunc.getStartBB();
+        // irFunc.getStartBB() is not allowed removing
+        BasicBlock bb = irFunc.getStartBB().next;
         while (bb != null) {
             if (bb.getFirstInst() instanceof DirectBranch) {
                 assert succMap.get(bb).size() == 1;

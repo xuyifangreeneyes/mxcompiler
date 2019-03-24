@@ -109,10 +109,11 @@ public class BasicBlock {
         if (this == parent.getLastBB()) parent.setLastBB(nextBB);
     }
 
+    //
     public void delete() {
+        assert this != parent.getStartBB();
         if (this.prev != null) this.prev.next = this.next;
         if (this.next != null) this.next.prev = this.prev;
-        if (this == parent.getStartBB()) parent.setStartBB(this.next);
         if (this == parent.getLastBB()) parent.setLastBB(this.prev);
 
 //        System.out.println(this.getParentFunc().getName() + " <" + this.getLabel() + "> is deleted");

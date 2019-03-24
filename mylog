@@ -23,3 +23,15 @@ maybe dst of instruction can be LocalReg. fix it later.
 alloca and malloc have no side effect when eliminating dead code ??
 
 Some visitExpr can be replaced by visit in order to reduce cast. Maybe do it later.
+
+CFGSimplifier may delete irFunc.head. For now I don't allow deleting irFunc.head.
+If allowing deleting irFunc.head, headBB and entryBB should be distinguished(now they are the same).
+
+Optim order can be considered carefully. Rather than run for a fixed number of loops, it is better to
+end optim when nothing is modified. Some interfaces should be changed in order to be more suitable for 
+debuging(for example, printIR every time when a single optim is finished) and arrange different optims.
+
+For now my optim doesn't work for 570 because I haven't turned global variables to local when constructing 
+SSA. 
+
+For 593, it can be optimized to ret 30 but it costs 7 cycles of optim.

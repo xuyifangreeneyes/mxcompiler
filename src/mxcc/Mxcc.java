@@ -86,7 +86,7 @@ public class Mxcc {
     private void SSAtransform() throws IOException {
         SSAConstructor.visit(ir);
         if (Config.debugMode) printIR("a_ssa.ll");
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < 10; ++i) {
 
             if (Config.debugMode) System.out.println("SSA optim " + i);
 

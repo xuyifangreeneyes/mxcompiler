@@ -40,6 +40,8 @@ public class Phi extends Instruction {
         source.remove(bb);
         collectUseRegs();
         if (source.size() == 1) {
+            // All of Phis at start of BB have the same number of sources.
+            // If one of Phis turns to Move, then others will do the same thing.
             this.replacedBy(new Move(this.getParentBB(), this.getDst(), source.values().iterator().next()));
         }
     }
