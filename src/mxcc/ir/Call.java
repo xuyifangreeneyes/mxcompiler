@@ -26,6 +26,10 @@ public class Call extends Instruction {
         collectUseRegs();
     }
 
+    public FunctionSymbol getFunc() {
+        return func;
+    }
+
     public Register getDst() {
         return dst;
     }

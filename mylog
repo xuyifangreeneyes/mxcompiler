@@ -35,3 +35,6 @@ For now my optim doesn't work for 570 because I haven't turned global variables 
 SSA. 
 
 For 593, it can be optimized to ret 30 but it costs 7 cycles of optim.
+
+For some Instructions(like Alloca, BinaryOperation), dst must be LocalReg. For now some of dst are Register.
+

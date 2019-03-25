@@ -1,7 +1,7 @@
 package mxcc.ir;
 
 public class IntImmediate extends Operand {
-    private int val;
+    private final int val;
 
     public IntImmediate(int val) {
         this.val = val;

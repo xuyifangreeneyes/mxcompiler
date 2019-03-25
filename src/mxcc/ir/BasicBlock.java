@@ -93,6 +93,28 @@ public class BasicBlock {
         succ.delete();
     }
 
+    public void spiltBlock(Instruction splitInst) {
+        BasicBlock latter = parent.makeBB("after_call");
+        this.addNext(latter);
+
+        Instruction inst = splitInst.next;
+        while (inst != null) {
+            inst.setParentBB(latter);
+            inst = inst.next;
+        }
+
+        this.tail = splitInst;
+        latter.head = splitInst.next;
+        inst = splitInst.next;
+        if (inst != null) {
+            while (inst.next != null) inst = inst.next;
+        }
+        latter.tail = inst;
+
+        this.tail.next = null;
+        if (latter.head != null) latter.head.prev = null;
+    }
+
     public void addPrev(BasicBlock prevBB) {
         prevBB.prev = this.prev;
         prevBB.next = this;
@@ -109,7 +131,6 @@ public class BasicBlock {
         if (this == parent.getLastBB()) parent.setLastBB(nextBB);
     }
 
-    //
     public void delete() {
         assert this != parent.getStartBB();
         if (this.prev != null) this.prev.next = this.next;

@@ -1,9 +1,9 @@
 package mxcc.ir;
 
 public interface IRVisitor {
-    void visit(Module node);
-    void visit(Function node);
-    void visit(BasicBlock node);
+//    void visit(Module node);
+//    void visit(Function node);
+//    void visit(BasicBlock node);
 
     void visit(Instruction node);
 
