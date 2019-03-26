@@ -1,53 +1,38 @@
 <Program>
-	<FunctionDecl> int main
-		<VariableDeclStmt>
-			<VariableDecl> int a
-				<IntConst> 5
-		<VariableDeclStmt>
-			<VariableDecl> int b
+	<FunctionDecl> int gcd int x int y
+		<IfStmt>
+			<BinaryExpr> EQ
+				<BinaryExpr> MOD
+					<IdentifierExpr> x
+					<IdentifierExpr> y
 				<IntConst> 0
-		<VariableDeclStmt>
-			<VariableDecl> int c
-		<VariableDeclStmt>
-			<VariableDecl> bool d
-				<BinaryExpr> AND
-					<BinaryExpr> NEQ
-						<IdentifierExpr> b
-						<IntConst> 0
-					<BinaryExpr> NEQ
-						<BinaryExpr> DIV
-							<IdentifierExpr> a
-							<IdentifierExpr> b
-						<IntConst> 1
-		<IfStmt>
-			<IdentifierExpr> d
 			<BlockStmt>
-				<BinaryExpr> ASSIGN
-					<IdentifierExpr> c
+				<ReturnStmt>
+					<IdentifierExpr> y
+	<FunctionDecl> int main
+		<FunctionCall>
+			<IdentifierExpr> println
+			<FunctionCall>
+				<IdentifierExpr> toString
+				<FunctionCall>
+					<IdentifierExpr> gcd
 					<IntConst> 10
-		<VariableDeclStmt>
-			<VariableDecl> bool e
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> e
-			<UnaryExpr> NOT
-				<BinaryExpr> AND
-					<BinaryExpr> AND
-						<BinaryExpr> EQ
-							<IdentifierExpr> c
-							<IntConst> 10
-						<BinaryExpr> EQ
-							<BinaryExpr> DIV
-								<IdentifierExpr> a
-								<IdentifierExpr> b
-							<IntConst> 0
-					<BinaryExpr> EQ
-						<IdentifierExpr> a
-						<IntConst> 5
-		<IfStmt>
-			<IdentifierExpr> e
-			<BlockStmt>
-				<BinaryExpr> ASSIGN
-					<IdentifierExpr> c
-					<IntConst> 30
+					<IntConst> 1
+		<FunctionCall>
+			<IdentifierExpr> println
+			<FunctionCall>
+				<IdentifierExpr> toString
+				<FunctionCall>
+					<IdentifierExpr> gcd
+					<IntConst> 34986
+					<IntConst> 3087
+		<FunctionCall>
+			<IdentifierExpr> println
+			<FunctionCall>
+				<IdentifierExpr> toString
+				<FunctionCall>
+					<IdentifierExpr> gcd
+					<IntConst> 2907
+					<IntConst> 1539
 		<ReturnStmt>
-			<IdentifierExpr> c
+			<IntConst> 0

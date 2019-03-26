@@ -8,7 +8,7 @@ public class BinaryOperation extends Instruction {
         BIT_AND, BIT_OR, BIT_XOR,
     }
 
-    private Register dst;
+    private LocalReg dst;
     private BinaryOp op;
     private Operand lhs;
     private Operand rhs;
@@ -19,7 +19,7 @@ public class BinaryOperation extends Instruction {
         if (rhs instanceof Register) useRegs.add((Register) rhs);
     }
 
-    public BinaryOperation(BasicBlock parent, Register dst, BinaryOp op, Operand lhs, Operand rhs) {
+    public BinaryOperation(BasicBlock parent, LocalReg dst, BinaryOp op, Operand lhs, Operand rhs) {
         super(parent);
         this.dst = dst;
         this.op = op;
@@ -30,7 +30,7 @@ public class BinaryOperation extends Instruction {
         collectUseRegs();
     }
 
-    public Register getDst() {
+    public LocalReg getDst() {
         return dst;
     }
 

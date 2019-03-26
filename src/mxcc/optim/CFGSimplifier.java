@@ -13,9 +13,9 @@ public class CFGSimplifier extends Pass {
     public static void visit(Module module) {
         for (Function func : module.funcs.values()) {
             if (func.isBuiltin()) continue;
-            if (Config.debugMode) {
-                System.out.println("CFG simplification in " + func.getName());
-            }
+//            if (Config.debugMode) {
+//                System.out.println("CFG simplification in " + func.getName());
+//            }
             CFGSimplifier simplifier = new CFGSimplifier(func);
             simplifier.pass(module.isSSA);
         }
@@ -91,10 +91,10 @@ public class CFGSimplifier extends Pass {
 
                     bb.mergeSuccBlock(succ);
 
-                    if (Config.debugMode) {
-                        System.out.println("==============================");
-                        System.out.println("merge <" + succ.getLabel() + "> to <" + bb.getLabel() + ">");
-                    }
+//                    if (Config.debugMode) {
+//                        System.out.println("==============================");
+//                        System.out.println("merge <" + succ.getLabel() + "> to <" + bb.getLabel() + ">");
+//                    }
 
                     modified = true;
                 }
@@ -124,10 +124,10 @@ public class CFGSimplifier extends Pass {
 
                 bb.delete();
 
-                if (Config.debugMode) {
-                    System.out.println("==============================");
-                    System.out.println("delete <" + bb.getLabel() + ">");
-                }
+//                if (Config.debugMode) {
+//                    System.out.println("==============================");
+//                    System.out.println("delete <" + bb.getLabel() + ">");
+//                }
 
                 modified = true;
             }
@@ -200,10 +200,10 @@ public class CFGSimplifier extends Pass {
 
                     bb.delete();
 
-                    if (Config.debugMode) {
-                        System.out.println("==============================");
-                        System.out.println("remove <" + bb.getLabel() + ">");
-                    }
+//                    if (Config.debugMode) {
+//                        System.out.println("==============================");
+//                        System.out.println("remove <" + bb.getLabel() + ">");
+//                    }
 
                     modified = true;
                 }
@@ -221,12 +221,12 @@ public class CFGSimplifier extends Pass {
                     DirectBranch directBranch = new DirectBranch(condBranch.getParentBB(), condBranch.getIfTrue());
                     condBranch.replacedBy(directBranch);
 
-                    if (Config.debugMode) {
-                        System.out.println("==============================");
-                        System.out.println("br " + condBranch.getCond() + " <" + condBranch.getIfTrue().getLabel() + "> <" + condBranch.getIfFalse().getLabel() + ">");
-                        System.out.println("->");
-                        System.out.println("br <" + directBranch.getTarget().getLabel() + ">");
-                    }
+//                    if (Config.debugMode) {
+//                        System.out.println("==============================");
+//                        System.out.println("br " + condBranch.getCond() + " <" + condBranch.getIfTrue().getLabel() + "> <" + condBranch.getIfFalse().getLabel() + ">");
+//                        System.out.println("->");
+//                        System.out.println("br <" + directBranch.getTarget().getLabel() + ">");
+//                    }
 
                     modified = true;
                 } else if (condBranch.getCond() instanceof IntImmediate) {
@@ -245,12 +245,12 @@ public class CFGSimplifier extends Pass {
                     succMap.get(bb).remove(fakeTarget);
                     predMap.get(fakeTarget).remove(bb);
 
-                    if (Config.debugMode) {
-                        System.out.println("==============================");
-                        System.out.println("br " + condBranch.getCond() + " <" + condBranch.getIfTrue().getLabel() + "> <" + condBranch.getIfFalse().getLabel() + ">");
-                        System.out.println("->");
-                        System.out.println("br <" + directBranch.getTarget().getLabel() + ">");
-                    }
+//                    if (Config.debugMode) {
+//                        System.out.println("==============================");
+//                        System.out.println("br " + condBranch.getCond() + " <" + condBranch.getIfTrue().getLabel() + "> <" + condBranch.getIfFalse().getLabel() + ">");
+//                        System.out.println("->");
+//                        System.out.println("br <" + directBranch.getTarget().getLabel() + ">");
+//                    }
 
                     modified = true;
                 }

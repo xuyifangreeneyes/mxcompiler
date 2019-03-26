@@ -14,7 +14,7 @@ public class ConstantPropagation extends Pass {
     public static void visit(Module module) {
         for (Function func : module.funcs.values()) {
             if (func.isBuiltin()) continue;
-            if (Config.debugMode) System.out.println("constantPropagation in " + func.getName());
+//            if (Config.debugMode) System.out.println("constantPropagation in " + func.getName());
             ConstantPropagation cp = new ConstantPropagation(func);
             cp.pass();
         }

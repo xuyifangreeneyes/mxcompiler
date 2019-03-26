@@ -88,16 +88,31 @@ public class Mxcc {
         if (Config.debugMode) printIR("a_ssa.ll");
         for (int i = 0; i < 10; ++i) {
 
-            if (Config.debugMode) System.out.println("SSA optim " + i);
+//            if (Config.debugMode) System.out.println("SSA optim " + i);
 
             DeadCodeElimination.visit(ir);
             ConstantPropagation.visit(ir);
             ConstantFolding.visit(ir);
             CommonSubexpressionElimination.visit(ir);
-            if (Config.debugMode) printIR("a_ssa_" + i + ".ll");
+//            if (Config.debugMode) printIR("a_ssa_" + i + ".ll");
             CFGSimplifier.visit(ir);
-            if (Config.debugMode) printIR("a_cfg_" + i + ".ll");
+//            if (Config.debugMode) printIR("a_cfg_" + i + ".ll");
         }
+    }
+
+    private void functionInline() {
+        FunctionInliner inliner = new FunctionInliner(ir);
+        inliner.run();
+    }
+
+    private void optim() throws IOException {
+        functionInline();
+        if (Config.debugMode) printIR("a_inline.ll");
+        CFGSimplifier.visit(ir);
+//        if (Config.debugMode) printIR("a_cfg.ll");
+        SSAtransform();
+        CFGSimplifier.visit(ir);
+        if (Config.debugMode) printIR("a_optim.ll");
     }
 
     private void run() throws IOException {
@@ -106,11 +121,7 @@ public class Mxcc {
         sematicCheck();
         buildIR();
         if (Config.debugMode) printIR("a.ll");
-        CFGSimplifier.visit(ir);
-        if (Config.debugMode) printIR("a_cfg.ll");
-        SSAtransform();
-        CFGSimplifier.visit(ir);
-        if (Config.debugMode) printIR("a_optim.ll");
+        optim();
         if (!Config.debugMode) printIR(null);
     }
 

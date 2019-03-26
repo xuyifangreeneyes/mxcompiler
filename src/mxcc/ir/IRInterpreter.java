@@ -192,8 +192,8 @@ public class IRInterpreter {
 
     private int getOperandValue(String operand) {
         if (operand.startsWith("%")) {
-            assert localRegs.containsKey(operand);
 //            System.out.println(operand);
+            assert localRegs.containsKey(operand);
             return localRegs.get(operand);
         }
         if (operand.startsWith("@") || operand.startsWith("$")) {

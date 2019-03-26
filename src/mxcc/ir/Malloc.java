@@ -1,7 +1,7 @@
 package mxcc.ir;
 
 public class Malloc extends Instruction {
-    private Register dst;
+    private LocalReg dst;
     private Operand size;
 
     private void collectUseRegs() {
@@ -9,7 +9,7 @@ public class Malloc extends Instruction {
         if (size instanceof Register) useRegs.add((Register) size);
     }
 
-    public Malloc(BasicBlock parent, Register dst, Operand size) {
+    public Malloc(BasicBlock parent, LocalReg dst, Operand size) {
         super(parent);
         this.dst = dst;
         this.size = size;
@@ -18,7 +18,7 @@ public class Malloc extends Instruction {
         collectUseRegs();
     }
 
-    public Register getDst() {
+    public LocalReg getDst() {
         return dst;
     }
 

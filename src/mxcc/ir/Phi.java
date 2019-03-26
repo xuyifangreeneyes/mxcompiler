@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class Phi extends Instruction {
     private Register varAddr;
-    private Register dst;
+    private LocalReg dst;
     private Map<BasicBlock, Operand> source = new LinkedHashMap<>();
 
     private void collectUseRegs() {
@@ -50,7 +50,7 @@ public class Phi extends Instruction {
         return source;
     }
 
-    public Register getDst() {
+    public LocalReg getDst() {
         return dst;
     }
 
@@ -58,7 +58,7 @@ public class Phi extends Instruction {
         return varAddr;
     }
 
-    public void setDst(Register dst) {
+    public void setDst(LocalReg dst) {
         this.dst = dst;
         defReg = dst;
     }

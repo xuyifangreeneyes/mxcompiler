@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Call extends Instruction {
     private FunctionSymbol func;
-    private Register dst;
+    private LocalReg dst;
     private List<Operand> args;
 
     private void collectUseRegs() {
@@ -16,7 +16,7 @@ public class Call extends Instruction {
         }
     }
 
-    public Call(BasicBlock parent, FunctionSymbol func, Register dst, List<Operand> args) {
+    public Call(BasicBlock parent, FunctionSymbol func, LocalReg dst, List<Operand> args) {
         super(parent);
         this.func = func;
         this.dst = dst;
@@ -30,7 +30,7 @@ public class Call extends Instruction {
         return func;
     }
 
-    public Register getDst() {
+    public LocalReg getDst() {
         return dst;
     }
 

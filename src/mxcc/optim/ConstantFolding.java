@@ -35,7 +35,7 @@ public class ConstantFolding extends Pass {
                         switch (op) {
                             case MUL: res = lhs * rhs; break;
                             case DIV: res = rhs == 0 ? 0 : lhs / rhs; break;
-                            case MOD: res = lhs % rhs; break;
+                            case MOD: res = rhs == 0 ? 0 : lhs % rhs; break;
                             case ADD: res = lhs + rhs; break;
                             case SUB: res = lhs - rhs; break;
                             case LSFT: res = lhs << rhs; break;

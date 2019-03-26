@@ -5,7 +5,7 @@ public class UnaryOperation extends Instruction {
         INC, DEC, NEG, BIT_NOT,
     }
 
-    private Register dst;
+    private LocalReg dst;
     private UnaryOp op;
     private Operand src;
 
@@ -14,7 +14,7 @@ public class UnaryOperation extends Instruction {
         if (src instanceof Register) useRegs.add((Register) src);
     }
 
-    public UnaryOperation(BasicBlock parent, Register dst, UnaryOp op, Operand src) {
+    public UnaryOperation(BasicBlock parent, LocalReg dst, UnaryOp op, Operand src) {
         super(parent);
         this.dst = dst;
         this.op = op;
@@ -24,7 +24,7 @@ public class UnaryOperation extends Instruction {
         collectUseRegs();
     }
 
-    public Register getDst() {
+    public LocalReg getDst() {
         return dst;
     }
 

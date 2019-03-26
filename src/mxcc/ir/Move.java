@@ -1,7 +1,7 @@
 package mxcc.ir;
 
 public class Move extends Instruction {
-    private Register dst;
+    private LocalReg dst;
     private Operand src;
 
     private void collectUseRegs() {
@@ -9,7 +9,7 @@ public class Move extends Instruction {
         if (src instanceof Register) useRegs.add((Register) src);
     }
 
-    public Move(BasicBlock parent, Register dst, Operand src) {
+    public Move(BasicBlock parent, LocalReg dst, Operand src) {
         super(parent);
         this.dst = dst;
         this.src = src;
@@ -18,7 +18,7 @@ public class Move extends Instruction {
         collectUseRegs();
     }
 
-    public Register getDst() {
+    public LocalReg getDst() {
         return dst;
     }
 

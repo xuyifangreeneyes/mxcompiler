@@ -1,3 +1,11 @@
+@a
+
+@i
+
+@j
+
+@b
+
 define #print
 
 define #println
@@ -34,91 +42,155 @@ define #string#ge
 
 define #global#init ( ) {
 <0> entry
+	%memberLength_1 = mul 4 4
+	%arrayLength_2 = add %memberLength_1 4
+	%arrayPtr_0 = malloc %arrayLength_2
+	store 4 %arrayPtr_0
+	store %arrayPtr_0 @a
+	%memberLength_4 = mul 5 4
+	%arrayLength_5 = add %memberLength_4 4
+	%arrayPtr_3 = malloc %arrayLength_5
+	store 5 %arrayPtr_3
+	store %arrayPtr_3 @b
+
+}
+
+define #printNum ( %argVal_0 ) {
+<0> entry
+	%argAddr_1 = alloca 4
+	store %argVal_0 %argAddr_1
+	%idVal_3 = load %argAddr_1
+	%res_2 = #toString ( %idVal_3 )
+	#println ( %res_2 )
 
 }
 
 define #main ( ) {
 <0> entry
-	%boolValAddr_14 = alloca 4
-	%varAddr_13 = alloca 4
-	%boolValAddr_4 = alloca 4
-	%varAddr_3 = alloca 4
-	%varAddr_2 = alloca 4
-	%varAddr_1 = alloca 4
-	%varAddr_0 = alloca 4
-	store 5 %varAddr_0
-	store 0 %varAddr_1
-	%idVal_5 = load %varAddr_1
-	%res_6 = neq %idVal_5 0
-	br %res_6 <4> <2>
+	%cargAddr_182 = alloca 4
+	%retValAddr_181 = alloca 4
+	%cargAddr_178 = alloca 4
+	%retValAddr_177 = alloca 4
+	%cargAddr_174 = alloca 4
+	%retValAddr_173 = alloca 4
+	%cargAddr_170 = alloca 4
+	%retValAddr_169 = alloca 4
+	%cargAddr_166 = alloca 4
+	%retValAddr_165 = alloca 4
+	store 0 @i
+	br <1>
 
-<4> lhs_true
-	%idVal_7 = load %varAddr_0
-	%idVal_8 = load %varAddr_1
-	%res_9 = div %idVal_7 %idVal_8
-	%res_10 = neq %res_9 1
-	br %res_10 <1> <2>
+<1> for_cond
+	%idVal_0 = load @i
+	%res_1 = lt %idVal_0 4
+	br %res_1 <2> <4>
 
-<1> bool_true
-	store 1 %boolValAddr_4
-	br <3>
+<2> for_body
+	%memberLength_3 = mul 11 4
+	%arrayLength_4 = add %memberLength_3 4
+	%arrayPtr_2 = malloc %arrayLength_4
+	store 11 %arrayPtr_2
+	%arrayPtr_5 = load @a
+	%arrayBase_6 = add %arrayPtr_5 4
+	%idVal_7 = load @i
+	%offset_8 = mul %idVal_7 4
+	%elementAddr_9 = add %arrayBase_6 %offset_8
+	store %arrayPtr_2 %elementAddr_9
+	%idVal_10 = load @i
+	%oldVal_11 = load @i
+	%newVal_12 = inc %oldVal_11
+	store %newVal_12 @i
+	br <1>
 
-<2> bool_false
-	store 0 %boolValAddr_4
-	br <3>
+<4> for_end
+	store 0 @i
+	br <5>
 
-<3> bool_merge
-	%boolVal_11 = load %boolValAddr_4
-	store %boolVal_11 %varAddr_3
-	%idVal_12 = load %varAddr_3
-	br %idVal_12 <5> <6>
+<5> for_cond
+	%idVal_13 = load @i
+	%res_14 = lt %idVal_13 4
+	br %res_14 <6> <8>
 
-<5> if_true
-	store 10 %varAddr_2
-	br <7>
+<6> for_body
+	store 0 @j
+	br <9>
 
-<6> if_false
-	store 20 %varAddr_2
-	br <7>
+<9> for_cond
+	%idVal_15 = load @j
+	%res_16 = lt %idVal_15 10
+	br %res_16 <10> <7>
 
-<7> if_merge
-	%idVal_15 = load %varAddr_2
-	%res_16 = eq %idVal_15 10
-	br %res_16 <12> <8>
+<10> for_body
+	%arrayPtr_17 = load @a
+	%arrayBase_18 = add %arrayPtr_17 4
+	%idVal_19 = load @i
+	%offset_20 = mul %idVal_19 4
+	%elementAddr_21 = add %arrayBase_18 %offset_20
+	%arrayPtr_22 = load %elementAddr_21
+	%arrayBase_23 = add %arrayPtr_22 4
+	%idVal_24 = load @j
+	%offset_25 = mul %idVal_24 4
+	%elementAddr_26 = add %arrayBase_23 %offset_25
+	store 888 %elementAddr_26
+	%idVal_27 = load @j
+	%oldVal_28 = load @j
+	%newVal_29 = inc %oldVal_28
+	store %newVal_29 @j
+	br <9>
 
-<12> lhs_true
-	%idVal_17 = load %varAddr_0
-	%idVal_18 = load %varAddr_1
-	%res_19 = div %idVal_17 %idVal_18
-	%res_20 = eq %res_19 0
-	br %res_20 <11> <8>
+<7> for_step
+	%idVal_30 = load @i
+	%oldVal_31 = load @i
+	%newVal_32 = inc %oldVal_31
+	store %newVal_32 @i
+	br <5>
 
-<11> lhs_true
-	%idVal_21 = load %varAddr_0
-	%res_22 = eq %idVal_21 5
-	br %res_22 <9> <8>
+<8> for_end
+	store 0 @i
+	br <13>
 
-<8> bool_true
-	store 1 %boolValAddr_14
-	br <10>
+<13> for_cond
+	%idVal_33 = load @i
+	%res_34 = lt %idVal_33 5
+	br %res_34 <14> <16>
 
-<9> bool_false
-	store 0 %boolValAddr_14
-	br <10>
+<14> for_body
+	%classPtr_35 = malloc 8
+	%arrayPtr_36 = load @b
+	%arrayBase_37 = add %arrayPtr_36 4
+	%idVal_38 = load @i
+	%offset_39 = mul %idVal_38 4
+	%elementAddr_40 = add %arrayBase_37 %offset_39
+	store %classPtr_35 %elementAddr_40
+	%res_41 = neg 1
+	%arrayPtr_42 = load @b
+	%arrayBase_43 = add %arrayPtr_42 4
+	%idVal_44 = load @i
+	%offset_45 = mul %idVal_44 4
+	%elementAddr_46 = add %arrayBase_43 %offset_45
+	%classPtr_47 = load %elementAddr_46
+	%memberAddr_48 = add %classPtr_47 0
+	store %res_41 %memberAddr_48
+	%idVal_49 = load @i
+	%oldVal_50 = load @i
+	%newVal_51 = inc %oldVal_50
+	store %newVal_51 @i
+	br <13>
 
-<10> bool_merge
-	%boolVal_23 = load %boolValAddr_14
-	store %boolVal_23 %varAddr_13
-	%idVal_24 = load %varAddr_13
-	br %idVal_24 <13> <14>
-
-<13> if_true
-	store 30 %varAddr_2
-	br <14>
-
-<14> if_merge
-	%idVal_25 = load %varAddr_2
-	ret %idVal_25
+<16> for_end
+	%arrayPtr_53 = load @a
+	%arrayBase_54 = add %arrayPtr_53 4
+	%offset_55 = mul 3 4
+	%elementAddr_56 = add %arrayBase_54 %offset_55
+	%arrayPtr_57 = load %elementAddr_56
+	%arrayBase_58 = add %arrayPtr_57 4
+	%offset_59 = mul 9 4
+	%elementAddr_60 = add %arrayBase_58 %offset_59
+	%elementVal_61 = load %elementAddr_60
+	store %elementVal_61 %cargAddr_166
+	%cidVal_167 = load %cargAddr_166
+	%cres_168 = #toString ( %cidVal_167 )
+	#println ( %cres_168 )
 
 }
 
