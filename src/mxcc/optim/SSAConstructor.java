@@ -16,7 +16,7 @@ public class SSAConstructor extends Pass {
     private Map<Register, LocalReg> reachingDef = new HashMap<>();
 
     public static void visit(Module module) {
-        for(Function func : module.funcs.values()) {
+        for (Function func : module.funcs.values()) {
             if (func.isBuiltin()) continue;
             SSAConstructor constructor = new SSAConstructor(func);
             constructor.pass();

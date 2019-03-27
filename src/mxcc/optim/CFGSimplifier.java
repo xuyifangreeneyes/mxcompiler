@@ -7,8 +7,6 @@ import java.util.*;
 
 public class CFGSimplifier extends Pass {
     private boolean modified;
-    private Map<BasicBlock, Set<BasicBlock>> succMap;
-    private Map<BasicBlock, Set<BasicBlock>> predMap;
 
     public static void visit(Module module) {
         for (Function func : module.funcs.values()) {
@@ -36,26 +34,6 @@ public class CFGSimplifier extends Pass {
             if (!modified) break;
         }
         eliminateUnreachableBlocks();
-    }
-
-    private void buildCFG() {
-        succMap = new HashMap<>();
-        predMap = new HashMap<>();
-
-        BasicBlock bb = irFunc.getStartBB();
-        while (bb != null) {
-            succMap.put(bb, bb.getSuccessors());
-            predMap.put(bb, new HashSet<>());
-            bb = bb.next;
-        }
-
-        bb = irFunc.getStartBB();
-        while (bb != null) {
-            for (BasicBlock succ : succMap.get(bb)) {
-                predMap.get(succ).add(bb);
-            }
-            bb = bb.next;
-        }
     }
 
     private void mergeBlock() {

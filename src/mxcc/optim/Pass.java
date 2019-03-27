@@ -11,6 +11,10 @@ public class Pass {
     protected Map<Register, Instruction> defMap;
     protected Map<Register, Set<Instruction>> useMap;
 
+    // for control flow analysis
+    protected Map<BasicBlock, Set<BasicBlock>> succMap;
+    protected Map<BasicBlock, Set<BasicBlock>> predMap;
+
     public Pass(Function irFunc) {
         this.irFunc = irFunc;
     }
@@ -59,5 +63,25 @@ public class Pass {
             bb = bb.next;
         }
         return workList;
+    }
+
+    protected void buildCFG() {
+        succMap = new HashMap<>();
+        predMap = new HashMap<>();
+
+        BasicBlock bb = irFunc.getStartBB();
+        while (bb != null) {
+            succMap.put(bb, bb.getSuccessors());
+            predMap.put(bb, new HashSet<>());
+            bb = bb.next;
+        }
+
+        bb = irFunc.getStartBB();
+        while (bb != null) {
+            for (BasicBlock succ : succMap.get(bb)) {
+                predMap.get(succ).add(bb);
+            }
+            bb = bb.next;
+        }
     }
 }

@@ -70,6 +70,12 @@ public class BasicBlock {
         }
     }
 
+    public void appendBeforeTerminator(Instruction inst) {
+        assert isEnded();
+        tail.addPrev(inst);
+        if (head == tail) head = inst;
+    }
+
     public void mergeSuccBlock(BasicBlock succ) {
         assert tail instanceof DirectBranch;
         tail.delete();

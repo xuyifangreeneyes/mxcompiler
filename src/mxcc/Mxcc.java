@@ -98,6 +98,9 @@ public class Mxcc {
             CFGSimplifier.visit(ir);
 //            if (Config.debugMode) printIR("a_cfg_" + i + ".ll");
         }
+        if (Config.debugMode) printIR("before_des.ll");
+        SSADestructor.visit(ir);
+        if (Config.debugMode) printIR("after_des.ll");
     }
 
     private void functionInline() {
@@ -109,7 +112,7 @@ public class Mxcc {
         functionInline();
         if (Config.debugMode) printIR("a_inline.ll");
         CFGSimplifier.visit(ir);
-//        if (Config.debugMode) printIR("a_cfg.ll");
+        if (Config.debugMode) printIR("a_cfg.ll");
         SSAtransform();
         CFGSimplifier.visit(ir);
         if (Config.debugMode) printIR("a_optim.ll");
