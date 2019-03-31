@@ -4,6 +4,7 @@ package mxcc.backend;
 import mxcc.ir.*;
 import mxcc.utility.StringHandler;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,11 @@ public class Translator implements IRVisitor {
     private List<String> asm = new ArrayList<>();
     // Map<localReg, offset for rbp>
     private Map<LocalReg, Integer> stackFrame;
+    // Map<alloca, offset for rbp>
+    private Map<Alloca, Integer> allocaMap;
     private String[] paramRegs = { "rdi", "rsi", "rdx", "rcx", "r8", "r9" };
+    private Map<BasicBlock, String> labelMap = new HashMap<>();
+
 
     public Translator() {
 
@@ -21,13 +26,7 @@ public class Translator implements IRVisitor {
 
     private String asmName(String raw) {
         if (raw.startsWith("@")) {
-            return raw.replaceAll("@", "_");
-        }
-        if (raw.startsWith("#")) {
-            if (raw.lastIndexOf("#") != 0) {
-                return "_" + raw.replaceAll("#", "_");
-            }
-            return raw.replaceAll("#", "_");
+            return "_" + raw.substring(1);
         }
         if (raw.startsWith("$")) {
             return raw.substring(1);
@@ -72,7 +71,7 @@ public class Translator implements IRVisitor {
         asm.add("main:");
         addLine("push", "rbp");
         addLine("mov", "rbp", "rsp");
-        addLine("call", "_global_init");
+        addLine("call", "__globalInit");
         addLine("call", "_main");
         addLine("mov", "rax", "0");
         addLine("pop", "rbp");
@@ -80,19 +79,32 @@ public class Translator implements IRVisitor {
 
     }
 
-    public void visit(Module module) {
+    public void visit(Module module) throws IOException {
         asm.add("default rel");
         asm.add("");
+
+        asm.add("global main");
 
         for (GlobalReg globalReg : module.globalRegs) {
             asm.add("global " + asmName(globalReg.toString()));
         }
 
         for (Function func : module.funcs.values()) {
-            asm.add("global " + asmName(func.getName()));
+            asm.add("global " + func.getName());
         }
 
-        asm.add("external malloc");
+        asm.add("extern malloc");
+
+        int counter = 0;
+        for (Function func : module.funcs.values()) {
+            if (func.isBuiltin()) continue;
+            BasicBlock bb = func.getStartBB().next;
+            while (bb != null) {
+                ++counter;
+                labelMap.put(bb, "L_" + counter);
+                bb = bb.next;
+            }
+        }
 
         asm.add("");
         asm.add("SECTION .text");
@@ -100,6 +112,7 @@ public class Translator implements IRVisitor {
         writeMain();
 
         for (Function func : module.funcs.values()) {
+            if (func.isBuiltin()) continue;
             asm.add("");
             visit(func);
         }
@@ -110,13 +123,16 @@ public class Translator implements IRVisitor {
         for (StringLiteral stringLiteral : module.stringPool.values()) {
             asm.add("");
             asm.add(asmName(stringLiteral.toString()) + ":");
-            asm.add("\t\tdq\t" + stringLiteral.getValue().length());
-            asm.add("\t\tdb\t\"" + StringHandler.unescape(stringLiteral.getValue()) + "\"");
+            addLine("dq", Integer.toString(stringLiteral.getValue().length()));
+            addLine("db", "\"" + StringHandler.unescape(stringLiteral.getValue()) + "\"", "0");
         }
+
+        pasteLibFunction();
     }
 
     public int buildStackFrame(Function func) {
         stackFrame = new HashMap<>();
+        allocaMap = new HashMap<>();
         int offset = 8;
         for (int i = func.args.size() - 1; i >= 6; --i) {
             offset += 8;
@@ -134,6 +150,10 @@ public class Translator implements IRVisitor {
         while (bb != null) {
             Instruction inst = bb.getFirstInst();
             while (inst != null) {
+                if (inst instanceof Alloca) {
+                    offset -= 8;
+                    allocaMap.put((Alloca) inst, -offset);
+                }
                 LocalReg reg = inst.getDst();
                 if (reg != null) {
                     offset -= 8;
@@ -150,7 +170,7 @@ public class Translator implements IRVisitor {
 
     public void visit(Function func) {
         int offset = buildStackFrame(func);
-        asm.add(asmName(func.getName()) + "_entry:");
+        asm.add(func.getName() + ":");
         addLine("push", "rbp");
         addLine("mov", "rbp", "rsp");
         addLine("sub", "rsp", Integer.toString(offset));
@@ -169,7 +189,8 @@ public class Translator implements IRVisitor {
 
     public void visit(BasicBlock bb) {
         if (bb != bb.getParentFunc().getStartBB()) {
-            asm.add(asmName(bb.getParentFunc().getName()) + "_" + bb.getName() + ":");
+            assert labelMap.containsKey(bb);
+            asm.add(labelMap.get(bb) + ":");
         }
         Instruction inst = bb.getFirstInst();
         while (inst != null) {
@@ -183,8 +204,9 @@ public class Translator implements IRVisitor {
     }
 
     public void visit(Alloca node) {
-        addLine("mov", "rdi", "8");
-        addLine("call" , "malloc");
+        addLine("mov", "rax", "rbp");
+        assert allocaMap.containsKey(node);
+        addLine("sub", "rax", Integer.toString(allocaMap.get(node)));
         addLine("mov", getMemory(node.getDst()), "rax");
     }
 
@@ -301,7 +323,7 @@ public class Translator implements IRVisitor {
         for (int i = 0; i < max; ++i) {
             addLine("mov", paramRegs[i], getOperand(node.getArgs().get(i)));
         }
-        addLine("call", asmName(node.getFunc().IRFunc.getName()));
+        addLine("call", node.getFunc().IRFunc.getName());
         if (offset != 0) {
             addLine("add", "rsp", Integer.toString(offset));
         }
@@ -316,17 +338,46 @@ public class Translator implements IRVisitor {
         addLine("mov", getMemory(node.getDst()), "rax");
     }
 
-    public void visit(CondBranch node) {
+    private String getBBLabel(BasicBlock bb) {
+        if (bb == bb.getParentFunc().getStartBB()) return bb.getParentFunc().getName();
+        assert labelMap.containsKey(bb);
+        return labelMap.get(bb);
+    }
 
+    public void visit(CondBranch node) {
+        addLine("mov", "rax", getOperand(node.getCond()));
+        addLine("cmp", "rax", "0");
+        addLine("jnz", getBBLabel(node.getIfFalse()));
+        addLine("jmp", getBBLabel(node.getIfTrue()));
     }
 
     public void visit(DirectBranch node) {
-
+        addLine("jmp", getBBLabel(node.getTarget()));
     }
 
     public void visit(Return node) {
-
+        if (node.getRetVal() != null) {
+            addLine("mov", "rax", getOperand(node.getRetVal()));
+        }
+        addLine("mov", "rsp", "rbp");
+        addLine("pop", "rbp");
+        addLine("ret");
     }
 
+
+    private void pasteLibFunction() throws IOException {
+        File file = new File("lib/lib.asm");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String line;
+        while ((line = br.readLine()) != null) {
+            asm.add(line);
+        }
+    }
+
+    public void print(PrintStream out) {
+        for (String line : asm) {
+            out.println(line);
+        }
+    }
 
 }

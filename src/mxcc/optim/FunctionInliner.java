@@ -113,11 +113,11 @@ public class FunctionInliner {
             // include returnStmt. For this case, only one BB needs to append a Return
             // and the BB is exactly inlineFunc.tail(my arrangement of BB ensures that).
 
-            BasicBlock tail = inlineFunc.getLastBB();
-            if (!tail.isEnded()) {
-                BasicBlock copyTail = bbCopyMap.get(tail);
-                copyTail.append(new DirectBranch(copyTail, afterCallBB));
-            }
+//            BasicBlock tail = inlineFunc.getLastBB();
+//            if (!tail.isEnded()) {
+//                BasicBlock copyTail = bbCopyMap.get(tail);
+//                copyTail.append(new DirectBranch(copyTail, afterCallBB));
+//            }
         }
 
         private String copyName(String name) {

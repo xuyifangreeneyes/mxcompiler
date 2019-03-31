@@ -2,6 +2,7 @@ package mxcc;
 
 import mxcc.ast.AstPrinter;
 import mxcc.ast.Program;
+import mxcc.backend.Translator;
 import mxcc.frontend.AstBuilder;
 import mxcc.frontend.IRBuilder;
 import mxcc.frontend.SemanticChecker;
@@ -118,14 +119,27 @@ public class Mxcc {
         if (Config.debugMode) printIR("a_optim.ll");
     }
 
+    private void translate() throws IOException {
+        Translator translator = new Translator();
+        translator.visit(ir);
+        File fileName = new File(Config.tmpPath + "a.asm");
+        if (!fileName.exists()) {
+            if (!fileName.createNewFile()) {
+                throw new RuntimeException("cannot create a.asm");
+            }
+        }
+        translator.print(new PrintStream(fileName));
+    }
+
     private void run() throws IOException {
         buildAST();
         if (Config.debugMode) printAST();
         sematicCheck();
         buildIR();
         if (Config.debugMode) printIR("a.ll");
-        optim();
+//        optim();
         if (!Config.debugMode) printIR(null);
+        translate();
     }
 
     public static void main(String[] args) {

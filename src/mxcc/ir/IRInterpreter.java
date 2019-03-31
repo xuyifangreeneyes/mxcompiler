@@ -54,9 +54,9 @@ public class IRInterpreter {
     private int memPtr = 0;
 
     private final Set<String> builtinFuncs = new HashSet<>(Arrays.asList(
-            "#print", "#println", "#getString", "#getInt", "#toString", "#string#length", "#string#substring",
-            "#string#parseInt", "#string#ord", "#array#size", "#string#add", "#string#eq", "#string#neq",
-            "#string#lt", "#string#gt", "#string#le", "#string#ge"
+            "_print", "_println", "_getString", "_getInt", "_toString", "__stringLength", "__stringSubstring",
+            "__stringParseInt", "__stringOrd", "__arraySize", "__stringAdd", "__stringEq", "__stringNeq",
+            "__stringLt", "__stringGt", "__stringLe", "__stringGe"
             ));
 
     private BufferedReader br;
@@ -245,6 +245,7 @@ public class IRInterpreter {
                 writeReg(inst.dst, getOperandValue(inst.phiSource.get(predBB.id)));
                 break;
             case "move":
+//                System.out.println(inst.src1);
                 writeReg(inst.dst, getOperandValue(inst.src1));
                 break;
             case "mul":
@@ -346,7 +347,7 @@ public class IRInterpreter {
     }
 
     private int runBuiltinFunc(String funcName, List<Integer> argVals) throws IOException {
-        if (funcName.equals("#getString")) {
+        if (funcName.equals("_getString")) {
             if (scanner.hasNext()) {
                 String strVal = scanner.next();
                 return addString(strVal);
@@ -354,69 +355,69 @@ public class IRInterpreter {
                 throw new RuntimeException("cannot get string");
             }
         }
-        if (funcName.equals("#getInt")) {
+        if (funcName.equals("_getInt")) {
             if (scanner.hasNextInt()) {
                 return scanner.nextInt();
             } else {
                 throw new RuntimeException("cannot get int");
             }
         }
-        if (funcName.equals("#toString")) {
+        if (funcName.equals("_toString")) {
             String strVal = String.valueOf(argVals.get(0));
             return addString(strVal);
         }
-        if (funcName.equals("#array#size")) {
+        if (funcName.equals("__arraySize")) {
             assert memInt.containsKey(argVals.get(0));
             return memInt.get(argVals.get(0));
         }
         assert memString.containsKey(argVals.get(0));
-        if (funcName.equals("#print")) {
+        if (funcName.equals("_print")) {
             String str = memString.get(argVals.get(0));
             System.out.print(StringHandler.unescape(str));
             return 0;
         }
-        if (funcName.equals("#println")) {
+        if (funcName.equals("_println")) {
             String str = memString.get(argVals.get(0));
             System.out.println(StringHandler.unescape(str));
             return 0;
         }
-        if (funcName.equals("#string#length")) {
+        if (funcName.equals("__stringLength")) {
             String strVal = memString.get(argVals.get(0));
             return strVal.length();
         }
-        if (funcName.equals("#string#substring")) {
+        if (funcName.equals("__stringSubstring")) {
             String strVal = memString.get(argVals.get(0));
             String substring = strVal.substring(argVals.get(1), argVals.get(2));
             return addString(substring);
         }
-        if (funcName.equals("#string#parseInt")) {
+        if (funcName.equals("__stringParseInt")) {
             String strVal = memString.get(argVals.get(0));
             return string2int(strVal);
         }
-        if (funcName.equals("#string#ord")) {
+        if (funcName.equals("__stringOrd")) {
             String strVal = memString.get(argVals.get(0));
             return (int) strVal.charAt(argVals.get(1));
         }
         assert memString.containsKey(argVals.get(1));
-        if (funcName.equals("#string#add")) {
+        if (funcName.equals("__stringAdd")) {
             return addString(memString.get(argVals.get(0)) + memString.get(argVals.get(1)));
         }
-        if (funcName.equals("#string#eq")) {
+        if (funcName.equals("__stringEq")) {
             return memString.get(argVals.get(0)).equals(memString.get(argVals.get(1))) ? 1 : 0;
         }
-        if (funcName.equals("#string#neq")) {
+        if (funcName.equals("__stringNeq")) {
             return memString.get(argVals.get(0)).equals(memString.get(argVals.get(1))) ? 0 : 1;
         }
-        if (funcName.equals("#string#lt")) {
+        if (funcName.equals("__stringLt")) {
             return memString.get(argVals.get(0)).compareTo(memString.get(argVals.get(1))) < 0 ? 1 : 0;
         }
-        if (funcName.equals("#string#gt")) {
+        if (funcName.equals("__stringGt")) {
             return memString.get(argVals.get(0)).compareTo(memString.get(argVals.get(1))) > 0 ? 1 : 0;
         }
-        if (funcName.equals("#tring#le")) {
+        if (funcName.equals("__stringLe")) {
             return memString.get(argVals.get(0)).compareTo(memString.get(argVals.get(1))) <= 0 ? 1 : 0;
         }
-        if (funcName.equals("#string#ge")) {
+        if (funcName.equals("__stringGe")) {
             return memString.get(argVals.get(0)).compareTo(memString.get(argVals.get(1))) >= 0 ? 1 : 0;
         }
         assert false;
@@ -467,8 +468,8 @@ public class IRInterpreter {
 
     public int run() throws IOException {
         curFunc = null;
-        runFunc("#global#init", new ArrayList<>());
-        int exitCode = runFunc("#main", new ArrayList<>());
+        runFunc("__globalInit", new ArrayList<>());
+        int exitCode = runFunc("_main", new ArrayList<>());
         scanner.close();
         return exitCode;
     }

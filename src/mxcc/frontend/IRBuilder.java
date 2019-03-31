@@ -45,7 +45,7 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     public void visit(Program node) {
-        curInitBB = module.funcs.get("#global#init").getStartBB();
+        curInitBB = module.funcs.get("__globalInit").getStartBB();
         node.decls.forEach(this::visit);
     }
 
@@ -61,7 +61,7 @@ public class IRBuilder extends AstBaseVisitor {
             module.globalRegs.add(globalVarAddr);
             node.var.reg = globalVarAddr;
             if (node.init != null) {
-                curFunc = module.funcs.get("#global#init");
+                curFunc = module.funcs.get("__globalInit");
                 curBB = curInitBB;
                 processVariableDeclInit(globalVarAddr, node.init);
                 curInitBB = curBB;
@@ -80,7 +80,7 @@ public class IRBuilder extends AstBaseVisitor {
     public void visit(FunctionDecl node) {
         boolean isMember = node.func.isClassMember();
         String funcName = node.func.name;
-        if (isMember) funcName = node.scope.getEnclosingScope().getScopeName() + "#" + funcName;
+        if (isMember) funcName = "_" + node.scope.getEnclosingScope().getScopeName() + "_" + funcName;
         curFunc = new Function(funcName, false);
         node.func.IRFunc = curFunc;
         module.defineFunction(curFunc);
@@ -110,6 +110,19 @@ public class IRBuilder extends AstBaseVisitor {
                 visitExpr((Expr) stmt);
             } else {
                 visit(stmt);
+            }
+        }
+
+        // Some functions don't include returnStmt. For this case, only one BB needs
+        // to append a Return and the BB is exactly tail of function (my arrangement
+        // of BB ensures that).
+
+        BasicBlock tail = curFunc.getLastBB();
+        if (!tail.isEnded()) {
+            if (node.func.type == null || node.func.type.isSameType(VOID_TYPE)) {
+                tail.append(new Return(tail, null));
+            } else {
+                tail.append(new Return(tail, new IntImmediate(0)));
             }
         }
     }

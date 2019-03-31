@@ -1,3 +1,59 @@
+default rel
+
+global main
+global _print
+global _println
+global _getString
+global _getInt
+global _toString
+global __stringLength
+global __stringSubstring
+global __stringParseInt
+global __stringOrd
+global __arraySize
+global __stringAdd
+global __stringEq
+global __stringNeq
+global __stringLt
+global __stringGt
+global __stringLe
+global __stringGe
+global __globalInit
+global _main
+extern malloc
+
+SECTION .text
+
+main:
+		push    rbp
+		mov     rbp, rsp
+		call    __globalInit
+		call    _main
+		mov     rax, 0
+		pop     rbp
+		ret     
+
+__globalInit:
+		push    rbp
+		mov     rbp, rsp
+		sub     rsp, 0
+
+_main:
+		push    rbp
+		mov     rbp, rsp
+		sub     rsp, 0
+		mov     rdi, str_0
+		call    _println
+		mov     rax, 0
+		mov     rsp, rbp
+		pop     rbp
+		ret     
+
+SECTION .data
+
+str_0:
+		dq      12
+		db      "hello world!", 0
 
 
 

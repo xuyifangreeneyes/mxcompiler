@@ -25,19 +25,19 @@ public class Module {
         GET_STRING.IRFunc = new Function("getString", true);
         GET_INT.IRFunc = new Function("getInt", true);
         TO_STRING.IRFunc = new Function("toString", true);
-        STR_LENGTH.IRFunc = new Function("string#length", true);
-        STR_SUBSTRING.IRFunc = new Function("string#substring", true);
-        STR_PARSE_INT.IRFunc = new Function("string#parseInt", true);
-        STR_ORD.IRFunc = new Function("string#ord", true);
-        ARRAY_SIZE.IRFunc = new Function("array#size", true);
+        STR_LENGTH.IRFunc = new Function("_stringLength", true);
+        STR_SUBSTRING.IRFunc = new Function("_stringSubstring", true);
+        STR_PARSE_INT.IRFunc = new Function("_stringParseInt", true);
+        STR_ORD.IRFunc = new Function("_stringOrd", true);
+        ARRAY_SIZE.IRFunc = new Function("_arraySize", true);
 
-        STR_ADD.IRFunc = new Function("string#add", true);
-        STR_EQ.IRFunc = new Function("string#eq", true);
-        STR_NEQ.IRFunc = new Function("string#neq", true);
-        STR_LT.IRFunc = new Function("string#lt", true);
-        STR_GT.IRFunc = new Function("string#gt", true);
-        STR_LE.IRFunc = new Function("string#le", true);
-        STR_GE.IRFunc = new Function("string#ge", true);
+        STR_ADD.IRFunc = new Function("_stringAdd", true);
+        STR_EQ.IRFunc = new Function("_stringEq", true);
+        STR_NEQ.IRFunc = new Function("_stringNeq", true);
+        STR_LT.IRFunc = new Function("_stringLt", true);
+        STR_GT.IRFunc = new Function("_stringGt", true);
+        STR_LE.IRFunc = new Function("_stringLe", true);
+        STR_GE.IRFunc = new Function("_stringGe", true);
 
         defineFunction(PRINT.IRFunc);
         defineFunction(PRINTLN.IRFunc);
@@ -58,7 +58,7 @@ public class Module {
         defineFunction(STR_LE.IRFunc);
         defineFunction(STR_GE.IRFunc);
 
-        defineFunction(new Function("global#init", false));
+        defineFunction(new Function("_globalInit", false));
     }
 
 }
