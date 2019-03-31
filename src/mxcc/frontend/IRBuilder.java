@@ -296,7 +296,7 @@ public class IRBuilder extends AstBaseVisitor {
             // array structure [n, element_0, element_1, ..., element_n-1]
 
             LocalReg arrayPtr;
-            if (arrayAccess.container instanceof NewExpr) {
+            if (arrayAccess.container instanceof NewExpr || arrayAccess.container instanceof FunctionCall) {
                 visitExpr(arrayAccess.container);
                 arrayPtr = (LocalReg) arrayAccess.container.val;
             } else {

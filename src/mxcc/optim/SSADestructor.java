@@ -15,6 +15,7 @@ public class SSADestructor extends Pass {
             SSADestructor destructor = new SSADestructor(func);
             destructor.pass();
         }
+        module.isSSA = false;
     }
 
     private SSADestructor(Function irFunc) {

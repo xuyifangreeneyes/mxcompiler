@@ -19,6 +19,12 @@ public abstract class Instruction {
         this.parent = parent;
     }
 
+    // getDst and getDefReg can be combined into one.
+
+    public LocalReg getDst() {
+        return null;
+    }
+
     public Register getDefReg() {
         return defReg;
     }

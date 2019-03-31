@@ -85,7 +85,7 @@ public class Mxcc {
 
     private void SSAtransform() throws IOException {
         SSAConstructor.visit(ir);
-        if (Config.debugMode) printIR("a_ssa.ll");
+//        if (Config.debugMode) printIR("a_ssa.ll");
         for (int i = 0; i < 10; ++i) {
 
 //            if (Config.debugMode) System.out.println("SSA optim " + i);
@@ -98,9 +98,9 @@ public class Mxcc {
             CFGSimplifier.visit(ir);
 //            if (Config.debugMode) printIR("a_cfg_" + i + ".ll");
         }
-        if (Config.debugMode) printIR("before_des.ll");
+//        if (Config.debugMode) printIR("before_des.ll");
         SSADestructor.visit(ir);
-        if (Config.debugMode) printIR("after_des.ll");
+//        if (Config.debugMode) printIR("after_des.ll");
     }
 
     private void functionInline() {
@@ -110,9 +110,9 @@ public class Mxcc {
 
     private void optim() throws IOException {
         functionInline();
-        if (Config.debugMode) printIR("a_inline.ll");
+//        if (Config.debugMode) printIR("a_inline.ll");
         CFGSimplifier.visit(ir);
-        if (Config.debugMode) printIR("a_cfg.ll");
+//        if (Config.debugMode) printIR("a_cfg.ll");
         SSAtransform();
         CFGSimplifier.visit(ir);
         if (Config.debugMode) printIR("a_optim.ll");
