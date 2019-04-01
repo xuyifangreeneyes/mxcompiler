@@ -1,40 +1,5 @@
 
 
-
-
-
-
-default rel
-
-global _print
-global _println
-global _getString
-global _getInt
-global _toString
-global __stringLength
-global __stringSubstring
-global __stringParseInt
-global __stringOrd
-global __stringAdd
-global __stringEq
-global __stringNeq
-global __stringLt
-global __stringGt
-global __stringLe
-global __stringGe
-global __arraySize
-
-extern strcmp
-extern snprintf
-extern __stack_chk_fail
-extern strcpy
-extern malloc
-extern strlen
-extern __isoc99_scanf
-extern puts
-extern printf
-
-
 SECTION .text
 
 _print:
@@ -164,6 +129,12 @@ _toString:
         mov     edx, L_015
         mov     eax, 0
         call    snprintf
+        mov     rax, qword [rbp-10H]
+        add     rax, 8
+        mov     rdx, rax
+        mov     rax, qword [rbp-8H]
+        add     rax, rdx
+        mov     byte [rax], 0
         mov     rax, qword [rbp-8H]
         mov     rdx, qword [rbp-10H]
         mov     qword [rax], rdx
@@ -517,4 +488,5 @@ L_014:
 
 L_015:
         db 25H, 6CH, 64H, 00H
+
 

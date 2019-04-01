@@ -156,7 +156,7 @@ public class IRInterpreter {
                     break;
                 case '@':
                     staticRegs.put(words.get(0), memPtr);
-                    memPtr += 4;
+                    memPtr += 8;
                     break;
                 case '<':
                     int BBid = Integer.parseInt(words.get(0).substring(1, words.get(0).length() - 1));
@@ -207,7 +207,7 @@ public class IRInterpreter {
         switch (inst.op) {
             case "alloca":
                 writeReg(inst.dst, memPtr);
-                memPtr += 4;
+                memPtr += 8;
                 break;
             case "malloc":
                 writeReg(inst.dst, memPtr);

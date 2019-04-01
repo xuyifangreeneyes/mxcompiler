@@ -81,7 +81,7 @@ public class SemanticChecker extends AstBaseVisitor {
             if (!(symbol instanceof VariableSymbol)) continue;
             VariableSymbol var = (VariableSymbol) symbol;
             classSymbol.layout.put(var.name, offset);
-            offset += 4;
+            offset += 8;
         }
         classSymbol.byteSize = offset;
     }

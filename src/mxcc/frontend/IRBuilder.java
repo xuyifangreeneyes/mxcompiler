@@ -46,7 +46,11 @@ public class IRBuilder extends AstBaseVisitor {
 
     public void visit(Program node) {
         curInitBB = module.funcs.get("__globalInit").getStartBB();
+
         node.decls.forEach(this::visit);
+
+        BasicBlock globalInitTail = module.funcs.get("__globalInit").getLastBB();
+        globalInitTail.append(new Return(globalInitTail, null));
     }
 
     private void processVariableDeclInit(Operand varAddr, Expr init) {
@@ -71,7 +75,7 @@ public class IRBuilder extends AstBaseVisitor {
 
         LocalReg varAddr = curFunc.makeLocalReg("varAddr");
         node.var.reg = varAddr;
-        curFunc.getStartBB().appendFront(new Alloca(curFunc.getStartBB(), varAddr, 4));
+        curFunc.getStartBB().appendFront(new Alloca(curFunc.getStartBB(), varAddr, 8));
         if (node.init != null) {
             processVariableDeclInit(varAddr, node.init);
         }
@@ -92,7 +96,7 @@ public class IRBuilder extends AstBaseVisitor {
             LocalReg thisVal = curFunc.makeLocalReg("thisVal");
             curFunc.args.add(thisVal);
             thisAddr = curFunc.makeLocalReg("thisAddr");
-            curFunc.getStartBB().appendFront(new Alloca(curFunc.getStartBB(), thisAddr, 4));
+            curFunc.getStartBB().appendFront(new Alloca(curFunc.getStartBB(), thisAddr, 8));
             curBB.append(new Store(curBB, thisVal, thisAddr));
         }
 
@@ -101,7 +105,7 @@ public class IRBuilder extends AstBaseVisitor {
             curFunc.args.add(argVal);
             LocalReg argAddr = curFunc.makeLocalReg("argAddr");
             node.paramList.get(i).var.reg = argAddr;
-            curFunc.getStartBB().appendFront(new Alloca(curFunc.getStartBB(), argAddr, 4));
+            curFunc.getStartBB().appendFront(new Alloca(curFunc.getStartBB(), argAddr, 8));
             curBB.append(new Store(curBB, argVal, argAddr));
         }
 
@@ -319,11 +323,11 @@ public class IRBuilder extends AstBaseVisitor {
             }
 
             LocalReg arrayBase = curFunc.makeLocalReg("arrayBase");
-            curBB.append(new BinaryOperation(curBB, arrayBase, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(4)));
+            curBB.append(new BinaryOperation(curBB, arrayBase, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(8)));
             visitExpr(arrayAccess.subscript);
             Operand index = arrayAccess.subscript.val;
             LocalReg offset = curFunc.makeLocalReg("offset");
-            curBB.append(new BinaryOperation(curBB, offset, BinaryOperation.BinaryOp.MUL, index, new IntImmediate(4)));
+            curBB.append(new BinaryOperation(curBB, offset, BinaryOperation.BinaryOp.MUL, index, new IntImmediate(8)));
             LocalReg elementAddr = curFunc.makeLocalReg("elementAddr");
             curBB.append(new BinaryOperation(curBB, elementAddr, BinaryOperation.BinaryOp.ADD, arrayBase, offset));
             return elementAddr;
@@ -354,7 +358,7 @@ public class IRBuilder extends AstBaseVisitor {
             expr.ifFalseBB.addNext(mergeBB);
 
             LocalReg boolValAddr = curFunc.makeLocalReg("boolValAddr");
-            curFunc.getStartBB().appendFront(new Alloca(curFunc.getStartBB(), boolValAddr, 4));
+            curFunc.getStartBB().appendFront(new Alloca(curFunc.getStartBB(), boolValAddr, 8));
 
             visit(expr);
 
@@ -572,9 +576,9 @@ public class IRBuilder extends AstBaseVisitor {
         LocalReg arrayPtr = curFunc.makeLocalReg("arrayPtr");
         Operand firstDim = dimSizes.poll();
         LocalReg memberLength = curFunc.makeLocalReg("memberLength");
-        curBB.append(new BinaryOperation(curBB, memberLength, BinaryOperation.BinaryOp.MUL, firstDim, new IntImmediate(4)));
+        curBB.append(new BinaryOperation(curBB, memberLength, BinaryOperation.BinaryOp.MUL, firstDim, new IntImmediate(8)));
         LocalReg arrayLength = curFunc.makeLocalReg("arrayLength");
-        curBB.append(new BinaryOperation(curBB, arrayLength, BinaryOperation.BinaryOp.ADD, memberLength, new IntImmediate(4)));
+        curBB.append(new BinaryOperation(curBB, arrayLength, BinaryOperation.BinaryOp.ADD, memberLength, new IntImmediate(8)));
         curBB.append(new Malloc(curBB, arrayPtr, arrayLength));
         curBB.append(new Store(curBB, firstDim, arrayPtr));
 
@@ -603,9 +607,9 @@ public class IRBuilder extends AstBaseVisitor {
         LocalReg arrayEndPos = curFunc.makeLocalReg("arrayEndPos");
         curBB.append(new BinaryOperation(curBB, arrayEndPos, BinaryOperation.BinaryOp.ADD, arrayPtr, arrayLength));
         LocalReg startPos = curFunc.makeLocalReg("startPos");
-        curBB.append(new BinaryOperation(curBB, startPos, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(4)));
+        curBB.append(new BinaryOperation(curBB, startPos, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(8)));
         LocalReg storageCell = curFunc.makeLocalReg("storageCell");
-        curFunc.getStartBB().appendFront(new Alloca(curFunc.getStartBB(), storageCell, 4));
+        curFunc.getStartBB().appendFront(new Alloca(curFunc.getStartBB(), storageCell, 8));
         curBB.append(new Store(curBB, startPos, storageCell));
         curBB.append(new DirectBranch(curBB, forCondBB));
 
@@ -622,7 +626,7 @@ public class IRBuilder extends AstBaseVisitor {
 
         curBB = forStepBB;
         LocalReg nextPos = curFunc.makeLocalReg("pos");
-        curBB.append(new BinaryOperation(curBB, nextPos, BinaryOperation.BinaryOp.ADD, pos, new IntImmediate(4)));
+        curBB.append(new BinaryOperation(curBB, nextPos, BinaryOperation.BinaryOp.ADD, pos, new IntImmediate(8)));
         curBB.append(new Store(curBB, nextPos, storageCell));
         curBB.append(new DirectBranch(curBB, forCondBB));
 

@@ -1,0 +1,71 @@
+bool check(int a, int N) {
+    return ((a < N) && (a >= 0));
+}
+
+int main() {
+    int N;
+    int head;
+	int startx;
+	int starty;
+    int targetx;
+	int targety;
+	int tail;
+	int ok;
+	int now;
+    int x;
+	int y;
+    int[] xlist;
+	int[] ylist;
+    int[][] step;
+    int i;
+	int j;
+
+    N = getInt();
+    head =0;
+    tail = 0;
+    startx = 0;
+    starty = 0;
+    targetx = N-1;
+    targety = N-1;
+    x = 0;
+    y = 0;
+    now = 0;
+    ok = 0;
+    xlist = new int[N * N];
+
+    ylist = new int[N * N];
+
+    step = new int[N][];
+    xlist[0] = startx;
+    ylist[0] = starty;
+    step[startx][starty] = 0;
+    while (head <= tail)
+    {
+        if (ok == 1) break;
+        head = head + 1;
+    }
+    if (ok == 1) println(toString(step[targetx][targety]));
+    else print("no solution!\n");
+    return 0;
+}
+
+
+
+/*!! metadata:
+=== comment ===
+horse2-5100309153-yanghuan.mx
+=== input ===
+102
+=== assert ===
+output
+=== timeout ===
+0.3
+=== output ===
+68
+=== phase ===
+codegen pretest
+=== is_public ===
+True
+
+!!*/
+

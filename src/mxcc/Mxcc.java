@@ -128,7 +128,8 @@ public class Mxcc {
                 throw new RuntimeException("cannot create a.asm");
             }
         }
-        translator.print(new PrintStream(fileName));
+        if (Config.debugMode) translator.print(new PrintStream(fileName));
+        else translator.print(System.out);
     }
 
     private void run() throws IOException {
@@ -138,7 +139,7 @@ public class Mxcc {
         buildIR();
         if (Config.debugMode) printIR("a.ll");
 //        optim();
-        if (!Config.debugMode) printIR(null);
+//        if (!Config.debugMode) printIR(null);
         translate();
     }
 

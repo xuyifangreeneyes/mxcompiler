@@ -5,10 +5,7 @@ import mxcc.ir.*;
 import mxcc.utility.StringHandler;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Translator implements IRVisitor {
     private List<String> asm = new ArrayList<>();
@@ -79,6 +76,20 @@ public class Translator implements IRVisitor {
 
     }
 
+    private void addExtern() {
+        asm.add("extern strcmp");
+        asm.add("extern snprintf");
+        asm.add("extern __stack_chk_fail");
+        asm.add("extern strcpy");
+        asm.add("extern malloc");
+        asm.add("extern strlen");
+        asm.add("extern __isoc99_scanf");
+        asm.add("extern puts");
+        asm.add("extern strcmp");
+        asm.add("extern printf");
+
+    }
+
     public void visit(Module module) throws IOException {
         asm.add("default rel");
         asm.add("");
@@ -93,7 +104,8 @@ public class Translator implements IRVisitor {
             asm.add("global " + func.getName());
         }
 
-        asm.add("extern malloc");
+        asm.add("");
+        addExtern();
 
         int counter = 0;
         for (Function func : module.funcs.values()) {
@@ -101,7 +113,7 @@ public class Translator implements IRVisitor {
             BasicBlock bb = func.getStartBB().next;
             while (bb != null) {
                 ++counter;
-                labelMap.put(bb, "L_" + counter);
+                labelMap.put(bb, "L" + counter);
                 bb = bb.next;
             }
         }
@@ -123,8 +135,25 @@ public class Translator implements IRVisitor {
         for (StringLiteral stringLiteral : module.stringPool.values()) {
             asm.add("");
             asm.add(asmName(stringLiteral.toString()) + ":");
-            addLine("dq", Integer.toString(stringLiteral.getValue().length()));
-            addLine("db", "\"" + StringHandler.unescape(stringLiteral.getValue()) + "\"", "0");
+            String literal = StringHandler.unescape(stringLiteral.getValue());
+            addLine("dq", Integer.toString(literal.length()));
+            StringBuilder db = new StringBuilder("\t\tdb      ");
+            for (int i = 0; i < literal.length(); ++i) {
+                Formatter formatter = new Formatter();
+                formatter.format("%02XH, ", (int) literal.charAt(i));
+                db.append(formatter.toString());
+            }
+            db.append("00H");
+            asm.add(db.toString());
+            //addLine("db", "\"" + StringHandler.unescape(stringLiteral.getValue()) + "\"", "0");
+        }
+
+        asm.add("");
+        asm.add("SECTION .bss");
+
+        for (GlobalReg globalReg : module.globalRegs) {
+            asm.add(asmName(globalReg.toString()) + ":");
+            addLine("resb", "8");
         }
 
         pasteLibFunction();
@@ -173,7 +202,9 @@ public class Translator implements IRVisitor {
         asm.add(func.getName() + ":");
         addLine("push", "rbp");
         addLine("mov", "rbp", "rsp");
-        addLine("sub", "rsp", Integer.toString(offset));
+        if (offset != 0) {
+            addLine("sub", "rsp", Integer.toString(-offset));
+        }
 
         int max = func.args.size() < 6 ? func.args.size() : 6;
         for (int i = 0; i < max; ++i) {
@@ -224,7 +255,14 @@ public class Translator implements IRVisitor {
     }
 
     public void visit(Load node) {
-        addLine("mov", "rax", getOperand(node.getAddr()));
+        assert node.getAddr() instanceof LocalReg || node.getAddr() instanceof GlobalReg;
+        if (node.getAddr() instanceof LocalReg) {
+            addLine("mov", "rdx", getMemory((LocalReg) node.getAddr()));
+            addLine("mov", "rax", "qword [rdx]");
+        }
+        if (node.getAddr() instanceof GlobalReg) {
+            addLine("mov", "rax", getOperand(node.getAddr()));
+        }
         addLine("mov", getMemory(node.getDst()), "rax");
     }
 
@@ -273,7 +311,8 @@ public class Translator implements IRVisitor {
         if (node.getOp() == BinaryOperation.BinaryOp.DIV || node.getOp() == BinaryOperation.BinaryOp.MOD) {
             addLine("mov", "rax", getOperand(node.getLhs()));
             addLine("cqo");
-            addLine("idiv", getOperand(node.getRhs()));
+            addLine("mov", "rcx", getOperand(node.getRhs()));
+            addLine("idiv", "rcx");
             String operand = node.getOp() == BinaryOperation.BinaryOp.DIV ? "rax" : "rdx";
             addLine("mov", getMemory(node.getDst()), operand);
             return;
@@ -327,6 +366,9 @@ public class Translator implements IRVisitor {
         if (offset != 0) {
             addLine("add", "rsp", Integer.toString(offset));
         }
+        if (node.getDst() != null) {
+            addLine("mov", getMemory(node.getDst()), "rax");
+        }
     }
 
     public void visit(Phi node) {
@@ -347,8 +389,8 @@ public class Translator implements IRVisitor {
     public void visit(CondBranch node) {
         addLine("mov", "rax", getOperand(node.getCond()));
         addLine("cmp", "rax", "0");
-        addLine("jnz", getBBLabel(node.getIfFalse()));
-        addLine("jmp", getBBLabel(node.getIfTrue()));
+        addLine("jne", getBBLabel(node.getIfTrue()));
+        addLine("jmp", getBBLabel(node.getIfFalse()));
     }
 
     public void visit(DirectBranch node) {
