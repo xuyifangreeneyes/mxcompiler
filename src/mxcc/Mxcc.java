@@ -122,14 +122,17 @@ public class Mxcc {
     private void translate() throws IOException {
         Translator translator = new Translator();
         translator.visit(ir);
-        File fileName = new File(Config.tmpPath + "a.asm");
-        if (!fileName.exists()) {
-            if (!fileName.createNewFile()) {
-                throw new RuntimeException("cannot create a.asm");
+        if (Config.debugMode) {
+            File fileName = new File(Config.tmpPath + "a.asm");
+            if (!fileName.exists()) {
+                if (!fileName.createNewFile()) {
+                    throw new RuntimeException("cannot create a.asm");
+                }
             }
+            translator.print(new PrintStream(fileName));
+        } else {
+            translator.print(System.out);
         }
-        if (Config.debugMode) translator.print(new PrintStream(fileName));
-        else translator.print(System.out);
     }
 
     private void run() throws IOException {
