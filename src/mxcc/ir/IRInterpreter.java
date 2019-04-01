@@ -479,7 +479,7 @@ public class IRInterpreter {
 
         if (Config.debugMode) {
 //            fileName = new File(Config.tmpPath + "a.ll");
-            fileName = new File(Config.tmpPath + "a_optim.ll");
+            fileName = new File(Config.tmpPath + "a.ll");
         } else {
             fileName = new File(args[0]);
         }

@@ -321,6 +321,7 @@ public class Translator implements IRVisitor {
             addLine("mov", "rcx", getOperand(node.getRhs()));
             String shift = node.getOp() == BinaryOperation.BinaryOp.LSFT ? "shl" : "sar";
             addLine(shift, "rax", "cl");
+            addLine("mov", getMemory(node.getDst()), "rax");
             return;
         }
         String inst = "";
