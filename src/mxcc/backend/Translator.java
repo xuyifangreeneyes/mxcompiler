@@ -70,7 +70,6 @@ public class Translator implements IRVisitor {
         addLine("mov", "rbp", "rsp");
         addLine("call", "__globalInit");
         addLine("call", "_main");
-        addLine("mov", "rax", "0");
         addLine("pop", "rbp");
         addLine("ret");
 
