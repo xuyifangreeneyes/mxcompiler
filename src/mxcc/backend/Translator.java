@@ -23,10 +23,10 @@ public class Translator implements IRVisitor {
 
     private String asmName(String raw) {
         if (raw.startsWith("@")) {
-            return raw.substring(1);
+            return "_" + raw.substring(1);
         }
         if (raw.startsWith("$")) {
-            return "_" + raw.substring(1);
+            return "__" + raw.substring(1);
         }
         assert false;
         return null;
