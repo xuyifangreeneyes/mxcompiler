@@ -2,7 +2,7 @@
 
 SECTION .text
 
-_print:
+print:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -18,7 +18,7 @@ _print:
         ret
 
 
-_println:
+println:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -32,7 +32,7 @@ _println:
         ret
 
 
-_getString:
+getString:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 32800
@@ -75,7 +75,7 @@ L_001:  leave
         ret
 
 
-_getInt:
+getInt:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -100,7 +100,7 @@ L_002:  leave
         ret
 
 
-_toString:
+toString:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 32
@@ -143,7 +143,7 @@ _toString:
         ret
 
 
-__stringLength:
+_stringLength:
         push    rbp
         mov     rbp, rsp
         mov     qword [rbp-8H], rdi
@@ -153,7 +153,7 @@ __stringLength:
         ret
 
 
-__stringSubstring:
+_stringSubstring:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 64
@@ -205,7 +205,7 @@ L_004:  mov     eax, dword [rbp-14H]
         ret
 
 
-__stringParseInt:
+_stringParseInt:
         push    rbp
         mov     rbp, rsp
         mov     qword [rbp-18H], rdi
@@ -253,7 +253,7 @@ L_009:  pop     rbp
         ret
 
 
-__stringOrd:
+_stringOrd:
         push    rbp
         mov     rbp, rsp
         mov     qword [rbp-8H], rdi
@@ -269,7 +269,7 @@ __stringOrd:
         ret
 
 
-__stringAdd:
+_stringAdd:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 48
@@ -350,7 +350,7 @@ L_013:  mov     eax, dword [rbp-1CH]
         ret
 
 
-__stringEq:
+_stringEq:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -370,7 +370,7 @@ __stringEq:
         ret
 
 
-__stringNeq:
+_stringNeq:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -390,7 +390,7 @@ __stringNeq:
         ret
 
 
-__stringLt:
+_stringLt:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -409,7 +409,7 @@ __stringLt:
         ret
 
 
-__stringGt:
+_stringGt:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -429,7 +429,7 @@ __stringGt:
         ret
 
 
-__stringLe:
+_stringLe:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -449,7 +449,7 @@ __stringLe:
         ret
 
 
-__stringGe:
+_stringGe:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -469,7 +469,7 @@ __stringGe:
         ret
 
 
-__arraySize:
+_arraySize:
         push    rbp
         mov     rbp, rsp
         mov     qword [rbp-8H], rdi

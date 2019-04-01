@@ -45,11 +45,11 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     public void visit(Program node) {
-        curInitBB = module.funcs.get("__globalInit").getStartBB();
+        curInitBB = module.funcs.get("_globalInit").getStartBB();
 
         node.decls.forEach(this::visit);
 
-        BasicBlock globalInitTail = module.funcs.get("__globalInit").getLastBB();
+        BasicBlock globalInitTail = module.funcs.get("_globalInit").getLastBB();
         globalInitTail.append(new Return(globalInitTail, null));
     }
 
@@ -65,7 +65,7 @@ public class IRBuilder extends AstBaseVisitor {
             module.globalRegs.add(globalVarAddr);
             node.var.reg = globalVarAddr;
             if (node.init != null) {
-                curFunc = module.funcs.get("__globalInit");
+                curFunc = module.funcs.get("_globalInit");
                 curBB = curInitBB;
                 processVariableDeclInit(globalVarAddr, node.init);
                 curInitBB = curBB;

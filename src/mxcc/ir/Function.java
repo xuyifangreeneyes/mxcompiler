@@ -12,7 +12,7 @@ public class Function {
     private int BBCounter = 0;
 
     public Function(String name, boolean isBuiltin) {
-        this.name = "_" + name;
+        this.name = name;
         if (!isBuiltin) {
             head = tail = makeBB("entry");
         }

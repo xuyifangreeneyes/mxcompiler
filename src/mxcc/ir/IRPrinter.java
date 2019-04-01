@@ -126,7 +126,7 @@ public class IRPrinter implements IRVisitor {
     }
 
     public void visit(Move node) {
-        println("move " + node.getDst() + " " + node.getSrc());
+        println("mov " + node.getDst() + " " + node.getSrc());
     }
 
     public void visit(CondBranch node) {

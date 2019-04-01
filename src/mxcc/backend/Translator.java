@@ -23,10 +23,10 @@ public class Translator implements IRVisitor {
 
     private String asmName(String raw) {
         if (raw.startsWith("@")) {
-            return "_" + raw.substring(1);
+            return raw.substring(1);
         }
         if (raw.startsWith("$")) {
-            return raw.substring(1);
+            return "_" + raw.substring(1);
         }
         assert false;
         return null;
@@ -62,17 +62,6 @@ public class Translator implements IRVisitor {
         }
         assert false;
         return null;
-    }
-
-    private void writeMain() {
-        asm.add("main:");
-        addLine("push", "rbp");
-        addLine("mov", "rbp", "rsp");
-        addLine("call", "__globalInit");
-        addLine("call", "_main");
-        addLine("pop", "rbp");
-        addLine("ret");
-
     }
 
     private void addExtern() {
@@ -120,7 +109,6 @@ public class Translator implements IRVisitor {
         asm.add("");
         asm.add("SECTION .text");
         asm.add("");
-        writeMain();
 
         for (Function func : module.funcs.values()) {
             if (func.isBuiltin()) continue;
@@ -144,7 +132,6 @@ public class Translator implements IRVisitor {
             }
             db.append("00H");
             asm.add(db.toString());
-            //addLine("db", "\"" + StringHandler.unescape(stringLiteral.getValue()) + "\"", "0");
         }
 
         asm.add("");
@@ -208,6 +195,10 @@ public class Translator implements IRVisitor {
         int max = func.args.size() < 6 ? func.args.size() : 6;
         for (int i = 0; i < max; ++i) {
             addLine("mov", getMemory(func.args.get(i)), paramRegs[i]);
+        }
+
+        if (func.getName().equals("main")) {
+            addLine("call", "_globalInit");
         }
 
         BasicBlock bb = func.getStartBB();

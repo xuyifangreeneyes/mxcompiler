@@ -54,9 +54,9 @@ public class IRInterpreter {
     private int memPtr = 0;
 
     private final Set<String> builtinFuncs = new HashSet<>(Arrays.asList(
-            "_print", "_println", "_getString", "_getInt", "_toString", "__stringLength", "__stringSubstring",
-            "__stringParseInt", "__stringOrd", "__arraySize", "__stringAdd", "__stringEq", "__stringNeq",
-            "__stringLt", "__stringGt", "__stringLe", "__stringGe"
+            "print", "println", "getString", "getInt", "toString", "_stringLength", "_stringSubstring",
+            "_stringParseInt", "_stringOrd", "_arraySize", "_stringAdd", "_stringEq", "_stringNeq",
+            "_stringLt", "_stringGt", "_stringLe", "_stringGe"
             ));
 
     private BufferedReader br;
@@ -103,7 +103,7 @@ public class IRInterpreter {
                     inst.src2 = words.get(3).substring(1, words.get(3).length() - 1);
                 }
                 break;
-            case "move":
+            case "mov":
                 inst.op = words.get(0);
                 inst.dst = words.get(1);
                 inst.src1 = words.get(2);
@@ -244,7 +244,7 @@ public class IRInterpreter {
 //                System.out.println()
                 writeReg(inst.dst, getOperandValue(inst.phiSource.get(predBB.id)));
                 break;
-            case "move":
+            case "mov":
 //                System.out.println(inst.src1);
                 writeReg(inst.dst, getOperandValue(inst.src1));
                 break;
@@ -347,7 +347,7 @@ public class IRInterpreter {
     }
 
     private int runBuiltinFunc(String funcName, List<Integer> argVals) throws IOException {
-        if (funcName.equals("_getString")) {
+        if (funcName.equals("getString")) {
             if (scanner.hasNext()) {
                 String strVal = scanner.next();
                 return addString(strVal);
@@ -355,69 +355,69 @@ public class IRInterpreter {
                 throw new RuntimeException("cannot get string");
             }
         }
-        if (funcName.equals("_getInt")) {
+        if (funcName.equals("getInt")) {
             if (scanner.hasNextInt()) {
                 return scanner.nextInt();
             } else {
                 throw new RuntimeException("cannot get int");
             }
         }
-        if (funcName.equals("_toString")) {
+        if (funcName.equals("toString")) {
             String strVal = String.valueOf(argVals.get(0));
             return addString(strVal);
         }
-        if (funcName.equals("__arraySize")) {
+        if (funcName.equals("_arraySize")) {
             assert memInt.containsKey(argVals.get(0));
             return memInt.get(argVals.get(0));
         }
         assert memString.containsKey(argVals.get(0));
-        if (funcName.equals("_print")) {
+        if (funcName.equals("print")) {
             String str = memString.get(argVals.get(0));
             System.out.print(StringHandler.unescape(str));
             return 0;
         }
-        if (funcName.equals("_println")) {
+        if (funcName.equals("println")) {
             String str = memString.get(argVals.get(0));
             System.out.println(StringHandler.unescape(str));
             return 0;
         }
-        if (funcName.equals("__stringLength")) {
+        if (funcName.equals("_stringLength")) {
             String strVal = memString.get(argVals.get(0));
             return strVal.length();
         }
-        if (funcName.equals("__stringSubstring")) {
+        if (funcName.equals("_stringSubstring")) {
             String strVal = memString.get(argVals.get(0));
             String substring = strVal.substring(argVals.get(1), argVals.get(2));
             return addString(substring);
         }
-        if (funcName.equals("__stringParseInt")) {
+        if (funcName.equals("_stringParseInt")) {
             String strVal = memString.get(argVals.get(0));
             return string2int(strVal);
         }
-        if (funcName.equals("__stringOrd")) {
+        if (funcName.equals("_stringOrd")) {
             String strVal = memString.get(argVals.get(0));
             return (int) strVal.charAt(argVals.get(1));
         }
         assert memString.containsKey(argVals.get(1));
-        if (funcName.equals("__stringAdd")) {
+        if (funcName.equals("_stringAdd")) {
             return addString(memString.get(argVals.get(0)) + memString.get(argVals.get(1)));
         }
-        if (funcName.equals("__stringEq")) {
+        if (funcName.equals("_stringEq")) {
             return memString.get(argVals.get(0)).equals(memString.get(argVals.get(1))) ? 1 : 0;
         }
-        if (funcName.equals("__stringNeq")) {
+        if (funcName.equals("_stringNeq")) {
             return memString.get(argVals.get(0)).equals(memString.get(argVals.get(1))) ? 0 : 1;
         }
-        if (funcName.equals("__stringLt")) {
+        if (funcName.equals("_stringLt")) {
             return memString.get(argVals.get(0)).compareTo(memString.get(argVals.get(1))) < 0 ? 1 : 0;
         }
-        if (funcName.equals("__stringGt")) {
+        if (funcName.equals("_stringGt")) {
             return memString.get(argVals.get(0)).compareTo(memString.get(argVals.get(1))) > 0 ? 1 : 0;
         }
-        if (funcName.equals("__stringLe")) {
+        if (funcName.equals("_stringLe")) {
             return memString.get(argVals.get(0)).compareTo(memString.get(argVals.get(1))) <= 0 ? 1 : 0;
         }
-        if (funcName.equals("__stringGe")) {
+        if (funcName.equals("_stringGe")) {
             return memString.get(argVals.get(0)).compareTo(memString.get(argVals.get(1))) >= 0 ? 1 : 0;
         }
         assert false;
@@ -468,8 +468,8 @@ public class IRInterpreter {
 
     public int run() throws IOException {
         curFunc = null;
-        runFunc("__globalInit", new ArrayList<>());
-        int exitCode = runFunc("_main", new ArrayList<>());
+        runFunc("_globalInit", new ArrayList<>());
+        int exitCode = runFunc("main", new ArrayList<>());
         scanner.close();
         return exitCode;
     }
@@ -479,7 +479,7 @@ public class IRInterpreter {
 
         if (Config.debugMode) {
 //            fileName = new File(Config.tmpPath + "a.ll");
-            fileName = new File(Config.tmpPath + "a.ll");
+            fileName = new File(Config.tmpPath + "a_optim.ll");
         } else {
             fileName = new File(args[0]);
         }
