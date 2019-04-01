@@ -72,6 +72,7 @@ char* __stringAdd(char* ptr1, char* ptr2) {
     long len1 = *((long*)ptr1);
     long len2 = *((long*)ptr2);
     char* ptr = malloc(8 + len1 + len2 + 1);
+    *((long*)ptr) = len1 + len2;
     for (int i = 0; i < len1; ++i)
         ptr[8 + i] = ptr1[8 + i];
     for (int i = 0; i < len2; ++i)

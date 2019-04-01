@@ -289,6 +289,11 @@ __stringAdd:
         mov     rdi, rax
         call    malloc
         mov     qword [rbp-8H], rax
+        mov     rdx, qword [rbp-18H]
+        mov     rax, qword [rbp-10H]
+        add     rdx, rax
+        mov     rax, qword [rbp-8H]
+        mov     qword [rax], rdx
         mov     dword [rbp-20H], 0
         jmp     L_011
 

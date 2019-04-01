@@ -1,22 +1,223 @@
 <Program>
 	<FunctionDecl> int main
 		<VariableDeclStmt>
-			<VariableDecl> int a
-				<IntConst> 5
+			<VariableDecl> string a
+				<StringConst> \"\nbda\\\"\ndbd\\c\"\\\"c\\c\"
 		<VariableDeclStmt>
-			<VariableDecl> int b
+			<VariableDecl> string b
+				<StringConst> \\ab\nac\"\"add\n\"\nac\ndb\"
 		<VariableDeclStmt>
-			<VariableDecl> int c
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> c
-			<UnaryExpr> INC_SUF
-				<IdentifierExpr> a
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> b
-			<IdentifierExpr> c
-		<ReturnStmt>
+			<VariableDecl> string c
+				<StringConst> \nabbdbdd\\\\\"d\"c\\adc\"c
+		<FunctionCall>
+			<IdentifierExpr> print
 			<BinaryExpr> ADD
 				<BinaryExpr> ADD
+					<BinaryExpr> ADD
+						<BinaryExpr> ADD
+							<BinaryExpr> ADD
+								<BinaryExpr> ADD
+									<BinaryExpr> ADD
+										<BinaryExpr> ADD
+											<BinaryExpr> ADD
+												<IdentifierExpr> c
+												<IdentifierExpr> b
+											<IdentifierExpr> b
+										<IdentifierExpr> c
+									<IdentifierExpr> c
+								<IdentifierExpr> a
+							<IdentifierExpr> c
+						<IdentifierExpr> b
+					<IdentifierExpr> c
+				<IdentifierExpr> b
+		<FunctionCall>
+			<IdentifierExpr> print
+			<BinaryExpr> ADD
+				<BinaryExpr> ADD
+					<BinaryExpr> ADD
+						<BinaryExpr> ADD
+							<BinaryExpr> ADD
+								<BinaryExpr> ADD
+									<BinaryExpr> ADD
+										<BinaryExpr> ADD
+											<BinaryExpr> ADD
+												<IdentifierExpr> c
+												<IdentifierExpr> c
+											<IdentifierExpr> a
+										<IdentifierExpr> a
+									<IdentifierExpr> a
+								<IdentifierExpr> c
+							<IdentifierExpr> c
+						<IdentifierExpr> b
 					<IdentifierExpr> b
+				<IdentifierExpr> b
+		<FunctionCall>
+			<IdentifierExpr> print
+			<BinaryExpr> ADD
+				<BinaryExpr> ADD
+					<BinaryExpr> ADD
+						<BinaryExpr> ADD
+							<BinaryExpr> ADD
+								<BinaryExpr> ADD
+									<BinaryExpr> ADD
+										<BinaryExpr> ADD
+											<BinaryExpr> ADD
+												<IdentifierExpr> b
+												<IdentifierExpr> a
+											<IdentifierExpr> c
+										<IdentifierExpr> b
+									<IdentifierExpr> c
+								<IdentifierExpr> c
+							<IdentifierExpr> b
+						<IdentifierExpr> b
+					<IdentifierExpr> a
+				<IdentifierExpr> c
+		<FunctionCall>
+			<IdentifierExpr> print
+			<BinaryExpr> ADD
+				<BinaryExpr> ADD
+					<BinaryExpr> ADD
+						<BinaryExpr> ADD
+							<BinaryExpr> ADD
+								<BinaryExpr> ADD
+									<BinaryExpr> ADD
+										<BinaryExpr> ADD
+											<BinaryExpr> ADD
+												<IdentifierExpr> b
+												<IdentifierExpr> a
+											<IdentifierExpr> c
+										<IdentifierExpr> a
+									<IdentifierExpr> a
+								<IdentifierExpr> a
+							<IdentifierExpr> b
+						<IdentifierExpr> b
+					<IdentifierExpr> b
+				<IdentifierExpr> c
+		<FunctionCall>
+			<IdentifierExpr> print
+			<BinaryExpr> ADD
+				<BinaryExpr> ADD
+					<BinaryExpr> ADD
+						<BinaryExpr> ADD
+							<BinaryExpr> ADD
+								<BinaryExpr> ADD
+									<BinaryExpr> ADD
+										<BinaryExpr> ADD
+											<BinaryExpr> ADD
+												<IdentifierExpr> b
+												<IdentifierExpr> a
+											<IdentifierExpr> b
+										<IdentifierExpr> a
+									<IdentifierExpr> c
+								<IdentifierExpr> c
+							<IdentifierExpr> c
+						<IdentifierExpr> b
 					<IdentifierExpr> c
 				<IdentifierExpr> a
+		<FunctionCall>
+			<IdentifierExpr> print
+			<BinaryExpr> ADD
+				<BinaryExpr> ADD
+					<BinaryExpr> ADD
+						<BinaryExpr> ADD
+							<BinaryExpr> ADD
+								<BinaryExpr> ADD
+									<BinaryExpr> ADD
+										<BinaryExpr> ADD
+											<BinaryExpr> ADD
+												<IdentifierExpr> a
+												<IdentifierExpr> a
+											<IdentifierExpr> c
+										<IdentifierExpr> c
+									<IdentifierExpr> a
+								<IdentifierExpr> c
+							<IdentifierExpr> b
+						<IdentifierExpr> c
+					<IdentifierExpr> c
+				<IdentifierExpr> a
+		<FunctionCall>
+			<IdentifierExpr> print
+			<BinaryExpr> ADD
+				<BinaryExpr> ADD
+					<BinaryExpr> ADD
+						<BinaryExpr> ADD
+							<BinaryExpr> ADD
+								<BinaryExpr> ADD
+									<BinaryExpr> ADD
+										<BinaryExpr> ADD
+											<BinaryExpr> ADD
+												<IdentifierExpr> b
+												<IdentifierExpr> b
+											<IdentifierExpr> b
+										<IdentifierExpr> b
+									<IdentifierExpr> c
+								<IdentifierExpr> a
+							<IdentifierExpr> c
+						<IdentifierExpr> b
+					<IdentifierExpr> a
+				<IdentifierExpr> a
+		<FunctionCall>
+			<IdentifierExpr> print
+			<BinaryExpr> ADD
+				<BinaryExpr> ADD
+					<BinaryExpr> ADD
+						<BinaryExpr> ADD
+							<BinaryExpr> ADD
+								<BinaryExpr> ADD
+									<BinaryExpr> ADD
+										<BinaryExpr> ADD
+											<BinaryExpr> ADD
+												<IdentifierExpr> a
+												<IdentifierExpr> a
+											<IdentifierExpr> c
+										<IdentifierExpr> b
+									<IdentifierExpr> a
+								<IdentifierExpr> b
+							<IdentifierExpr> c
+						<IdentifierExpr> c
+					<IdentifierExpr> b
+				<IdentifierExpr> b
+		<FunctionCall>
+			<IdentifierExpr> print
+			<BinaryExpr> ADD
+				<BinaryExpr> ADD
+					<BinaryExpr> ADD
+						<BinaryExpr> ADD
+							<BinaryExpr> ADD
+								<BinaryExpr> ADD
+									<BinaryExpr> ADD
+										<BinaryExpr> ADD
+											<BinaryExpr> ADD
+												<IdentifierExpr> c
+												<IdentifierExpr> b
+											<IdentifierExpr> a
+										<IdentifierExpr> a
+									<IdentifierExpr> c
+								<IdentifierExpr> b
+							<IdentifierExpr> a
+						<IdentifierExpr> a
+					<IdentifierExpr> c
+				<IdentifierExpr> b
+		<FunctionCall>
+			<IdentifierExpr> print
+			<BinaryExpr> ADD
+				<BinaryExpr> ADD
+					<BinaryExpr> ADD
+						<BinaryExpr> ADD
+							<BinaryExpr> ADD
+								<BinaryExpr> ADD
+									<BinaryExpr> ADD
+										<BinaryExpr> ADD
+											<BinaryExpr> ADD
+												<IdentifierExpr> a
+												<IdentifierExpr> c
+											<IdentifierExpr> b
+										<IdentifierExpr> b
+									<IdentifierExpr> b
+								<IdentifierExpr> c
+							<IdentifierExpr> c
+						<IdentifierExpr> c
+					<IdentifierExpr> b
+				<IdentifierExpr> c
+		<ReturnStmt>
+			<IntConst> 0
