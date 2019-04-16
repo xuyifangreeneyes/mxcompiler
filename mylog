@@ -46,3 +46,8 @@ there is no loop of assignments.
 DefUseChain is for LocalReg, so the type should be LocalReg rather than Register.
 
 names should be redesigned. remove @ # $.
+
+ir-interpreter needs to execute Phi parallel. The bug needs fixing.
+
+global __str_i 
+is this necessary? 
