@@ -51,3 +51,8 @@ ir-interpreter needs to execute Phi parallel. The bug needs fixing.
 
 global __str_i 
 is this necessary? 
+
+How to deal with caller and callee registers?
+
+Can I push [memory] in NASM?
+
