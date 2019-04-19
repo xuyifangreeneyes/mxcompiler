@@ -1,5 +1,8 @@
 package mxcc.nasm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cmp extends Inst {
     private Var lhs;
     private Var rhs;
@@ -7,5 +10,12 @@ public class Cmp extends Inst {
     public Cmp(Var lhs, Var rhs) {
         this.lhs = lhs;
         this.rhs = rhs;
+    }
+
+    public List<VirtualReg> getUse() {
+        List<VirtualReg> useList = new ArrayList<>();
+        if (lhs instanceof VirtualReg) useList.add((VirtualReg) lhs);
+        if (rhs instanceof VirtualReg) useList.add((VirtualReg) rhs);
+        return useList;
     }
 }

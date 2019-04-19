@@ -3,11 +3,13 @@ package mxcc.nasm;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mov extends Inst {
+public class Shift extends Inst {
+    private String name;
     private Var dst;
     private Var src;
 
-    public Mov(Var dst, Var src) {
+    public Shift(String name, Var dst, Var src) {
+        this.name = name;
         this.dst = dst;
         this.src = src;
     }
@@ -19,7 +21,7 @@ public class Mov extends Inst {
     }
 
     public List<VirtualReg> getUse() {
-        List<VirtualReg> useList = new ArrayList<>();
+        List<VirtualReg> useList = getDef();
         if (src instanceof VirtualReg) useList.add((VirtualReg) src);
         return useList;
     }

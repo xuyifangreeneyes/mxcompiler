@@ -56,3 +56,7 @@ How to deal with caller and callee registers?
 
 Can I push [memory] in NASM?
 
+In Callee, arguments need to be moved from physical registers or memory to virtual registers.
+
+GlobalReg is not a proper name. DefReg and UseReg's type is LocalReg rather than Register.
+

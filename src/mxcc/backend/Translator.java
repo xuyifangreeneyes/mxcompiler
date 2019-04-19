@@ -82,7 +82,7 @@ public class Translator implements IRVisitor {
         asm.add("default rel");
         asm.add("");
 
-        asm.add("global main");
+//        asm.add("global main");
 
         for (GlobalReg globalReg : module.globalRegs) {
             asm.add("global " + asmName(globalReg.toString()));

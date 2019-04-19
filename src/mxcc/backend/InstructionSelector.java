@@ -6,27 +6,23 @@ import mxcc.utility.StringHandler;
 
 import java.util.*;
 
+import static mxcc.nasm.CommonInfo.paramRegs;
+import static mxcc.nasm.CommonInfo.physicalRegMap;
+
 public class InstructionSelector implements IRVisitor {
     private Nasm nasm  = new Nasm();
-    private int bbCounter = 0;
+
     private Func curNasmFunc;
     private Block curNasmBlock;
-    private Map<BasicBlock, String> labelMap = new HashMap<>();
-    private Map<String, VirtualReg> physicalRegMap = new HashMap<>();
+
+    private Map<BasicBlock, Block> blockMap = new HashMap<>();
+
     private Map<LocalReg, VirtualReg> localRegMap = new HashMap<>();
-    private String[] physicalRegs = { "rax", "rcx", "rdx", "rbx", "rsp", "rbp", "rsi", "rdi",
-                                     "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15" };
-    private int allocaCounter = 0;
     private Map<LocalReg, VirtualReg> allocaMap = new HashMap<>();
+
+    private int bbCounter = 0;
+    private int allocaCounter = 0;
     private int immCounter = 0;
-    private String[] paramRegs = { "rdi", "rsi", "rdx", "rcx", "r8", "r9" };
-
-
-    private void initPhysicalRegMap() {
-        for (String physicalReg : physicalRegs) {
-            physicalRegMap.put(physicalReg, new VirtualReg(physicalReg, physicalReg));
-        }
-    }
 
     private String asmName(String raw) {
         if (raw.startsWith("@")) {
@@ -39,8 +35,8 @@ public class InstructionSelector implements IRVisitor {
         return null;
     }
 
-    private String getLabel(BasicBlock bb) {
-        if (!labelMap.containsKey(bb)) {
+    private Block getBlock(BasicBlock bb) {
+        if (!blockMap.containsKey(bb)) {
             String label;
             if (bb.getParentFunc().getStartBB() == bb) {
                 label = bb.getParentFunc().getName();
@@ -48,9 +44,9 @@ public class InstructionSelector implements IRVisitor {
                 ++bbCounter;
                 label = "L" + bbCounter;
             }
-            labelMap.put(bb, label);
+            blockMap.put(bb, new Block(label));
         }
-        return labelMap.get(bb);
+        return blockMap.get(bb);
     }
 
     private VirtualReg getVirtualReg(LocalReg localReg) {
@@ -77,7 +73,16 @@ public class InstructionSelector implements IRVisitor {
     }
 
     public InstructionSelector() {
-        initPhysicalRegMap();
+
+    }
+
+    private void passSuccs() {
+        for (BasicBlock bb : blockMap.keySet()) {
+            Block block = blockMap.get(bb);
+            for (BasicBlock succBB : bb.getSuccessors()) {
+                block.addSucc(blockMap.get(succBB));
+            }
+        }
     }
 
     public void visit(Module module) {
@@ -96,15 +101,34 @@ public class InstructionSelector implements IRVisitor {
         nasm.setStringLiteralMap(literalStringMap);
 
         for (Function func : module.funcs.values()) {
-            if (func.isBuiltin()) continue;
-            visit(func);
+            if (func.isBuiltin()) {
+                nasm.addBuiltin(func.getName());
+            } else {
+                visit(func);
+            }
         }
 
-
+        passSuccs();
     }
 
     public void visit(Function func) {
         curNasmFunc = new Func(func.getName());
+        nasm.addFunc(curNasmFunc);
+
+        int paramNum = func.args.size();
+
+        for (int i = paramNum - 1; i >= 6; --i) {
+            LocalReg arg = func.args.get(i);
+            curNasmBlock.addInst(new Mov(getVirtualReg(arg), new Memory()));
+        }
+
+        int max = paramNum < 6 ? paramNum : 6;
+
+        for (int i = 0; i < max; ++i) {
+            LocalReg arg = func.args.get(i);
+            curNasmBlock.addInst(new Mov(getVirtualReg(arg), physicalRegMap.get(paramRegs[i])));
+        }
+
         BasicBlock bb = func.getStartBB();
         while (bb != null) {
             visit(bb);
@@ -113,7 +137,7 @@ public class InstructionSelector implements IRVisitor {
     }
 
     public void visit(BasicBlock bb) {
-        curNasmBlock = new Block(getLabel(bb));
+        curNasmBlock = getBlock(bb);
         curNasmFunc.addBlock(curNasmBlock);
         if (bb.getParentFunc().getName().equals("main") && bb.getParentFunc().getStartBB() == bb) {
             curNasmBlock.addInst(new FuncCall("_globalInit"));
@@ -197,12 +221,8 @@ public class InstructionSelector implements IRVisitor {
             case LE: set = "setle"; break;
             case GE: set = "setge"; break;
         }
-        // SetFlag includes two instructions
-        // 1. sete al
-        // 2. movzx rax al
-        // Maybe this could be optimized
         curNasmBlock.addInst(new SetFlag(set, physicalRegMap.get("rax")));
-        curNasmBlock.addInst(new Mov(getVirtualReg(node.getDst()), physicalRegMap.get("rax")));
+        curNasmBlock.addInst(new Movzx(getVirtualReg(node.getDst()), physicalRegMap.get("rax")));
     }
 
     private void writeDivMod(BinaryOperation node) {
@@ -225,8 +245,8 @@ public class InstructionSelector implements IRVisitor {
     }
 
     private void writeShift(BinaryOperation node) {
-        VirtualReg rax = physicalRegMap.get("rax");
-        curNasmBlock.addInst(new Mov(rax, getVar(node.getLhs())));
+        VirtualReg dstReg = getVirtualReg(node.getDst());
+        curNasmBlock.addInst(new Mov(dstReg, getVar(node.getLhs())));
         Operand rhs = node.getRhs();
         assert rhs instanceof LocalReg || rhs instanceof IntImmediate;
         Var count;
@@ -237,8 +257,7 @@ public class InstructionSelector implements IRVisitor {
             count = physicalRegMap.get("rcx");
         }
         String shift = node.getOp() == BinaryOperation.BinaryOp.LSFT ? "shl" : "sar";
-        curNasmBlock.addInst(new BinOp(shift, rax, count));
-        curNasmBlock.addInst(new Mov(getVirtualReg(node.getDst()), rax));
+        curNasmBlock.addInst(new Shift(shift, dstReg, count));
     }
 
     private void writeBinary(BinaryOperation node) {
@@ -251,10 +270,9 @@ public class InstructionSelector implements IRVisitor {
             case BIT_OR: binary = "or"; break;
             case BIT_XOR: binary = "xor"; break;
         }
-        VirtualReg rax = physicalRegMap.get("rax");
-        curNasmBlock.addInst(new Mov(rax, getVar(node.getLhs())));
-        curNasmBlock.addInst(new BinOp(binary, rax, getVar(node.getRhs())));
-        curNasmBlock.addInst(new Mov(getVirtualReg(node.getDst()), rax));
+        VirtualReg dstReg = getVirtualReg(node.getDst());
+        curNasmBlock.addInst(new Mov(dstReg, getVar(node.getLhs())));
+        curNasmBlock.addInst(new BinOp(binary, dstReg, getVar(node.getRhs())));
     }
 
     public void visit(BinaryOperation node) {
@@ -281,10 +299,9 @@ public class InstructionSelector implements IRVisitor {
             case NEG: unary = "neg"; break;
             case BIT_NOT: unary = "not"; break;
         }
-        VirtualReg rax = physicalRegMap.get("rax");
-        curNasmBlock.addInst(new Mov(rax, getVar(node.getSrc())));
-        curNasmBlock.addInst(new UnOp(unary, rax));
-        curNasmBlock.addInst(new Mov(getVirtualReg(node.getDst()), rax));
+        VirtualReg dstReg = getVirtualReg(node.getDst());
+        curNasmBlock.addInst(new Mov(dstReg, getVar(node.getSrc())));
+        curNasmBlock.addInst(new UnOp(unary, dstReg));
     }
 
     public void visit(Call node) {
@@ -322,12 +339,12 @@ public class InstructionSelector implements IRVisitor {
         BasicBlock ifTrueBB = node.getIfTrue();
         BasicBlock ifFalseBB = node.getIfFalse();
         if (nextBB == ifTrueBB) {
-            curNasmBlock.addInst(new Jmp("je", new Label(getLabel(ifFalseBB))));
+            curNasmBlock.addInst(new Jmp("je", new Label(getBlock(ifFalseBB).getName())));
             return;
         }
-        curNasmBlock.addInst(new Jmp("jne", new Label(getLabel(ifTrueBB))));
+        curNasmBlock.addInst(new Jmp("jne", new Label(getBlock(ifTrueBB).getName())));
         if (nextBB != ifFalseBB) {
-            curNasmBlock.addInst(new Jmp("jmp", new Label(getLabel(ifFalseBB))));
+            curNasmBlock.addInst(new Jmp("jmp", new Label(getBlock(ifFalseBB).getName())));
         }
     }
 
@@ -335,7 +352,7 @@ public class InstructionSelector implements IRVisitor {
         BasicBlock nextBB = node.getParentBB().next;
         BasicBlock targetBB = node.getTarget();
         if (nextBB != targetBB) {
-            curNasmBlock.addInst(new Jmp("jmp", new Label(getLabel(targetBB))));
+            curNasmBlock.addInst(new Jmp("jmp", new Label(getBlock(targetBB).getName())));
         }
     }
 

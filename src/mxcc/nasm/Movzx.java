@@ -1,21 +1,20 @@
 package mxcc.nasm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Mov extends Inst {
-    private Var dst;
+public class Movzx extends Inst {
+    private VirtualReg dst;
     private Var src;
 
-    public Mov(Var dst, Var src) {
+    public Movzx(VirtualReg dst, Var src) {
         this.dst = dst;
         this.src = src;
     }
 
     public List<VirtualReg> getDef() {
-        List<VirtualReg> defList = new ArrayList<>();
-        if (dst instanceof VirtualReg) defList.add((VirtualReg) dst);
-        return defList;
+        return Collections.singletonList(dst);
     }
 
     public List<VirtualReg> getUse() {
