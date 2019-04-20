@@ -39,4 +39,9 @@ public class Block {
     public LinkedList<Inst> getInstList() {
         return instList;
     }
+
+    public Set<Block> getSuccs() {
+        return succs;
+    }
+
 }

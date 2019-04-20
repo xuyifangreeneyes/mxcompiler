@@ -60,3 +60,4 @@ In Callee, arguments need to be moved from physical registers or memory to virtu
 
 GlobalReg is not a proper name. DefReg and UseReg's type is LocalReg rather than Register.
 
+problems with register allocation: uninitailized variable, caller and calle.

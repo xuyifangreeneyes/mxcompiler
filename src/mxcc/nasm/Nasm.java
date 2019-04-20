@@ -47,4 +47,7 @@ public class Nasm {
     }
 
 
+    public List<Func> getFuncs() {
+        return funcs;
+    }
 }

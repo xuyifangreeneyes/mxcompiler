@@ -23,4 +23,12 @@ public class Mov extends Inst {
         if (src instanceof VirtualReg) useList.add((VirtualReg) src);
         return useList;
     }
+
+    public Var getDst() {
+        return dst;
+    }
+
+    public Var getSrc() {
+        return src;
+    }
 }
