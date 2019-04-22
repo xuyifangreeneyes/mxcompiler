@@ -1,4 +1,4 @@
-$str_0 "dde"
+@a
 
 define print
 
@@ -42,7 +42,9 @@ define _globalInit ( ) {
 
 define main ( ) {
 <0> entry
-	println ( $str_0 )
+	%idVal_1 = load @a
+	%res_0 = toString ( %idVal_1 )
+	println ( %res_0 )
 	ret 0
 
 }

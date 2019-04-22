@@ -6,6 +6,7 @@ import java.util.List;
 public class Func {
     private String name;
     private List<Block> bbList = new ArrayList<>();
+    private int rspOffset = 0;
 
     public Func(String name) {
         this.name = name;
@@ -17,5 +18,13 @@ public class Func {
 
     public List<Block> getBbList() {
         return bbList;
+    }
+
+    public void addRspOffset(int offset) {
+        rspOffset += offset;
+    }
+
+    public int getRspOffset() {
+        return rspOffset;
     }
 }

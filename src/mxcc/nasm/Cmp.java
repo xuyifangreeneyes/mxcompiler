@@ -18,4 +18,24 @@ public class Cmp extends Inst {
         if (rhs instanceof VirtualReg) useList.add((VirtualReg) rhs);
         return useList;
     }
+
+    public Var getLhs() {
+        return lhs;
+    }
+
+    public void setLhs(Var lhs) {
+        this.lhs = lhs;
+    }
+
+    public Var getRhs() {
+        return rhs;
+    }
+
+    public void setRhs(Var rhs) {
+        this.rhs = rhs;
+    }
+
+    public void accept(NasmVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -6,8 +6,7 @@ import mxcc.utility.StringHandler;
 
 import java.util.*;
 
-import static mxcc.nasm.CommonInfo.paramRegs;
-import static mxcc.nasm.CommonInfo.physicalRegMap;
+import static mxcc.nasm.CommonInfo.*;
 
 public class InstructionSelector implements IRVisitor {
     private Nasm nasm  = new Nasm();
@@ -20,12 +19,20 @@ public class InstructionSelector implements IRVisitor {
     private Map<LocalReg, VirtualReg> localRegMap = new HashMap<>();
     private Map<LocalReg, VirtualReg> allocaMap = new HashMap<>();
 
+    // Map<calleeSaveReg, localBackup>
+    // Since precolored nodes can't be spilled, we move them to backup virtualRegs,
+    // which are likely to be spilled.
+    private Map<VirtualReg, VirtualReg> calleeSaveMap = new HashMap<>();
+
     private int bbCounter = 0;
     private int allocaCounter = 0;
     private int immCounter = 0;
 
     private String asmName(String raw) {
         if (raw.startsWith("@")) {
+            // int ch;
+            // [rel ch] goes wrong
+            // [rel _ch] is ok
             return "_" + raw.substring(1);
         }
         if (raw.startsWith("$")) {
@@ -38,11 +45,11 @@ public class InstructionSelector implements IRVisitor {
     private Block getBlock(BasicBlock bb) {
         if (!blockMap.containsKey(bb)) {
             String label;
-            if (bb.getParentFunc().getStartBB() == bb) {
+            if (bb.isEntry()) {
                 label = bb.getParentFunc().getName();
             } else {
                 ++bbCounter;
-                label = "L" + bbCounter;
+                label = "__L_" + bbCounter;
             }
             blockMap.put(bb, new Block(label));
         }
@@ -72,8 +79,14 @@ public class InstructionSelector implements IRVisitor {
         return null;
     }
 
-    public InstructionSelector() {
+    private void initCalleeSaveMap() {
+        for (String name : calleeSaveRegs) {
+            calleeSaveMap.put(physicalRegMap.get(name), new VirtualReg("%local_" + name));
+        }
+    }
 
+    public InstructionSelector() {
+        initCalleeSaveMap();
     }
 
     private void passSuccs() {
@@ -119,7 +132,7 @@ public class InstructionSelector implements IRVisitor {
 
         for (int i = paramNum - 1; i >= 6; --i) {
             LocalReg arg = func.args.get(i);
-            curNasmBlock.addInst(new Mov(getVirtualReg(arg), new Memory()));
+            curNasmBlock.addInst(new Mov(getVirtualReg(arg), new Memory(2)));
         }
 
         int max = paramNum < 6 ? paramNum : 6;
@@ -139,8 +152,13 @@ public class InstructionSelector implements IRVisitor {
     public void visit(BasicBlock bb) {
         curNasmBlock = getBlock(bb);
         curNasmFunc.addBlock(curNasmBlock);
-        if (bb.getParentFunc().getName().equals("main") && bb.getParentFunc().getStartBB() == bb) {
-            curNasmBlock.addInst(new FuncCall("_globalInit"));
+        if (bb.isEntry()) {
+            for (VirtualReg reg : calleeSaveMap.keySet()) {
+                curNasmBlock.addInst(new Mov(calleeSaveMap.get(reg), reg));
+            }
+            if (bb.getParentFunc().getName().equals("main")) {
+                curNasmBlock.addInst(new FuncCall("_globalInit", 0));
+            }
         }
         Instruction inst = bb.getFirstInst();
         while (inst != null) {
@@ -162,7 +180,7 @@ public class InstructionSelector implements IRVisitor {
     public void visit(Malloc node) {
         assert node.getSize() instanceof LocalReg || node.getSize() instanceof IntImmediate;
         curNasmBlock.addInst(new Mov(physicalRegMap.get("rdi"), getVar(node.getSize())));
-        curNasmBlock.addInst(new FuncCall("malloc"));
+        curNasmBlock.addInst(new FuncCall("malloc", 0));
         curNasmBlock.addInst(new Mov(getVirtualReg(node.getDst()), physicalRegMap.get("rax")));
     }
 
@@ -306,6 +324,15 @@ public class InstructionSelector implements IRVisitor {
 
     public void visit(Call node) {
         int paramNum = node.getArgs().size();
+        int rspOffset = 0;
+        if (paramNum > 6) {
+            rspOffset = (paramNum - 6) * 8;
+            if (rspOffset % 16 != 0) {
+                // nop is a placeholder for [ sub rsp, 8]
+                curNasmBlock.addInst(new Nop());
+                rspOffset += 8;
+            }
+        }
         for (int i = paramNum - 1; i >= 6; --i) {
             Operand arg = node.getArgs().get(i);
             assert arg instanceof LocalReg || arg instanceof IntImmediate;
@@ -319,7 +346,7 @@ public class InstructionSelector implements IRVisitor {
         for (int i = 0; i < max; ++i) {
             curNasmBlock.addInst(new Mov(physicalRegMap.get(paramRegs[i]), getVar(node.getArgs().get(i))));
         }
-        curNasmBlock.addInst(new FuncCall(node.getFunc().IRFunc.getName()));
+        curNasmBlock.addInst(new FuncCall(node.getFunc().IRFunc.getName(), rspOffset));
         if (node.getDst() != null) {
             curNasmBlock.addInst(new Mov(getVirtualReg(node.getDst()), physicalRegMap.get("rax")));
         }
@@ -357,6 +384,9 @@ public class InstructionSelector implements IRVisitor {
     }
 
     public void visit(Return node) {
+        for (VirtualReg reg : calleeSaveMap.keySet()) {
+            curNasmBlock.addInst(new Mov(reg, calleeSaveMap.get(reg)));
+        }
         if (node.getRetVal() != null) {
             curNasmBlock.addInst(new Mov(physicalRegMap.get("rax"), getVar(node.getRetVal())));
         }

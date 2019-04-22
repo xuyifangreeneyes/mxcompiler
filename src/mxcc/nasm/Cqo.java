@@ -19,4 +19,8 @@ public class Cqo extends Inst {
     public List<VirtualReg> getUse() {
         return Collections.singletonList(physicalRegMap.get("rax"));
     }
+
+    public void accept(NasmVisitor visitor) {
+        visitor.visit(this);
+    }
 }

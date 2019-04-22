@@ -8,4 +8,8 @@ public class Jmp extends Inst {
         this.name = name;
         this.target = target;
     }
+
+    public void accept(NasmVisitor visitor) {
+        visitor.visit(this);
+    }
 }

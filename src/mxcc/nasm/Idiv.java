@@ -24,4 +24,16 @@ public class Idiv extends Inst {
         if (divisor instanceof VirtualReg) useList.add((VirtualReg) divisor);
         return useList;
     }
+
+    public Var getDivisor() {
+        return divisor;
+    }
+
+    public void setDivisor(Var divisor) {
+        this.divisor = divisor;
+    }
+
+    public void accept(NasmVisitor visitor) {
+        visitor.visit(this);
+    }
 }

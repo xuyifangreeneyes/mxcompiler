@@ -8,19 +8,22 @@ public class Memory extends Var {
 
     private Label label;
 
-    private boolean valid;
+    private int type;
+    // 0: out of stack
+    // 1: in stack
+    // 2: for parameter passing of call
 
     public Memory(VirtualReg base) {
         this.base = base;
-        this.valid = true;
+        this.type = 0;
     }
 
     public Memory(Label label) {
         this.label = label;
-        this.valid = true;
+        this.type = 0;
     }
 
-    public Memory() {
-        this.valid = false;
+    public Memory(int type) {
+        this.type = type;
     }
 }

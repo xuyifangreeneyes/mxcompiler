@@ -1,6 +1,6 @@
 default rel
 
-global main
+global _a
 global print
 global println
 global getString
@@ -45,8 +45,14 @@ _globalInit:
 main:
 		push    rbp
 		mov     rbp, rsp
+		sub     rsp, 16
 		call    _globalInit
-		mov     rdi, __str_0
+		mov     rax, qword [rel _a]
+		mov     qword [rbp-8], rax
+		mov     rdi, qword [rbp-8]
+		call    toString
+		mov     qword [rbp-16], rax
+		mov     rdi, qword [rbp-16]
 		call    println
 		mov     rax, 0
 		mov     rsp, rbp
@@ -55,11 +61,9 @@ main:
 
 SECTION .data
 
-__str_0:
-		dq      3
-		db      64H, 64H, 65H, 00H
-
 SECTION .bss
+_a:
+		resb    8
 
 
 SECTION .text

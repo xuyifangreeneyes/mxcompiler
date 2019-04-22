@@ -15,4 +15,12 @@ public class SetFlag extends Inst {
     public List<VirtualReg> getDef() {
         return Collections.singletonList(dst);
     }
+
+    public VirtualReg getDst() {
+        return dst;
+    }
+
+    public void accept(NasmVisitor visitor) {
+        visitor.visit(this);
+    }
 }

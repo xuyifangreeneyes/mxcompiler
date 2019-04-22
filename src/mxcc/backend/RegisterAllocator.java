@@ -5,9 +5,13 @@ import mxcc.nasm.*;
 
 import java.util.*;
 
+import static mxcc.nasm.CommonInfo.*;
+
 public class RegisterAllocator {
     private Func func;
-    private int K = 16;
+
+    // rbp, rsp don't participate in allocation
+    private int K = 14;
 
     // node work lists, sets, and stacks (disjoint)
     private Set<VirtualReg> precolored = new LinkedHashSet<>();
@@ -75,9 +79,48 @@ public class RegisterAllocator {
     }
 
     private void work() {
-        LivenessAnalyzer.visit(func);
-        build();
-        makeWorkList();
+        while (true) {
+            LivenessAnalyzer.visit(func);
+            build();
+            makeWorkList();
+            do {
+                if (!simplifyWorklist.isEmpty()) {
+                    simplify();
+                } else if (!worklistMoves.isEmpty()) {
+                    coalesce();
+                } else if (!freezeWorklist.isEmpty()) {
+                    freeze();
+                } else if (!spillWorklist.isEmpty()) {
+                    selectSpill();
+                }
+            } while (!simplifyWorklist.isEmpty() || !worklistMoves.isEmpty() ||
+                     !freezeWorklist.isEmpty() || !spillWorklist.isEmpty());
+            assignColors();
+            if (spilledNodes.isEmpty()) break;
+            rewriteProgram();
+        }
+        removeSelfMov();
+    }
+
+    private boolean isSelfMov(Inst inst) {
+        if (!(inst instanceof Mov)) return false;
+        Mov mov = (Mov) inst;
+        if ((!(mov.getDst() instanceof VirtualReg)) || (!(mov.getSrc() instanceof VirtualReg))) return false;
+        String dstReg = ((VirtualReg) mov.getDst()).getColor();
+        String srcReg = (((VirtualReg) mov.getSrc()).getColor());
+        return dstReg.equals(srcReg);
+    }
+
+    private void removeSelfMov() {
+        for (Block block : func.getBbList()) {
+            LinkedList<Inst> oldInstList = block.getInstList();
+            LinkedList<Inst> newInstList = new LinkedList<>();
+            for (Inst inst : oldInstList) {
+                if (isSelfMov(inst)) continue;
+                newInstList.add(inst);
+            }
+            block.setInstList(newInstList);
+        }
     }
 
     private boolean isMove(Inst inst) {
@@ -89,6 +132,12 @@ public class RegisterAllocator {
     private void build() {
         for (Block block : func.getBbList()) {
             Set<VirtualReg> live = new HashSet<>(block.getLiveOut());
+            if (block.isExit()) {
+                // use(calleeSaveRegs)
+                for (String name : calleeSaveRegs) {
+                    live.add(physicalRegMap.get(name));
+                }
+            }
             ListIterator li = block.getInstList().listIterator(block.getInstList().size());
             while (li.hasPrevious()) {
                 Inst inst = (Inst) li.previous();
@@ -113,6 +162,22 @@ public class RegisterAllocator {
                 }
                 live.removeAll(def);
                 live.addAll(use);
+            }
+            if (block.isEntry()) {
+                // def(calleeSaveRegs)
+                assert live.isEmpty();
+
+                List<VirtualReg> def = new ArrayList<>();
+                for (String name : calleeSaveRegs) {
+                    def.add(physicalRegMap.get(name));
+                }
+                live.addAll(def);
+                for (VirtualReg d : def) {
+                    for (VirtualReg l : live) {
+                        addEdge(l, d);
+                    }
+                }
+                live.removeAll(def);
             }
         }
     }
@@ -299,15 +364,77 @@ public class RegisterAllocator {
     }
 
     private void freeze() {
-
+        VirtualReg u = freezeWorklist.iterator().next();
+        freezeWorklist.remove(u);
+        simplifyWorklist.add(u);
+        freezeMoves(u);
     }
 
     private void freezeMoves(VirtualReg u) {
-
+        for (Mov mov : nodeMoves(u)) {
+            assert mov.getDst() instanceof VirtualReg && mov.getSrc() instanceof VirtualReg;
+            VirtualReg x = getAlias((VirtualReg) mov.getDst());
+            VirtualReg y = getAlias((VirtualReg) mov.getSrc());
+            VirtualReg v;
+            if (y == getAlias(u)) {
+                v = x;
+            } else {
+                v = y;
+            }
+            activeMoves.remove(mov);
+            frozenMoves.add(mov);
+            if (freezeWorklist.contains(v) && nodeMoves(v).isEmpty()) {
+                freezeWorklist.remove(v);
+                simplifyWorklist.add(v);
+            }
+        }
     }
 
     private void selectSpill() {
-        
+        Iterator<VirtualReg> iter = spillWorklist.iterator();
+        VirtualReg m = iter.next();
+        while (m.isTiny() && iter.hasNext()) {
+            m = iter.next();
+        }
+        spillWorklist.remove(m);
+        simplifyWorklist.add(m);
+        freezeMoves(m);
+    }
+
+    private void assignColors() {
+        while (!selectStack.isEmpty()) {
+            VirtualReg n = selectStack.pop();
+            selectedNodes.remove(n);
+            Set<String> okColors = new HashSet<>(Arrays.asList(colorRegs));
+            for (VirtualReg w : adjList.get(n)) {
+                VirtualReg aw = getAlias(w);
+                if (coloredNodes.contains(aw) || precolored.contains(aw)) {
+                    okColors.remove(aw.getColor());
+                }
+            }
+            if (okColors.isEmpty()) {
+                spilledNodes.add(n);
+            } else {
+                coloredNodes.add(n);
+                String c = okColors.iterator().next();
+                n.setColor(c);
+            }
+        }
+        for (VirtualReg n : coalescedNodes) {
+            n.setColor(getAlias(n).getColor());
+        }
+    }
+
+    private void rewriteProgram() {
+        func.addRspOffset(spilledNodes.size() * 8);
+        SpillEditor spillEditor = new SpillEditor(spilledNodes);
+        List<VirtualReg> newTemps = spillEditor.visit(func);
+        spilledNodes.clear();
+        initial.addAll(coloredNodes);
+        initial.addAll(coalescedNodes);
+        initial.addAll(newTemps);
+        coloredNodes.clear();
+        coalescedNodes.clear();
     }
 
 }

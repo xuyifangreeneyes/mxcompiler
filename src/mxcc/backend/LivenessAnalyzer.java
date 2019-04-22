@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static mxcc.nasm.CommonInfo.calleeSaveRegs;
+import static mxcc.nasm.CommonInfo.physicalRegMap;
+
 public class LivenessAnalyzer {
     private Func func;
     private Map<Block, Set<VirtualReg>> ueVarMap = new HashMap<>();
@@ -31,6 +34,12 @@ public class LivenessAnalyzer {
         for (Block block : func.getBbList()) {
             ueVarMap.put(block, new HashSet<>());
             varKillMap.put(block, new HashSet<>());
+            if (block.isEntry()) {
+                // def(calleeSaveRegs)
+                for (String name : calleeSaveRegs) {
+                    varKillMap.get(block).add(physicalRegMap.get(name));
+                }
+            }
             for (Inst inst : block.getInstList()) {
                 for (VirtualReg use : inst.getUse()) {
                     if (varKillMap.get(block).contains(use)) continue;
@@ -38,6 +47,13 @@ public class LivenessAnalyzer {
                 }
                 for (VirtualReg def : inst.getDef()) {
                     varKillMap.get(block).add(def);
+                }
+            }
+            if (block.isExit()) {
+                // use(calleeSaveRegs)
+                for (String name : calleeSaveRegs) {
+                    VirtualReg reg = physicalRegMap.get(name);
+                    assert varKillMap.get(block).contains(reg);
                 }
             }
         }

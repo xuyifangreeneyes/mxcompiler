@@ -209,7 +209,7 @@ public class Translator implements IRVisitor {
     }
 
     public void visit(BasicBlock bb) {
-        if (bb != bb.getParentFunc().getStartBB()) {
+        if (!bb.isEntry()) {
             assert labelMap.containsKey(bb);
             asm.add(labelMap.get(bb) + ":");
         }
@@ -372,7 +372,7 @@ public class Translator implements IRVisitor {
     }
 
     private String getBBLabel(BasicBlock bb) {
-        if (bb == bb.getParentFunc().getStartBB()) return bb.getParentFunc().getName();
+        if (bb.isEntry()) return bb.getParentFunc().getName();
         assert labelMap.containsKey(bb);
         return labelMap.get(bb);
     }

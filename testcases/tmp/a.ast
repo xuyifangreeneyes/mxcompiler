@@ -1,7 +1,10 @@
 <Program>
+	<VariableDecl> int a
 	<FunctionDecl> int main
 		<FunctionCall>
 			<IdentifierExpr> println
-			<StringConst> dde
+			<FunctionCall>
+				<IdentifierExpr> toString
+				<IdentifierExpr> a
 		<ReturnStmt>
 			<IntConst> 0

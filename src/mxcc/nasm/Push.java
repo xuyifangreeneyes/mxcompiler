@@ -15,4 +15,16 @@ public class Push extends Inst {
         if (src instanceof VirtualReg) useList.add((VirtualReg) src);
         return useList;
     }
+
+    public Var getSrc() {
+        return src;
+    }
+
+    public void setSrc(Var src) {
+        this.src = src;
+    }
+
+    public void accept(NasmVisitor visitor) {
+        visitor.visit(this);
+    }
 }

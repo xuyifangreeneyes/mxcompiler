@@ -28,7 +28,19 @@ public class Mov extends Inst {
         return dst;
     }
 
+    public void setDst(Var dst) {
+        this.dst = dst;
+    }
+
     public Var getSrc() {
         return src;
+    }
+
+    public void setSrc(Var src) {
+        this.src = src;
+    }
+
+    public void accept(NasmVisitor visitor) {
+        visitor.visit(this);
     }
 }

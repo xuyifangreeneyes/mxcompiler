@@ -21,4 +21,17 @@ public class UnOp extends Inst {
     public List<VirtualReg> getUse() {
         return getDef();
     }
+
+    public Var getVar() {
+        return var;
+    }
+
+    public void setVar(Var var) {
+        this.var = var;
+    }
+
+    public void accept(NasmVisitor visitor) {
+        visitor.visit(this);
+    }
+
 }

@@ -172,4 +172,8 @@ public class BasicBlock {
         // every basicBlock's tail is a BranchInst
         return successors;
     }
+
+    public boolean isEntry() {
+        return this.getParentFunc().getStartBB() == this;
+    }
 }

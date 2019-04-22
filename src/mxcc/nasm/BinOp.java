@@ -2,6 +2,7 @@ package mxcc.nasm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class BinOp extends Inst {
     private String name;
@@ -26,4 +27,23 @@ public class BinOp extends Inst {
         return useList;
     }
 
+    public Var getFirst() {
+        return first;
+    }
+
+    public void setFirst(Var first) {
+        this.first = first;
+    }
+
+    public Var getSecond() {
+        return second;
+    }
+
+    public void setSecond(Var second) {
+        this.second = second;
+    }
+
+    public void accept(NasmVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -61,3 +61,12 @@ In Callee, arguments need to be moved from physical registers or memory to virtu
 GlobalReg is not a proper name. DefReg and UseReg's type is LocalReg rather than Register.
 
 problems with register allocation: uninitailized variable, caller and calle.
+
+add isEntry and isExit for BasicBlock and Block
+
+As for uninitailized problem,
+1. local variable: solved in ssa construction
+2. global variable: placed in .bss(a place for uninitialized data).
+   When trying to read uninitialized globel variable, it seems to
+   give me 0.
+

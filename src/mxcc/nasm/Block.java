@@ -36,12 +36,24 @@ public class Block {
         this.liveOut = liveOut;
     }
 
+    public void setInstList(LinkedList<Inst> instList) {
+        this.instList = instList;
+    }
+
     public LinkedList<Inst> getInstList() {
         return instList;
     }
 
     public Set<Block> getSuccs() {
         return succs;
+    }
+
+    public boolean isEntry() {
+        return !name.startsWith("__L_");
+    }
+
+    public boolean isExit() {
+        return instList.getLast() instanceof Ret;
     }
 
 }
