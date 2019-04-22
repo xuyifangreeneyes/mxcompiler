@@ -14,7 +14,7 @@ public class SpillEditor implements NasmVisitor {
 
     public SpillEditor(Set<VirtualReg> spilledNodes) {
         for (VirtualReg reg : spilledNodes) {
-            spillMap.put(reg, new Memory(1));
+            spillMap.put(reg, new Memory());
         }
     }
 
@@ -115,8 +115,8 @@ public class SpillEditor implements NasmVisitor {
     }
 
     public void visit(Idiv inst) {
-        Var divisor = inst.getDivisor();
-        if (divisor instanceof VirtualReg && spillMap.keySet().contains(divisor)) {
+        VirtualReg divisor = needSpill(inst.getDivisor());
+        if (divisor != null) {
             inst.setDivisor(spillMap.get(divisor));
         }
     }
@@ -192,6 +192,8 @@ public class SpillEditor implements NasmVisitor {
         }
     }
 
+    // inc qword [rel a]
+    // this is ok
     public void visit(UnOp inst) {
         VirtualReg var = needSpill(inst.getVar());
         if (var != null) {

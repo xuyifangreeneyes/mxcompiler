@@ -130,9 +130,11 @@ public class InstructionSelector implements IRVisitor {
 
         int paramNum = func.args.size();
 
-        for (int i = paramNum - 1; i >= 6; --i) {
+        int rbpOffset = 8;
+        for (int i = 6; i < paramNum; ++i) {
             LocalReg arg = func.args.get(i);
-            curNasmBlock.addInst(new Mov(getVirtualReg(arg), new Memory(2)));
+            rbpOffset += 8;
+            curNasmBlock.addInst(new Mov(getVirtualReg(arg), new Memory(physicalRegMap.get("rbp"), rbpOffset)));
         }
 
         int max = paramNum < 6 ? paramNum : 6;

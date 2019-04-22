@@ -10,6 +10,7 @@ public class StackBuilder implements NasmVisitor {
     private Func func;
     private LinkedList<Inst> oldInstList;
     private LinkedList<Inst> newInstList;
+    private int rbpOffset = 0;
 
     public static void visit(Nasm nasm) {
         for (Func func : nasm.getFuncs()) {
@@ -42,19 +43,31 @@ public class StackBuilder implements NasmVisitor {
         }
     }
 
-    public void visit(Inst inst) {
+    private void settle(Var var) {
+        if (!(var instanceof Memory)) return;
+        Memory memory = (Memory) var;
+        if (memory.isValid()) return;
+        rbpOffset -= 8;
+        memory.settleOnStack(rbpOffset);
+    }
 
+    public void visit(Inst inst) {
+        inst.accept(this);
     }
 
     public void visit(BinOp inst) {
-
+        settle(inst.getFirst());
+        settle(inst.getSecond());
+        newInstList.add(inst);
     }
     public void visit(Cmp inst) {
-
+        settle(inst.getLhs());
+        settle(inst.getRhs());
+        newInstList.add(inst);
     }
 
     public void visit(Cqo inst) {
-
+        newInstList.add(inst);
     }
 
     public void visit(FuncCall inst) {
@@ -67,19 +80,23 @@ public class StackBuilder implements NasmVisitor {
     }
 
     public void visit(Idiv inst) {
-
+        settle(inst.getDivisor());
+        newInstList.add(inst);
     }
 
     public void visit(Jmp inst) {
-
+        newInstList.add(inst);
     }
 
     public void visit(Mov inst) {
-
+        settle(inst.getDst());
+        settle(inst.getSrc());
+        newInstList.add(inst);
     }
 
     public void visit(Movzx inst) {
-
+        // src is always rax(al)
+        newInstList.add(inst);
     }
 
     public void visit(Nop inst) {
@@ -87,11 +104,12 @@ public class StackBuilder implements NasmVisitor {
     }
 
     public void visit(Pop inst) {
-
+        newInstList.add(inst);
     }
 
     public void visit(Push inst) {
-
+        settle(inst.getSrc());
+        newInstList.add(inst);
     }
 
     public void visit(Ret inst) {
@@ -101,15 +119,19 @@ public class StackBuilder implements NasmVisitor {
     }
 
     public void visit(SetFlag inst) {
-
+        // dst is always rax(al)
+        newInstList.add(inst);
     }
 
     public void visit(Shift inst) {
-
+        // second is imm or rcx(cl)
+        settle(inst.getFirst());
+        newInstList.add(inst);
     }
 
     public void visit(UnOp inst) {
-
+        settle(inst.getVar());
+        newInstList.add(inst);
     }
 
 }
