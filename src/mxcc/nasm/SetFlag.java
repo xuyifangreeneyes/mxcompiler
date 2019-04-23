@@ -12,6 +12,10 @@ public class SetFlag extends Inst {
         this.dst = dst;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public List<VirtualReg> getDef() {
         return Collections.singletonList(dst);
     }

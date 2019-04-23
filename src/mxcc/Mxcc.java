@@ -2,6 +2,9 @@ package mxcc;
 
 import mxcc.ast.AstPrinter;
 import mxcc.ast.Program;
+import mxcc.backend.InstructionSelector;
+import mxcc.backend.RegisterAllocator;
+import mxcc.backend.StackBuilder;
 import mxcc.backend.Translator;
 import mxcc.frontend.AstBuilder;
 import mxcc.frontend.IRBuilder;
@@ -9,6 +12,8 @@ import mxcc.frontend.SemanticChecker;
 import mxcc.frontend.TypeResolver;
 import mxcc.ir.IRPrinter;
 import mxcc.ir.Module;
+import mxcc.nasm.Nasm;
+import mxcc.nasm.NasmPrinter;
 import mxcc.optim.*;
 import mxcc.parser.MxLexer;
 import mxcc.parser.MxParser;
@@ -23,6 +28,7 @@ import java.io.*;
 public class Mxcc {
     private Program ast;
     private Module ir;
+    private Nasm nasm;
 
     private void buildAST() throws IOException {
         CharStream input;
@@ -135,15 +141,48 @@ public class Mxcc {
         }
     }
 
+    private void selectInstruction() {
+        InstructionSelector selector = new InstructionSelector();
+        nasm = selector.visit(ir);
+    }
+
+    private void allocateRegister() {
+        RegisterAllocator.visit(nasm);
+    }
+
+    private void buildStack() {
+        StackBuilder.visit(nasm);
+    }
+
+    private void printNasm() throws IOException {
+        NasmPrinter printer = new NasmPrinter();
+        printer.visit(nasm);
+        if (Config.debugMode) {
+            File fileName = new File(Config.tmpPath + "a.asm");
+            if (!fileName.exists()) {
+                if (!fileName.createNewFile()) {
+                    throw new RuntimeException("cannot create a.asm");
+                }
+            }
+            printer.print(new PrintStream(fileName));
+        } else {
+            printer.print(System.out);
+        }
+    }
+
     private void run() throws IOException {
         buildAST();
         if (Config.debugMode) printAST();
         sematicCheck();
         buildIR();
         if (Config.debugMode) printIR("a.ll");
-        optim();
+//        optim();
 //        if (!Config.debugMode) printIR(null);
-        translate();
+       // translate();
+        selectInstruction();
+        allocateRegister();
+        buildStack();
+        printNasm();
     }
 
     public static void main(String[] args) {

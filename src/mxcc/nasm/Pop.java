@@ -14,6 +14,10 @@ public class Pop extends Inst {
         return Collections.singletonList(dst);
     }
 
+    public VirtualReg getDst() {
+        return dst;
+    }
+
     public void accept(NasmVisitor visitor) {
         visitor.visit(this);
     }

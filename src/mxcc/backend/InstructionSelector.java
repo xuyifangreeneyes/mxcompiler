@@ -9,7 +9,7 @@ import java.util.*;
 import static mxcc.nasm.CommonInfo.*;
 
 public class InstructionSelector implements IRVisitor {
-    private Nasm nasm  = new Nasm();
+    private Nasm nasm = new Nasm();
 
     private Func curNasmFunc;
     private Block curNasmBlock;
@@ -98,7 +98,7 @@ public class InstructionSelector implements IRVisitor {
         }
     }
 
-    public void visit(Module module) {
+    public Nasm visit(Module module) {
         List<String> globalVars = new ArrayList<>();
         for (GlobalReg globalReg : module.globalRegs) {
             globalVars.add(asmName(globalReg.toString()));
@@ -122,6 +122,8 @@ public class InstructionSelector implements IRVisitor {
         }
 
         passSuccs();
+
+        return nasm;
     }
 
     public void visit(Function func) {
@@ -361,6 +363,10 @@ public class InstructionSelector implements IRVisitor {
     public void visit(Move node) {
         curNasmBlock.addInst(new Mov(getVirtualReg(node.getDst()), getVar(node.getSrc())));
     }
+
+    // I try to make as many fall-throughs as possible.
+    // As a result, some block may be empty, which means a block may
+    // have two labels on head. That seems to be ok in nasm.
 
     public void visit(CondBranch node) {
         curNasmBlock.addInst(new Cmp(getVar(node.getCond()), new Imm(0)));

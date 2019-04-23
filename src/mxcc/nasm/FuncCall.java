@@ -15,6 +15,10 @@ public class FuncCall extends Inst {
         this.rspOffset = rspOffset;
     }
 
+    public String getFuncName() {
+        return funcName;
+    }
+
     public List<VirtualReg> getDef() {
         List<VirtualReg> defList = new ArrayList<>();
         for (String name : callerSaveRegs) {

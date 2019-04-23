@@ -15,6 +15,10 @@ public class BinOp extends Inst {
         this.second = second;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public List<VirtualReg> getDef() {
         List<VirtualReg> defList = new ArrayList<>();
         if (first instanceof VirtualReg) defList.add((VirtualReg) first);

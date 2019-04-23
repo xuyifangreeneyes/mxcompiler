@@ -165,7 +165,6 @@ public class RegisterAllocator {
             }
             if (block.isEntry()) {
                 // def(calleeSaveRegs)
-                assert live.isEmpty();
 
                 List<VirtualReg> def = new ArrayList<>();
                 for (String name : calleeSaveRegs) {
@@ -178,6 +177,9 @@ public class RegisterAllocator {
                     }
                 }
                 live.removeAll(def);
+
+//                System.out.println(live.toString());
+                // Regs that are in live now must belong to paramRegs.
             }
         }
     }
@@ -197,7 +199,8 @@ public class RegisterAllocator {
     }
 
     private void makeWorkList() {
-        for (VirtualReg n : initial) {
+        List<VirtualReg> regs = new ArrayList<>(initial);
+        for (VirtualReg n : regs) {
             initial.remove(n);
             if (degree.get(n) >= K) {
                 spillWorklist.add(n);

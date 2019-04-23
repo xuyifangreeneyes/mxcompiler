@@ -34,7 +34,9 @@ public class StackBuilder implements NasmVisitor {
                 }
                 newInstList.add(new Push(physicalRegMap.get("rbp")));
                 newInstList.add(new Mov(physicalRegMap.get("rbp"), physicalRegMap.get("rsp")));
-                newInstList.add(new BinOp("sub", physicalRegMap.get("rsp"), new Imm(rspOffset)));
+                if (rspOffset != 0) {
+                    newInstList.add(new BinOp("sub", physicalRegMap.get("rsp"), new Imm(rspOffset)));
+                }
             }
             for (Inst inst : oldInstList) {
                 visit(inst);

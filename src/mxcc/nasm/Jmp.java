@@ -9,6 +9,14 @@ public class Jmp extends Inst {
         this.target = target;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Label getTarget() {
+        return target;
+    }
+
     public void accept(NasmVisitor visitor) {
         visitor.visit(this);
     }

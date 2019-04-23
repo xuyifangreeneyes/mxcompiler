@@ -12,6 +12,10 @@ public class UnOp extends Inst {
         this.var = var;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public List<VirtualReg> getDef() {
         List<VirtualReg> defList = new ArrayList<>();
         if (var instanceof VirtualReg) defList.add((VirtualReg) var);

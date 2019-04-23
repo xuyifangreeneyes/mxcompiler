@@ -42,4 +42,9 @@ public class VirtualReg extends Var {
     public boolean isTiny() {
         return tiny;
     }
+
+    public String toString() {
+        assert phiscalReg != null;
+        return phiscalReg;
+    }
 }

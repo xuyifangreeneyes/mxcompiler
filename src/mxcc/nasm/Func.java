@@ -12,6 +12,10 @@ public class Func {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void addBlock(Block bb) {
         bbList.add(bb);
     }

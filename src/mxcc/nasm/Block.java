@@ -53,7 +53,7 @@ public class Block {
     }
 
     public boolean isExit() {
-        return instList.getLast() instanceof Ret;
+        return !instList.isEmpty() && instList.getLast() instanceof Ret;
     }
 
 }

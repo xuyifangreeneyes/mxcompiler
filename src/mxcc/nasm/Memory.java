@@ -42,4 +42,29 @@ public class Memory extends Var {
     public boolean isValid() {
         return valid;
     }
+
+    public String toString() {
+        assert valid;
+        if (label != null) {
+            return "qword [rel " + label + "]";
+        } else {
+            assert base != null;
+            StringBuilder builder = new StringBuilder("qword [" + base);
+            if (index != null) {
+                builder.append(" + ").append(index);
+                if (scale != 1) {
+                    builder.append("*").append(scale);
+                }
+            }
+            if (displacement != 0) {
+                if (displacement > 0) {
+                    builder.append(" + ").append(displacement);
+                } else {
+                    builder.append(" - ").append(-displacement);
+                }
+            }
+            builder.append("]");
+            return builder.toString();
+        }
+    }
 }

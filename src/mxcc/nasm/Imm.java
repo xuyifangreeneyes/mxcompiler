@@ -10,4 +10,8 @@ public class Imm extends Var {
     public int getValue() {
         return value;
     }
+
+    public String toString() {
+        return Integer.toString(value);
+    }
 }

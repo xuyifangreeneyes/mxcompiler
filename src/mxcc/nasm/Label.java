@@ -6,4 +6,9 @@ public class Label extends Var {
     public Label(String name) {
         this.name = name;
     }
+
+    public String toString() {
+        return name;
+    }
+
 }
