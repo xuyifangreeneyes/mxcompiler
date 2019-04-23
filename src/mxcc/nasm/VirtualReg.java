@@ -35,6 +35,7 @@ public class VirtualReg extends Var {
     }
 
     public String getColor() {
+//        System.out.println(name);
         assert phiscalReg != null;
         return phiscalReg;
     }

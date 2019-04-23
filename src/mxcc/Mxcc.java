@@ -154,11 +154,11 @@ public class Mxcc {
         StackBuilder.visit(nasm);
     }
 
-    private void printNasm() throws IOException {
+    private void printNasm(String output) throws IOException {
         NasmPrinter printer = new NasmPrinter();
         printer.visit(nasm);
-        if (Config.debugMode) {
-            File fileName = new File(Config.tmpPath + "a.asm");
+        if (output != null) {
+            File fileName = new File(Config.tmpPath + output);
             if (!fileName.exists()) {
                 if (!fileName.createNewFile()) {
                     throw new RuntimeException("cannot create a.asm");
@@ -180,9 +180,11 @@ public class Mxcc {
 //        if (!Config.debugMode) printIR(null);
        // translate();
         selectInstruction();
+        if (Config.debugMode) printNasm("a_unallocated.asm");
         allocateRegister();
         buildStack();
-        printNasm();
+        if (Config.debugMode) printNasm("a.asm");
+        if (!Config.debugMode) printNasm(null);
     }
 
     public static void main(String[] args) {

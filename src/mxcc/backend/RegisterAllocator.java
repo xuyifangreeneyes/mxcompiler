@@ -45,6 +45,7 @@ public class RegisterAllocator {
             RegisterAllocator allocator = new RegisterAllocator(func);
             allocator.work();
         }
+        nasm.setAllocated(true);
     }
 
     private RegisterAllocator(Func func) {
@@ -79,7 +80,10 @@ public class RegisterAllocator {
     }
 
     private void work() {
+        int epoch = 0;
         while (true) {
+            ++epoch;
+//            System.out.println("start epoch " + epoch);
             LivenessAnalyzer.visit(func);
             build();
             makeWorkList();
@@ -327,6 +331,7 @@ public class RegisterAllocator {
             }
             boolean cond2 = !u.isPrecolored() && conservative(uvAdj);
             if (cond1 || cond2) {
+//                System.out.println("coalesce " + u.getName() + " " + v.getName());
                 coalescedMoves.add(mov);
                 combine(u, v);
                 addWorkList(u);

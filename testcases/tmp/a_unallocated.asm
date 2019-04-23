@@ -35,115 +35,168 @@ extern printf
 SECTION .text
 
 _globalInit:
-		push    rbp
-		mov     rbp, rsp
-		mov     rdi, 4
-		imul    rdi, 8
-		add     rdi, 8
+		mov     %local_r12, r12
+		mov     %local_r14, r14
+		mov     %local_r15, r15
+		mov     %local_rbx, rbx
+		mov     %local_r13, r13
+		mov     %memberLength_1, 4
+		imul    %memberLength_1, 8
+		mov     %arrayLength_2, %memberLength_1
+		add     %arrayLength_2, 8
+		mov     rdi, %arrayLength_2
 		call    malloc
-		mov     qword [rax], 4
-		mov     qword [rel _a], rax
-		mov     rsp, rbp
-		pop     rbp
+		mov     %arrayPtr_0, rax
+		mov     qword [%arrayPtr_0], 4
+		mov     qword [rel _a], %arrayPtr_0
+		mov     r12, %local_r12
+		mov     r14, %local_r14
+		mov     r15, %local_r15
+		mov     rbx, %local_rbx
+		mov     r13, %local_r13
 		ret     
 
 main:
-		push    rbp
-		mov     rbp, rsp
-		sub     rsp, 32
-		mov     qword [rbp - 8], r12
-		mov     qword [rbp - 16], r14
+		mov     %local_r12, r12
+		mov     %local_r14, r14
+		mov     %local_r15, r15
+		mov     %local_rbx, rbx
+		mov     %local_r13, r13
 		call    _globalInit
-		mov     rdi, qword [rel _a]
+		mov     %classPtr_2, qword [rel _a]
+		mov     rdi, %classPtr_2
 		call    _arraySize
-		mov     r12, rax
-		mov     rdi, r12
-		imul    rdi, 8
-		add     rdi, 8
+		mov     %res_1, rax
+		mov     %memberLength_4, %res_1
+		imul    %memberLength_4, 8
+		mov     %arrayLength_5, %memberLength_4
+		add     %arrayLength_5, 8
+		mov     rdi, %arrayLength_5
 		call    malloc
-		mov     r14, rax
-		mov     qword [r14], r12
-		mov     r12, 0
+		mov     %arrayPtr_3, rax
+		mov     qword [%arrayPtr_3], %res_1
+		mov     %alloca_2, %arrayPtr_3
+		mov     %alloca_1, 0
 __L_1:
-		mov     rdi, qword [rel _a]
+		mov     %idVal_7, %alloca_1
+		mov     %classPtr_9, qword [rel _a]
+		mov     rdi, %classPtr_9
 		call    _arraySize
-		cmp     r12, rax
+		mov     %res_8, rax
+		cmp     %idVal_7, %res_8
 		setl    al
-		movzx   rcx, al
-		cmp     rcx, 0
+		movzx   %res_10, al
+		cmp     %res_10, 0
 		je      __L_2
 __L_3:
-		mov     rcx, qword [rel _a]
-		add     rcx, 8
-		mov     r8, r12
-		imul    r8, 8
-		add     rcx, r8
-		mov     qword [rcx], 0
+		mov     %arrayPtr_11, qword [rel _a]
+		mov     %arrayBase_12, %arrayPtr_11
+		add     %arrayBase_12, 8
+		mov     %idVal_13, %alloca_1
+		mov     %offset_14, %idVal_13
+		imul    %offset_14, 8
+		mov     %elementAddr_15, %arrayBase_12
+		add     %elementAddr_15, %offset_14
+		mov     qword [%elementAddr_15], 0
 		call    getInt
-		mov     rcx, r14
-		add     rcx, 8
-		mov     r8, r12
-		imul    r8, 8
-		add     rcx, r8
-		mov     qword [rcx], rax
+		mov     %res_16, rax
+		mov     %arrayPtr_17, %alloca_2
+		mov     %arrayBase_18, %arrayPtr_17
+		add     %arrayBase_18, 8
+		mov     %idVal_19, %alloca_1
+		mov     %offset_20, %idVal_19
+		imul    %offset_20, 8
+		mov     %elementAddr_21, %arrayBase_18
+		add     %elementAddr_21, %offset_20
+		mov     qword [%elementAddr_21], %res_16
 __L_4:
-		inc     r12
+		mov     %idVal_22, %alloca_1
+		mov     %oldVal_23, %alloca_1
+		mov     %newVal_24, %oldVal_23
+		inc     %newVal_24
+		mov     %alloca_1, %newVal_24
 		jmp     __L_1
 __L_2:
-		mov     r12, 0
+		mov     %alloca_1, 0
 __L_5:
-		mov     rdi, qword [rel _a]
+		mov     %idVal_25, %alloca_1
+		mov     %classPtr_27, qword [rel _a]
+		mov     rdi, %classPtr_27
 		call    _arraySize
-		cmp     r12, rax
+		mov     %res_26, rax
+		cmp     %idVal_25, %res_26
 		setl    al
-		movzx   rcx, al
-		cmp     rcx, 0
+		movzx   %res_28, al
+		cmp     %res_28, 0
 		je      __L_6
 __L_7:
-		mov     rcx, qword [rel _a]
-		add     rcx, 8
-		mov     r8, r12
-		imul    r8, 8
-		add     rcx, r8
-		mov     rdi, qword [rcx]
+		mov     %arrayPtr_30, qword [rel _a]
+		mov     %arrayBase_31, %arrayPtr_30
+		add     %arrayBase_31, 8
+		mov     %idVal_32, %alloca_1
+		mov     %offset_33, %idVal_32
+		imul    %offset_33, 8
+		mov     %elementAddr_34, %arrayBase_31
+		add     %elementAddr_34, %offset_33
+		mov     %elementVal_35, qword [%elementAddr_34]
+		mov     rdi, %elementVal_35
 		call    toString
-		mov     rdi, rax
+		mov     %res_29, rax
+		mov     rdi, %res_29
 		call    print
 __L_8:
-		inc     r12
+		mov     %idVal_36, %alloca_1
+		mov     %oldVal_37, %alloca_1
+		mov     %newVal_38, %oldVal_37
+		inc     %newVal_38
+		mov     %alloca_1, %newVal_38
 		jmp     __L_5
 __L_6:
 		mov     rdi, __str_0
 		call    println
-		mov     qword [rel _a], r14
-		mov     r12, 0
+		mov     %idVal_39, %alloca_2
+		mov     qword [rel _a], %idVal_39
+		mov     %alloca_1, 0
 __L_9:
-		mov     rdi, qword [rel _a]
+		mov     %idVal_40, %alloca_1
+		mov     %classPtr_42, qword [rel _a]
+		mov     rdi, %classPtr_42
 		call    _arraySize
-		cmp     r12, rax
+		mov     %res_41, rax
+		cmp     %idVal_40, %res_41
 		setl    al
-		movzx   rcx, al
-		cmp     rcx, 0
+		movzx   %res_43, al
+		cmp     %res_43, 0
 		je      __L_10
 __L_11:
-		mov     rcx, qword [rel _a]
-		add     rcx, 8
-		mov     r8, r12
-		imul    r8, 8
-		add     rcx, r8
-		mov     rdi, qword [rcx]
+		mov     %arrayPtr_45, qword [rel _a]
+		mov     %arrayBase_46, %arrayPtr_45
+		add     %arrayBase_46, 8
+		mov     %idVal_47, %alloca_1
+		mov     %offset_48, %idVal_47
+		imul    %offset_48, 8
+		mov     %elementAddr_49, %arrayBase_46
+		add     %elementAddr_49, %offset_48
+		mov     %elementVal_50, qword [%elementAddr_49]
+		mov     rdi, %elementVal_50
 		call    toString
-		mov     rdi, rax
+		mov     %res_44, rax
+		mov     rdi, %res_44
 		call    print
 __L_12:
-		inc     r12
+		mov     %idVal_51, %alloca_1
+		mov     %oldVal_52, %alloca_1
+		mov     %newVal_53, %oldVal_52
+		inc     %newVal_53
+		mov     %alloca_1, %newVal_53
 		jmp     __L_9
 __L_10:
-		mov     r12, qword [rbp - 8]
-		mov     r14, qword [rbp - 16]
+		mov     r12, %local_r12
+		mov     r14, %local_r14
+		mov     r15, %local_r15
+		mov     rbx, %local_rbx
+		mov     r13, %local_r13
 		mov     rax, 0
-		mov     rsp, rbp
-		pop     rbp
 		ret     
 
 SECTION .data

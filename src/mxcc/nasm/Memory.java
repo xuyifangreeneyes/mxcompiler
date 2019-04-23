@@ -43,6 +43,25 @@ public class Memory extends Var {
         return valid;
     }
 
+    // a print function used before register allocation
+    public String show() {
+        if (label != null) {
+            return "qword [rel " + label + "]";
+        } else {
+            assert base != null;
+            StringBuilder builder = new StringBuilder("qword [" + base.getName());
+            if (displacement != 0) {
+                if (displacement > 0) {
+                    builder.append(" + ").append(displacement);
+                } else {
+                    builder.append(" - ").append(-displacement);
+                }
+            }
+            builder.append("]");
+            return builder.toString();
+        }
+    }
+
     public String toString() {
         assert valid;
         if (label != null) {

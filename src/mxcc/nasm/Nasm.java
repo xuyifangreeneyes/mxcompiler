@@ -14,6 +14,8 @@ public class Nasm {
 
     private List<Func> funcs = new ArrayList<>();
 
+    private boolean allocated = false;
+
     private void addExtern() {
         externs.add("strcmp");
         externs.add("snprintf");
@@ -29,6 +31,14 @@ public class Nasm {
 
     public Nasm() {
         addExtern();
+    }
+
+    public boolean isAllocated() {
+        return allocated;
+    }
+
+    public void setAllocated(boolean allocated) {
+        this.allocated = allocated;
     }
 
     public List<String> getGlobalVars() {

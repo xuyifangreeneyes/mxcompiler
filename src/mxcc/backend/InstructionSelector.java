@@ -13,6 +13,7 @@ public class InstructionSelector implements IRVisitor {
 
     private Func curNasmFunc;
     private Block curNasmBlock;
+    private List<LocalReg> curArgs;
 
     private Map<BasicBlock, Block> blockMap = new HashMap<>();
 
@@ -22,7 +23,7 @@ public class InstructionSelector implements IRVisitor {
     // Map<calleeSaveReg, localBackup>
     // Since precolored nodes can't be spilled, we move them to backup virtualRegs,
     // which are likely to be spilled.
-    private Map<VirtualReg, VirtualReg> calleeSaveMap = new HashMap<>();
+    private Map<VirtualReg, VirtualReg> calleeSaveMap;
 
     private int bbCounter = 0;
     private int allocaCounter = 0;
@@ -80,13 +81,13 @@ public class InstructionSelector implements IRVisitor {
     }
 
     private void initCalleeSaveMap() {
+        calleeSaveMap = new HashMap<>();
         for (String name : calleeSaveRegs) {
             calleeSaveMap.put(physicalRegMap.get(name), new VirtualReg("%local_" + name));
         }
     }
 
     public InstructionSelector() {
-        initCalleeSaveMap();
     }
 
     private void passSuccs() {
@@ -129,22 +130,8 @@ public class InstructionSelector implements IRVisitor {
     public void visit(Function func) {
         curNasmFunc = new Func(func.getName());
         nasm.addFunc(curNasmFunc);
-
-        int paramNum = func.args.size();
-
-        int rbpOffset = 8;
-        for (int i = 6; i < paramNum; ++i) {
-            LocalReg arg = func.args.get(i);
-            rbpOffset += 8;
-            curNasmBlock.addInst(new Mov(getVirtualReg(arg), new Memory(physicalRegMap.get("rbp"), rbpOffset)));
-        }
-
-        int max = paramNum < 6 ? paramNum : 6;
-
-        for (int i = 0; i < max; ++i) {
-            LocalReg arg = func.args.get(i);
-            curNasmBlock.addInst(new Mov(getVirtualReg(arg), physicalRegMap.get(paramRegs[i])));
-        }
+        initCalleeSaveMap();
+        curArgs = func.args;
 
         BasicBlock bb = func.getStartBB();
         while (bb != null) {
@@ -157,9 +144,25 @@ public class InstructionSelector implements IRVisitor {
         curNasmBlock = getBlock(bb);
         curNasmFunc.addBlock(curNasmBlock);
         if (bb.isEntry()) {
+            // move callee-save registers to virtualRegs
             for (VirtualReg reg : calleeSaveMap.keySet()) {
                 curNasmBlock.addInst(new Mov(calleeSaveMap.get(reg), reg));
             }
+
+            // move arguments to virtualRegs
+            int paramNum = curArgs.size();
+            int rbpOffset = 8;
+            for (int i = 6; i < paramNum; ++i) {
+                LocalReg arg = curArgs.get(i);
+                rbpOffset += 8;
+                curNasmBlock.addInst(new Mov(getVirtualReg(arg), new Memory(physicalRegMap.get("rbp"), rbpOffset)));
+            }
+            int max = paramNum < 6 ? paramNum : 6;
+            for (int i = 0; i < max; ++i) {
+                LocalReg arg = curArgs.get(i);
+                curNasmBlock.addInst(new Mov(getVirtualReg(arg), physicalRegMap.get(paramRegs[i])));
+            }
+
             if (bb.getParentFunc().getName().equals("main")) {
                 curNasmBlock.addInst(new FuncCall("_globalInit", 0));
             }

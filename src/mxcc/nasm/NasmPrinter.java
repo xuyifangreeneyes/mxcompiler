@@ -7,6 +7,7 @@ import java.util.List;
 
 public class NasmPrinter implements NasmVisitor {
     private List<String> code = new ArrayList<>();
+    private boolean allocated;
 
     private void addLine(String inst, String... operands) {
         StringBuilder line = new StringBuilder(String.format("\t\t%-8s", inst));
@@ -26,11 +27,27 @@ public class NasmPrinter implements NasmVisitor {
         }
     }
 
+    // Before allocation, dump VirtualReg's name.
+    // After allocation, dump VirtualRegs's color.
+    private String dump(Var var) {
+        if (!allocated) {
+            if (var instanceof VirtualReg) {
+                return ((VirtualReg) var).getName();
+            }
+            if (var instanceof Memory) {
+                return ((Memory) var).show();
+            }
+        }
+        return var.toString();
+    }
+
     public NasmPrinter() {
 
     }
 
     public void visit(Nasm nasm) throws IOException {
+        allocated = nasm.isAllocated();
+
         code.add("default rel");
 
         code.add("");
@@ -101,11 +118,11 @@ public class NasmPrinter implements NasmVisitor {
     }
 
     public void visit(BinOp inst) {
-        addLine(inst.getName(), inst.getFirst().toString(), inst.getSecond().toString());
+        addLine(inst.getName(), dump(inst.getFirst()), dump(inst.getSecond()));
     }
 
     public void visit(Cmp inst) {
-        addLine("cmp", inst.getLhs().toString(), inst.getRhs().toString());
+        addLine("cmp", dump(inst.getLhs()), dump(inst.getRhs()));
     }
 
     public void visit(Cqo inst) {
@@ -117,7 +134,7 @@ public class NasmPrinter implements NasmVisitor {
     }
 
     public void visit(Idiv inst) {
-        addLine("idiv", inst.getDivisor().toString());
+        addLine("idiv", dump(inst.getDivisor()));
     }
 
     public void visit(Jmp inst) {
@@ -125,24 +142,24 @@ public class NasmPrinter implements NasmVisitor {
     }
 
     public void visit(Mov inst) {
-        addLine("mov", inst.getDst().toString(), inst.getSrc().toString());
+        addLine("mov", dump(inst.getDst()), dump(inst.getSrc()));
     }
 
     public void visit(Movzx inst) {
         assert inst.getSrc().toString().equals("rax");
-        addLine("movzx", inst.getDst().toString(), "al");
+        addLine("movzx", dump(inst.getDst()), "al");
     }
 
     public void visit(Nop inst) {
-
+        addLine("nop");
     }
 
     public void visit(Pop inst) {
-        addLine("pop", inst.getDst().toString());
+        addLine("pop", dump(inst.getDst()));
     }
 
     public void visit(Push inst) {
-        addLine("push", inst.getSrc().toString());
+        addLine("push", dump(inst.getSrc()));
     }
 
     public void visit(Ret inst) {
@@ -162,11 +179,11 @@ public class NasmPrinter implements NasmVisitor {
             assert inst.getSecond().toString().equals("rcx");
             second = "cl";
         }
-        addLine(inst.getName(), inst.getFirst().toString(), second);
+        addLine(inst.getName(), dump(inst.getFirst()), second);
     }
 
     public void visit(UnOp inst) {
-        addLine(inst.getName(), inst.getVar().toString());
+        addLine(inst.getName(), dump(inst.getVar()));
     }
 
     public void print(PrintStream out) {
