@@ -45,7 +45,6 @@ public class VirtualReg extends Var {
     }
 
     public String toString() {
-        assert phiscalReg != null;
-        return phiscalReg;
+        return name;
     }
 }

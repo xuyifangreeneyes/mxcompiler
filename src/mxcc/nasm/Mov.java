@@ -20,7 +20,9 @@ public class Mov extends Inst {
 
     public List<VirtualReg> getUse() {
         List<VirtualReg> useList = new ArrayList<>();
+        if (dst instanceof Memory) useList.addAll(((Memory) dst).getUse());
         if (src instanceof VirtualReg) useList.add((VirtualReg) src);
+        if (src instanceof Memory) useList.addAll(((Memory) src).getUse());
         return useList;
     }
 

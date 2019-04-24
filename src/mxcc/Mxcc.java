@@ -146,7 +146,7 @@ public class Mxcc {
         nasm = selector.visit(ir);
     }
 
-    private void allocateRegister() {
+    private void allocateRegister() throws IOException {
         RegisterAllocator.visit(nasm);
     }
 

@@ -70,3 +70,5 @@ As for uninitailized problem,
    When trying to read uninitialized globel variable, it seems to
    give me 0.
 
+In my nasm, global variable's name(such as _a) may conflict with builtin function as _stringEq.
+TODO: turn _stringEq to __stringEq

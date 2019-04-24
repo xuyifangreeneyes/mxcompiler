@@ -2,7 +2,11 @@ package mxcc.backend;
 
 import javafx.util.Pair;
 import mxcc.nasm.*;
+import mxcc.utility.Config;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.*;
 
 import static mxcc.nasm.CommonInfo.*;
@@ -40,8 +44,9 @@ public class RegisterAllocator {
     private Map<VirtualReg, VirtualReg> alias = new HashMap<>();
 
 
-    public static void visit(Nasm nasm) {
+    public static void visit(Nasm nasm) throws IOException {
         for (Func func : nasm.getFuncs()) {
+//            System.out.println("func" + func.getName());
             RegisterAllocator allocator = new RegisterAllocator(func);
             allocator.work();
         }
@@ -50,10 +55,36 @@ public class RegisterAllocator {
 
     private RegisterAllocator(Func func) {
         this.func = func;
-        init();
+    }
+
+    private void clear() {
+        precolored.clear();
+        initial.clear();
+        simplifyWorklist.clear();
+        freezeWorklist.clear();
+        spillWorklist.clear();
+        spilledNodes.clear();
+        coalescedNodes.clear();
+        coloredNodes.clear();
+        selectStack.clear();
+        selectedNodes.clear();
+
+        coalescedMoves.clear();
+        constrainedMoves.clear();
+        frozenMoves.clear();
+        worklistMoves.clear();
+        activeMoves.clear();
+
+        adjSet.clear();
+        adjList.clear();
+        degree.clear();
+        moveList.clear();
+        alias.clear();
     }
 
     private void init() {
+        clear();
+
         for (Block block : func.getBbList()) {
             for (Inst inst : block.getInstList()) {
                 Set<VirtualReg> regs = new HashSet<>();
@@ -79,14 +110,38 @@ public class RegisterAllocator {
         }
     }
 
-    private void work() {
+    private void dump(String output) throws IOException {
+        NasmPrinter printer = new NasmPrinter();
+        printer.visit(func);
+        File fileName = new File(Config.tmpPath + output);
+        if (!fileName.exists()) {
+            if (!fileName.createNewFile()) {
+                throw new RuntimeException("cannot create a.asm");
+            }
+        }
+        printer.print(new PrintStream(fileName));
+    }
+
+    private void work() throws IOException {
         int epoch = 0;
         while (true) {
             ++epoch;
 //            System.out.println("start epoch " + epoch);
+            init();
             LivenessAnalyzer.visit(func);
             build();
             makeWorkList();
+//            System.out.println("---------------------");
+//            System.out.println("%arrayPtr_13 adjList");
+//            for (VirtualReg x : adjList.keySet()) {
+//                if (x.getName().equals("%arrayPtr_13")) {
+//                    for (VirtualReg y : adjList.get(x)) {
+//                        System.out.print(y.getName() + " ");
+//                    }
+//                }
+//            }
+//            System.out.println();
+//            System.out.println("---------------------");
             do {
                 if (!simplifyWorklist.isEmpty()) {
                     simplify();
@@ -101,7 +156,13 @@ public class RegisterAllocator {
                      !freezeWorklist.isEmpty() || !spillWorklist.isEmpty());
             assignColors();
             if (spilledNodes.isEmpty()) break;
+//            System.out.println("====================");
+//            for (VirtualReg reg : spilledNodes) {
+//                System.out.println(reg.getName());
+//            }
+//            System.out.println("====================");
             rewriteProgram();
+//            dump(func.getName() + "_epoch_" + epoch + ".asm");
         }
         removeSelfMov();
     }
@@ -135,6 +196,9 @@ public class RegisterAllocator {
 
     private void build() {
         for (Block block : func.getBbList()) {
+//            if (block.getName().equals("main")) {
+//                System.out.println("i am here");
+//            }
             Set<VirtualReg> live = new HashSet<>(block.getLiveOut());
             if (block.isExit()) {
                 // use(calleeSaveRegs)
@@ -197,6 +261,9 @@ public class RegisterAllocator {
             degree.put(u, degree.get(u) + 1);
         }
         if (!(v.isPrecolored())) {
+//            if (!adjList.containsKey(v)) {
+//                System.out.println(v.getName());
+//            }
             adjList.get(v).add(u);
             degree.put(v, degree.get(v) + 1);
         }
@@ -437,12 +504,12 @@ public class RegisterAllocator {
         func.addRspOffset(spilledNodes.size() * 8);
         SpillEditor spillEditor = new SpillEditor(spilledNodes);
         List<VirtualReg> newTemps = spillEditor.visit(func);
-        spilledNodes.clear();
-        initial.addAll(coloredNodes);
-        initial.addAll(coalescedNodes);
-        initial.addAll(newTemps);
-        coloredNodes.clear();
-        coalescedNodes.clear();
+//        spilledNodes.clear();
+//        initial.addAll(coloredNodes);
+//        initial.addAll(coalescedNodes);
+//        initial.addAll(newTemps);
+//        coloredNodes.clear();
+//        coalescedNodes.clear();
     }
 
 }

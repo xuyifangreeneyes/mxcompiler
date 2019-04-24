@@ -38,6 +38,9 @@ public class NasmPrinter implements NasmVisitor {
                 return ((Memory) var).show();
             }
         }
+        if (var instanceof VirtualReg) {
+            return ((VirtualReg) var).getColor();
+        }
         return var.toString();
     }
 
@@ -142,6 +145,10 @@ public class NasmPrinter implements NasmVisitor {
     }
 
     public void visit(Mov inst) {
+//        System.out.println("==================");
+//        if (inst.getDst() instanceof Memory) {
+//            System.out.println("dst is mem " + ((Memory) inst.getDst()).show());
+//        }
         addLine("mov", dump(inst.getDst()), dump(inst.getSrc()));
     }
 
