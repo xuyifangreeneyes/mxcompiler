@@ -16,11 +16,14 @@ public class Idiv extends Inst {
     }
 
     public List<VirtualReg> getDef() {
-        return Arrays.asList(physicalRegMap.get("rax"), physicalRegMap.get("rdx"));
+        List<VirtualReg> defList = new ArrayList<>();
+        defList.add(physicalRegMap.get("rax"));
+        defList.add(physicalRegMap.get("rdx"));
+        return defList;
     }
 
     public List<VirtualReg> getUse() {
-        List<VirtualReg> useList = new ArrayList<>();
+        List<VirtualReg> useList = getDef();
         if (divisor instanceof VirtualReg) useList.add((VirtualReg) divisor);
         return useList;
     }

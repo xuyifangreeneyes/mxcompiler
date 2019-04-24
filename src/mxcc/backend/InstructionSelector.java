@@ -236,7 +236,17 @@ public class InstructionSelector implements IRVisitor {
     }
 
     private void writeCmp(BinaryOperation node) {
-        curNasmBlock.addInst(new Cmp(getVar(node.getLhs()), getVar(node.getRhs())));
+        // There are better methods
+        Var lhs;
+        if (node.getLhs() instanceof IntImmediate) {
+            ++immCounter;
+            lhs = new VirtualReg("%cmplhs_" + immCounter);
+            int val = ((IntImmediate) node.getLhs()).getVal();
+            curNasmBlock.addInst(new Mov(lhs, new Imm(val)));
+        } else {
+            lhs = getVar(node.getLhs());
+        }
+        curNasmBlock.addInst(new Cmp(lhs, getVar(node.getRhs())));
         String set = "";
         switch (node.getOp()) {
             case EQ: set = "sete"; break;
@@ -372,7 +382,17 @@ public class InstructionSelector implements IRVisitor {
     // have two labels on head. That seems to be ok in nasm.
 
     public void visit(CondBranch node) {
-        curNasmBlock.addInst(new Cmp(getVar(node.getCond()), new Imm(0)));
+        // There are better methods
+        Var cond;
+        if (node.getCond() instanceof IntImmediate) {
+            ++immCounter;
+            cond = new VirtualReg("%cmplhs_" + immCounter);
+            int val = ((IntImmediate) node.getCond()).getVal();
+            curNasmBlock.addInst(new Mov(cond, new Imm(val)));
+        } else {
+            cond = getVar(node.getCond());
+        }
+        curNasmBlock.addInst(new Cmp(cond, new Imm(0)));
         BasicBlock nextBB = node.getParentBB().next;
         BasicBlock ifTrueBB = node.getIfTrue();
         BasicBlock ifFalseBB = node.getIfFalse();
