@@ -427,31 +427,60 @@ public class IRBuilder extends AstBaseVisitor {
         addCondBranch(node);
     }
 
+    private int constantFolding(BinaryExpr.BinaryOp op, int lhs, int rhs) {
+        int res = 0;
+        switch (op) {
+            case LT: res = lhs < rhs ? 1 : 0; break;
+            case GT: res = lhs > rhs ? 1 : 0; break;
+            case LE: res = lhs <= rhs ? 1 : 0; break;
+            case GE: res = lhs >= rhs ? 1 : 0; break;
+            case EQ: res = lhs == rhs ? 1 : 0; break;
+            case NEQ: res = lhs != rhs ? 1 : 0; break;
+            case MUL: res = lhs * rhs; break;
+            case DIV: res = lhs / rhs; break;
+            case MOD: res = lhs % rhs; break;
+            case ADD: res = lhs + rhs; break;
+            case SUB: res = lhs - rhs; break;
+            case LSFT: res = lhs << rhs; break;
+            case RSFT: res = lhs >> rhs; break;
+            case BIT_AND: res = lhs & rhs; break;
+            case BIT_OR: res = lhs | rhs; break;
+            case BIT_XOR: res = lhs ^ rhs; break;
+        }
+        return res;
+    }
+
     private void processBinaryInt(BinaryExpr node) {
         visitExpr(node.left);
         visitExpr(node.right);
-        BinaryOperation.BinaryOp op = null;
-        switch (node.op) {
-            case LT: op = BinaryOperation.BinaryOp.LT; break;
-            case GT: op = BinaryOperation.BinaryOp.GT; break;
-            case LE: op = BinaryOperation.BinaryOp.LE; break;
-            case GE: op = BinaryOperation.BinaryOp.GE; break;
-            case EQ: op = BinaryOperation.BinaryOp.EQ; break;
-            case NEQ: op = BinaryOperation.BinaryOp.NEQ; break;
-            case MUL: op = BinaryOperation.BinaryOp.MUL; break;
-            case DIV: op = BinaryOperation.BinaryOp.DIV; break;
-            case MOD: op = BinaryOperation.BinaryOp.MOD; break;
-            case ADD: op = BinaryOperation.BinaryOp.ADD; break;
-            case SUB: op = BinaryOperation.BinaryOp.SUB; break;
-            case LSFT: op = BinaryOperation.BinaryOp.LSFT; break;
-            case RSFT: op = BinaryOperation.BinaryOp.RSFT; break;
-            case BIT_AND: op = BinaryOperation.BinaryOp.BIT_AND; break;
-            case BIT_OR: op = BinaryOperation.BinaryOp.BIT_OR; break;
-            case BIT_XOR: op = BinaryOperation.BinaryOp.BIT_XOR; break;
+        if (node.left.val instanceof IntImmediate && node.right.val instanceof IntImmediate) {
+            int lhs = ((IntImmediate) node.left.val).getVal();
+            int rhs = ((IntImmediate) node.right.val).getVal();
+            node.val = new IntImmediate(constantFolding(node.op, lhs, rhs));
+        } else {
+            BinaryOperation.BinaryOp op = null;
+            switch (node.op) {
+                case LT: op = BinaryOperation.BinaryOp.LT; break;
+                case GT: op = BinaryOperation.BinaryOp.GT; break;
+                case LE: op = BinaryOperation.BinaryOp.LE; break;
+                case GE: op = BinaryOperation.BinaryOp.GE; break;
+                case EQ: op = BinaryOperation.BinaryOp.EQ; break;
+                case NEQ: op = BinaryOperation.BinaryOp.NEQ; break;
+                case MUL: op = BinaryOperation.BinaryOp.MUL; break;
+                case DIV: op = BinaryOperation.BinaryOp.DIV; break;
+                case MOD: op = BinaryOperation.BinaryOp.MOD; break;
+                case ADD: op = BinaryOperation.BinaryOp.ADD; break;
+                case SUB: op = BinaryOperation.BinaryOp.SUB; break;
+                case LSFT: op = BinaryOperation.BinaryOp.LSFT; break;
+                case RSFT: op = BinaryOperation.BinaryOp.RSFT; break;
+                case BIT_AND: op = BinaryOperation.BinaryOp.BIT_AND; break;
+                case BIT_OR: op = BinaryOperation.BinaryOp.BIT_OR; break;
+                case BIT_XOR: op = BinaryOperation.BinaryOp.BIT_XOR; break;
+            }
+            LocalReg res = curFunc.makeLocalReg("res");
+            curBB.append(new BinaryOperation(curBB, res, op, node.left.val, node.right.val));
+            node.val = res;
         }
-        LocalReg res = curFunc.makeLocalReg("res");
-        curBB.append(new BinaryOperation(curBB, res, op, node.left.val, node.right.val));
-        node.val = res;
         addCondBranch(node);
     }
 
