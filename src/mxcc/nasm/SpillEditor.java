@@ -48,7 +48,54 @@ public class SpillEditor implements NasmVisitor {
         return null;
     }
 
+    public void editImul(BinOp inst) {
+        VirtualReg first = needSpill(inst.getFirst());
+        VirtualReg second = needSpill(inst.getSecond());
+        if (first != null && second != null) {
+            // ===================
+            // imul ar br
+            // ===================
+            // mov tmp [am]
+            // imul tmp [bm]
+            // mov [am] tmp
+            // ===================
+            VirtualReg tmp = makeTmpReg();
+            newInstList.add(new Mov(tmp, spillMap.get(first)));
+            inst.setFirst(tmp);
+            inst.setSecond(spillMap.get(second));
+            newInstList.add(inst);
+            newInstList.add(new Mov(spillMap.get(first), tmp));
+        } else if (first != null) {
+            // ===================
+            // imul ar ?
+            // ===================
+            // mov tmp [am]
+            // imul tmp ?
+            // mov [am] tmp
+            // ===================
+            VirtualReg tmp = makeTmpReg();
+            newInstList.add(new Mov(tmp, spillMap.get(first)));
+            inst.setFirst(tmp);
+            newInstList.add(inst);
+            newInstList.add(new Mov(spillMap.get(first), tmp));
+        } else if (second != null) {
+            // ===================
+            // imul ar br
+            // ===================
+            // imul ar [bm]
+            // ===================
+            inst.setSecond(spillMap.get(second));
+            newInstList.add(inst);
+        } else {
+            newInstList.add(inst);
+        }
+    }
+
     public void visit(BinOp inst) {
+        if (inst.getName().equals("imul")) {
+            editImul(inst);
+            return;
+        }
         VirtualReg first = needSpill(inst.getFirst());
         VirtualReg second = needSpill(inst.getSecond());
         if (first != null && second != null) {
