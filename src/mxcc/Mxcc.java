@@ -176,7 +176,7 @@ public class Mxcc {
         sematicCheck();
         buildIR();
         if (Config.debugMode) printIR("a.ll");
-//        optim();
+        optim();
 //        if (!Config.debugMode) printIR(null);
        // translate();
         selectInstruction();

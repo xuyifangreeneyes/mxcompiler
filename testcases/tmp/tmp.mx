@@ -1,13 +1,50 @@
+int b;
 
 
+int mergesort(){
+
+	int sum;
+	sum = mergesort();
+	sum = sum + mergesort();
+	int i;
+	for(i = 0; i < 1; i++)
+		b = 1;
+
+	return sum;
+}
 
 int main(){
-	int[][][] arr= new int[2][2][2];
 
-    int i;
-    for(i = 1; i <= 1000; i++){
-    	arr[0][1][0] = 123;
-    }
+
+
+
     return 0;
 }
 
+
+
+
+/*!! metadata:
+=== comment ===
+optim-515030910637-xuzhenjia.txt
+=== is_public ===
+True
+=== assert ===
+output
+=== timeout ===
+2.0
+=== input ===
+10000 1000
+=== phase ===
+optim pretest
+=== output ===
+41004000
+41004000
+65513
+233628
+623500
+8623500
+=== exitcode ===
+
+
+!!*/

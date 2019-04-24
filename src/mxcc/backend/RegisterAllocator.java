@@ -104,7 +104,12 @@ public class RegisterAllocator {
         allRegs.addAll(initial);
         for (VirtualReg reg : allRegs) {
             adjList.put(reg, new HashSet<>());
-            degree.put(reg, 0);
+            if (precolored.contains(reg)) {
+                // Precolored nodes have infinite degree.
+                degree.put(reg, 100000000);
+            } else {
+                degree.put(reg, 0);
+            }
             moveList.put(reg, new HashSet<>());
             alias.put(reg, null);
         }
@@ -258,14 +263,16 @@ public class RegisterAllocator {
         adjSet.add(new Pair<>(v, u));
         if (!(u.isPrecolored())) {
             adjList.get(u).add(v);
-            degree.put(u, degree.get(u) + 1);
+            int d = degree.get(u) + 1;
+            degree.put(u, d);
         }
         if (!(v.isPrecolored())) {
 //            if (!adjList.containsKey(v)) {
 //                System.out.println(v.getName());
 //            }
             adjList.get(v).add(u);
-            degree.put(v, degree.get(v) + 1);
+            int d = degree.get(v) + 1;
+            degree.put(v, d);
         }
     }
 
@@ -396,6 +403,9 @@ public class RegisterAllocator {
                     }
                 }
             }
+//            if (u.getName().equals("%res_4") && v.getName().equals("%cres_18")) {
+//                System.out.println("i am in");
+//            }
             boolean cond2 = !u.isPrecolored() && conservative(uvAdj);
             if (cond1 || cond2) {
 //                System.out.println("coalesce " + u.getName() + " " + v.getName());
@@ -480,6 +490,9 @@ public class RegisterAllocator {
         while (!selectStack.isEmpty()) {
             VirtualReg n = selectStack.pop();
             selectedNodes.remove(n);
+//            if (n.getName().equals("%res_4")) {
+//                System.out.println("i am here");
+//            }
             Set<String> okColors = new HashSet<>(Arrays.asList(colorRegs));
             for (VirtualReg w : adjList.get(n)) {
                 VirtualReg aw = getAlias(w);
