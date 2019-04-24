@@ -121,8 +121,10 @@ public class Memory extends Var {
             return "qword [rel " + label + "]";
         } else {
             assert base != null;
+//            StringBuilder builder = new StringBuilder("qword [" + base.getName() + "$" + base.getColor());
             StringBuilder builder = new StringBuilder("qword [" + base.getColor());
             if (index != null) {
+//                builder.append(" + ").append(index.getName() + "$" + index.getColor());
                 builder.append(" + ").append(index.getColor());
                 if (scale != 1) {
                     builder.append("*").append(scale);

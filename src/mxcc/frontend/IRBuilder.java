@@ -621,7 +621,8 @@ public class IRBuilder extends AstBaseVisitor {
         curBB.append(new CondBranch(curBB, condition, forBodyBB, forEndBB));
 
         curBB = forBodyBB;
-        curBB.append(new Store(curBB, generateArrayNew(element, dim - 1, dimSizes), pos));
+        Store store = new Store(curBB, generateArrayNew(element, dim - 1, dimSizes), pos);
+        curBB.append(store);
         curBB.append(new DirectBranch(curBB, forStepBB));
 
         curBB = forStepBB;

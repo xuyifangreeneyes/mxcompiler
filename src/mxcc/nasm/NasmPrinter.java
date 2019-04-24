@@ -39,6 +39,7 @@ public class NasmPrinter implements NasmVisitor {
             }
         }
         if (var instanceof VirtualReg) {
+//            return ((VirtualReg) var).getName() + "$" + ((VirtualReg) var).getColor();
             return ((VirtualReg) var).getColor();
         }
         return var.toString();

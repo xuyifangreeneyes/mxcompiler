@@ -1,332 +1,1351 @@
 <Program>
 	<VariableDecl> int N
-	<VariableDecl> int head
-	<VariableDecl> int startx
-	<VariableDecl> int starty
-	<VariableDecl> int targetx
-	<VariableDecl> int targety
-	<VariableDecl> int x
-	<VariableDecl> int y
-	<VariableDecl> int[] xlist
+		<IntConst> 100000
+	<VariableDecl> int n
+	<VariableDecl> int[] a
 		<NewExpr> int[]
-			<IntConst> 12000
-	<VariableDecl> int[] ylist
-		<NewExpr> int[]
-			<IntConst> 12000
-	<VariableDecl> int tail
-	<VariableDecl> int ok
-	<VariableDecl> int now
-	<VariableDecl> int[] dx
-		<NewExpr> int[]
-			<IntConst> 8
-	<VariableDecl> int[] dy
-		<NewExpr> int[]
-			<IntConst> 9
-	<VariableDecl> int[][] step
-	<VariableDecl> int i
-	<VariableDecl> int j
-	<FunctionDecl> void origin int N
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> head
-			<IntConst> 0
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> tail
-			<IntConst> 0
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> step
-			<NewExpr> int[][]
-				<IdentifierExpr> N
-		<ForStmt>
-			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
-				<IntConst> 0
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<IdentifierExpr> N
-			<UnaryExpr> INC_SUF
-				<IdentifierExpr> i
-			<BlockStmt>
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<IdentifierExpr> step
-						<IdentifierExpr> i
-					<NewExpr> int[]
-						<IdentifierExpr> N
-				<ForStmt>
-					<BinaryExpr> ASSIGN
-						<IdentifierExpr> j
-						<IntConst> 0
-					<BinaryExpr> LT
-						<IdentifierExpr> j
-						<IdentifierExpr> N
-					<UnaryExpr> INC_SUF
-						<IdentifierExpr> j
-					<BlockStmt>
-						<BinaryExpr> ASSIGN
-							<ArrayAccess>
-								<ArrayAccess>
-									<IdentifierExpr> step
-									<IdentifierExpr> i
-								<IdentifierExpr> j
-							<IntConst> 0
-	<FunctionDecl> bool check int a
-		<ReturnStmt>
-			<BinaryExpr> AND
-				<BinaryExpr> LT
-					<IdentifierExpr> a
-					<IdentifierExpr> N
-				<BinaryExpr> GE
-					<IdentifierExpr> a
-					<IntConst> 0
-	<FunctionDecl> void addList int x int y
-		<IfStmt>
-			<BinaryExpr> AND
-				<BinaryExpr> AND
-					<FunctionCall>
-						<IdentifierExpr> check
-						<IdentifierExpr> x
-					<FunctionCall>
-						<IdentifierExpr> check
-						<IdentifierExpr> y
-				<BinaryExpr> EQ
-					<ArrayAccess>
-						<ArrayAccess>
-							<IdentifierExpr> step
-							<IdentifierExpr> x
-						<IdentifierExpr> y
-					<UnaryExpr> NEG
-						<IntConst> 1
-			<BlockStmt>
-				<UnaryExpr> INC_SUF
-					<IdentifierExpr> tail
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<IdentifierExpr> xlist
-						<IdentifierExpr> tail
-					<IdentifierExpr> x
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<IdentifierExpr> ylist
-						<IdentifierExpr> tail
-					<IdentifierExpr> y
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<ArrayAccess>
-							<IdentifierExpr> step
-							<IdentifierExpr> x
-						<IdentifierExpr> y
-					<BinaryExpr> ADD
-						<IdentifierExpr> now
-						<IntConst> 1
-				<IfStmt>
-					<BinaryExpr> AND
-						<BinaryExpr> EQ
-							<IdentifierExpr> x
-							<IdentifierExpr> targetx
-						<BinaryExpr> EQ
-							<IdentifierExpr> y
-							<IdentifierExpr> targety
-					<BlockStmt>
-						<BinaryExpr> ASSIGN
-							<IdentifierExpr> ok
-							<IntConst> 1
-	<FunctionDecl> int main
-		<FunctionCall>
-			<IdentifierExpr> origin
-			<IntConst> 106
-		<BinaryExpr> ASSIGN
 			<IdentifierExpr> N
+	<VariableDecl> int[] bak
+		<NewExpr> int[]
+			<IdentifierExpr> N
+	<VariableDecl> int[] a_left
+		<NewExpr> int[]
+			<IdentifierExpr> N
+	<VariableDecl> int[] a_right
+		<NewExpr> int[]
+			<IdentifierExpr> N
+	<VariableDecl> int[] heap
+		<NewExpr> int[]
+			<IdentifierExpr> N
+	<VariableDecl> int i1
+	<VariableDecl> int i2
+	<VariableDecl> int i3
+	<VariableDecl> int i4
+	<VariableDecl> int i5
+	<VariableDecl> int i6
+	<VariableDecl> int i7
+	<VariableDecl> int i8
+	<VariableDecl> int i9
+	<VariableDecl> int i10
+	<VariableDecl> int i11
+	<VariableDecl> int i12
+	<VariableDecl> int i13
+	<VariableDecl> int i14
+	<ClassDecl> A
+		<VariableDecl> int[][][][][][][][][][] A_arr
+		<FunctionDecl> void Optimizer
+			<VariableDeclStmt>
+				<VariableDecl> int[][][][][][][][][][] arr
+					<NewExpr> int[][][][][][][][][][]
+						<IntConst> 2
+						<IntConst> 2
+						<IntConst> 2
+						<IntConst> 2
+						<IntConst> 2
+						<IntConst> 2
+						<IntConst> 2
+						<IntConst> 2
+						<IntConst> 2
+						<IntConst> 2
+			<VariableDeclStmt>
+				<VariableDecl> int i1
+			<VariableDeclStmt>
+				<VariableDecl> int i2
+			<VariableDeclStmt>
+				<VariableDecl> int i3
+			<VariableDeclStmt>
+				<VariableDecl> int i4
+			<VariableDeclStmt>
+				<VariableDecl> int i5
+			<VariableDeclStmt>
+				<VariableDecl> int i6
+			<VariableDeclStmt>
+				<VariableDecl> int i7
+			<VariableDeclStmt>
+				<VariableDecl> int i8
+			<VariableDeclStmt>
+				<VariableDecl> int i9
+			<VariableDeclStmt>
+				<VariableDecl> int i10
+			<VariableDeclStmt>
+				<VariableDecl> int i11
+			<VariableDeclStmt>
+				<VariableDecl> int i12
+			<VariableDeclStmt>
+				<VariableDecl> int i13
+			<VariableDeclStmt>
+				<VariableDecl> int i14
+			<VariableDeclStmt>
+				<VariableDecl> int i
+			<VariableDeclStmt>
+				<VariableDecl> int sum
+					<IntConst> 0
+			<ForStmt>
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> i
+					<IntConst> 1
+				<BinaryExpr> LE
+					<IdentifierExpr> i
+					<IntConst> 1000
+				<UnaryExpr> INC_SUF
+					<IdentifierExpr> i
+				<BlockStmt>
+					<BinaryExpr> ASSIGN
+						<ArrayAccess>
+							<ArrayAccess>
+								<ArrayAccess>
+									<ArrayAccess>
+										<ArrayAccess>
+											<ArrayAccess>
+												<ArrayAccess>
+													<ArrayAccess>
+														<ArrayAccess>
+															<ArrayAccess>
+																<IdentifierExpr> arr
+																<IntConst> 0
+															<IntConst> 1
+														<IntConst> 0
+													<IntConst> 1
+												<IntConst> 0
+											<IntConst> 1
+										<IntConst> 0
+									<IntConst> 1
+								<IntConst> 0
+							<IntConst> 1
+						<BinaryExpr> ADD
+							<IntConst> 123
+							<IdentifierExpr> i
+					<BinaryExpr> ASSIGN
+						<IdentifierExpr> sum
+						<BinaryExpr> ADD
+							<IdentifierExpr> sum
+							<ArrayAccess>
+								<ArrayAccess>
+									<ArrayAccess>
+										<ArrayAccess>
+											<ArrayAccess>
+												<ArrayAccess>
+													<ArrayAccess>
+														<ArrayAccess>
+															<ArrayAccess>
+																<ArrayAccess>
+																	<IdentifierExpr> arr
+																	<IntConst> 0
+																<IntConst> 1
+															<IntConst> 0
+														<IntConst> 1
+													<IntConst> 0
+												<IntConst> 1
+											<IntConst> 0
+										<IntConst> 1
+									<IntConst> 0
+								<IntConst> 1
 			<FunctionCall>
-				<IdentifierExpr> getInt
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> targety
-			<BinaryExpr> SUB
-				<IdentifierExpr> N
+				<IdentifierExpr> println
+				<FunctionCall>
+					<IdentifierExpr> toString
+					<IdentifierExpr> sum
+			<ForStmt>
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> i
+					<IntConst> 1
+				<BinaryExpr> LE
+					<IdentifierExpr> i
+					<IntConst> 1000000
+				<UnaryExpr> INC_SUF
+					<IdentifierExpr> i
+				<BlockStmt>
+					<BinaryExpr> ASSIGN
+						<IdentifierExpr> sum
+						<BinaryExpr> ADD
+							<IdentifierExpr> sum
+							<BinaryExpr> MOD
+								<BinaryExpr> MOD
+									<BinaryExpr> MUL
+										<BinaryExpr> MOD
+											<BinaryExpr> MUL
+												<BinaryExpr> MOD
+													<BinaryExpr> MUL
+														<BinaryExpr> MOD
+															<BinaryExpr> MUL
+																<BinaryExpr> MOD
+																	<BinaryExpr> MUL
+																		<BinaryExpr> MOD
+																			<BinaryExpr> MUL
+																				<BinaryExpr> MOD
+																					<BinaryExpr> MUL
+																						<BinaryExpr> MOD
+																							<BinaryExpr> MUL
+																								<BinaryExpr> MOD
+																									<BinaryExpr> MUL
+																										<BinaryExpr> MOD
+																											<BinaryExpr> MUL
+																												<BinaryExpr> MOD
+																													<BinaryExpr> MUL
+																														<BinaryExpr> MOD
+																															<BinaryExpr> MUL
+																																<BinaryExpr> MOD
+																																	<BinaryExpr> MUL
+																																		<BinaryExpr> MOD
+																																			<BinaryExpr> MUL
+																																				<BinaryExpr> MOD
+																																					<BinaryExpr> MUL
+																																						<BinaryExpr> MOD
+																																							<BinaryExpr> MUL
+																																								<BinaryExpr> MOD
+																																									<BinaryExpr> MUL
+																																										<BinaryExpr> MOD
+																																											<BinaryExpr> MUL
+																																												<BinaryExpr> MOD
+																																													<BinaryExpr> MUL
+																																														<BinaryExpr> MOD
+																																															<BinaryExpr> MUL
+																																																<BinaryExpr> MOD
+																																																	<BinaryExpr> MUL
+																																																		<BinaryExpr> MOD
+																																																			<BinaryExpr> MUL
+																																																				<BinaryExpr> MOD
+																																																					<BinaryExpr> MUL
+																																																						<BinaryExpr> MOD
+																																																							<BinaryExpr> MUL
+																																																								<BinaryExpr> MOD
+																																																									<BinaryExpr> MUL
+																																																										<BinaryExpr> MOD
+																																																											<BinaryExpr> MUL
+																																																												<BinaryExpr> MOD
+																																																													<BinaryExpr> MUL
+																																																														<BinaryExpr> MOD
+																																																															<BinaryExpr> MUL
+																																																																<BinaryExpr> MOD
+																																																																	<BinaryExpr> MUL
+																																																																		<BinaryExpr> MOD
+																																																																			<BinaryExpr> MUL
+																																																																				<BinaryExpr> MOD
+																																																																					<BinaryExpr> MUL
+																																																																						<BinaryExpr> MOD
+																																																																							<BinaryExpr> MUL
+																																																																								<BinaryExpr> MOD
+																																																																									<BinaryExpr> MUL
+																																																																										<BinaryExpr> MOD
+																																																																											<BinaryExpr> MUL
+																																																																												<BinaryExpr> MOD
+																																																																													<BinaryExpr> MUL
+																																																																														<BinaryExpr> MOD
+																																																																															<BinaryExpr> MUL
+																																																																																<BinaryExpr> MOD
+																																																																																	<BinaryExpr> MUL
+																																																																																		<BinaryExpr> MOD
+																																																																																			<BinaryExpr> MUL
+																																																																																				<BinaryExpr> MOD
+																																																																																					<BinaryExpr> MUL
+																																																																																						<BinaryExpr> MOD
+																																																																																							<BinaryExpr> MUL
+																																																																																								<BinaryExpr> MOD
+																																																																																									<BinaryExpr> MUL
+																																																																																										<BinaryExpr> MOD
+																																																																																											<BinaryExpr> MUL
+																																																																																												<BinaryExpr> MOD
+																																																																																													<BinaryExpr> MUL
+																																																																																														<BinaryExpr> MOD
+																																																																																															<BinaryExpr> MUL
+																																																																																																<BinaryExpr> MOD
+																																																																																																	<BinaryExpr> MUL
+																																																																																																		<BinaryExpr> MOD
+																																																																																																			<BinaryExpr> MUL
+																																																																																																				<BinaryExpr> MOD
+																																																																																																					<BinaryExpr> MUL
+																																																																																																						<BinaryExpr> MOD
+																																																																																																							<BinaryExpr> MUL
+																																																																																																								<BinaryExpr> MOD
+																																																																																																									<BinaryExpr> MUL
+																																																																																																										<BinaryExpr> MOD
+																																																																																																											<BinaryExpr> MUL
+																																																																																																												<BinaryExpr> MOD
+																																																																																																													<BinaryExpr> MUL
+																																																																																																														<BinaryExpr> MOD
+																																																																																																															<BinaryExpr> MUL
+																																																																																																																<BinaryExpr> MOD
+																																																																																																																	<BinaryExpr> MUL
+																																																																																																																		<BinaryExpr> MOD
+																																																																																																																			<BinaryExpr> MUL
+																																																																																																																				<BinaryExpr> MOD
+																																																																																																																					<BinaryExpr> MUL
+																																																																																																																						<BinaryExpr> MOD
+																																																																																																																							<BinaryExpr> MUL
+																																																																																																																								<BinaryExpr> MOD
+																																																																																																																									<BinaryExpr> MUL
+																																																																																																																										<BinaryExpr> MOD
+																																																																																																																											<BinaryExpr> MUL
+																																																																																																																												<BinaryExpr> MOD
+																																																																																																																													<BinaryExpr> MUL
+																																																																																																																														<BinaryExpr> MOD
+																																																																																																																															<BinaryExpr> MUL
+																																																																																																																																<BinaryExpr> MOD
+																																																																																																																																	<BinaryExpr> MUL
+																																																																																																																																		<BinaryExpr> MOD
+																																																																																																																																			<BinaryExpr> MUL
+																																																																																																																																				<BinaryExpr> MOD
+																																																																																																																																					<BinaryExpr> MUL
+																																																																																																																																						<BinaryExpr> MOD
+																																																																																																																																							<BinaryExpr> MUL
+																																																																																																																																								<BinaryExpr> MOD
+																																																																																																																																									<BinaryExpr> MUL
+																																																																																																																																										<BinaryExpr> MOD
+																																																																																																																																											<BinaryExpr> MUL
+																																																																																																																																												<BinaryExpr> MOD
+																																																																																																																																													<BinaryExpr> MUL
+																																																																																																																																														<BinaryExpr> MOD
+																																																																																																																																															<BinaryExpr> MUL
+																																																																																																																																																<BinaryExpr> MOD
+																																																																																																																																																	<BinaryExpr> MUL
+																																																																																																																																																		<BinaryExpr> MOD
+																																																																																																																																																			<BinaryExpr> MUL
+																																																																																																																																																				<BinaryExpr> MOD
+																																																																																																																																																					<BinaryExpr> MUL
+																																																																																																																																																						<BinaryExpr> MOD
+																																																																																																																																																							<BinaryExpr> MUL
+																																																																																																																																																								<BinaryExpr> MOD
+																																																																																																																																																									<BinaryExpr> MUL
+																																																																																																																																																										<BinaryExpr> MOD
+																																																																																																																																																											<BinaryExpr> MUL
+																																																																																																																																																												<BinaryExpr> MOD
+																																																																																																																																																													<BinaryExpr> MUL
+																																																																																																																																																														<BinaryExpr> MOD
+																																																																																																																																																															<BinaryExpr> MUL
+																																																																																																																																																																<BinaryExpr> MOD
+																																																																																																																																																																	<BinaryExpr> MUL
+																																																																																																																																																																		<BinaryExpr> MOD
+																																																																																																																																																																			<BinaryExpr> MUL
+																																																																																																																																																																				<BinaryExpr> MOD
+																																																																																																																																																																					<BinaryExpr> MUL
+																																																																																																																																																																						<BinaryExpr> MOD
+																																																																																																																																																																							<BinaryExpr> MUL
+																																																																																																																																																																								<BinaryExpr> MOD
+																																																																																																																																																																									<BinaryExpr> MUL
+																																																																																																																																																																										<BinaryExpr> MOD
+																																																																																																																																																																											<BinaryExpr> MUL
+																																																																																																																																																																												<BinaryExpr> MOD
+																																																																																																																																																																													<BinaryExpr> MUL
+																																																																																																																																																																														<BinaryExpr> MOD
+																																																																																																																																																																															<BinaryExpr> MUL
+																																																																																																																																																																																<BinaryExpr> MOD
+																																																																																																																																																																																	<BinaryExpr> MUL
+																																																																																																																																																																																		<BinaryExpr> MOD
+																																																																																																																																																																																			<BinaryExpr> MUL
+																																																																																																																																																																																				<BinaryExpr> MOD
+																																																																																																																																																																																					<BinaryExpr> MUL
+																																																																																																																																																																																						<BinaryExpr> MOD
+																																																																																																																																																																																							<BinaryExpr> MUL
+																																																																																																																																																																																								<BinaryExpr> MOD
+																																																																																																																																																																																									<BinaryExpr> MUL
+																																																																																																																																																																																										<BinaryExpr> MOD
+																																																																																																																																																																																											<BinaryExpr> MUL
+																																																																																																																																																																																												<BinaryExpr> MOD
+																																																																																																																																																																																													<IntConst> 9876
+																																																																																																																																																																																													<IntConst> 1234
+																																																																																																																																																																																												<IntConst> 2345
+																																																																																																																																																																																											<IntConst> 1234
+																																																																																																																																																																																										<IntConst> 2345
+																																																																																																																																																																																									<IntConst> 1234
+																																																																																																																																																																																								<IntConst> 2345
+																																																																																																																																																																																							<IntConst> 1234
+																																																																																																																																																																																						<IntConst> 2345
+																																																																																																																																																																																					<IntConst> 1234
+																																																																																																																																																																																				<IntConst> 2345
+																																																																																																																																																																																			<IntConst> 1234
+																																																																																																																																																																																		<IntConst> 2345
+																																																																																																																																																																																	<IntConst> 1234
+																																																																																																																																																																																<IntConst> 2345
+																																																																																																																																																																															<IntConst> 1234
+																																																																																																																																																																														<IntConst> 2345
+																																																																																																																																																																													<IntConst> 1234
+																																																																																																																																																																												<IntConst> 2345
+																																																																																																																																																																											<IntConst> 1234
+																																																																																																																																																																										<IntConst> 2345
+																																																																																																																																																																									<IntConst> 1234
+																																																																																																																																																																								<IntConst> 2345
+																																																																																																																																																																							<IntConst> 1234
+																																																																																																																																																																						<IntConst> 2345
+																																																																																																																																																																					<IntConst> 1234
+																																																																																																																																																																				<IntConst> 2345
+																																																																																																																																																																			<IntConst> 1234
+																																																																																																																																																																		<IntConst> 2345
+																																																																																																																																																																	<IntConst> 1234
+																																																																																																																																																																<IntConst> 2345
+																																																																																																																																																															<IntConst> 1234
+																																																																																																																																																														<IntConst> 2345
+																																																																																																																																																													<IntConst> 1234
+																																																																																																																																																												<IntConst> 2345
+																																																																																																																																																											<IntConst> 1234
+																																																																																																																																																										<IntConst> 2345
+																																																																																																																																																									<IntConst> 1234
+																																																																																																																																																								<IntConst> 2345
+																																																																																																																																																							<IntConst> 1234
+																																																																																																																																																						<IntConst> 2345
+																																																																																																																																																					<IntConst> 1234
+																																																																																																																																																				<IntConst> 2345
+																																																																																																																																																			<IntConst> 1234
+																																																																																																																																																		<IntConst> 2345
+																																																																																																																																																	<IntConst> 1234
+																																																																																																																																																<IntConst> 2345
+																																																																																																																																															<IntConst> 1234
+																																																																																																																																														<IntConst> 2345
+																																																																																																																																													<IntConst> 1234
+																																																																																																																																												<IntConst> 2345
+																																																																																																																																											<IntConst> 1234
+																																																																																																																																										<IntConst> 2345
+																																																																																																																																									<IntConst> 1234
+																																																																																																																																								<IntConst> 2345
+																																																																																																																																							<IntConst> 1234
+																																																																																																																																						<IntConst> 2345
+																																																																																																																																					<IntConst> 1234
+																																																																																																																																				<IntConst> 2345
+																																																																																																																																			<IntConst> 1234
+																																																																																																																																		<IntConst> 2345
+																																																																																																																																	<IntConst> 1234
+																																																																																																																																<IntConst> 2345
+																																																																																																																															<IntConst> 1234
+																																																																																																																														<IntConst> 2345
+																																																																																																																													<IntConst> 1234
+																																																																																																																												<IntConst> 2345
+																																																																																																																											<IntConst> 1234
+																																																																																																																										<IntConst> 2345
+																																																																																																																									<IntConst> 1234
+																																																																																																																								<IntConst> 2345
+																																																																																																																							<IntConst> 1234
+																																																																																																																						<IntConst> 2345
+																																																																																																																					<IntConst> 1234
+																																																																																																																				<IntConst> 2345
+																																																																																																																			<IntConst> 1234
+																																																																																																																		<IntConst> 2345
+																																																																																																																	<IntConst> 1234
+																																																																																																																<IntConst> 2345
+																																																																																																															<IntConst> 1234
+																																																																																																														<IntConst> 2345
+																																																																																																													<IntConst> 1234
+																																																																																																												<IntConst> 2345
+																																																																																																											<IntConst> 1234
+																																																																																																										<IntConst> 2345
+																																																																																																									<IntConst> 1234
+																																																																																																								<IntConst> 2345
+																																																																																																							<IntConst> 1234
+																																																																																																						<IntConst> 2345
+																																																																																																					<IntConst> 1234
+																																																																																																				<IntConst> 2345
+																																																																																																			<IntConst> 1234
+																																																																																																		<IntConst> 2345
+																																																																																																	<IntConst> 1234
+																																																																																																<IntConst> 2345
+																																																																																															<IntConst> 1234
+																																																																																														<IntConst> 2345
+																																																																																													<IntConst> 1234
+																																																																																												<IntConst> 2345
+																																																																																											<IntConst> 1234
+																																																																																										<IntConst> 2345
+																																																																																									<IntConst> 1234
+																																																																																								<IntConst> 2345
+																																																																																							<IntConst> 1234
+																																																																																						<IntConst> 2345
+																																																																																					<IntConst> 1234
+																																																																																				<IntConst> 2345
+																																																																																			<IntConst> 1234
+																																																																																		<IntConst> 2345
+																																																																																	<IntConst> 1234
+																																																																																<IntConst> 2345
+																																																																															<IntConst> 1234
+																																																																														<IntConst> 2345
+																																																																													<IntConst> 1234
+																																																																												<IntConst> 2345
+																																																																											<IntConst> 1234
+																																																																										<IntConst> 2345
+																																																																									<IntConst> 1234
+																																																																								<IntConst> 2345
+																																																																							<IntConst> 1234
+																																																																						<IntConst> 2345
+																																																																					<IntConst> 1234
+																																																																				<IntConst> 2345
+																																																																			<IntConst> 1234
+																																																																		<IntConst> 2345
+																																																																	<IntConst> 1234
+																																																																<IntConst> 2345
+																																																															<IntConst> 1234
+																																																														<IntConst> 2345
+																																																													<IntConst> 1234
+																																																												<IntConst> 2345
+																																																											<IntConst> 1234
+																																																										<IntConst> 2345
+																																																									<IntConst> 1234
+																																																								<IntConst> 2345
+																																																							<IntConst> 1234
+																																																						<IntConst> 2345
+																																																					<IntConst> 1234
+																																																				<IntConst> 2345
+																																																			<IntConst> 1234
+																																																		<IntConst> 2345
+																																																	<IntConst> 1234
+																																																<IntConst> 2345
+																																															<IntConst> 1234
+																																														<IntConst> 2345
+																																													<IntConst> 1234
+																																												<IntConst> 2345
+																																											<IntConst> 1234
+																																										<IntConst> 2345
+																																									<IntConst> 1234
+																																								<IntConst> 2345
+																																							<IntConst> 1234
+																																						<IntConst> 2345
+																																					<IntConst> 1234
+																																				<IntConst> 2345
+																																			<IntConst> 1234
+																																		<IntConst> 2345
+																																	<IntConst> 1234
+																																<IntConst> 2345
+																															<IntConst> 1234
+																														<IntConst> 2345
+																													<IntConst> 1234
+																												<IntConst> 2345
+																											<IntConst> 1234
+																										<IntConst> 2345
+																									<IntConst> 1234
+																								<IntConst> 2345
+																							<IntConst> 1234
+																						<IntConst> 2345
+																					<IntConst> 1234
+																				<IntConst> 2345
+																			<IntConst> 1234
+																		<IntConst> 2345
+																	<IntConst> 1234
+																<IntConst> 2345
+															<IntConst> 1234
+														<IntConst> 2345
+													<IntConst> 1234
+												<IntConst> 2345
+											<IntConst> 1234
+										<IntConst> 2345
+									<IntConst> 1234
+								<IntConst> 11
+			<FunctionCall>
+				<IdentifierExpr> println
+				<FunctionCall>
+					<IdentifierExpr> toString
+					<IdentifierExpr> sum
+			<ForStmt>
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> i
+					<IntConst> 1
+				<BinaryExpr> LE
+					<IdentifierExpr> i
+					<IntConst> 200000000
+				<UnaryExpr> INC_SUF
+					<IdentifierExpr> i
+				<BlockStmt>
+					<EmptyStmt>
+		<FunctionDecl>  A
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> A_arr
+				<NewExpr> int[][][][][][][][][][]
+					<IntConst> 2
+					<IntConst> 2
+					<IntConst> 3
+					<IntConst> 2
+					<IntConst> 3
+					<IntConst> 2
+					<IntConst> 2
+					<IntConst> 3
+					<IntConst> 2
+					<IntConst> 2
+	<FunctionDecl> void restore
+		<VariableDeclStmt>
+			<VariableDecl> int i
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
 				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> targetx
-			<IdentifierExpr> targety
+			<BinaryExpr> LE
+				<IdentifierExpr> i
+				<IdentifierExpr> n
+			<UnaryExpr> INC_SUF
+				<IdentifierExpr> i
+			<BlockStmt>
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<IdentifierExpr> i
+					<ArrayAccess>
+						<IdentifierExpr> bak
+						<IdentifierExpr> i
+	<FunctionDecl> int quicksort int l int r
+		<VariableDeclStmt>
+			<VariableDecl> int i1
+		<VariableDeclStmt>
+			<VariableDecl> int i2
+		<VariableDeclStmt>
+			<VariableDecl> int i3
+		<VariableDeclStmt>
+			<VariableDecl> int i4
+		<VariableDeclStmt>
+			<VariableDecl> int i5
+		<VariableDeclStmt>
+			<VariableDecl> int i6
+		<VariableDeclStmt>
+			<VariableDecl> int i7
+		<VariableDeclStmt>
+			<VariableDecl> int i8
+		<VariableDeclStmt>
+			<VariableDecl> int i9
+		<VariableDeclStmt>
+			<VariableDecl> int i10
+		<VariableDeclStmt>
+			<VariableDecl> int i11
+		<VariableDeclStmt>
+			<VariableDecl> int i12
+		<VariableDeclStmt>
+			<VariableDecl> int i13
+		<VariableDeclStmt>
+			<VariableDecl> int i14
+		<VariableDeclStmt>
+			<VariableDecl> int sum
+				<IntConst> 0
+		<VariableDeclStmt>
+			<VariableDecl> int x
+				<ArrayAccess>
+					<IdentifierExpr> a
+					<IdentifierExpr> l
+		<VariableDeclStmt>
+			<VariableDecl> int z_l
+				<IntConst> 0
+		<VariableDeclStmt>
+			<VariableDecl> int z_r
+				<IntConst> 0
+		<VariableDeclStmt>
+			<VariableDecl> int i
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<BinaryExpr> ADD
+					<IdentifierExpr> l
+					<IntConst> 1
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IdentifierExpr> r
+			<UnaryExpr> INC_SUF
+				<IdentifierExpr> i
+			<BlockStmt>
+				<UnaryExpr> INC_SUF
+					<IdentifierExpr> sum
+				<IfStmt>
+					<BinaryExpr> LT
+						<ArrayAccess>
+							<IdentifierExpr> a
+							<IdentifierExpr> i
+						<IdentifierExpr> x
+					<BlockStmt>
+						<BinaryExpr> ASSIGN
+							<ArrayAccess>
+								<IdentifierExpr> a_left
+								<UnaryExpr> INC_SUF
+									<IdentifierExpr> z_l
+							<ArrayAccess>
+								<IdentifierExpr> a
+								<IdentifierExpr> i
+		<VariableDeclStmt>
+			<VariableDecl> int p
+				<IdentifierExpr> l
 		<ForStmt>
 			<BinaryExpr> ASSIGN
 				<IdentifierExpr> i
 				<IntConst> 0
 			<BinaryExpr> LT
 				<IdentifierExpr> i
-				<IdentifierExpr> N
+				<IdentifierExpr> z_l
 			<UnaryExpr> INC_SUF
 				<IdentifierExpr> i
 			<BlockStmt>
-				<ForStmt>
-					<BinaryExpr> ASSIGN
-						<IdentifierExpr> j
-						<IntConst> 0
-					<BinaryExpr> LT
-						<IdentifierExpr> j
-						<IdentifierExpr> N
-					<UnaryExpr> INC_SUF
-						<IdentifierExpr> j
-					<BlockStmt>
-						<BinaryExpr> ASSIGN
-							<ArrayAccess>
-								<ArrayAccess>
-									<IdentifierExpr> step
-									<IdentifierExpr> i
-								<IdentifierExpr> j
-							<UnaryExpr> NEG
-								<IntConst> 1
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<UnaryExpr> INC_SUF
+							<IdentifierExpr> p
+					<ArrayAccess>
+						<IdentifierExpr> a_left
+						<IdentifierExpr> i
 		<BinaryExpr> ASSIGN
 			<ArrayAccess>
-				<IdentifierExpr> dx
+				<IdentifierExpr> a
+				<UnaryExpr> INC_SUF
+					<IdentifierExpr> p
+			<IdentifierExpr> x
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
 				<IntConst> 0
-			<UnaryExpr> NEG
-				<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 0
-			<UnaryExpr> NEG
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 1
-			<UnaryExpr> NEG
-				<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 1
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 2
-			<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 2
-			<UnaryExpr> NEG
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 3
-			<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 3
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 4
-			<UnaryExpr> NEG
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 4
-			<UnaryExpr> NEG
-				<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 5
-			<UnaryExpr> NEG
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 5
-			<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 6
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 6
-			<UnaryExpr> NEG
-				<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 7
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 7
-			<IntConst> 2
-		<WhileStmt>
-			<BinaryExpr> LE
-				<IdentifierExpr> head
-				<IdentifierExpr> tail
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IdentifierExpr> z_r
+			<UnaryExpr> INC_SUF
+				<IdentifierExpr> i
 			<BlockStmt>
 				<BinaryExpr> ASSIGN
-					<IdentifierExpr> x
 					<ArrayAccess>
-						<IdentifierExpr> xlist
-						<IdentifierExpr> head
+						<IdentifierExpr> a
+						<UnaryExpr> INC_SUF
+							<IdentifierExpr> p
+					<ArrayAccess>
+						<IdentifierExpr> a_right
+						<IdentifierExpr> i
+		<IfStmt>
+			<BinaryExpr> GT
+				<IdentifierExpr> z_l
+				<IntConst> 1
+			<BlockStmt>
 				<BinaryExpr> ASSIGN
-					<IdentifierExpr> y
-					<ArrayAccess>
-						<IdentifierExpr> ylist
-						<IdentifierExpr> head
-				<BinaryExpr> ASSIGN
-					<IdentifierExpr> now
-					<ArrayAccess>
-						<ArrayAccess>
-							<IdentifierExpr> step
-							<IdentifierExpr> x
-						<IdentifierExpr> y
-				<ForStmt>
-					<BinaryExpr> ASSIGN
-						<IdentifierExpr> j
-						<IntConst> 0
-					<BinaryExpr> LT
-						<IdentifierExpr> j
-						<IntConst> 8
-					<UnaryExpr> INC_SUF
-						<IdentifierExpr> j
-					<BlockStmt>
+					<IdentifierExpr> sum
+					<BinaryExpr> ADD
+						<IdentifierExpr> sum
 						<FunctionCall>
-							<IdentifierExpr> addList
+							<IdentifierExpr> quicksort
+							<IdentifierExpr> l
 							<BinaryExpr> ADD
-								<IdentifierExpr> x
-								<ArrayAccess>
-									<IdentifierExpr> dx
-									<IdentifierExpr> j
-							<BinaryExpr> ADD
-								<IdentifierExpr> y
-								<ArrayAccess>
-									<IdentifierExpr> dy
-									<IdentifierExpr> j
-				<IfStmt>
-					<BinaryExpr> EQ
-						<IdentifierExpr> ok
+								<IdentifierExpr> l
+								<IdentifierExpr> z_l
+		<IfStmt>
+			<BinaryExpr> GT
+				<IdentifierExpr> z_r
+				<IntConst> 1
+			<BlockStmt>
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> sum
+					<BinaryExpr> ADD
+						<IdentifierExpr> sum
+						<FunctionCall>
+							<IdentifierExpr> quicksort
+							<BinaryExpr> SUB
+								<IdentifierExpr> r
+								<IdentifierExpr> z_r
+							<IdentifierExpr> r
+		<ReturnStmt>
+			<IdentifierExpr> sum
+	<FunctionDecl> int calc
+		<VariableDeclStmt>
+			<VariableDecl> int i1
+		<VariableDeclStmt>
+			<VariableDecl> int i2
+		<VariableDeclStmt>
+			<VariableDecl> int i3
+		<VariableDeclStmt>
+			<VariableDecl> int i4
+		<VariableDeclStmt>
+			<VariableDecl> int i5
+		<VariableDeclStmt>
+			<VariableDecl> int i6
+		<VariableDeclStmt>
+			<VariableDecl> int i7
+		<VariableDeclStmt>
+			<VariableDecl> int i8
+		<VariableDeclStmt>
+			<VariableDecl> int i9
+		<VariableDeclStmt>
+			<VariableDecl> int i10
+		<VariableDeclStmt>
+			<VariableDecl> int i11
+		<VariableDeclStmt>
+			<VariableDecl> int i12
+		<VariableDeclStmt>
+			<VariableDecl> int i13
+		<VariableDeclStmt>
+			<VariableDecl> int i14
+		<VariableDeclStmt>
+			<VariableDecl> int i
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IntConst> 1
+			<BinaryExpr> LE
+				<IdentifierExpr> i
+				<IdentifierExpr> n
+			<UnaryExpr> INC_SUF
+				<IdentifierExpr> i
+			<BlockStmt>
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a_left
+						<IdentifierExpr> i
+					<BinaryExpr> SUB
+						<IdentifierExpr> i
 						<IntConst> 1
-					<BlockStmt>
-						<BreakStmt>
-				<UnaryExpr> INC_SUF
-					<IdentifierExpr> head
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a_right
+						<IdentifierExpr> i
+					<BinaryExpr> ADD
+						<IdentifierExpr> i
+						<IntConst> 1
+		<VariableDeclStmt>
+			<VariableDecl> int sum
+				<IntConst> 0
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IdentifierExpr> n
+			<BinaryExpr> GE
+				<IdentifierExpr> i
+				<IntConst> 1
+			<UnaryExpr> DEC_SUF
+				<IdentifierExpr> i
+			<BlockStmt>
+				<VariableDeclStmt>
+					<VariableDecl> int l
+						<ArrayAccess>
+							<IdentifierExpr> a_left
+							<ArrayAccess>
+								<IdentifierExpr> a
+								<IdentifierExpr> i
+				<VariableDeclStmt>
+					<VariableDecl> int r
+						<ArrayAccess>
+							<IdentifierExpr> a_right
+							<ArrayAccess>
+								<IdentifierExpr> a
+								<IdentifierExpr> i
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a_right
+						<IdentifierExpr> l
+					<IdentifierExpr> r
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a_left
+						<IdentifierExpr> r
+					<IdentifierExpr> l
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> sum
+					<BinaryExpr> SUB
+						<BinaryExpr> SUB
+							<BinaryExpr> ADD
+								<IdentifierExpr> sum
+								<IdentifierExpr> r
+							<IdentifierExpr> l
+						<IntConst> 2
+		<ReturnStmt>
+			<IdentifierExpr> sum
+	<FunctionDecl> int mergesort int l int r
+		<VariableDeclStmt>
+			<VariableDecl> int i1
+		<VariableDeclStmt>
+			<VariableDecl> int i2
+		<VariableDeclStmt>
+			<VariableDecl> int i3
+		<VariableDeclStmt>
+			<VariableDecl> int i4
+		<VariableDeclStmt>
+			<VariableDecl> int i5
+		<VariableDeclStmt>
+			<VariableDecl> int i6
+		<VariableDeclStmt>
+			<VariableDecl> int i7
+		<VariableDeclStmt>
+			<VariableDecl> int i8
+		<VariableDeclStmt>
+			<VariableDecl> int i9
+		<VariableDeclStmt>
+			<VariableDecl> int i10
+		<VariableDeclStmt>
+			<VariableDecl> int i11
+		<VariableDeclStmt>
+			<VariableDecl> int i12
+		<VariableDeclStmt>
+			<VariableDecl> int i13
+		<VariableDeclStmt>
+			<VariableDecl> int i14
 		<IfStmt>
 			<BinaryExpr> EQ
-				<IdentifierExpr> ok
-				<IntConst> 1
+				<BinaryExpr> ADD
+					<IdentifierExpr> l
+					<IntConst> 1
+				<IdentifierExpr> r
 			<BlockStmt>
+				<ReturnStmt>
+					<IntConst> 0
+		<VariableDeclStmt>
+			<VariableDecl> int mid
+				<BinaryExpr> RSFT
+					<BinaryExpr> ADD
+						<IdentifierExpr> l
+						<IdentifierExpr> r
+					<IntConst> 1
+		<VariableDeclStmt>
+			<VariableDecl> int sum
+				<IntConst> 0
+		<BinaryExpr> ASSIGN
+			<IdentifierExpr> sum
+			<BinaryExpr> ADD
+				<IdentifierExpr> sum
 				<FunctionCall>
-					<IdentifierExpr> println
-					<FunctionCall>
-						<IdentifierExpr> toString
+					<IdentifierExpr> mergesort
+					<IdentifierExpr> l
+					<IdentifierExpr> mid
+		<BinaryExpr> ASSIGN
+			<IdentifierExpr> sum
+			<BinaryExpr> ADD
+				<IdentifierExpr> sum
+				<FunctionCall>
+					<IdentifierExpr> mergesort
+					<IdentifierExpr> mid
+					<IdentifierExpr> r
+		<VariableDeclStmt>
+			<VariableDecl> int n_l
+				<IntConst> 0
+		<VariableDeclStmt>
+			<VariableDecl> int n_r
+				<IntConst> 0
+		<VariableDeclStmt>
+			<VariableDecl> int i
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IdentifierExpr> l
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IdentifierExpr> mid
+			<UnaryExpr> INC_SUF
+				<IdentifierExpr> i
+			<BlockStmt>
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a_left
+						<UnaryExpr> INC_SUF
+							<IdentifierExpr> n_l
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<IdentifierExpr> i
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IdentifierExpr> mid
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IdentifierExpr> r
+			<UnaryExpr> INC_SUF
+				<IdentifierExpr> i
+			<BlockStmt>
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a_right
+						<UnaryExpr> INC_SUF
+							<IdentifierExpr> n_r
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<IdentifierExpr> i
+		<VariableDeclStmt>
+			<VariableDecl> int z_l
+				<IntConst> 0
+		<VariableDeclStmt>
+			<VariableDecl> int z_r
+				<IntConst> 0
+		<VariableDeclStmt>
+			<VariableDecl> int z
+				<IdentifierExpr> l
+		<WhileStmt>
+			<BinaryExpr> AND
+				<BinaryExpr> LT
+					<IdentifierExpr> z_l
+					<IdentifierExpr> n_l
+				<BinaryExpr> LT
+					<IdentifierExpr> z_r
+					<IdentifierExpr> n_r
+			<BlockStmt>
+				<UnaryExpr> INC_SUF
+					<IdentifierExpr> sum
+				<IfStmt>
+					<BinaryExpr> LT
 						<ArrayAccess>
+							<IdentifierExpr> a_left
+							<IdentifierExpr> z_l
+						<ArrayAccess>
+							<IdentifierExpr> a_right
+							<IdentifierExpr> z_r
+					<BlockStmt>
+						<BinaryExpr> ASSIGN
 							<ArrayAccess>
-								<IdentifierExpr> step
-								<IdentifierExpr> targetx
-							<IdentifierExpr> targety
+								<IdentifierExpr> a
+								<UnaryExpr> INC_SUF
+									<IdentifierExpr> z
+							<ArrayAccess>
+								<IdentifierExpr> a_left
+								<UnaryExpr> INC_SUF
+									<IdentifierExpr> z_l
+		<WhileStmt>
+			<BinaryExpr> LT
+				<IdentifierExpr> z_l
+				<IdentifierExpr> n_l
+			<BlockStmt>
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<UnaryExpr> INC_SUF
+							<IdentifierExpr> z
+					<ArrayAccess>
+						<IdentifierExpr> a_left
+						<UnaryExpr> INC_SUF
+							<IdentifierExpr> z_l
+		<WhileStmt>
+			<BinaryExpr> LT
+				<IdentifierExpr> z_r
+				<IdentifierExpr> n_r
+			<BlockStmt>
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<UnaryExpr> INC_SUF
+							<IdentifierExpr> z
+					<ArrayAccess>
+						<IdentifierExpr> a_right
+						<UnaryExpr> INC_SUF
+							<IdentifierExpr> z_r
+		<ReturnStmt>
+			<IdentifierExpr> sum
+	<FunctionDecl> int heapsort
+		<VariableDeclStmt>
+			<VariableDecl> int i1
+		<VariableDeclStmt>
+			<VariableDecl> int i2
+		<VariableDeclStmt>
+			<VariableDecl> int i3
+		<VariableDeclStmt>
+			<VariableDecl> int i4
+		<VariableDeclStmt>
+			<VariableDecl> int i5
+		<VariableDeclStmt>
+			<VariableDecl> int i6
+		<VariableDeclStmt>
+			<VariableDecl> int i7
+		<VariableDeclStmt>
+			<VariableDecl> int i8
+		<VariableDeclStmt>
+			<VariableDecl> int i9
+		<VariableDeclStmt>
+			<VariableDecl> int i10
+		<VariableDeclStmt>
+			<VariableDecl> int i11
+		<VariableDeclStmt>
+			<VariableDecl> int i12
+		<VariableDeclStmt>
+			<VariableDecl> int i13
+		<VariableDeclStmt>
+			<VariableDecl> int i14
+		<VariableDeclStmt>
+			<VariableDecl> int sum
+				<IntConst> 0
+		<VariableDeclStmt>
+			<VariableDecl> int i
+		<VariableDeclStmt>
+			<VariableDecl> int tmp
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IntConst> 1
+			<BinaryExpr> LE
+				<IdentifierExpr> i
+				<IdentifierExpr> n
+			<UnaryExpr> INC_SUF
+				<IdentifierExpr> i
+			<BlockStmt>
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> heap
+						<IdentifierExpr> i
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<IdentifierExpr> i
+				<VariableDeclStmt>
+					<VariableDecl> int x
+						<IdentifierExpr> i
+				<WhileStmt>
+					<BinaryExpr> NEQ
+						<IdentifierExpr> x
+						<IntConst> 1
+					<BlockStmt>
+						<UnaryExpr> INC_SUF
+							<IdentifierExpr> sum
+						<IfStmt>
+							<BinaryExpr> GT
+								<ArrayAccess>
+									<IdentifierExpr> heap
+									<IdentifierExpr> x
+								<ArrayAccess>
+									<IdentifierExpr> heap
+									<BinaryExpr> RSFT
+										<IdentifierExpr> x
+										<IntConst> 1
+							<BlockStmt>
+								<BreakStmt>
+						<BinaryExpr> ASSIGN
+							<IdentifierExpr> tmp
+							<ArrayAccess>
+								<IdentifierExpr> heap
+								<IdentifierExpr> x
+						<BinaryExpr> ASSIGN
+							<ArrayAccess>
+								<IdentifierExpr> heap
+								<IdentifierExpr> x
+							<ArrayAccess>
+								<IdentifierExpr> heap
+								<BinaryExpr> RSFT
+									<IdentifierExpr> x
+									<IntConst> 1
+						<BinaryExpr> ASSIGN
+							<ArrayAccess>
+								<IdentifierExpr> heap
+								<BinaryExpr> RSFT
+									<IdentifierExpr> x
+									<IntConst> 1
+							<IdentifierExpr> tmp
+						<BinaryExpr> ASSIGN
+							<IdentifierExpr> x
+							<BinaryExpr> RSFT
+								<IdentifierExpr> x
+								<IntConst> 1
+		<VariableDeclStmt>
+			<VariableDecl> int heap_size
+				<IdentifierExpr> n
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IntConst> 1
+			<BinaryExpr> LE
+				<IdentifierExpr> i
+				<IdentifierExpr> n
+			<UnaryExpr> INC_SUF
+				<IdentifierExpr> i
+			<BlockStmt>
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<IdentifierExpr> i
+					<ArrayAccess>
+						<IdentifierExpr> heap
+						<IntConst> 1
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> heap
+						<IntConst> 1
+					<ArrayAccess>
+						<IdentifierExpr> heap
+						<UnaryExpr> DEC_SUF
+							<IdentifierExpr> heap_size
+				<VariableDeclStmt>
+					<VariableDecl> int x
+						<IntConst> 1
+				<WhileStmt>
+					<BinaryExpr> LE
+						<BinaryExpr> LSFT
+							<IdentifierExpr> x
+							<IntConst> 1
+						<IdentifierExpr> heap_size
+					<BlockStmt>
+						<VariableDeclStmt>
+							<VariableDecl> int l
+								<BinaryExpr> LSFT
+									<IdentifierExpr> x
+									<IntConst> 1
+						<VariableDeclStmt>
+							<VariableDecl> int r
+								<BinaryExpr> ADD
+									<IdentifierExpr> l
+									<IntConst> 1
+						<VariableDeclStmt>
+							<VariableDecl> int y
+								<IdentifierExpr> l
+						<IfStmt>
+							<BinaryExpr> LE
+								<IdentifierExpr> r
+								<IdentifierExpr> heap_size
+							<BlockStmt>
+								<UnaryExpr> INC_SUF
+									<IdentifierExpr> sum
+								<IfStmt>
+									<BinaryExpr> LT
+										<ArrayAccess>
+											<IdentifierExpr> heap
+											<IdentifierExpr> r
+										<ArrayAccess>
+											<IdentifierExpr> heap
+											<IdentifierExpr> l
+									<BlockStmt>
+										<BinaryExpr> ASSIGN
+											<IdentifierExpr> y
+											<IdentifierExpr> r
+						<UnaryExpr> INC_SUF
+							<IdentifierExpr> sum
+						<IfStmt>
+							<BinaryExpr> LT
+								<ArrayAccess>
+									<IdentifierExpr> heap
+									<IdentifierExpr> x
+								<ArrayAccess>
+									<IdentifierExpr> heap
+									<IdentifierExpr> y
+							<BlockStmt>
+								<BreakStmt>
+						<BinaryExpr> ASSIGN
+							<IdentifierExpr> tmp
+							<ArrayAccess>
+								<IdentifierExpr> heap
+								<IdentifierExpr> x
+						<BinaryExpr> ASSIGN
+							<ArrayAccess>
+								<IdentifierExpr> heap
+								<IdentifierExpr> x
+							<ArrayAccess>
+								<IdentifierExpr> heap
+								<IdentifierExpr> y
+						<BinaryExpr> ASSIGN
+							<ArrayAccess>
+								<IdentifierExpr> heap
+								<IdentifierExpr> y
+							<IdentifierExpr> tmp
+						<BinaryExpr> ASSIGN
+							<IdentifierExpr> tmp
+							<IdentifierExpr> x
+						<BinaryExpr> ASSIGN
+							<IdentifierExpr> x
+							<IdentifierExpr> y
+						<BinaryExpr> ASSIGN
+							<IdentifierExpr> y
+							<IdentifierExpr> tmp
+		<ReturnStmt>
+			<IdentifierExpr> sum
+	<FunctionDecl> int main
+		<VariableDeclStmt>
+			<VariableDecl> int i1
+		<VariableDeclStmt>
+			<VariableDecl> int i2
+		<VariableDeclStmt>
+			<VariableDecl> int i3
+		<VariableDeclStmt>
+			<VariableDecl> int i4
+		<VariableDeclStmt>
+			<VariableDecl> int i5
+		<VariableDeclStmt>
+			<VariableDecl> int i6
+		<VariableDeclStmt>
+			<VariableDecl> int i7
+		<VariableDeclStmt>
+			<VariableDecl> int i8
+		<VariableDeclStmt>
+			<VariableDecl> int i9
+		<VariableDeclStmt>
+			<VariableDecl> int i10
+		<VariableDeclStmt>
+			<VariableDecl> int i11
+		<VariableDeclStmt>
+			<VariableDecl> int i12
+		<VariableDeclStmt>
+			<VariableDecl> int i13
+		<VariableDeclStmt>
+			<VariableDecl> int i14
+		<BinaryExpr> ASSIGN
+			<IdentifierExpr> n
+			<FunctionCall>
+				<IdentifierExpr> getInt
+		<VariableDeclStmt>
+			<VariableDecl> int k
+				<FunctionCall>
+					<IdentifierExpr> getInt
+		<VariableDeclStmt>
+			<VariableDecl> int i
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IntConst> 1
+			<BinaryExpr> LE
+				<IdentifierExpr> i
+				<IdentifierExpr> n
+			<UnaryExpr> INC_SUF
+				<IdentifierExpr> i
+			<BlockStmt>
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<IdentifierExpr> i
+					<IdentifierExpr> i
+				<IfStmt>
+					<BinaryExpr> LE
+						<IdentifierExpr> i
+						<IdentifierExpr> k
+					<BlockStmt>
+						<BinaryExpr> ASSIGN
+							<ArrayAccess>
+								<IdentifierExpr> a
+								<IdentifierExpr> i
+							<BinaryExpr> SUB
+								<BinaryExpr> ADD
+									<IdentifierExpr> k
+									<IntConst> 1
+								<IdentifierExpr> i
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> bak
+						<IdentifierExpr> i
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<IdentifierExpr> i
+		<VariableDeclStmt>
+			<VariableDecl> int ans1
+				<FunctionCall>
+					<IdentifierExpr> quicksort
+					<IntConst> 1
+					<BinaryExpr> ADD
+						<IdentifierExpr> n
+						<IntConst> 1
+		<FunctionCall>
+			<IdentifierExpr> restore
+		<VariableDeclStmt>
+			<VariableDecl> int ans2
+				<FunctionCall>
+					<IdentifierExpr> calc
+		<FunctionCall>
+			<IdentifierExpr> restore
+		<VariableDeclStmt>
+			<VariableDecl> int ans3
+				<FunctionCall>
+					<IdentifierExpr> mergesort
+					<IntConst> 1
+					<BinaryExpr> ADD
+						<IdentifierExpr> n
+						<IntConst> 1
+		<FunctionCall>
+			<IdentifierExpr> restore
+		<VariableDeclStmt>
+			<VariableDecl> int ans4
+				<FunctionCall>
+					<IdentifierExpr> heapsort
+		<FunctionCall>
+			<IdentifierExpr> println
+			<FunctionCall>
+				<IdentifierExpr> toString
+				<IdentifierExpr> ans1
+		<FunctionCall>
+			<IdentifierExpr> println
+			<FunctionCall>
+				<IdentifierExpr> toString
+				<IdentifierExpr> ans2
+		<FunctionCall>
+			<IdentifierExpr> println
+			<FunctionCall>
+				<IdentifierExpr> toString
+				<IdentifierExpr> ans3
+		<FunctionCall>
+			<IdentifierExpr> println
+			<FunctionCall>
+				<IdentifierExpr> toString
+				<IdentifierExpr> ans4
+		<VariableDeclStmt>
+			<VariableDecl> A a
+				<NewExpr> A
+		<FunctionCall>
+			<MemberAccess>
+				<IdentifierExpr> a
+				<IdentifierExpr> Optimizer
 		<ReturnStmt>
 			<IntConst> 0

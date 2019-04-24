@@ -214,10 +214,11 @@ public class IRInterpreter {
                 memPtr += getOperandValue(inst.src1);
                 break;
             case "load":
-//                System.out.println(inst.dst + " = load " + inst.src1);
+                System.out.println(inst.dst + " = load " + inst.src1);
                 int loadAddr = getOperandValue(inst.src1);
 //                assert memInt.containsKey(loadAddr);
-                writeReg(inst.dst, memInt.getOrDefault(loadAddr, 0));
+                writeReg(inst.dst, memInt.get(loadAddr));
+//                writeReg(inst.dst, memInt.getOrDefault(loadAddr, 0));
                 break;
             case "store":
 //                System.out.println("store " + inst.src1 + " " + inst.src2);
@@ -479,7 +480,7 @@ public class IRInterpreter {
 
         if (Config.debugMode) {
 //            fileName = new File(Config.tmpPath + "a.ll");
-            fileName = new File(Config.tmpPath + "a_optim.ll");
+            fileName = new File(Config.tmpPath + "a.ll");
         } else {
             fileName = new File(args[0]);
         }
