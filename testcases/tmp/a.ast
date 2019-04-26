@@ -1,86 +1,328 @@
 <Program>
-	<VariableDecl> int[] a
-		<NewExpr> int[]
-			<IntConst> 4
 	<FunctionDecl> int main
 		<VariableDeclStmt>
-			<VariableDecl> int[] b
-				<NewExpr> int[]
-					<FunctionCall>
-						<MemberAccess>
-							<IdentifierExpr> a
-							<IdentifierExpr> size
+			<VariableDecl> int a
 		<VariableDeclStmt>
-			<VariableDecl> int i
+			<VariableDecl> int b
+		<VariableDeclStmt>
+			<VariableDecl> int c
+		<VariableDeclStmt>
+			<VariableDecl> int d
+		<VariableDeclStmt>
+			<VariableDecl> int e
+		<VariableDeclStmt>
+			<VariableDecl> int f
+		<VariableDeclStmt>
+			<VariableDecl> int g
+		<VariableDeclStmt>
+			<VariableDecl> int n
+				<FunctionCall>
+					<IdentifierExpr> getInt
+		<VariableDeclStmt>
+			<VariableDecl> int ans
+				<IntConst> 0
 		<ForStmt>
 			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
+				<IdentifierExpr> a
 				<IntConst> 0
 			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<FunctionCall>
-					<MemberAccess>
-						<IdentifierExpr> a
-						<IdentifierExpr> size
-			<UnaryExpr> INC_SUF
-				<IdentifierExpr> i
+				<IdentifierExpr> a
+				<IdentifierExpr> n
+			<UnaryExpr> INC
+				<IdentifierExpr> a
 			<BlockStmt>
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<IdentifierExpr> a
-						<IdentifierExpr> i
-					<IntConst> 0
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
+				<ForStmt>
+					<BinaryExpr> ASSIGN
 						<IdentifierExpr> b
-						<IdentifierExpr> i
-					<FunctionCall>
-						<IdentifierExpr> getInt
-		<ForStmt>
-			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
-				<IntConst> 0
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<FunctionCall>
-					<MemberAccess>
-						<IdentifierExpr> a
-						<IdentifierExpr> size
-			<UnaryExpr> INC_SUF
-				<IdentifierExpr> i
-			<BlockStmt>
-				<FunctionCall>
-					<IdentifierExpr> print
-					<FunctionCall>
-						<IdentifierExpr> toString
-						<ArrayAccess>
-							<IdentifierExpr> a
-							<IdentifierExpr> i
+						<IntConst> 0
+					<BinaryExpr> LT
+						<IdentifierExpr> b
+						<IdentifierExpr> n
+					<UnaryExpr> INC
+						<IdentifierExpr> b
+					<BlockStmt>
+						<ForStmt>
+							<BinaryExpr> ASSIGN
+								<IdentifierExpr> c
+								<IntConst> 0
+							<BinaryExpr> LT
+								<IdentifierExpr> c
+								<IdentifierExpr> n
+							<UnaryExpr> INC
+								<IdentifierExpr> c
+							<BlockStmt>
+								<ForStmt>
+									<BinaryExpr> ASSIGN
+										<IdentifierExpr> d
+										<IntConst> 0
+									<BinaryExpr> LT
+										<IdentifierExpr> d
+										<IdentifierExpr> n
+									<UnaryExpr> INC
+										<IdentifierExpr> d
+									<BlockStmt>
+										<ForStmt>
+											<BinaryExpr> ASSIGN
+												<IdentifierExpr> e
+												<IntConst> 0
+											<BinaryExpr> LT
+												<IdentifierExpr> e
+												<IdentifierExpr> n
+											<UnaryExpr> INC
+												<IdentifierExpr> e
+											<BlockStmt>
+												<ForStmt>
+													<BinaryExpr> ASSIGN
+														<IdentifierExpr> f
+														<IntConst> 0
+													<BinaryExpr> LT
+														<IdentifierExpr> f
+														<IdentifierExpr> n
+													<UnaryExpr> INC
+														<IdentifierExpr> f
+													<BlockStmt>
+														<ForStmt>
+															<BinaryExpr> ASSIGN
+																<IdentifierExpr> g
+																<IntConst> 0
+															<BinaryExpr> LT
+																<IdentifierExpr> g
+																<IdentifierExpr> n
+															<UnaryExpr> INC
+																<IdentifierExpr> g
+															<BlockStmt>
+																<VariableDeclStmt>
+																	<VariableDecl> bool t1
+																		<BinaryExpr> OR
+																			<BinaryExpr> OR
+																				<BinaryExpr> OR
+																					<BinaryExpr> AND
+																						<BinaryExpr> EQ
+																							<IdentifierExpr> a
+																							<IdentifierExpr> b
+																						<BinaryExpr> GT
+																							<IdentifierExpr> c
+																							<IntConst> 0
+																					<BinaryExpr> AND
+																						<BinaryExpr> AND
+																							<BinaryExpr> EQ
+																								<IdentifierExpr> d
+																								<IdentifierExpr> e
+																							<BinaryExpr> GT
+																								<IdentifierExpr> f
+																								<IntConst> 0
+																						<BinaryExpr> GT
+																							<IdentifierExpr> g
+																							<IntConst> 0
+																				<BinaryExpr> EQ
+																					<IdentifierExpr> a
+																					<IdentifierExpr> g
+																			<BinaryExpr> AND
+																				<BinaryExpr> GT
+																					<IdentifierExpr> d
+																					<IntConst> 0
+																				<BinaryExpr> GT
+																					<IdentifierExpr> f
+																					<IntConst> 0
+																<VariableDeclStmt>
+																	<VariableDecl> bool t2
+																		<BinaryExpr> OR
+																			<BinaryExpr> OR
+																				<BinaryExpr> OR
+																					<BinaryExpr> AND
+																						<BinaryExpr> EQ
+																							<IdentifierExpr> a
+																							<IdentifierExpr> b
+																						<BinaryExpr> GT
+																							<IdentifierExpr> c
+																							<IntConst> 0
+																					<BinaryExpr> AND
+																						<BinaryExpr> AND
+																							<BinaryExpr> EQ
+																								<IdentifierExpr> d
+																								<IdentifierExpr> e
+																							<BinaryExpr> GT
+																								<IdentifierExpr> f
+																								<IntConst> 0
+																						<BinaryExpr> GT
+																							<IdentifierExpr> g
+																							<IntConst> 0
+																				<BinaryExpr> EQ
+																					<IdentifierExpr> a
+																					<IdentifierExpr> g
+																			<BinaryExpr> AND
+																				<BinaryExpr> GT
+																					<IdentifierExpr> d
+																					<IntConst> 0
+																				<BinaryExpr> GT
+																					<IdentifierExpr> f
+																					<IntConst> 0
+																<VariableDeclStmt>
+																	<VariableDecl> bool t3
+																		<BinaryExpr> OR
+																			<BinaryExpr> OR
+																				<BinaryExpr> OR
+																					<BinaryExpr> AND
+																						<BinaryExpr> EQ
+																							<IdentifierExpr> a
+																							<IdentifierExpr> b
+																						<BinaryExpr> GT
+																							<IdentifierExpr> c
+																							<IntConst> 0
+																					<BinaryExpr> AND
+																						<BinaryExpr> AND
+																							<BinaryExpr> EQ
+																								<IdentifierExpr> d
+																								<IdentifierExpr> e
+																							<BinaryExpr> GT
+																								<IdentifierExpr> f
+																								<IntConst> 0
+																						<BinaryExpr> GT
+																							<IdentifierExpr> g
+																							<IntConst> 0
+																				<BinaryExpr> EQ
+																					<IdentifierExpr> a
+																					<IdentifierExpr> g
+																			<BinaryExpr> AND
+																				<BinaryExpr> GT
+																					<IdentifierExpr> d
+																					<IntConst> 0
+																				<BinaryExpr> GT
+																					<IdentifierExpr> f
+																					<IntConst> 0
+																<VariableDeclStmt>
+																	<VariableDecl> bool t4
+																		<BinaryExpr> OR
+																			<BinaryExpr> OR
+																				<BinaryExpr> OR
+																					<BinaryExpr> AND
+																						<BinaryExpr> EQ
+																							<IdentifierExpr> a
+																							<IdentifierExpr> b
+																						<BinaryExpr> GT
+																							<IdentifierExpr> c
+																							<IntConst> 0
+																					<BinaryExpr> AND
+																						<BinaryExpr> AND
+																							<BinaryExpr> EQ
+																								<IdentifierExpr> d
+																								<IdentifierExpr> e
+																							<BinaryExpr> GT
+																								<IdentifierExpr> f
+																								<IntConst> 0
+																						<BinaryExpr> GT
+																							<IdentifierExpr> g
+																							<IntConst> 0
+																				<BinaryExpr> EQ
+																					<IdentifierExpr> a
+																					<IdentifierExpr> g
+																			<BinaryExpr> AND
+																				<BinaryExpr> GT
+																					<IdentifierExpr> d
+																					<IntConst> 0
+																				<BinaryExpr> GT
+																					<IdentifierExpr> f
+																					<IntConst> 0
+																<VariableDeclStmt>
+																	<VariableDecl> bool t5
+																		<BinaryExpr> OR
+																			<BinaryExpr> OR
+																				<BinaryExpr> OR
+																					<BinaryExpr> AND
+																						<BinaryExpr> EQ
+																							<IdentifierExpr> a
+																							<IdentifierExpr> b
+																						<BinaryExpr> GT
+																							<IdentifierExpr> c
+																							<IntConst> 0
+																					<BinaryExpr> AND
+																						<BinaryExpr> AND
+																							<BinaryExpr> EQ
+																								<IdentifierExpr> d
+																								<IdentifierExpr> e
+																							<BinaryExpr> GT
+																								<IdentifierExpr> f
+																								<IntConst> 0
+																						<BinaryExpr> GT
+																							<IdentifierExpr> g
+																							<IntConst> 0
+																				<BinaryExpr> EQ
+																					<IdentifierExpr> a
+																					<IdentifierExpr> g
+																			<BinaryExpr> AND
+																				<BinaryExpr> GT
+																					<IdentifierExpr> d
+																					<IntConst> 0
+																				<BinaryExpr> GT
+																					<IdentifierExpr> f
+																					<IntConst> 0
+																<VariableDeclStmt>
+																	<VariableDecl> bool t6
+																		<BinaryExpr> OR
+																			<BinaryExpr> OR
+																				<BinaryExpr> OR
+																					<BinaryExpr> AND
+																						<BinaryExpr> EQ
+																							<IdentifierExpr> a
+																							<IdentifierExpr> b
+																						<BinaryExpr> GT
+																							<IdentifierExpr> c
+																							<IntConst> 0
+																					<BinaryExpr> AND
+																						<BinaryExpr> AND
+																							<BinaryExpr> EQ
+																								<IdentifierExpr> d
+																								<IdentifierExpr> e
+																							<BinaryExpr> GT
+																								<IdentifierExpr> f
+																								<IntConst> 0
+																						<BinaryExpr> GT
+																							<IdentifierExpr> g
+																							<IntConst> 0
+																				<BinaryExpr> EQ
+																					<IdentifierExpr> a
+																					<IdentifierExpr> g
+																			<BinaryExpr> AND
+																				<BinaryExpr> GT
+																					<IdentifierExpr> d
+																					<IntConst> 0
+																				<BinaryExpr> GT
+																					<IdentifierExpr> f
+																					<IntConst> 0
+																<IfStmt>
+																	<IdentifierExpr> t1
+																	<BlockStmt>
+																		<UnaryExpr> INC_SUF
+																			<IdentifierExpr> ans
+																<IfStmt>
+																	<IdentifierExpr> t2
+																	<BlockStmt>
+																		<UnaryExpr> INC_SUF
+																			<IdentifierExpr> ans
+																<IfStmt>
+																	<IdentifierExpr> t3
+																	<BlockStmt>
+																		<UnaryExpr> INC_SUF
+																			<IdentifierExpr> ans
+																<IfStmt>
+																	<IdentifierExpr> t4
+																	<BlockStmt>
+																		<UnaryExpr> INC_SUF
+																			<IdentifierExpr> ans
+																<IfStmt>
+																	<IdentifierExpr> t5
+																	<BlockStmt>
+																		<UnaryExpr> INC_SUF
+																			<IdentifierExpr> ans
+																<IfStmt>
+																	<IdentifierExpr> t6
+																	<BlockStmt>
+																		<UnaryExpr> INC_SUF
+																			<IdentifierExpr> ans
 		<FunctionCall>
-			<IdentifierExpr> println
-			<StringConst> 
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> a
-			<IdentifierExpr> b
-		<ForStmt>
-			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
-				<IntConst> 0
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<FunctionCall>
-					<MemberAccess>
-						<IdentifierExpr> a
-						<IdentifierExpr> size
-			<UnaryExpr> INC_SUF
-				<IdentifierExpr> i
-			<BlockStmt>
-				<FunctionCall>
-					<IdentifierExpr> print
-					<FunctionCall>
-						<IdentifierExpr> toString
-						<ArrayAccess>
-							<IdentifierExpr> a
-							<IdentifierExpr> i
+			<IdentifierExpr> print
+			<FunctionCall>
+				<IdentifierExpr> toString
+				<IdentifierExpr> ans
 		<ReturnStmt>
 			<IntConst> 0

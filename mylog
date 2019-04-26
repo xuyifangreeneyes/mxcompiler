@@ -72,3 +72,9 @@ As for uninitailized problem,
 
 In my nasm, global variable's name(such as _a) may conflict with builtin function as _stringEq.
 TODO: turn _stringEq to __stringEq
+
+DCE can eliminate most of output irrelevant code. However, I see two exceptions so far.
+1. loop (T264)
+2. call function which wastes time but does nothing related to result. For example, a function that calles itself recursively.
+For now I don't know how to do output irrelevant elimination globally(output attribute can pass among functions),
+and I plan to write some naive code to solve case 1.

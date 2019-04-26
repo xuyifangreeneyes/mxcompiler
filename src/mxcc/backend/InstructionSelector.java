@@ -29,6 +29,9 @@ public class InstructionSelector implements IRVisitor {
     private int allocaCounter = 0;
     private int immCounter = 0;
 
+    // for processCmpAndJmp
+    private Map<LocalReg, Integer> regCounter;
+
     private String asmName(String raw) {
         if (raw.startsWith("@")) {
             // int ch;
@@ -133,11 +136,36 @@ public class InstructionSelector implements IRVisitor {
         initCalleeSaveMap();
         curArgs = func.args;
 
+        LocalRegCollector collector = new LocalRegCollector();
+        regCounter = collector.work(func);
+
         BasicBlock bb = func.getStartBB();
         while (bb != null) {
             visit(bb);
             bb = bb.next;
         }
+    }
+
+    private boolean processCmpAndJmp(Instruction inst) {
+        if (!(inst instanceof BinaryOperation)) return false;
+        BinaryOperation first = (BinaryOperation) inst;
+        if (!isCmp(first)) return false;
+        if (!(inst.next instanceof CondBranch)) return false;
+        CondBranch second = (CondBranch) inst.next;
+        if (first.getDst() != second.getCond() || regCounter.get(first.getDst()) != 2) return false;
+        addCmp(first.getLhs(), first.getRhs());
+        String pos = "";
+        String neg = "";
+        switch (first.getOp()) {
+            case EQ: pos = "je"; neg = "jne"; break;
+            case NEQ: pos = "jne"; neg = "je"; break;
+            case LT: pos = "jl"; neg = "jge"; break;
+            case GT: pos = "jg"; neg = "jle"; break;
+            case LE: pos = "jle"; neg = "jg"; break;
+            case GE: pos = "jge"; neg = "jl"; break;
+        }
+        addJmp(second.getParentBB().next, second.getIfTrue(), second.getIfFalse(), pos, neg);
+        return true;
     }
 
     public void visit(BasicBlock bb) {
@@ -169,8 +197,12 @@ public class InstructionSelector implements IRVisitor {
         }
         Instruction inst = bb.getFirstInst();
         while (inst != null) {
-            visit(inst);
-            inst = inst.next;
+            if (processCmpAndJmp(inst)) {
+                inst = inst.next.next;
+            } else {
+                visit(inst);
+                inst = inst.next;
+            }
         }
     }
 
@@ -235,18 +267,23 @@ public class InstructionSelector implements IRVisitor {
                 || node.getOp() == BinaryOperation.BinaryOp.LE || node.getOp() == BinaryOperation.BinaryOp.GE;
     }
 
-    private void writeCmp(BinaryOperation node) {
+    private void addCmp(Operand lhsOp, Operand rhsOp) {
         // There are better methods
         Var lhs;
-        if (node.getLhs() instanceof IntImmediate) {
+        if (lhsOp instanceof IntImmediate) {
             ++immCounter;
             lhs = new VirtualReg("%cmplhs_" + immCounter);
-            int val = ((IntImmediate) node.getLhs()).getVal();
+            int val = ((IntImmediate) lhsOp).getVal();
             curNasmBlock.addInst(new Mov(lhs, new Imm(val)));
         } else {
-            lhs = getVar(node.getLhs());
+            lhs = getVar(lhsOp);
         }
-        curNasmBlock.addInst(new Cmp(lhs, getVar(node.getRhs())));
+        curNasmBlock.addInst(new Cmp(lhs, getVar(rhsOp)));
+    }
+
+    // bool c = a < b;
+    private void writeCmp(BinaryOperation node) {
+        addCmp(node.getLhs(), node.getRhs());
         String set = "";
         switch (node.getOp()) {
             case EQ: set = "sete"; break;
@@ -377,30 +414,23 @@ public class InstructionSelector implements IRVisitor {
         curNasmBlock.addInst(new Mov(getVirtualReg(node.getDst()), getVar(node.getSrc())));
     }
 
+    // bool c = a < b;
+    // if (c) {...} else {...}
+
     // I try to make as many fall-throughs as possible.
     // As a result, some block may be empty, which means a block may
     // have two labels on head. That seems to be ok in nasm.
-
     public void visit(CondBranch node) {
-        // There are better methods
-        Var cond;
-        if (node.getCond() instanceof IntImmediate) {
-            ++immCounter;
-            cond = new VirtualReg("%cmplhs_" + immCounter);
-            int val = ((IntImmediate) node.getCond()).getVal();
-            curNasmBlock.addInst(new Mov(cond, new Imm(val)));
-        } else {
-            cond = getVar(node.getCond());
-        }
-        curNasmBlock.addInst(new Cmp(cond, new Imm(0)));
-        BasicBlock nextBB = node.getParentBB().next;
-        BasicBlock ifTrueBB = node.getIfTrue();
-        BasicBlock ifFalseBB = node.getIfFalse();
+        addCmp(node.getCond(), new IntImmediate(0));
+        addJmp(node.getParentBB().next, node.getIfTrue(), node.getIfFalse(), "jne", "je");
+    }
+
+    private void addJmp(BasicBlock nextBB, BasicBlock ifTrueBB, BasicBlock ifFalseBB, String pos, String neg) {
         if (nextBB == ifTrueBB) {
-            curNasmBlock.addInst(new Jmp("je", new Label(getBlock(ifFalseBB).getName())));
+            curNasmBlock.addInst(new Jmp(neg, new Label(getBlock(ifFalseBB).getName())));
             return;
         }
-        curNasmBlock.addInst(new Jmp("jne", new Label(getBlock(ifTrueBB).getName())));
+        curNasmBlock.addInst(new Jmp(pos, new Label(getBlock(ifTrueBB).getName())));
         if (nextBB != ifFalseBB) {
             curNasmBlock.addInst(new Jmp("jmp", new Label(getBlock(ifFalseBB).getName())));
         }
@@ -422,6 +452,105 @@ public class InstructionSelector implements IRVisitor {
             curNasmBlock.addInst(new Mov(physicalRegMap.get("rax"), getVar(node.getRetVal())));
         }
         curNasmBlock.addInst(new Ret());
+    }
+
+    private static class LocalRegCollector implements IRVisitor {
+        private Map<LocalReg, Integer> regCounter;
+
+        public LocalRegCollector() {
+
+        }
+
+        public Map<LocalReg, Integer> work(Function func) {
+            regCounter = new HashMap<>();
+            for (LocalReg reg : func.args) {
+                addReg(reg);
+            }
+            BasicBlock bb = func.getStartBB();
+            while (bb != null) {
+                Instruction inst = bb.getFirstInst();
+                while (inst != null) {
+                    visit(inst);
+                    inst = inst.next;
+                }
+                bb = bb.next;
+            }
+            return regCounter;
+        }
+
+        private void addReg(Operand operand) {
+            if (!(operand instanceof LocalReg)) return;
+            LocalReg reg = (LocalReg) operand;
+            if (regCounter.containsKey(reg)) {
+                int num = regCounter.get(reg) + 1;
+                regCounter.put(reg, num);
+            } else {
+                regCounter.put(reg, 1);
+            }
+        }
+
+        public void visit(Instruction node) {
+            node.accept(this);
+        }
+
+        public void visit(Alloca node) {
+            addReg(node.getDst());
+        }
+
+        public void visit(Malloc node) {
+            addReg(node.getDst());
+            addReg(node.getSize());
+        }
+
+        public void visit(Load node) {
+            addReg(node.getDst());
+            addReg(node.getAddr());
+        }
+
+        public void visit(Store node) {
+            addReg(node.getVal());
+            addReg(node.getAddr());
+        }
+
+        public void visit(BinaryOperation node) {
+            addReg(node.getDst());
+            addReg(node.getLhs());
+            addReg(node.getRhs());
+        }
+
+        public void visit(UnaryOperation node) {
+            addReg(node.getDst());
+            addReg(node.getSrc());
+        }
+
+        public void visit(Call node) {
+            addReg(node.getDst());
+            for (Operand arg : node.getArgs()) {
+                addReg(arg);
+            }
+        }
+
+        public void visit(Phi node) {
+            // There is no Phi during instruction selection.
+            assert false;
+        }
+
+        public void visit(Move node) {
+            addReg(node.getDst());
+            addReg(node.getSrc());
+        }
+
+        public void visit(CondBranch node) {
+            addReg(node.getCond());
+        }
+
+        public void visit(DirectBranch node) {
+
+        }
+
+        public void visit(Return node) {
+            addReg(node.getRetVal());
+        }
     }
 
 

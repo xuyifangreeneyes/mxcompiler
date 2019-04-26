@@ -12,7 +12,7 @@ public interface IRVisitor {
     void visit(Load node);
     void visit(Store node);
     void visit(BinaryOperation node);
-    void visit(UnaryOperation ndoe);
+    void visit(UnaryOperation node);
     void visit(Call node);
     void visit(Phi node);
     void visit(Move node);
