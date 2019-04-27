@@ -114,6 +114,9 @@ public class IrrelevantLoopDeletor extends AstBaseVisitor {
 
     public void visit(ReturnStmt node) {
         neededLoops.addAll(curLoops);
+        if (node.value != null) {
+            visit(node.value);
+        }
     }
 
     public void visit(BreakStmt node) {
@@ -242,6 +245,7 @@ public class IrrelevantLoopDeletor extends AstBaseVisitor {
             List<Stmt> newStmts = new ArrayList<>();
             for (Stmt stmt : stmts) {
                 if (isLoop(stmt) && !neededLoops.contains(stmt)) {
+//                    System.out.println("delete loop");
                     continue;
                 }
                 visit(stmt);
