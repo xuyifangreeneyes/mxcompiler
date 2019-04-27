@@ -47,6 +47,16 @@ public abstract class Instruction {
         this.next = nextInst;
     }
 
+    public void insertBefore(Instruction inst) {
+        addPrev(inst);
+        if (this == parent.getFirstInst()) parent.setFirstInst(inst);
+    }
+
+    public void insertAfter(Instruction inst) {
+        addNext(inst);
+        if (this == parent.getLastInst()) parent.setLastInst(inst);
+    }
+
     public void delete() {
         if (this.prev != null) this.prev.next = this.next;
         if (this.next != null) this.next.prev = this.prev;

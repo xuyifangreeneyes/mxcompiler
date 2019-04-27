@@ -117,9 +117,15 @@ public class Mxcc {
         inliner.run();
     }
 
+    private void promoteGlobalReg() {
+        GlobalRegPromoter promoter = new GlobalRegPromoter(ir);
+        promoter.work();
+    }
+
     private void optim() throws IOException {
         functionInline();
-//        if (Config.debugMode) printIR("a_inline.ll");
+        promoteGlobalReg();
+        if (Config.debugMode) printIR("a_global.ll");
         CFGSimplifier.visit(ir);
 //        if (Config.debugMode) printIR("a_cfg.ll");
         SSAtransform();
