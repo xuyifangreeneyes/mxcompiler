@@ -55,6 +55,7 @@ public class FunctionSymbol extends ScopedSymbol implements Type {
 
     public String getName() {
         // need fixing
+        // Symbols contain not only parameters but also local variables.
         return name + "(" + stripBrackets(symbols.keySet().toString())+ ")";
     }
 

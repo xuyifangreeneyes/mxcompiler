@@ -9,7 +9,7 @@ public class FunctionDecl extends Decl {
     public final FunctionSymbol func;
     public final TypeNode retType;
     public final List<VariableDecl> paramList;
-    public final List<Stmt> stmts;
+    public List<Stmt> stmts;
 
     public FunctionDecl(FunctionSymbol func, TypeNode retType, List<VariableDecl> paramList,
                         List<Stmt> stmts, Scope parent) {

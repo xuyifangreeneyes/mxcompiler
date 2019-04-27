@@ -6,83 +6,182 @@ import mxcc.symbol.GlobalSymbolTable;
 import mxcc.symbol.Scope;
 import mxcc.symbol.VariableSymbol;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-//public class IrrelevantLoopDeletor extends AstBaseVisitor {
-//    private Map<Stmt, Set<VariableSymbol>> loopMap;
-//    private Set<Stmt> necessaryLoops;
-//    private Set<Stmt> curLoops;
-//    private Stmt curLoop;
-//
-//
-//    private boolean isLocal(VariableSymbol var) {
-//        Scope scope = var.def.scope;
-//        return !(scope instanceof GlobalSymbolTable) && !(scope instanceof ClassSymbol);
-//    }
-//
-//    public void visit(Program node) {
+public class IrrelevantLoopDeletor extends AstBaseVisitor {
+    private Map<Stmt, Set<VariableSymbol>> loopMap;
+    private Set<Stmt> neededLoops;
+    private Set<Stmt> curLoops;
+
+
+    public IrrelevantLoopDeletor() {
+
+    }
+
+    private boolean isLocal(VariableSymbol var) {
+        Scope scope = var.def.scope;
+        return !(scope instanceof GlobalSymbolTable) && !(scope instanceof ClassSymbol);
+    }
+
+    public void visit(Program node) {
+        for (Decl decl : node.decls) {
+            if (decl instanceof ClassDecl) return;
+        }
+        // For now I only consider the case where there is no class.
+        for (Decl decl : node.decls) {
+            if (decl instanceof VariableDecl) {
+                continue;
+            }
+            visit(decl);
+        }
+    }
+
+    public void visit(FunctionDecl node) {
+        loopMap = new HashMap<>();
+        neededLoops = new HashSet<>();
+        curLoops = new HashSet<>();
+
+        node.paramList.forEach(this::visit);
+        node.stmts.forEach(this::visit);
+
+        LoopDeletor deletor = new LoopDeletor(node, neededLoops);
+        deletor.work();
+    }
+
+    public void visit(ClassDecl node) {
 //        for (Decl decl : node.decls) {
 //            if (decl instanceof VariableDecl) {
 //                continue;
 //            }
 //            visit(decl);
 //        }
-//    }
-//
-//    public void visit(FunctionDecl node) {
-//        LoopCollector collector = new LoopCollector();
-//        Set<Stmt> loops = collector.work(node);
-//        loopMap = new HashMap<>();
-//        for (Stmt loop : loops) {
-//            loopMap.put(loop, new HashSet<>());
-//        }
-//        necessaryLoops = new HashSet<>();
-//        curLoops = new HashSet<>();
-//
-//        node.stmts.forEach(this::visit);
-//
-//
-//    }
-//
-//    public void visit(ClassDecl node) {
-//        for (Decl decl : node.decls) {
-//            if (decl instanceof VariableDecl) {
-//                continue;
-//            }
-//            visit(decl);
-//        }
-//    }
-//
-//    public void visit(VariableDecl node) {
-//
-//    }
-//
-//    public void visit(BlockStmt node) {}
-//    public void visit(VariableDeclStmt node) {}
-//    public void visit(IfStmt node) {}
-//    public void visit(ForStmt node) {}
-//    public void visit(WhileStmt node) {}
-//    public void visit(ReturnStmt node) {}
-//    public void visit(BreakStmt node) {}
-//    public void visit(ContinueStmt node) {}
-//    public void visit(EmptyStmt node) {}
-//
-//    public void visit(BinaryExpr node) {}
-//    public void visit(UnaryExpr node) {}
-//    public void visit(FunctionCall node) {}
-//    public void visit(ArrayAccess node) {}
-//    public void visit(MemberAccess node) {}
-//    public void visit(NewExpr node) {}
-//    public void visit(IdentifierExpr node) {}
-//
-//    public void visit(IntConst node) {}
-//    public void visit(BoolConst node) {}
-//    public void visit(StringConst node) {}
-//    public void visit(NullLiteral node) {}
-//
+    }
+
+    private void takeVar(VariableSymbol var) {
+        if (!isLocal(var)) {
+            neededLoops.addAll(curLoops);
+            return;
+        }
+        for (Stmt loop : loopMap.keySet()) {
+            if (curLoops.contains(loop)) {
+                loopMap.get(loop).add(var);
+            } else {
+                if (loopMap.get(loop).contains(var)) {
+                    neededLoops.add(loop);
+                }
+            }
+        }
+    }
+
+    public void visit(VariableDecl node) {
+        takeVar(node.var);
+        visit(node.init);
+    }
+
+    public void visit(BlockStmt node) {
+        node.stmts.forEach(this::visit);
+    }
+
+    public void visit(VariableDeclStmt node) {
+        visit(node.decl);
+    }
+
+    public void visit(IfStmt node) {
+        visit(node.cond);
+        visit(node.then);
+        if (node.otherwise != null) {
+            visit(node.otherwise);
+        }
+    }
+
+    public void visit(ForStmt node) {
+        loopMap.put(node, new HashSet<>());
+        curLoops.add(node);
+        visit(node.init);
+        visit(node.cond);
+        visit(node.step);
+        visit(node.body);
+        curLoops.remove(node);
+    }
+
+    public void visit(WhileStmt node) {
+        loopMap.put(node, new HashSet<>());
+        curLoops.add(node);
+        visit(node.cond);
+        visit(node.body);
+        curLoops.remove(node);
+    }
+
+    public void visit(ReturnStmt node) {
+        neededLoops.addAll(curLoops);
+    }
+
+    public void visit(BreakStmt node) {
+
+    }
+
+    public void visit(ContinueStmt node) {
+
+    }
+
+    public void visit(EmptyStmt node) {
+
+    }
+
+    public void visit(BinaryExpr node) {
+        visit(node.left);
+        visit(node.right);
+    }
+
+    public void visit(UnaryExpr node) {
+        visit(node.expr);
+    }
+
+    public void visit(FunctionCall node) {
+        neededLoops.addAll(curLoops);
+//        visit(node.caller);
+        for (Expr arg : node.args) {
+            visit(arg);
+        }
+    }
+
+    public void visit(ArrayAccess node) {
+        visit(node.container);
+        visit(node.subscript);
+    }
+
+    public void visit(MemberAccess node) {
+        assert false;
+    }
+
+    public void visit(NewExpr node) {
+        neededLoops.addAll(curLoops);
+        for (Expr dimArg : node.dimArgs) {
+            visit(dimArg);
+        }
+    }
+
+    public void visit(IdentifierExpr node) {
+        assert node.var instanceof VariableSymbol;
+        takeVar((VariableSymbol) node.var);
+    }
+
+    public void visit(IntConst node) {
+
+    }
+
+    public void visit(BoolConst node) {
+
+    }
+
+    public void visit(StringConst node) {
+
+    }
+
+    public void visit(NullLiteral node) {
+
+    }
+
 //    private static class LoopCollector extends AstBaseVisitor {
 //        private Set<Stmt> loops = new HashSet<>();
 //
@@ -120,4 +219,59 @@ import java.util.Set;
 //
 //
 //    }
-//}
+
+
+    private static class LoopDeletor extends AstBaseVisitor {
+        private FunctionDecl func;
+        private Set<Stmt> neededLoops;
+
+        public LoopDeletor(FunctionDecl func, Set<Stmt> neededLoops) {
+            this.func = func;
+            this.neededLoops = neededLoops;
+        }
+
+        public void work() {
+            visit(func);
+        }
+
+        private boolean isLoop(Stmt stmt) {
+            return stmt instanceof ForStmt || stmt instanceof WhileStmt;
+        }
+
+        private List<Stmt> deleteLoop(List<Stmt> stmts) {
+            List<Stmt> newStmts = new ArrayList<>();
+            for (Stmt stmt : stmts) {
+                if (isLoop(stmt) && !neededLoops.contains(stmt)) {
+                    continue;
+                }
+                visit(stmt);
+                newStmts.add(stmt);
+            }
+            return newStmts;
+        }
+
+        public void visit(FunctionDecl node) {
+            node.stmts = deleteLoop(node.stmts);
+        }
+
+        public void visit(BlockStmt node) {
+            node.stmts = deleteLoop(node.stmts);
+        }
+
+        public void visit(IfStmt node) {
+            visit(node.then);
+            if (node.otherwise != null) {
+                visit(node.otherwise);
+            }
+        }
+
+        public void visit(ForStmt node) {
+            visit(node.body);
+        }
+
+        public void visit(WhileStmt node) {
+            visit(node.body);
+        }
+
+    }
+}

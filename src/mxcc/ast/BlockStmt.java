@@ -5,7 +5,7 @@ import mxcc.symbol.Scope;
 import java.util.List;
 
 public class BlockStmt extends Stmt {
-    public final List<Stmt> stmts;
+    public List<Stmt> stmts;
 
     public BlockStmt(List<Stmt> stmts, Scope scope) {
         super(scope);

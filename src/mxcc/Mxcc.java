@@ -6,10 +6,7 @@ import mxcc.backend.InstructionSelector;
 import mxcc.backend.RegisterAllocator;
 import mxcc.backend.StackBuilder;
 import mxcc.backend.Translator;
-import mxcc.frontend.AstBuilder;
-import mxcc.frontend.IRBuilder;
-import mxcc.frontend.SemanticChecker;
-import mxcc.frontend.TypeResolver;
+import mxcc.frontend.*;
 import mxcc.ir.IRPrinter;
 import mxcc.ir.Module;
 import mxcc.nasm.Nasm;
@@ -66,6 +63,11 @@ public class Mxcc {
         resolver.visit(ast);
         SemanticChecker checker = new SemanticChecker();
         checker.visit(ast);
+    }
+
+    private void deleteIrrelevantLoop() {
+        IrrelevantLoopDeletor deletor = new IrrelevantLoopDeletor();
+        deletor.visit(ast);
     }
 
     private void buildIR() {
@@ -174,6 +176,7 @@ public class Mxcc {
         buildAST();
         if (Config.debugMode) printAST();
         sematicCheck();
+        deleteIrrelevantLoop();
         buildIR();
         if (Config.debugMode) printIR("a.ll");
         optim();

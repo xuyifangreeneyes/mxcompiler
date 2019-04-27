@@ -1,3 +1,41 @@
+@N
+
+@head
+
+@startx
+
+@starty
+
+@targetx
+
+@targety
+
+@x
+
+@y
+
+@xlist
+
+@ylist
+
+@tail
+
+@ok
+
+@now
+
+@dx
+
+@dy
+
+@step
+
+@i
+
+@j
+
+$str_0 "no solution!\n"
+
 define print
 
 define println
@@ -34,563 +72,484 @@ define _stringGe
 
 define _globalInit ( ) {
 <0> entry
+	%memberLength_1 = mul 12000 8
+	%arrayLength_2 = add %memberLength_1 8
+	%arrayPtr_0 = malloc %arrayLength_2
+	store 12000 %arrayPtr_0
+	store %arrayPtr_0 @xlist
+	%memberLength_4 = mul 12000 8
+	%arrayLength_5 = add %memberLength_4 8
+	%arrayPtr_3 = malloc %arrayLength_5
+	store 12000 %arrayPtr_3
+	store %arrayPtr_3 @ylist
+	%memberLength_7 = mul 8 8
+	%arrayLength_8 = add %memberLength_7 8
+	%arrayPtr_6 = malloc %arrayLength_8
+	store 8 %arrayPtr_6
+	store %arrayPtr_6 @dx
+	%memberLength_10 = mul 9 8
+	%arrayLength_11 = add %memberLength_10 8
+	%arrayPtr_9 = malloc %arrayLength_11
+	store 9 %arrayPtr_9
+	store %arrayPtr_9 @dy
 	ret 
 
 }
 
-define main ( ) {
+define origin ( %argVal_0 ) {
 <0> entry
-	%boolValAddr_142 = alloca 8
-	%varAddr_141 = alloca 8
-	%boolValAddr_120 = alloca 8
-	%varAddr_119 = alloca 8
-	%boolValAddr_98 = alloca 8
-	%varAddr_97 = alloca 8
-	%boolValAddr_76 = alloca 8
-	%varAddr_75 = alloca 8
-	%boolValAddr_54 = alloca 8
-	%varAddr_53 = alloca 8
-	%boolValAddr_32 = alloca 8
-	%varAddr_31 = alloca 8
-	%varAddr_9 = alloca 8
-	%varAddr_7 = alloca 8
-	%varAddr_6 = alloca 8
-	%varAddr_5 = alloca 8
-	%varAddr_4 = alloca 8
-	%varAddr_3 = alloca 8
-	%varAddr_2 = alloca 8
-	%varAddr_1 = alloca 8
-	%varAddr_0 = alloca 8
-	%res_8 = getInt ( )
-	store %res_8 %varAddr_7
-	store 0 %varAddr_9
-	store 0 %varAddr_0
+	%argAddr_1 = alloca 8
+	store %argVal_0 %argAddr_1
+	store 0 @head
+	store 0 @tail
+	%idVal_2 = load %argAddr_1
+	%memberLength_4 = mul %idVal_2 8
+	%arrayLength_5 = add %memberLength_4 8
+	%arrayPtr_3 = malloc %arrayLength_5
+	store %idVal_2 %arrayPtr_3
+	store %arrayPtr_3 @step
+	store 0 @i
 	br <1>
 
 <1> for_cond
-	%idVal_10 = load %varAddr_0
-	%idVal_11 = load %varAddr_7
-	%res_12 = lt %idVal_10 %idVal_11
-	br %res_12 <2> <4>
+	%idVal_6 = load @i
+	%idVal_7 = load %argAddr_1
+	%res_8 = lt %idVal_6 %idVal_7
+	br %res_8 <2> <4>
 
 <2> for_body
-	store 0 %varAddr_1
+	%idVal_9 = load %argAddr_1
+	%memberLength_11 = mul %idVal_9 8
+	%arrayLength_12 = add %memberLength_11 8
+	%arrayPtr_10 = malloc %arrayLength_12
+	store %idVal_9 %arrayPtr_10
+	%arrayPtr_13 = load @step
+	%arrayBase_14 = add %arrayPtr_13 8
+	%idVal_15 = load @i
+	%offset_16 = mul %idVal_15 8
+	%elementAddr_17 = add %arrayBase_14 %offset_16
+	store %arrayPtr_10 %elementAddr_17
+	store 0 @j
 	br <5>
 
 <5> for_cond
-	%idVal_13 = load %varAddr_1
-	%idVal_14 = load %varAddr_7
-	%res_15 = lt %idVal_13 %idVal_14
-	br %res_15 <6> <8>
+	%idVal_18 = load @j
+	%idVal_19 = load %argAddr_1
+	%res_20 = lt %idVal_18 %idVal_19
+	br %res_20 <6> <8>
 
 <6> for_body
-	store 0 %varAddr_2
-	br <9>
-
-<9> for_cond
-	%idVal_16 = load %varAddr_2
-	%idVal_17 = load %varAddr_7
-	%res_18 = lt %idVal_16 %idVal_17
-	br %res_18 <10> <12>
-
-<10> for_body
-	store 0 %varAddr_3
-	br <13>
-
-<13> for_cond
-	%idVal_19 = load %varAddr_3
-	%idVal_20 = load %varAddr_7
-	%res_21 = lt %idVal_19 %idVal_20
-	br %res_21 <14> <16>
-
-<14> for_body
-	store 0 %varAddr_4
-	br <17>
-
-<17> for_cond
-	%idVal_22 = load %varAddr_4
-	%idVal_23 = load %varAddr_7
-	%res_24 = lt %idVal_22 %idVal_23
-	br %res_24 <18> <20>
-
-<18> for_body
-	store 0 %varAddr_5
-	br <21>
-
-<21> for_cond
-	%idVal_25 = load %varAddr_5
-	%idVal_26 = load %varAddr_7
-	%res_27 = lt %idVal_25 %idVal_26
-	br %res_27 <22> <24>
-
-<22> for_body
-	store 0 %varAddr_6
-	br <25>
-
-<25> for_cond
-	%idVal_28 = load %varAddr_6
-	%idVal_29 = load %varAddr_7
-	%res_30 = lt %idVal_28 %idVal_29
-	br %res_30 <26> <28>
-
-<26> for_body
-	%idVal_33 = load %varAddr_0
-	%idVal_34 = load %varAddr_1
-	%res_35 = eq %idVal_33 %idVal_34
-	br %res_35 <35> <34>
-
-<35> lhs_true
-	%idVal_36 = load %varAddr_2
-	%res_37 = gt %idVal_36 0
-	br %res_37 <29> <34>
-
-<34> lhs_false
-	%idVal_38 = load %varAddr_3
-	%idVal_39 = load %varAddr_4
-	%res_40 = eq %idVal_38 %idVal_39
-	br %res_40 <37> <33>
-
-<37> lhs_true
-	%idVal_41 = load %varAddr_5
-	%res_42 = gt %idVal_41 0
-	br %res_42 <36> <33>
-
-<36> lhs_true
-	%idVal_43 = load %varAddr_6
-	%res_44 = gt %idVal_43 0
-	br %res_44 <29> <33>
-
-<33> lhs_false
-	%idVal_45 = load %varAddr_0
-	%idVal_46 = load %varAddr_6
-	%res_47 = eq %idVal_45 %idVal_46
-	br %res_47 <29> <32>
-
-<32> lhs_false
-	%idVal_48 = load %varAddr_3
-	%res_49 = gt %idVal_48 0
-	br %res_49 <38> <30>
-
-<38> lhs_true
-	%idVal_50 = load %varAddr_5
-	%res_51 = gt %idVal_50 0
-	br %res_51 <29> <30>
-
-<29> bool_true
-	store 1 %boolValAddr_32
-	br <31>
-
-<30> bool_false
-	store 0 %boolValAddr_32
-	br <31>
-
-<31> bool_merge
-	%boolVal_52 = load %boolValAddr_32
-	store %boolVal_52 %varAddr_31
-	%idVal_55 = load %varAddr_0
-	%idVal_56 = load %varAddr_1
-	%res_57 = eq %idVal_55 %idVal_56
-	br %res_57 <45> <44>
-
-<45> lhs_true
-	%idVal_58 = load %varAddr_2
-	%res_59 = gt %idVal_58 0
-	br %res_59 <39> <44>
-
-<44> lhs_false
-	%idVal_60 = load %varAddr_3
-	%idVal_61 = load %varAddr_4
-	%res_62 = eq %idVal_60 %idVal_61
-	br %res_62 <47> <43>
-
-<47> lhs_true
-	%idVal_63 = load %varAddr_5
-	%res_64 = gt %idVal_63 0
-	br %res_64 <46> <43>
-
-<46> lhs_true
-	%idVal_65 = load %varAddr_6
-	%res_66 = gt %idVal_65 0
-	br %res_66 <39> <43>
-
-<43> lhs_false
-	%idVal_67 = load %varAddr_0
-	%idVal_68 = load %varAddr_6
-	%res_69 = eq %idVal_67 %idVal_68
-	br %res_69 <39> <42>
-
-<42> lhs_false
-	%idVal_70 = load %varAddr_3
-	%res_71 = gt %idVal_70 0
-	br %res_71 <48> <40>
-
-<48> lhs_true
-	%idVal_72 = load %varAddr_5
-	%res_73 = gt %idVal_72 0
-	br %res_73 <39> <40>
-
-<39> bool_true
-	store 1 %boolValAddr_54
-	br <41>
-
-<40> bool_false
-	store 0 %boolValAddr_54
-	br <41>
-
-<41> bool_merge
-	%boolVal_74 = load %boolValAddr_54
-	store %boolVal_74 %varAddr_53
-	%idVal_77 = load %varAddr_0
-	%idVal_78 = load %varAddr_1
-	%res_79 = eq %idVal_77 %idVal_78
-	br %res_79 <55> <54>
-
-<55> lhs_true
-	%idVal_80 = load %varAddr_2
-	%res_81 = gt %idVal_80 0
-	br %res_81 <49> <54>
-
-<54> lhs_false
-	%idVal_82 = load %varAddr_3
-	%idVal_83 = load %varAddr_4
-	%res_84 = eq %idVal_82 %idVal_83
-	br %res_84 <57> <53>
-
-<57> lhs_true
-	%idVal_85 = load %varAddr_5
-	%res_86 = gt %idVal_85 0
-	br %res_86 <56> <53>
-
-<56> lhs_true
-	%idVal_87 = load %varAddr_6
-	%res_88 = gt %idVal_87 0
-	br %res_88 <49> <53>
-
-<53> lhs_false
-	%idVal_89 = load %varAddr_0
-	%idVal_90 = load %varAddr_6
-	%res_91 = eq %idVal_89 %idVal_90
-	br %res_91 <49> <52>
-
-<52> lhs_false
-	%idVal_92 = load %varAddr_3
-	%res_93 = gt %idVal_92 0
-	br %res_93 <58> <50>
-
-<58> lhs_true
-	%idVal_94 = load %varAddr_5
-	%res_95 = gt %idVal_94 0
-	br %res_95 <49> <50>
-
-<49> bool_true
-	store 1 %boolValAddr_76
-	br <51>
-
-<50> bool_false
-	store 0 %boolValAddr_76
-	br <51>
-
-<51> bool_merge
-	%boolVal_96 = load %boolValAddr_76
-	store %boolVal_96 %varAddr_75
-	%idVal_99 = load %varAddr_0
-	%idVal_100 = load %varAddr_1
-	%res_101 = eq %idVal_99 %idVal_100
-	br %res_101 <65> <64>
-
-<65> lhs_true
-	%idVal_102 = load %varAddr_2
-	%res_103 = gt %idVal_102 0
-	br %res_103 <59> <64>
-
-<64> lhs_false
-	%idVal_104 = load %varAddr_3
-	%idVal_105 = load %varAddr_4
-	%res_106 = eq %idVal_104 %idVal_105
-	br %res_106 <67> <63>
-
-<67> lhs_true
-	%idVal_107 = load %varAddr_5
-	%res_108 = gt %idVal_107 0
-	br %res_108 <66> <63>
-
-<66> lhs_true
-	%idVal_109 = load %varAddr_6
-	%res_110 = gt %idVal_109 0
-	br %res_110 <59> <63>
-
-<63> lhs_false
-	%idVal_111 = load %varAddr_0
-	%idVal_112 = load %varAddr_6
-	%res_113 = eq %idVal_111 %idVal_112
-	br %res_113 <59> <62>
-
-<62> lhs_false
-	%idVal_114 = load %varAddr_3
-	%res_115 = gt %idVal_114 0
-	br %res_115 <68> <60>
-
-<68> lhs_true
-	%idVal_116 = load %varAddr_5
-	%res_117 = gt %idVal_116 0
-	br %res_117 <59> <60>
-
-<59> bool_true
-	store 1 %boolValAddr_98
-	br <61>
-
-<60> bool_false
-	store 0 %boolValAddr_98
-	br <61>
-
-<61> bool_merge
-	%boolVal_118 = load %boolValAddr_98
-	store %boolVal_118 %varAddr_97
-	%idVal_121 = load %varAddr_0
-	%idVal_122 = load %varAddr_1
-	%res_123 = eq %idVal_121 %idVal_122
-	br %res_123 <75> <74>
-
-<75> lhs_true
-	%idVal_124 = load %varAddr_2
-	%res_125 = gt %idVal_124 0
-	br %res_125 <69> <74>
-
-<74> lhs_false
-	%idVal_126 = load %varAddr_3
-	%idVal_127 = load %varAddr_4
-	%res_128 = eq %idVal_126 %idVal_127
-	br %res_128 <77> <73>
-
-<77> lhs_true
-	%idVal_129 = load %varAddr_5
-	%res_130 = gt %idVal_129 0
-	br %res_130 <76> <73>
-
-<76> lhs_true
-	%idVal_131 = load %varAddr_6
-	%res_132 = gt %idVal_131 0
-	br %res_132 <69> <73>
-
-<73> lhs_false
-	%idVal_133 = load %varAddr_0
-	%idVal_134 = load %varAddr_6
-	%res_135 = eq %idVal_133 %idVal_134
-	br %res_135 <69> <72>
-
-<72> lhs_false
-	%idVal_136 = load %varAddr_3
-	%res_137 = gt %idVal_136 0
-	br %res_137 <78> <70>
-
-<78> lhs_true
-	%idVal_138 = load %varAddr_5
-	%res_139 = gt %idVal_138 0
-	br %res_139 <69> <70>
-
-<69> bool_true
-	store 1 %boolValAddr_120
-	br <71>
-
-<70> bool_false
-	store 0 %boolValAddr_120
-	br <71>
-
-<71> bool_merge
-	%boolVal_140 = load %boolValAddr_120
-	store %boolVal_140 %varAddr_119
-	%idVal_143 = load %varAddr_0
-	%idVal_144 = load %varAddr_1
-	%res_145 = eq %idVal_143 %idVal_144
-	br %res_145 <85> <84>
-
-<85> lhs_true
-	%idVal_146 = load %varAddr_2
-	%res_147 = gt %idVal_146 0
-	br %res_147 <79> <84>
-
-<84> lhs_false
-	%idVal_148 = load %varAddr_3
-	%idVal_149 = load %varAddr_4
-	%res_150 = eq %idVal_148 %idVal_149
-	br %res_150 <87> <83>
-
-<87> lhs_true
-	%idVal_151 = load %varAddr_5
-	%res_152 = gt %idVal_151 0
-	br %res_152 <86> <83>
-
-<86> lhs_true
-	%idVal_153 = load %varAddr_6
-	%res_154 = gt %idVal_153 0
-	br %res_154 <79> <83>
-
-<83> lhs_false
-	%idVal_155 = load %varAddr_0
-	%idVal_156 = load %varAddr_6
-	%res_157 = eq %idVal_155 %idVal_156
-	br %res_157 <79> <82>
-
-<82> lhs_false
-	%idVal_158 = load %varAddr_3
-	%res_159 = gt %idVal_158 0
-	br %res_159 <88> <80>
-
-<88> lhs_true
-	%idVal_160 = load %varAddr_5
-	%res_161 = gt %idVal_160 0
-	br %res_161 <79> <80>
-
-<79> bool_true
-	store 1 %boolValAddr_142
-	br <81>
-
-<80> bool_false
-	store 0 %boolValAddr_142
-	br <81>
-
-<81> bool_merge
-	%boolVal_162 = load %boolValAddr_142
-	store %boolVal_162 %varAddr_141
-	%idVal_163 = load %varAddr_31
-	br %idVal_163 <89> <90>
-
-<89> if_true
-	%idVal_164 = load %varAddr_9
-	%oldVal_165 = load %varAddr_9
-	%newVal_166 = inc %oldVal_165
-	store %newVal_166 %varAddr_9
-	br <90>
-
-<90> if_merge
-	%idVal_167 = load %varAddr_53
-	br %idVal_167 <91> <92>
-
-<91> if_true
-	%idVal_168 = load %varAddr_9
-	%oldVal_169 = load %varAddr_9
-	%newVal_170 = inc %oldVal_169
-	store %newVal_170 %varAddr_9
-	br <92>
-
-<92> if_merge
-	%idVal_171 = load %varAddr_75
-	br %idVal_171 <93> <94>
-
-<93> if_true
-	%idVal_172 = load %varAddr_9
-	%oldVal_173 = load %varAddr_9
-	%newVal_174 = inc %oldVal_173
-	store %newVal_174 %varAddr_9
-	br <94>
-
-<94> if_merge
-	%idVal_175 = load %varAddr_97
-	br %idVal_175 <95> <96>
-
-<95> if_true
-	%idVal_176 = load %varAddr_9
-	%oldVal_177 = load %varAddr_9
-	%newVal_178 = inc %oldVal_177
-	store %newVal_178 %varAddr_9
-	br <96>
-
-<96> if_merge
-	%idVal_179 = load %varAddr_119
-	br %idVal_179 <97> <98>
-
-<97> if_true
-	%idVal_180 = load %varAddr_9
-	%oldVal_181 = load %varAddr_9
-	%newVal_182 = inc %oldVal_181
-	store %newVal_182 %varAddr_9
-	br <98>
-
-<98> if_merge
-	%idVal_183 = load %varAddr_141
-	br %idVal_183 <99> <100>
-
-<99> if_true
-	%idVal_184 = load %varAddr_9
-	%oldVal_185 = load %varAddr_9
-	%newVal_186 = inc %oldVal_185
-	store %newVal_186 %varAddr_9
-	br <100>
-
-<100> if_merge
-	br <27>
-
-<27> for_step
-	%idVal_187 = load %varAddr_6
-	%oldVal_188 = load %varAddr_6
-	%newVal_189 = inc %oldVal_188
-	store %newVal_189 %varAddr_6
-	br <25>
-
-<28> for_end
-	br <23>
-
-<23> for_step
-	%idVal_190 = load %varAddr_5
-	%oldVal_191 = load %varAddr_5
-	%newVal_192 = inc %oldVal_191
-	store %newVal_192 %varAddr_5
-	br <21>
-
-<24> for_end
-	br <19>
-
-<19> for_step
-	%idVal_193 = load %varAddr_4
-	%oldVal_194 = load %varAddr_4
-	%newVal_195 = inc %oldVal_194
-	store %newVal_195 %varAddr_4
-	br <17>
-
-<20> for_end
-	br <15>
-
-<15> for_step
-	%idVal_196 = load %varAddr_3
-	%oldVal_197 = load %varAddr_3
-	%newVal_198 = inc %oldVal_197
-	store %newVal_198 %varAddr_3
-	br <13>
-
-<16> for_end
-	br <11>
-
-<11> for_step
-	%idVal_199 = load %varAddr_2
-	%oldVal_200 = load %varAddr_2
-	%newVal_201 = inc %oldVal_200
-	store %newVal_201 %varAddr_2
-	br <9>
-
-<12> for_end
+	%arrayPtr_21 = load @step
+	%arrayBase_22 = add %arrayPtr_21 8
+	%idVal_23 = load @i
+	%offset_24 = mul %idVal_23 8
+	%elementAddr_25 = add %arrayBase_22 %offset_24
+	%arrayPtr_26 = load %elementAddr_25
+	%arrayBase_27 = add %arrayPtr_26 8
+	%idVal_28 = load @j
+	%offset_29 = mul %idVal_28 8
+	%elementAddr_30 = add %arrayBase_27 %offset_29
+	store 0 %elementAddr_30
 	br <7>
 
 <7> for_step
-	%idVal_202 = load %varAddr_1
-	%oldVal_203 = load %varAddr_1
-	%newVal_204 = inc %oldVal_203
-	store %newVal_204 %varAddr_1
+	%idVal_31 = load @j
+	%oldVal_32 = load @j
+	%newVal_33 = inc %oldVal_32
+	store %newVal_33 @j
 	br <5>
 
 <8> for_end
 	br <3>
 
 <3> for_step
-	%idVal_205 = load %varAddr_0
-	%oldVal_206 = load %varAddr_0
-	%newVal_207 = inc %oldVal_206
-	store %newVal_207 %varAddr_0
+	%idVal_34 = load @i
+	%oldVal_35 = load @i
+	%newVal_36 = inc %oldVal_35
+	store %newVal_36 @i
 	br <1>
 
 <4> for_end
-	%idVal_209 = load %varAddr_9
-	%res_208 = toString ( %idVal_209 )
-	print ( %res_208 )
+	ret 
+
+}
+
+define check ( %argVal_0 ) {
+<0> entry
+	%boolValAddr_2 = alloca 8
+	%argAddr_1 = alloca 8
+	store %argVal_0 %argAddr_1
+	%idVal_3 = load %argAddr_1
+	%idVal_4 = load @N
+	%res_5 = lt %idVal_3 %idVal_4
+	br %res_5 <4> <2>
+
+<4> lhs_true
+	%idVal_6 = load %argAddr_1
+	%res_7 = ge %idVal_6 0
+	br %res_7 <1> <2>
+
+<1> bool_true
+	store 1 %boolValAddr_2
+	br <3>
+
+<2> bool_false
+	store 0 %boolValAddr_2
+	br <3>
+
+<3> bool_merge
+	%boolVal_8 = load %boolValAddr_2
+	ret %boolVal_8
+
+}
+
+define addList ( %argVal_0 %argVal_2 ) {
+<0> entry
+	%argAddr_3 = alloca 8
+	%argAddr_1 = alloca 8
+	store %argVal_0 %argAddr_1
+	store %argVal_2 %argAddr_3
+	%idVal_5 = load %argAddr_1
+	%res_4 = check ( %idVal_5 )
+	br %res_4 <4> <2>
+
+<4> lhs_true
+	%idVal_7 = load %argAddr_3
+	%res_6 = check ( %idVal_7 )
+	br %res_6 <3> <2>
+
+<3> lhs_true
+	%arrayPtr_8 = load @step
+	%arrayBase_9 = add %arrayPtr_8 8
+	%idVal_10 = load %argAddr_1
+	%offset_11 = mul %idVal_10 8
+	%elementAddr_12 = add %arrayBase_9 %offset_11
+	%arrayPtr_13 = load %elementAddr_12
+	%arrayBase_14 = add %arrayPtr_13 8
+	%idVal_15 = load %argAddr_3
+	%offset_16 = mul %idVal_15 8
+	%elementAddr_17 = add %arrayBase_14 %offset_16
+	%elementVal_18 = load %elementAddr_17
+	%res_19 = neg 1
+	%res_20 = eq %elementVal_18 %res_19
+	br %res_20 <1> <2>
+
+<1> if_true
+	%idVal_21 = load @tail
+	%oldVal_22 = load @tail
+	%newVal_23 = inc %oldVal_22
+	store %newVal_23 @tail
+	%idVal_24 = load %argAddr_1
+	%arrayPtr_25 = load @xlist
+	%arrayBase_26 = add %arrayPtr_25 8
+	%idVal_27 = load @tail
+	%offset_28 = mul %idVal_27 8
+	%elementAddr_29 = add %arrayBase_26 %offset_28
+	store %idVal_24 %elementAddr_29
+	%idVal_30 = load %argAddr_3
+	%arrayPtr_31 = load @ylist
+	%arrayBase_32 = add %arrayPtr_31 8
+	%idVal_33 = load @tail
+	%offset_34 = mul %idVal_33 8
+	%elementAddr_35 = add %arrayBase_32 %offset_34
+	store %idVal_30 %elementAddr_35
+	%idVal_36 = load @now
+	%res_37 = add %idVal_36 1
+	%arrayPtr_38 = load @step
+	%arrayBase_39 = add %arrayPtr_38 8
+	%idVal_40 = load %argAddr_1
+	%offset_41 = mul %idVal_40 8
+	%elementAddr_42 = add %arrayBase_39 %offset_41
+	%arrayPtr_43 = load %elementAddr_42
+	%arrayBase_44 = add %arrayPtr_43 8
+	%idVal_45 = load %argAddr_3
+	%offset_46 = mul %idVal_45 8
+	%elementAddr_47 = add %arrayBase_44 %offset_46
+	store %res_37 %elementAddr_47
+	%idVal_48 = load %argAddr_1
+	%idVal_49 = load @targetx
+	%res_50 = eq %idVal_48 %idVal_49
+	br %res_50 <7> <6>
+
+<7> lhs_true
+	%idVal_51 = load %argAddr_3
+	%idVal_52 = load @targety
+	%res_53 = eq %idVal_51 %idVal_52
+	br %res_53 <5> <6>
+
+<5> if_true
+	store 1 @ok
+	br <6>
+
+<6> if_merge
+	br <2>
+
+<2> if_merge
+	ret 
+
+}
+
+define main ( ) {
+<0> entry
+	origin ( 106 )
+	%res_0 = getInt ( )
+	store %res_0 @N
+	%idVal_1 = load @N
+	%res_2 = sub %idVal_1 1
+	store %res_2 @targety
+	%idVal_3 = load @targety
+	store %idVal_3 @targetx
+	store 0 @i
+	br <1>
+
+<1> for_cond
+	%idVal_4 = load @i
+	%idVal_5 = load @N
+	%res_6 = lt %idVal_4 %idVal_5
+	br %res_6 <2> <4>
+
+<2> for_body
+	store 0 @j
+	br <5>
+
+<5> for_cond
+	%idVal_7 = load @j
+	%idVal_8 = load @N
+	%res_9 = lt %idVal_7 %idVal_8
+	br %res_9 <6> <8>
+
+<6> for_body
+	%res_10 = neg 1
+	%arrayPtr_11 = load @step
+	%arrayBase_12 = add %arrayPtr_11 8
+	%idVal_13 = load @i
+	%offset_14 = mul %idVal_13 8
+	%elementAddr_15 = add %arrayBase_12 %offset_14
+	%arrayPtr_16 = load %elementAddr_15
+	%arrayBase_17 = add %arrayPtr_16 8
+	%idVal_18 = load @j
+	%offset_19 = mul %idVal_18 8
+	%elementAddr_20 = add %arrayBase_17 %offset_19
+	store %res_10 %elementAddr_20
+	br <7>
+
+<7> for_step
+	%idVal_21 = load @j
+	%oldVal_22 = load @j
+	%newVal_23 = inc %oldVal_22
+	store %newVal_23 @j
+	br <5>
+
+<8> for_end
+	br <3>
+
+<3> for_step
+	%idVal_24 = load @i
+	%oldVal_25 = load @i
+	%newVal_26 = inc %oldVal_25
+	store %newVal_26 @i
+	br <1>
+
+<4> for_end
+	%res_27 = neg 2
+	%arrayPtr_28 = load @dx
+	%arrayBase_29 = add %arrayPtr_28 8
+	%offset_30 = mul 0 8
+	%elementAddr_31 = add %arrayBase_29 %offset_30
+	store %res_27 %elementAddr_31
+	%res_32 = neg 1
+	%arrayPtr_33 = load @dy
+	%arrayBase_34 = add %arrayPtr_33 8
+	%offset_35 = mul 0 8
+	%elementAddr_36 = add %arrayBase_34 %offset_35
+	store %res_32 %elementAddr_36
+	%res_37 = neg 2
+	%arrayPtr_38 = load @dx
+	%arrayBase_39 = add %arrayPtr_38 8
+	%offset_40 = mul 1 8
+	%elementAddr_41 = add %arrayBase_39 %offset_40
+	store %res_37 %elementAddr_41
+	%arrayPtr_42 = load @dy
+	%arrayBase_43 = add %arrayPtr_42 8
+	%offset_44 = mul 1 8
+	%elementAddr_45 = add %arrayBase_43 %offset_44
+	store 1 %elementAddr_45
+	%arrayPtr_46 = load @dx
+	%arrayBase_47 = add %arrayPtr_46 8
+	%offset_48 = mul 2 8
+	%elementAddr_49 = add %arrayBase_47 %offset_48
+	store 2 %elementAddr_49
+	%res_50 = neg 1
+	%arrayPtr_51 = load @dy
+	%arrayBase_52 = add %arrayPtr_51 8
+	%offset_53 = mul 2 8
+	%elementAddr_54 = add %arrayBase_52 %offset_53
+	store %res_50 %elementAddr_54
+	%arrayPtr_55 = load @dx
+	%arrayBase_56 = add %arrayPtr_55 8
+	%offset_57 = mul 3 8
+	%elementAddr_58 = add %arrayBase_56 %offset_57
+	store 2 %elementAddr_58
+	%arrayPtr_59 = load @dy
+	%arrayBase_60 = add %arrayPtr_59 8
+	%offset_61 = mul 3 8
+	%elementAddr_62 = add %arrayBase_60 %offset_61
+	store 1 %elementAddr_62
+	%res_63 = neg 1
+	%arrayPtr_64 = load @dx
+	%arrayBase_65 = add %arrayPtr_64 8
+	%offset_66 = mul 4 8
+	%elementAddr_67 = add %arrayBase_65 %offset_66
+	store %res_63 %elementAddr_67
+	%res_68 = neg 2
+	%arrayPtr_69 = load @dy
+	%arrayBase_70 = add %arrayPtr_69 8
+	%offset_71 = mul 4 8
+	%elementAddr_72 = add %arrayBase_70 %offset_71
+	store %res_68 %elementAddr_72
+	%res_73 = neg 1
+	%arrayPtr_74 = load @dx
+	%arrayBase_75 = add %arrayPtr_74 8
+	%offset_76 = mul 5 8
+	%elementAddr_77 = add %arrayBase_75 %offset_76
+	store %res_73 %elementAddr_77
+	%arrayPtr_78 = load @dy
+	%arrayBase_79 = add %arrayPtr_78 8
+	%offset_80 = mul 5 8
+	%elementAddr_81 = add %arrayBase_79 %offset_80
+	store 2 %elementAddr_81
+	%arrayPtr_82 = load @dx
+	%arrayBase_83 = add %arrayPtr_82 8
+	%offset_84 = mul 6 8
+	%elementAddr_85 = add %arrayBase_83 %offset_84
+	store 1 %elementAddr_85
+	%res_86 = neg 2
+	%arrayPtr_87 = load @dy
+	%arrayBase_88 = add %arrayPtr_87 8
+	%offset_89 = mul 6 8
+	%elementAddr_90 = add %arrayBase_88 %offset_89
+	store %res_86 %elementAddr_90
+	%arrayPtr_91 = load @dx
+	%arrayBase_92 = add %arrayPtr_91 8
+	%offset_93 = mul 7 8
+	%elementAddr_94 = add %arrayBase_92 %offset_93
+	store 1 %elementAddr_94
+	%arrayPtr_95 = load @dy
+	%arrayBase_96 = add %arrayPtr_95 8
+	%offset_97 = mul 7 8
+	%elementAddr_98 = add %arrayBase_96 %offset_97
+	store 2 %elementAddr_98
+	br <9>
+
+<9> while_cond
+	%idVal_99 = load @head
+	%idVal_100 = load @tail
+	%res_101 = le %idVal_99 %idVal_100
+	br %res_101 <10> <11>
+
+<10> while_body
+	%arrayPtr_102 = load @xlist
+	%arrayBase_103 = add %arrayPtr_102 8
+	%idVal_104 = load @head
+	%offset_105 = mul %idVal_104 8
+	%elementAddr_106 = add %arrayBase_103 %offset_105
+	%elementVal_107 = load %elementAddr_106
+	store %elementVal_107 @x
+	%arrayPtr_108 = load @ylist
+	%arrayBase_109 = add %arrayPtr_108 8
+	%idVal_110 = load @head
+	%offset_111 = mul %idVal_110 8
+	%elementAddr_112 = add %arrayBase_109 %offset_111
+	%elementVal_113 = load %elementAddr_112
+	store %elementVal_113 @y
+	%arrayPtr_114 = load @step
+	%arrayBase_115 = add %arrayPtr_114 8
+	%idVal_116 = load @x
+	%offset_117 = mul %idVal_116 8
+	%elementAddr_118 = add %arrayBase_115 %offset_117
+	%arrayPtr_119 = load %elementAddr_118
+	%arrayBase_120 = add %arrayPtr_119 8
+	%idVal_121 = load @y
+	%offset_122 = mul %idVal_121 8
+	%elementAddr_123 = add %arrayBase_120 %offset_122
+	%elementVal_124 = load %elementAddr_123
+	store %elementVal_124 @now
+	store 0 @j
+	br <12>
+
+<12> for_cond
+	%idVal_125 = load @j
+	%res_126 = lt %idVal_125 8
+	br %res_126 <13> <15>
+
+<13> for_body
+	%idVal_127 = load @x
+	%arrayPtr_128 = load @dx
+	%arrayBase_129 = add %arrayPtr_128 8
+	%idVal_130 = load @j
+	%offset_131 = mul %idVal_130 8
+	%elementAddr_132 = add %arrayBase_129 %offset_131
+	%elementVal_133 = load %elementAddr_132
+	%res_134 = add %idVal_127 %elementVal_133
+	%idVal_135 = load @y
+	%arrayPtr_136 = load @dy
+	%arrayBase_137 = add %arrayPtr_136 8
+	%idVal_138 = load @j
+	%offset_139 = mul %idVal_138 8
+	%elementAddr_140 = add %arrayBase_137 %offset_139
+	%elementVal_141 = load %elementAddr_140
+	%res_142 = add %idVal_135 %elementVal_141
+	addList ( %res_134 %res_142 )
+	br <14>
+
+<14> for_step
+	%idVal_143 = load @j
+	%oldVal_144 = load @j
+	%newVal_145 = inc %oldVal_144
+	store %newVal_145 @j
+	br <12>
+
+<15> for_end
+	%idVal_146 = load @ok
+	%res_147 = eq %idVal_146 1
+	br %res_147 <16> <17>
+
+<16> if_true
+	br <11>
+
+<17> if_merge
+	%idVal_148 = load @head
+	%oldVal_149 = load @head
+	%newVal_150 = inc %oldVal_149
+	store %newVal_150 @head
+	br <9>
+
+<11> while_end
+	%idVal_151 = load @ok
+	%res_152 = eq %idVal_151 1
+	br %res_152 <18> <19>
+
+<18> if_true
+	%arrayPtr_154 = load @step
+	%arrayBase_155 = add %arrayPtr_154 8
+	%idVal_156 = load @targetx
+	%offset_157 = mul %idVal_156 8
+	%elementAddr_158 = add %arrayBase_155 %offset_157
+	%arrayPtr_159 = load %elementAddr_158
+	%arrayBase_160 = add %arrayPtr_159 8
+	%idVal_161 = load @targety
+	%offset_162 = mul %idVal_161 8
+	%elementAddr_163 = add %arrayBase_160 %offset_162
+	%elementVal_164 = load %elementAddr_163
+	%res_153 = toString ( %elementVal_164 )
+	println ( %res_153 )
+	br <20>
+
+<19> if_false
+	print ( $str_0 )
+	br <20>
+
+<20> if_merge
 	ret 0
 
 }
