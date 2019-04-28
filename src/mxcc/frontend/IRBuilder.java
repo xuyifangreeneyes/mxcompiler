@@ -546,7 +546,28 @@ public class IRBuilder extends AstBaseVisitor {
         }
     }
 
+    // print(A + B + C);  =>  print(A); print(B); print(C);
+    private void spiltPrint(Expr node, boolean newline) {
+        if (node instanceof BinaryExpr) {
+            BinaryExpr add = (BinaryExpr) node;
+            assert add.op == BinaryExpr.BinaryOp.ADD && add.left.type.isSameType(STRING_TYPE);
+            spiltPrint(add.left, false);
+            spiltPrint(add.right, newline);
+        } else {
+            FunctionSymbol func = newline ? PRINTLN : PRINT;
+            List<Operand> args = new ArrayList<>();
+            visitExpr(node);
+            args.add(node.val);
+            curBB.append(new Call(curBB, func, null, args));
+        }
+    }
+
     public void visit(FunctionCall node) {
+        if (node.func == PRINT || node.func == PRINTLN) {
+            assert node.args.size() == 1;
+            spiltPrint(node.args.get(0), node.func == PRINTLN);
+            return;
+        }
         LocalReg dst = node.func.type.isSameType(VOID_TYPE) ? null : curFunc.makeLocalReg("res");
         List<Operand> args = new ArrayList<>();
         if (node.func.isClassMember()) {
