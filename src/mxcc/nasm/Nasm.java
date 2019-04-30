@@ -25,8 +25,16 @@ public class Nasm {
         externs.add("strlen");
         externs.add("__isoc99_scanf");
         externs.add("puts");
-        externs.add("strcmp");
         externs.add("printf");
+
+//        externs.add("strcmp");
+//        externs.add("__snprintf_chk");
+//        externs.add("__stack_chk_fail");
+//        externs.add("memcpy");
+//        externs.add("malloc");
+//        externs.add("__isoc99_scanf");
+//        externs.add("puts");
+//        externs.add("__printf_chk");
     }
 
     public Nasm() {

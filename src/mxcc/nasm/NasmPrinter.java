@@ -20,6 +20,7 @@ public class NasmPrinter implements NasmVisitor {
 
     private void pasteLibFunc() throws IOException {
         File file = new File("lib/lib.asm");
+//        File file = new File("lib/libO3.asm");
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
         while ((line = br.readLine()) != null) {

@@ -78,7 +78,7 @@ public class FunctionInliner {
             if (callInst.getDst() != null) {
                 RetVal = callInst.getDst();
                 RetValAddr = hostFunc.makeLocalReg("retValAddr");
-                hostFunc.getStartBB().appendFront(new Alloca(hostFunc.getStartBB(), RetValAddr, 4));
+                hostFunc.getStartBB().appendFront(new Alloca(hostFunc.getStartBB(), RetValAddr, 8));
                 afterCallBB.appendFront(new Load(afterCallBB, RetVal, RetValAddr));
             }
 
@@ -124,6 +124,9 @@ public class FunctionInliner {
             return "c" + name.substring(1, name.indexOf("_"));
         }
 
+
+        // Here we assume that along BasicBlock chain, Def of LocalReg must appear before its Use.
+        // I am not sure about that.
         private Operand getVar(Operand var) {
             if (var instanceof LocalReg) {
                 assert varReplaceMap.containsKey(var);
@@ -180,7 +183,7 @@ public class FunctionInliner {
         }
 
         public void visit(Move node) {
-            // There is no Move at phase of function inline
+            curBB.append(new Move(curBB, copyLocalReg(node.getDst()), getVar(node.getSrc())));
         }
 
         public void visit(CondBranch node) {

@@ -1,332 +1,263 @@
 <Program>
 	<VariableDecl> int N
-	<VariableDecl> int head
-	<VariableDecl> int startx
-	<VariableDecl> int starty
-	<VariableDecl> int targetx
-	<VariableDecl> int targety
-	<VariableDecl> int x
-	<VariableDecl> int y
-	<VariableDecl> int[] xlist
-		<NewExpr> int[]
-			<IntConst> 12000
-	<VariableDecl> int[] ylist
-		<NewExpr> int[]
-			<IntConst> 12000
-	<VariableDecl> int tail
-	<VariableDecl> int ok
-	<VariableDecl> int now
-	<VariableDecl> int[] dx
-		<NewExpr> int[]
-			<IntConst> 8
-	<VariableDecl> int[] dy
-		<NewExpr> int[]
-			<IntConst> 9
-	<VariableDecl> int[][] step
+	<VariableDecl> int h
+		<IntConst> 99
 	<VariableDecl> int i
+		<IntConst> 100
 	<VariableDecl> int j
-	<FunctionDecl> void origin int N
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> head
-			<IntConst> 0
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> tail
-			<IntConst> 0
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> step
-			<NewExpr> int[][]
-				<IdentifierExpr> N
-		<ForStmt>
-			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
-				<IntConst> 0
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<IdentifierExpr> N
-			<UnaryExpr> INC_SUF
-				<IdentifierExpr> i
-			<BlockStmt>
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<IdentifierExpr> step
-						<IdentifierExpr> i
-					<NewExpr> int[]
-						<IdentifierExpr> N
-				<ForStmt>
-					<BinaryExpr> ASSIGN
-						<IdentifierExpr> j
-						<IntConst> 0
-					<BinaryExpr> LT
-						<IdentifierExpr> j
-						<IdentifierExpr> N
-					<UnaryExpr> INC_SUF
-						<IdentifierExpr> j
-					<BlockStmt>
-						<BinaryExpr> ASSIGN
-							<ArrayAccess>
-								<ArrayAccess>
-									<IdentifierExpr> step
-									<IdentifierExpr> i
-								<IdentifierExpr> j
-							<IntConst> 0
-	<FunctionDecl> bool check int a
-		<ReturnStmt>
-			<BinaryExpr> AND
-				<BinaryExpr> LT
-					<IdentifierExpr> a
-					<IdentifierExpr> N
-				<BinaryExpr> GE
-					<IdentifierExpr> a
-					<IntConst> 0
-	<FunctionDecl> void addList int x int y
-		<IfStmt>
-			<BinaryExpr> AND
-				<BinaryExpr> AND
-					<FunctionCall>
-						<IdentifierExpr> check
-						<IdentifierExpr> x
-					<FunctionCall>
-						<IdentifierExpr> check
-						<IdentifierExpr> y
-				<BinaryExpr> EQ
-					<ArrayAccess>
-						<ArrayAccess>
-							<IdentifierExpr> step
-							<IdentifierExpr> x
-						<IdentifierExpr> y
-					<UnaryExpr> NEG
-						<IntConst> 1
-			<BlockStmt>
-				<UnaryExpr> INC_SUF
-					<IdentifierExpr> tail
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<IdentifierExpr> xlist
-						<IdentifierExpr> tail
-					<IdentifierExpr> x
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<IdentifierExpr> ylist
-						<IdentifierExpr> tail
-					<IdentifierExpr> y
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<ArrayAccess>
-							<IdentifierExpr> step
-							<IdentifierExpr> x
-						<IdentifierExpr> y
-					<BinaryExpr> ADD
-						<IdentifierExpr> now
-						<IntConst> 1
-				<IfStmt>
-					<BinaryExpr> AND
-						<BinaryExpr> EQ
-							<IdentifierExpr> x
-							<IdentifierExpr> targetx
-						<BinaryExpr> EQ
-							<IdentifierExpr> y
-							<IdentifierExpr> targety
-					<BlockStmt>
-						<BinaryExpr> ASSIGN
-							<IdentifierExpr> ok
-							<IntConst> 1
+		<IntConst> 101
+	<VariableDecl> int k
+		<IntConst> 102
+	<VariableDecl> int total
+		<IntConst> 0
 	<FunctionDecl> int main
-		<FunctionCall>
-			<IdentifierExpr> origin
-			<IntConst> 106
+		<VariableDeclStmt>
+			<VariableDecl> int a
+		<VariableDeclStmt>
+			<VariableDecl> int b
+		<VariableDeclStmt>
+			<VariableDecl> int c
+		<VariableDeclStmt>
+			<VariableDecl> int d
+		<VariableDeclStmt>
+			<VariableDecl> int e
+		<VariableDeclStmt>
+			<VariableDecl> int f
 		<BinaryExpr> ASSIGN
 			<IdentifierExpr> N
 			<FunctionCall>
 				<IdentifierExpr> getInt
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> targety
-			<BinaryExpr> SUB
-				<IdentifierExpr> N
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> targetx
-			<IdentifierExpr> targety
 		<ForStmt>
 			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
-				<IntConst> 0
-			<BinaryExpr> LT
-				<IdentifierExpr> i
+				<IdentifierExpr> a
+				<IntConst> 1
+			<BinaryExpr> LE
+				<IdentifierExpr> a
 				<IdentifierExpr> N
 			<UnaryExpr> INC_SUF
-				<IdentifierExpr> i
+				<IdentifierExpr> a
 			<BlockStmt>
 				<ForStmt>
 					<BinaryExpr> ASSIGN
-						<IdentifierExpr> j
-						<IntConst> 0
-					<BinaryExpr> LT
-						<IdentifierExpr> j
+						<IdentifierExpr> b
+						<IntConst> 1
+					<BinaryExpr> LE
+						<IdentifierExpr> b
 						<IdentifierExpr> N
 					<UnaryExpr> INC_SUF
-						<IdentifierExpr> j
+						<IdentifierExpr> b
 					<BlockStmt>
-						<BinaryExpr> ASSIGN
-							<ArrayAccess>
-								<ArrayAccess>
-									<IdentifierExpr> step
-									<IdentifierExpr> i
-								<IdentifierExpr> j
-							<UnaryExpr> NEG
+						<ForStmt>
+							<BinaryExpr> ASSIGN
+								<IdentifierExpr> c
 								<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 0
-			<UnaryExpr> NEG
-				<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 0
-			<UnaryExpr> NEG
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 1
-			<UnaryExpr> NEG
-				<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 1
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 2
-			<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 2
-			<UnaryExpr> NEG
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 3
-			<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 3
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 4
-			<UnaryExpr> NEG
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 4
-			<UnaryExpr> NEG
-				<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 5
-			<UnaryExpr> NEG
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 5
-			<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 6
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 6
-			<UnaryExpr> NEG
-				<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 7
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 7
-			<IntConst> 2
-		<WhileStmt>
-			<BinaryExpr> LE
-				<IdentifierExpr> head
-				<IdentifierExpr> tail
-			<BlockStmt>
-				<BinaryExpr> ASSIGN
-					<IdentifierExpr> x
-					<ArrayAccess>
-						<IdentifierExpr> xlist
-						<IdentifierExpr> head
-				<BinaryExpr> ASSIGN
-					<IdentifierExpr> y
-					<ArrayAccess>
-						<IdentifierExpr> ylist
-						<IdentifierExpr> head
-				<BinaryExpr> ASSIGN
-					<IdentifierExpr> now
-					<ArrayAccess>
-						<ArrayAccess>
-							<IdentifierExpr> step
-							<IdentifierExpr> x
-						<IdentifierExpr> y
-				<ForStmt>
-					<BinaryExpr> ASSIGN
-						<IdentifierExpr> j
-						<IntConst> 0
-					<BinaryExpr> LT
-						<IdentifierExpr> j
-						<IntConst> 8
-					<UnaryExpr> INC_SUF
-						<IdentifierExpr> j
-					<BlockStmt>
-						<FunctionCall>
-							<IdentifierExpr> addList
-							<BinaryExpr> ADD
-								<IdentifierExpr> x
-								<ArrayAccess>
-									<IdentifierExpr> dx
-									<IdentifierExpr> j
-							<BinaryExpr> ADD
-								<IdentifierExpr> y
-								<ArrayAccess>
-									<IdentifierExpr> dy
-									<IdentifierExpr> j
-				<IfStmt>
-					<BinaryExpr> EQ
-						<IdentifierExpr> ok
-						<IntConst> 1
-					<BlockStmt>
-						<BreakStmt>
-				<UnaryExpr> INC_SUF
-					<IdentifierExpr> head
-		<IfStmt>
-			<BinaryExpr> EQ
-				<IdentifierExpr> ok
-				<IntConst> 1
-			<BlockStmt>
-				<FunctionCall>
-					<IdentifierExpr> println
-					<FunctionCall>
-						<IdentifierExpr> toString
-						<ArrayAccess>
-							<ArrayAccess>
-								<IdentifierExpr> step
-								<IdentifierExpr> targetx
-							<IdentifierExpr> targety
+							<BinaryExpr> LE
+								<IdentifierExpr> c
+								<IdentifierExpr> N
+							<UnaryExpr> INC_SUF
+								<IdentifierExpr> c
+							<BlockStmt>
+								<ForStmt>
+									<BinaryExpr> ASSIGN
+										<IdentifierExpr> d
+										<IntConst> 1
+									<BinaryExpr> LE
+										<IdentifierExpr> d
+										<IdentifierExpr> N
+									<UnaryExpr> INC_SUF
+										<IdentifierExpr> d
+									<BlockStmt>
+										<ForStmt>
+											<BinaryExpr> ASSIGN
+												<IdentifierExpr> e
+												<IntConst> 1
+											<BinaryExpr> LE
+												<IdentifierExpr> e
+												<IdentifierExpr> N
+											<UnaryExpr> INC_SUF
+												<IdentifierExpr> e
+											<BlockStmt>
+												<ForStmt>
+													<BinaryExpr> ASSIGN
+														<IdentifierExpr> f
+														<IntConst> 1
+													<BinaryExpr> LE
+														<IdentifierExpr> f
+														<IdentifierExpr> N
+													<UnaryExpr> INC_SUF
+														<IdentifierExpr> f
+													<BlockStmt>
+														<IfStmt>
+															<BinaryExpr> AND
+																<BinaryExpr> AND
+																	<BinaryExpr> AND
+																		<BinaryExpr> AND
+																			<BinaryExpr> AND
+																				<BinaryExpr> AND
+																					<BinaryExpr> AND
+																						<BinaryExpr> AND
+																							<BinaryExpr> AND
+																								<BinaryExpr> AND
+																									<BinaryExpr> AND
+																										<BinaryExpr> AND
+																											<BinaryExpr> AND
+																												<BinaryExpr> AND
+																													<BinaryExpr> AND
+																														<BinaryExpr> AND
+																															<BinaryExpr> AND
+																																<BinaryExpr> AND
+																																	<BinaryExpr> AND
+																																		<BinaryExpr> AND
+																																			<BinaryExpr> AND
+																																				<BinaryExpr> AND
+																																					<BinaryExpr> AND
+																																						<BinaryExpr> AND
+																																							<BinaryExpr> AND
+																																								<BinaryExpr> AND
+																																									<BinaryExpr> AND
+																																										<BinaryExpr> AND
+																																											<BinaryExpr> AND
+																																												<BinaryExpr> AND
+																																													<BinaryExpr> AND
+																																														<BinaryExpr> AND
+																																															<BinaryExpr> AND
+																																																<BinaryExpr> AND
+																																																	<BinaryExpr> AND
+																																																		<BinaryExpr> AND
+																																																			<BinaryExpr> AND
+																																																				<BinaryExpr> AND
+																																																					<BinaryExpr> AND
+																																																						<BinaryExpr> AND
+																																																							<BinaryExpr> NEQ
+																																																								<IdentifierExpr> a
+																																																								<IdentifierExpr> b
+																																																							<BinaryExpr> NEQ
+																																																								<IdentifierExpr> a
+																																																								<IdentifierExpr> c
+																																																						<BinaryExpr> NEQ
+																																																							<IdentifierExpr> a
+																																																							<IdentifierExpr> d
+																																																					<BinaryExpr> NEQ
+																																																						<IdentifierExpr> a
+																																																						<IdentifierExpr> e
+																																																				<BinaryExpr> NEQ
+																																																					<IdentifierExpr> a
+																																																					<IdentifierExpr> f
+																																																			<BinaryExpr> NEQ
+																																																				<IdentifierExpr> a
+																																																				<IdentifierExpr> h
+																																																		<BinaryExpr> NEQ
+																																																			<IdentifierExpr> a
+																																																			<IdentifierExpr> i
+																																																	<BinaryExpr> NEQ
+																																																		<IdentifierExpr> a
+																																																		<IdentifierExpr> j
+																																																<BinaryExpr> NEQ
+																																																	<IdentifierExpr> a
+																																																	<IdentifierExpr> k
+																																															<BinaryExpr> NEQ
+																																																<IdentifierExpr> b
+																																																<IdentifierExpr> c
+																																														<BinaryExpr> NEQ
+																																															<IdentifierExpr> b
+																																															<IdentifierExpr> d
+																																													<BinaryExpr> NEQ
+																																														<IdentifierExpr> b
+																																														<IdentifierExpr> e
+																																												<BinaryExpr> NEQ
+																																													<IdentifierExpr> b
+																																													<IdentifierExpr> f
+																																											<BinaryExpr> NEQ
+																																												<IdentifierExpr> b
+																																												<IdentifierExpr> h
+																																										<BinaryExpr> NEQ
+																																											<IdentifierExpr> b
+																																											<IdentifierExpr> i
+																																									<BinaryExpr> NEQ
+																																										<IdentifierExpr> b
+																																										<IdentifierExpr> j
+																																								<BinaryExpr> NEQ
+																																									<IdentifierExpr> b
+																																									<IdentifierExpr> k
+																																							<BinaryExpr> NEQ
+																																								<IdentifierExpr> c
+																																								<IdentifierExpr> d
+																																						<BinaryExpr> NEQ
+																																							<IdentifierExpr> c
+																																							<IdentifierExpr> e
+																																					<BinaryExpr> NEQ
+																																						<IdentifierExpr> c
+																																						<IdentifierExpr> f
+																																				<BinaryExpr> NEQ
+																																					<IdentifierExpr> c
+																																					<IdentifierExpr> h
+																																			<BinaryExpr> NEQ
+																																				<IdentifierExpr> c
+																																				<IdentifierExpr> i
+																																		<BinaryExpr> NEQ
+																																			<IdentifierExpr> c
+																																			<IdentifierExpr> j
+																																	<BinaryExpr> NEQ
+																																		<IdentifierExpr> c
+																																		<IdentifierExpr> k
+																																<BinaryExpr> NEQ
+																																	<IdentifierExpr> d
+																																	<IdentifierExpr> e
+																															<BinaryExpr> NEQ
+																																<IdentifierExpr> d
+																																<IdentifierExpr> f
+																														<BinaryExpr> NEQ
+																															<IdentifierExpr> d
+																															<IdentifierExpr> h
+																													<BinaryExpr> NEQ
+																														<IdentifierExpr> d
+																														<IdentifierExpr> i
+																												<BinaryExpr> NEQ
+																													<IdentifierExpr> d
+																													<IdentifierExpr> j
+																											<BinaryExpr> NEQ
+																												<IdentifierExpr> d
+																												<IdentifierExpr> k
+																										<BinaryExpr> NEQ
+																											<IdentifierExpr> e
+																											<IdentifierExpr> f
+																									<BinaryExpr> NEQ
+																										<IdentifierExpr> e
+																										<IdentifierExpr> h
+																								<BinaryExpr> NEQ
+																									<IdentifierExpr> e
+																									<IdentifierExpr> i
+																							<BinaryExpr> NEQ
+																								<IdentifierExpr> e
+																								<IdentifierExpr> j
+																						<BinaryExpr> NEQ
+																							<IdentifierExpr> e
+																							<IdentifierExpr> k
+																					<BinaryExpr> NEQ
+																						<IdentifierExpr> f
+																						<IdentifierExpr> h
+																				<BinaryExpr> NEQ
+																					<IdentifierExpr> f
+																					<IdentifierExpr> i
+																			<BinaryExpr> NEQ
+																				<IdentifierExpr> f
+																				<IdentifierExpr> j
+																		<BinaryExpr> NEQ
+																			<IdentifierExpr> f
+																			<IdentifierExpr> k
+																	<BinaryExpr> NEQ
+																		<IdentifierExpr> i
+																		<IdentifierExpr> j
+																<BinaryExpr> NEQ
+																	<IdentifierExpr> h
+																	<IdentifierExpr> k
+															<BlockStmt>
+																<UnaryExpr> INC_SUF
+																	<IdentifierExpr> total
+		<FunctionCall>
+			<IdentifierExpr> println
+			<FunctionCall>
+				<IdentifierExpr> toString
+				<IdentifierExpr> total
 		<ReturnStmt>
 			<IntConst> 0

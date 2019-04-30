@@ -112,6 +112,11 @@ public class Mxcc {
 //        if (Config.debugMode) printIR("after_des.ll");
     }
 
+    private void eliminateConstGlobalReg() {
+        ConstGlobalRegEliminator eliminator = new ConstGlobalRegEliminator(ir);
+        eliminator.work();
+    }
+
     private void functionInline() {
         FunctionInliner inliner = new FunctionInliner(ir);
         inliner.run();
@@ -123,6 +128,7 @@ public class Mxcc {
     }
 
     private void optim() throws IOException {
+        eliminateConstGlobalReg();
         functionInline();
         promoteGlobalReg();
         if (Config.debugMode) printIR("a_global.ll");

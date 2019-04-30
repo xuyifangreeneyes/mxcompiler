@@ -33,7 +33,11 @@ public class FunctionBackuper implements IRVisitor {
             Instruction originInst = originBB.getFirstInst();
             while (originInst != null) {
                 visit(originInst);
+                assert instCopyMap.containsKey(originInst);
                 Instruction backupInst = instCopyMap.get(originInst);
+//                if (backupInst == null) {
+//                    System.out.println("backupInst is null");
+//                }
                 if (backupInst instanceof CondBranch) {
                     CondBranch condBranch = (CondBranch) backupInst;
                     condBranch.replaceTarget(condBranch.getIfTrue(), bbCopyMap.get(condBranch.getIfTrue()));
@@ -89,7 +93,7 @@ public class FunctionBackuper implements IRVisitor {
     }
 
     public void visit(Move node) {
-        // For now function backup happens only before SSA. Move won't appear at that time.
+        instCopyMap.put(node, new Move(null, node.getDst(), node.getSrc()));
     }
 
     public void visit(CondBranch node) {
