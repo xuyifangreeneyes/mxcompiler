@@ -25,19 +25,22 @@ public class Module {
         GET_STRING.IRFunc = new Function("getString", true);
         GET_INT.IRFunc = new Function("getInt", true);
         TO_STRING.IRFunc = new Function("toString", true);
-        STR_LENGTH.IRFunc = new Function("_stringLength", true);
-        STR_SUBSTRING.IRFunc = new Function("_stringSubstring", true);
-        STR_PARSE_INT.IRFunc = new Function("_stringParseInt", true);
-        STR_ORD.IRFunc = new Function("_stringOrd", true);
-        ARRAY_SIZE.IRFunc = new Function("_arraySize", true);
+        STR_LENGTH.IRFunc = new Function("__stringLength", true);
+        STR_SUBSTRING.IRFunc = new Function("__stringSubstring", true);
+        STR_PARSE_INT.IRFunc = new Function("__stringParseInt", true);
+        STR_ORD.IRFunc = new Function("__stringOrd", true);
+        ARRAY_SIZE.IRFunc = new Function("__arraySize", true);
 
-        STR_ADD.IRFunc = new Function("_stringAdd", true);
-        STR_EQ.IRFunc = new Function("_stringEq", true);
-        STR_NEQ.IRFunc = new Function("_stringNeq", true);
-        STR_LT.IRFunc = new Function("_stringLt", true);
-        STR_GT.IRFunc = new Function("_stringGt", true);
-        STR_LE.IRFunc = new Function("_stringLe", true);
-        STR_GE.IRFunc = new Function("_stringGe", true);
+        STR_ADD.IRFunc = new Function("__stringAdd", true);
+        STR_EQ.IRFunc = new Function("__stringEq", true);
+        STR_NEQ.IRFunc = new Function("__stringNeq", true);
+        STR_LT.IRFunc = new Function("__stringLt", true);
+        STR_GT.IRFunc = new Function("__stringGt", true);
+        STR_LE.IRFunc = new Function("__stringLe", true);
+        STR_GE.IRFunc = new Function("__stringGe", true);
+
+        PRINT_INT.IRFunc = new Function("__printInt", true);
+        PRINTLN_INT.IRFunc = new Function("__printlnInt", true);
 
         defineFunction(PRINT.IRFunc);
         defineFunction(PRINTLN.IRFunc);
@@ -58,7 +61,10 @@ public class Module {
         defineFunction(STR_LE.IRFunc);
         defineFunction(STR_GE.IRFunc);
 
-        defineFunction(new Function("_globalInit", false));
+        defineFunction(PRINT_INT.IRFunc);
+        defineFunction(PRINTLN_INT.IRFunc);
+
+        defineFunction(new Function("__globalInit", false));
     }
 
 }

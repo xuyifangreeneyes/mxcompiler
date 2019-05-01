@@ -1,7 +1,0 @@
-int main(){
-    string s = getString();
-    if (s > "aass")
-        println(s + " length: " + toString(s.length()));
-    else println("not ls");
-    return 0;
-}

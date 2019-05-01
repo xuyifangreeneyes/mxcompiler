@@ -46,31 +46,35 @@ define getInt
 
 define toString
 
-define _stringLength
+define __stringLength
 
-define _stringSubstring
+define __stringSubstring
 
-define _stringParseInt
+define __stringParseInt
 
-define _stringOrd
+define __stringOrd
 
-define _arraySize
+define __arraySize
 
-define _stringAdd
+define __stringAdd
 
-define _stringEq
+define __stringEq
 
-define _stringNeq
+define __stringNeq
 
-define _stringLt
+define __stringLt
 
-define _stringGt
+define __stringGt
 
-define _stringLe
+define __stringLe
 
-define _stringGe
+define __stringGe
 
-define _globalInit ( ) {
+define __printInt
+
+define __printlnInt
+
+define __globalInit ( ) {
 <0> entry
 	%memberLength_1 = mul 12000 8
 	%arrayLength_2 = add %memberLength_1 8
@@ -530,19 +534,18 @@ define main ( ) {
 	br %res_152 <18> <19>
 
 <18> if_true
-	%arrayPtr_154 = load @step
-	%arrayBase_155 = add %arrayPtr_154 8
-	%idVal_156 = load @targetx
-	%offset_157 = mul %idVal_156 8
-	%elementAddr_158 = add %arrayBase_155 %offset_157
-	%arrayPtr_159 = load %elementAddr_158
-	%arrayBase_160 = add %arrayPtr_159 8
-	%idVal_161 = load @targety
-	%offset_162 = mul %idVal_161 8
-	%elementAddr_163 = add %arrayBase_160 %offset_162
-	%elementVal_164 = load %elementAddr_163
-	%res_153 = toString ( %elementVal_164 )
-	println ( %res_153 )
+	%arrayPtr_153 = load @step
+	%arrayBase_154 = add %arrayPtr_153 8
+	%idVal_155 = load @targetx
+	%offset_156 = mul %idVal_155 8
+	%elementAddr_157 = add %arrayBase_154 %offset_156
+	%arrayPtr_158 = load %elementAddr_157
+	%arrayBase_159 = add %arrayPtr_158 8
+	%idVal_160 = load @targety
+	%offset_161 = mul %idVal_160 8
+	%elementAddr_162 = add %arrayBase_159 %offset_161
+	%elementVal_163 = load %elementAddr_162
+	__printlnInt ( %elementVal_163 )
 	br <20>
 
 <19> if_false

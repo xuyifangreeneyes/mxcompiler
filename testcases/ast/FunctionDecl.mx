@@ -1,5 +1,0 @@
-int main(int args, string[] argv) {
-    int a;
-    int b = 5;
-    int[][] c = new int[3][4];
-}

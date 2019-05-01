@@ -10,6 +10,14 @@ void println(char* ptr) {
     printf("%s\n", ptr + 8);
 }
 
+void __printInt(long num) {
+    printf("%ld", num);
+}
+
+void __printlnInt(long num) {
+    printf("%ld\n", num);
+}
+
 char* getString() {
     char buffer[1024 * 32];
     scanf("%s", buffer);
@@ -41,11 +49,11 @@ char* toString(long num) {
     return ptr;
 }
 
-long _stringLength(char* ptr) {
+long __stringLength(char* ptr) {
     return *((long*)ptr);
 }
 
-char* _stringSubstring(char* ptr, long left, long right) {
+char* __stringSubstring(char* ptr, long left, long right) {
     long length = right - left;
     char* sptr = malloc(8 + length + 1);
     *((long*)sptr) = length;
@@ -55,7 +63,7 @@ char* _stringSubstring(char* ptr, long left, long right) {
     return sptr;
 }
 
-long _stringParseInt(char* ptr) {
+long __stringParseInt(char* ptr) {
     long num = 0;
     int neg = 0;
     ptr += 8;
@@ -70,11 +78,11 @@ long _stringParseInt(char* ptr) {
     return neg ? -num : num;
 }
 
-long _stringOrd(char* ptr, long pos) {
+long __stringOrd(char* ptr, long pos) {
     return ptr[8 + pos];
 }
 
-char* _stringAdd(char* ptr1, char* ptr2) {
+char* __stringAdd(char* ptr1, char* ptr2) {
     long len1 = *((long*)ptr1);
     long len2 = *((long*)ptr2);
     char* ptr = malloc(8 + len1 + len2 + 1);
@@ -87,31 +95,31 @@ char* _stringAdd(char* ptr1, char* ptr2) {
     return ptr;
 }
 
-long _stringEq(char* ptr1, char* ptr2) {
+long __stringEq(char* ptr1, char* ptr2) {
     return strcmp(ptr1 + 8, ptr2 + 8) ? 0 : 1;
 }
 
-long _stringNeq(char* ptr1, char* ptr2) {
+long __stringNeq(char* ptr1, char* ptr2) {
     return strcmp(ptr1 + 8, ptr2 + 8) ? 1 : 0;
 }
 
-long _stringLt(char* ptr1, char* ptr2) {
+long __stringLt(char* ptr1, char* ptr2) {
     return strcmp(ptr1 + 8, ptr2 + 8) < 0;
 }
 
-long _stringGt(char* ptr1, char* ptr2) {
+long __stringGt(char* ptr1, char* ptr2) {
     return strcmp(ptr1 + 8, ptr2 + 8) > 0;
 }
 
-long _stringLe(char* ptr1, char* ptr2) {
+long __stringLe(char* ptr1, char* ptr2) {
     return strcmp(ptr1 + 8, ptr2 + 8) <= 0;
 }
 
-long _stringGe(char* ptr1, char* ptr2) {
+long __stringGe(char* ptr1, char* ptr2) {
     return strcmp(ptr1 + 8, ptr2 + 8) >= 0;
 }
 
-long _arraySize(char* ptr) {
+long __arraySize(char* ptr) {
     return *((long*)ptr);
 }
 

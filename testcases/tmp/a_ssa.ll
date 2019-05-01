@@ -42,31 +42,35 @@ define getInt
 
 define toString
 
-define _stringLength
+define __stringLength
 
-define _stringSubstring
+define __stringSubstring
 
-define _stringParseInt
+define __stringParseInt
 
-define _stringOrd
+define __stringOrd
 
-define _arraySize
+define __arraySize
 
-define _stringAdd
+define __stringAdd
 
-define _stringEq
+define __stringEq
 
-define _stringNeq
+define __stringNeq
 
-define _stringLt
+define __stringLt
 
-define _stringGt
+define __stringGt
 
-define _stringLe
+define __stringLe
 
-define _stringGe
+define __stringGe
 
-define _globalInit ( ) {
+define __printInt
+
+define __printlnInt
+
+define __globalInit ( ) {
 <0> entry
 	%tmp_19 = load @xlist
 	mov %varDef_24 %tmp_19
@@ -407,199 +411,199 @@ define addList ( %argVal_0 %argVal_2 ) {
 
 define main ( ) {
 <0> entry
-	%tmp_196 = load @targetx
-	mov %varDef_241 %tmp_196
-	%tmp_195 = load @x
-	mov %varDef_242 %tmp_195
-	%tmp_194 = load @j
-	mov %varDef_243 %tmp_194
-	%tmp_193 = load @targety
-	mov %varDef_244 %tmp_193
-	%tmp_192 = load @N
-	mov %varDef_245 %tmp_192
-	%tmp_191 = load @y
-	mov %varDef_246 %tmp_191
-	%tmp_190 = load @ylist
-	mov %varDef_247 %tmp_190
-	%tmp_189 = load @tail
-	mov %varDef_248 %tmp_189
-	%tmp_188 = load @ok
-	mov %varDef_249 %tmp_188
-	%tmp_187 = load @dx
-	mov %varDef_250 %tmp_187
-	%tmp_186 = load @now
-	mov %varDef_251 %tmp_186
-	%tmp_185 = load @xlist
-	mov %varDef_252 %tmp_185
-	%tmp_184 = load @head
-	mov %varDef_253 %tmp_184
-	%tmp_183 = load @i
-	mov %varDef_254 %tmp_183
-	%tmp_182 = load @dy
-	mov %varDef_255 %tmp_182
-	%tmp_181 = load @step
-	mov %varDef_256 %tmp_181
-	mov %tmp_197 %varDef_256
-	store %tmp_197 @step
-	mov %tmp_199 %varDef_254
-	store %tmp_199 @i
-	mov %tmp_201 %varDef_253
-	store %tmp_201 @head
-	mov %tmp_203 %varDef_248
-	store %tmp_203 @tail
-	mov %tmp_205 %varDef_243
-	store %tmp_205 @j
+	%tmp_195 = load @targetx
+	mov %varDef_240 %tmp_195
+	%tmp_194 = load @x
+	mov %varDef_241 %tmp_194
+	%tmp_193 = load @j
+	mov %varDef_242 %tmp_193
+	%tmp_192 = load @targety
+	mov %varDef_243 %tmp_192
+	%tmp_191 = load @N
+	mov %varDef_244 %tmp_191
+	%tmp_190 = load @y
+	mov %varDef_245 %tmp_190
+	%tmp_189 = load @ylist
+	mov %varDef_246 %tmp_189
+	%tmp_188 = load @tail
+	mov %varDef_247 %tmp_188
+	%tmp_187 = load @ok
+	mov %varDef_248 %tmp_187
+	%tmp_186 = load @dx
+	mov %varDef_249 %tmp_186
+	%tmp_185 = load @now
+	mov %varDef_250 %tmp_185
+	%tmp_184 = load @xlist
+	mov %varDef_251 %tmp_184
+	%tmp_183 = load @head
+	mov %varDef_252 %tmp_183
+	%tmp_182 = load @i
+	mov %varDef_253 %tmp_182
+	%tmp_181 = load @dy
+	mov %varDef_254 %tmp_181
+	%tmp_180 = load @step
+	mov %varDef_255 %tmp_180
+	mov %tmp_196 %varDef_255
+	store %tmp_196 @step
+	mov %tmp_198 %varDef_253
+	store %tmp_198 @i
+	mov %tmp_200 %varDef_252
+	store %tmp_200 @head
+	mov %tmp_202 %varDef_247
+	store %tmp_202 @tail
+	mov %tmp_204 %varDef_242
+	store %tmp_204 @j
 	origin ( 106 )
-	%tmp_206 = load @j
-	mov %varDef_257 %tmp_206
-	%tmp_204 = load @tail
-	mov %varDef_258 %tmp_204
-	%tmp_202 = load @head
-	mov %varDef_259 %tmp_202
-	%tmp_200 = load @i
-	mov %varDef_260 %tmp_200
-	%tmp_198 = load @step
-	mov %varDef_261 %tmp_198
+	%tmp_205 = load @j
+	mov %varDef_256 %tmp_205
+	%tmp_203 = load @tail
+	mov %varDef_257 %tmp_203
+	%tmp_201 = load @head
+	mov %varDef_258 %tmp_201
+	%tmp_199 = load @i
+	mov %varDef_259 %tmp_199
+	%tmp_197 = load @step
+	mov %varDef_260 %tmp_197
 	%res_0 = getInt ( )
-	mov %varDef_262 %res_0
-	mov %idVal_1 %varDef_262
+	mov %varDef_261 %res_0
+	mov %idVal_1 %varDef_261
 	%res_2 = sub %idVal_1 1
-	mov %varDef_263 %res_2
-	mov %idVal_3 %varDef_263
-	mov %varDef_264 %idVal_3
-	mov %varDef_265 0
+	mov %varDef_262 %res_2
+	mov %idVal_3 %varDef_262
+	mov %varDef_263 %idVal_3
+	mov %varDef_264 0
 	br <1>
 
 <1> for_cond
-	%varDef_266 = phi <0> %varDef_265 <3> %varDef_271
-	%varDef_267 = phi <0> %varDef_257 <3> %varDef_269
-	mov %idVal_4 %varDef_266
-	mov %idVal_5 %varDef_262
+	%varDef_265 = phi <0> %varDef_264 <3> %varDef_270
+	%varDef_266 = phi <0> %varDef_256 <3> %varDef_268
+	mov %idVal_4 %varDef_265
+	mov %idVal_5 %varDef_261
 	%res_6 = lt %idVal_4 %idVal_5
 	br %res_6 <2> <4>
 
 <2> for_body
-	mov %varDef_268 0
+	mov %varDef_267 0
 	br <5>
 
 <5> for_cond
-	%varDef_269 = phi <2> %varDef_268 <6> %varDef_270
-	mov %idVal_7 %varDef_269
-	mov %idVal_8 %varDef_262
+	%varDef_268 = phi <2> %varDef_267 <6> %varDef_269
+	mov %idVal_7 %varDef_268
+	mov %idVal_8 %varDef_261
 	%res_9 = lt %idVal_7 %idVal_8
 	br %res_9 <6> <3>
 
 <6> for_body
 	%res_10 = neg 1
-	mov %arrayPtr_11 %varDef_261
+	mov %arrayPtr_11 %varDef_260
 	%arrayBase_12 = add %arrayPtr_11 8
-	mov %idVal_13 %varDef_266
+	mov %idVal_13 %varDef_265
 	%offset_14 = mul %idVal_13 8
 	%elementAddr_15 = add %arrayBase_12 %offset_14
 	%arrayPtr_16 = load %elementAddr_15
 	%arrayBase_17 = add %arrayPtr_16 8
-	mov %idVal_18 %varDef_269
+	mov %idVal_18 %varDef_268
 	%offset_19 = mul %idVal_18 8
 	%elementAddr_20 = add %arrayBase_17 %offset_19
 	store %res_10 %elementAddr_20
-	mov %idVal_21 %varDef_269
-	mov %oldVal_22 %varDef_269
+	mov %idVal_21 %varDef_268
+	mov %oldVal_22 %varDef_268
 	%newVal_23 = inc %oldVal_22
-	mov %varDef_270 %newVal_23
+	mov %varDef_269 %newVal_23
 	br <5>
 
 <3> for_step
-	mov %idVal_24 %varDef_266
-	mov %oldVal_25 %varDef_266
+	mov %idVal_24 %varDef_265
+	mov %oldVal_25 %varDef_265
 	%newVal_26 = inc %oldVal_25
-	mov %varDef_271 %newVal_26
+	mov %varDef_270 %newVal_26
 	br <1>
 
 <4> for_end
 	%res_27 = neg 2
-	mov %arrayPtr_28 %varDef_250
+	mov %arrayPtr_28 %varDef_249
 	%arrayBase_29 = add %arrayPtr_28 8
 	%offset_30 = mul 0 8
 	%elementAddr_31 = add %arrayBase_29 %offset_30
 	store %res_27 %elementAddr_31
 	%res_32 = neg 1
-	mov %arrayPtr_33 %varDef_255
+	mov %arrayPtr_33 %varDef_254
 	%arrayBase_34 = add %arrayPtr_33 8
 	%offset_35 = mul 0 8
 	%elementAddr_36 = add %arrayBase_34 %offset_35
 	store %res_32 %elementAddr_36
 	%res_37 = neg 2
-	mov %arrayPtr_38 %varDef_250
+	mov %arrayPtr_38 %varDef_249
 	%arrayBase_39 = add %arrayPtr_38 8
 	%offset_40 = mul 1 8
 	%elementAddr_41 = add %arrayBase_39 %offset_40
 	store %res_37 %elementAddr_41
-	mov %arrayPtr_42 %varDef_255
+	mov %arrayPtr_42 %varDef_254
 	%arrayBase_43 = add %arrayPtr_42 8
 	%offset_44 = mul 1 8
 	%elementAddr_45 = add %arrayBase_43 %offset_44
 	store 1 %elementAddr_45
-	mov %arrayPtr_46 %varDef_250
+	mov %arrayPtr_46 %varDef_249
 	%arrayBase_47 = add %arrayPtr_46 8
 	%offset_48 = mul 2 8
 	%elementAddr_49 = add %arrayBase_47 %offset_48
 	store 2 %elementAddr_49
 	%res_50 = neg 1
-	mov %arrayPtr_51 %varDef_255
+	mov %arrayPtr_51 %varDef_254
 	%arrayBase_52 = add %arrayPtr_51 8
 	%offset_53 = mul 2 8
 	%elementAddr_54 = add %arrayBase_52 %offset_53
 	store %res_50 %elementAddr_54
-	mov %arrayPtr_55 %varDef_250
+	mov %arrayPtr_55 %varDef_249
 	%arrayBase_56 = add %arrayPtr_55 8
 	%offset_57 = mul 3 8
 	%elementAddr_58 = add %arrayBase_56 %offset_57
 	store 2 %elementAddr_58
-	mov %arrayPtr_59 %varDef_255
+	mov %arrayPtr_59 %varDef_254
 	%arrayBase_60 = add %arrayPtr_59 8
 	%offset_61 = mul 3 8
 	%elementAddr_62 = add %arrayBase_60 %offset_61
 	store 1 %elementAddr_62
 	%res_63 = neg 1
-	mov %arrayPtr_64 %varDef_250
+	mov %arrayPtr_64 %varDef_249
 	%arrayBase_65 = add %arrayPtr_64 8
 	%offset_66 = mul 4 8
 	%elementAddr_67 = add %arrayBase_65 %offset_66
 	store %res_63 %elementAddr_67
 	%res_68 = neg 2
-	mov %arrayPtr_69 %varDef_255
+	mov %arrayPtr_69 %varDef_254
 	%arrayBase_70 = add %arrayPtr_69 8
 	%offset_71 = mul 4 8
 	%elementAddr_72 = add %arrayBase_70 %offset_71
 	store %res_68 %elementAddr_72
 	%res_73 = neg 1
-	mov %arrayPtr_74 %varDef_250
+	mov %arrayPtr_74 %varDef_249
 	%arrayBase_75 = add %arrayPtr_74 8
 	%offset_76 = mul 5 8
 	%elementAddr_77 = add %arrayBase_75 %offset_76
 	store %res_73 %elementAddr_77
-	mov %arrayPtr_78 %varDef_255
+	mov %arrayPtr_78 %varDef_254
 	%arrayBase_79 = add %arrayPtr_78 8
 	%offset_80 = mul 5 8
 	%elementAddr_81 = add %arrayBase_79 %offset_80
 	store 2 %elementAddr_81
-	mov %arrayPtr_82 %varDef_250
+	mov %arrayPtr_82 %varDef_249
 	%arrayBase_83 = add %arrayPtr_82 8
 	%offset_84 = mul 6 8
 	%elementAddr_85 = add %arrayBase_83 %offset_84
 	store 1 %elementAddr_85
 	%res_86 = neg 2
-	mov %arrayPtr_87 %varDef_255
+	mov %arrayPtr_87 %varDef_254
 	%arrayBase_88 = add %arrayPtr_87 8
 	%offset_89 = mul 6 8
 	%elementAddr_90 = add %arrayBase_88 %offset_89
 	store %res_86 %elementAddr_90
-	mov %arrayPtr_91 %varDef_250
+	mov %arrayPtr_91 %varDef_249
 	%arrayBase_92 = add %arrayPtr_91 8
 	%offset_93 = mul 7 8
 	%elementAddr_94 = add %arrayBase_92 %offset_93
 	store 1 %elementAddr_94
-	mov %arrayPtr_95 %varDef_255
+	mov %arrayPtr_95 %varDef_254
 	%arrayBase_96 = add %arrayPtr_95 8
 	%offset_97 = mul 7 8
 	%elementAddr_98 = add %arrayBase_96 %offset_97
@@ -607,172 +611,171 @@ define main ( ) {
 	br <9>
 
 <9> while_cond
-	%varDef_272 = phi <4> %varDef_261 <17> %varDef_289
-	%varDef_273 = phi <4> %varDef_259 <17> %varDef_309
-	%varDef_274 = phi <4> %varDef_252 <17> %varDef_290
-	%varDef_275 = phi <4> %varDef_251 <17> %varDef_291
-	%varDef_276 = phi <4> %varDef_249 <17> %varDef_292
-	%varDef_277 = phi <4> %varDef_258 <17> %varDef_293
-	%varDef_278 = phi <4> %varDef_247 <17> %varDef_294
-	%varDef_279 = phi <4> %varDef_246 <17> %varDef_286
+	%varDef_271 = phi <4> %varDef_260 <17> %varDef_288
+	%varDef_272 = phi <4> %varDef_258 <17> %varDef_308
+	%varDef_273 = phi <4> %varDef_251 <17> %varDef_289
+	%varDef_274 = phi <4> %varDef_250 <17> %varDef_290
+	%varDef_275 = phi <4> %varDef_248 <17> %varDef_291
+	%varDef_276 = phi <4> %varDef_257 <17> %varDef_292
+	%varDef_277 = phi <4> %varDef_246 <17> %varDef_293
+	%varDef_278 = phi <4> %varDef_245 <17> %varDef_285
+	%varDef_279 = phi <4> %varDef_261 <17> %varDef_294
 	%varDef_280 = phi <4> %varDef_262 <17> %varDef_295
-	%varDef_281 = phi <4> %varDef_263 <17> %varDef_296
-	%varDef_282 = phi <4> %varDef_267 <17> %varDef_297
-	%varDef_283 = phi <4> %varDef_242 <17> %varDef_285
-	%varDef_284 = phi <4> %varDef_264 <17> %varDef_298
-	mov %idVal_99 %varDef_273
-	mov %idVal_100 %varDef_277
+	%varDef_281 = phi <4> %varDef_266 <17> %varDef_296
+	%varDef_282 = phi <4> %varDef_241 <17> %varDef_284
+	%varDef_283 = phi <4> %varDef_263 <17> %varDef_297
+	mov %idVal_99 %varDef_272
+	mov %idVal_100 %varDef_276
 	%res_101 = le %idVal_99 %idVal_100
 	br %res_101 <10> <11>
 
 <10> while_body
-	mov %arrayPtr_102 %varDef_274
+	mov %arrayPtr_102 %varDef_273
 	%arrayBase_103 = add %arrayPtr_102 8
-	mov %idVal_104 %varDef_273
+	mov %idVal_104 %varDef_272
 	%offset_105 = mul %idVal_104 8
 	%elementAddr_106 = add %arrayBase_103 %offset_105
 	%elementVal_107 = load %elementAddr_106
-	mov %varDef_285 %elementVal_107
-	mov %arrayPtr_108 %varDef_278
+	mov %varDef_284 %elementVal_107
+	mov %arrayPtr_108 %varDef_277
 	%arrayBase_109 = add %arrayPtr_108 8
-	mov %idVal_110 %varDef_273
+	mov %idVal_110 %varDef_272
 	%offset_111 = mul %idVal_110 8
 	%elementAddr_112 = add %arrayBase_109 %offset_111
 	%elementVal_113 = load %elementAddr_112
-	mov %varDef_286 %elementVal_113
-	mov %arrayPtr_114 %varDef_272
+	mov %varDef_285 %elementVal_113
+	mov %arrayPtr_114 %varDef_271
 	%arrayBase_115 = add %arrayPtr_114 8
-	mov %idVal_116 %varDef_285
+	mov %idVal_116 %varDef_284
 	%offset_117 = mul %idVal_116 8
 	%elementAddr_118 = add %arrayBase_115 %offset_117
 	%arrayPtr_119 = load %elementAddr_118
 	%arrayBase_120 = add %arrayPtr_119 8
-	mov %idVal_121 %varDef_286
+	mov %idVal_121 %varDef_285
 	%offset_122 = mul %idVal_121 8
 	%elementAddr_123 = add %arrayBase_120 %offset_122
 	%elementVal_124 = load %elementAddr_123
-	mov %varDef_287 %elementVal_124
-	mov %varDef_288 0
+	mov %varDef_286 %elementVal_124
+	mov %varDef_287 0
 	br <12>
 
 <12> for_cond
-	%varDef_289 = phi <10> %varDef_272 <13> %varDef_307
-	%varDef_290 = phi <10> %varDef_274 <13> %varDef_306
-	%varDef_291 = phi <10> %varDef_287 <13> %varDef_305
-	%varDef_292 = phi <10> %varDef_276 <13> %varDef_304
-	%varDef_293 = phi <10> %varDef_277 <13> %varDef_303
-	%varDef_294 = phi <10> %varDef_278 <13> %varDef_302
-	%varDef_295 = phi <10> %varDef_280 <13> %varDef_301
-	%varDef_296 = phi <10> %varDef_281 <13> %varDef_300
-	%varDef_297 = phi <10> %varDef_288 <13> %varDef_308
-	%varDef_298 = phi <10> %varDef_284 <13> %varDef_299
-	mov %idVal_125 %varDef_297
+	%varDef_288 = phi <10> %varDef_271 <13> %varDef_306
+	%varDef_289 = phi <10> %varDef_273 <13> %varDef_305
+	%varDef_290 = phi <10> %varDef_286 <13> %varDef_304
+	%varDef_291 = phi <10> %varDef_275 <13> %varDef_303
+	%varDef_292 = phi <10> %varDef_276 <13> %varDef_302
+	%varDef_293 = phi <10> %varDef_277 <13> %varDef_301
+	%varDef_294 = phi <10> %varDef_279 <13> %varDef_300
+	%varDef_295 = phi <10> %varDef_280 <13> %varDef_299
+	%varDef_296 = phi <10> %varDef_287 <13> %varDef_307
+	%varDef_297 = phi <10> %varDef_283 <13> %varDef_298
+	mov %idVal_125 %varDef_296
 	%res_126 = lt %idVal_125 8
 	br %res_126 <13> <15>
 
 <13> for_body
-	mov %idVal_127 %varDef_285
-	mov %arrayPtr_128 %varDef_250
+	mov %idVal_127 %varDef_284
+	mov %arrayPtr_128 %varDef_249
 	%arrayBase_129 = add %arrayPtr_128 8
-	mov %idVal_130 %varDef_297
+	mov %idVal_130 %varDef_296
 	%offset_131 = mul %idVal_130 8
 	%elementAddr_132 = add %arrayBase_129 %offset_131
 	%elementVal_133 = load %elementAddr_132
 	%res_134 = add %idVal_127 %elementVal_133
-	mov %idVal_135 %varDef_286
-	mov %arrayPtr_136 %varDef_255
+	mov %idVal_135 %varDef_285
+	mov %arrayPtr_136 %varDef_254
 	%arrayBase_137 = add %arrayPtr_136 8
-	mov %idVal_138 %varDef_297
+	mov %idVal_138 %varDef_296
 	%offset_139 = mul %idVal_138 8
 	%elementAddr_140 = add %arrayBase_137 %offset_139
 	%elementVal_141 = load %elementAddr_140
 	%res_142 = add %idVal_135 %elementVal_141
-	mov %tmp_207 %varDef_289
-	store %tmp_207 @step
-	mov %tmp_209 %varDef_290
-	store %tmp_209 @xlist
-	mov %tmp_211 %varDef_291
-	store %tmp_211 @now
-	mov %tmp_213 %varDef_292
-	store %tmp_213 @ok
-	mov %tmp_215 %varDef_293
-	store %tmp_215 @tail
-	mov %tmp_217 %varDef_294
-	store %tmp_217 @ylist
-	mov %tmp_219 %varDef_295
-	store %tmp_219 @N
-	mov %tmp_221 %varDef_296
-	store %tmp_221 @targety
-	mov %tmp_223 %varDef_298
-	store %tmp_223 @targetx
+	mov %tmp_206 %varDef_288
+	store %tmp_206 @step
+	mov %tmp_208 %varDef_289
+	store %tmp_208 @xlist
+	mov %tmp_210 %varDef_290
+	store %tmp_210 @now
+	mov %tmp_212 %varDef_291
+	store %tmp_212 @ok
+	mov %tmp_214 %varDef_292
+	store %tmp_214 @tail
+	mov %tmp_216 %varDef_293
+	store %tmp_216 @ylist
+	mov %tmp_218 %varDef_294
+	store %tmp_218 @N
+	mov %tmp_220 %varDef_295
+	store %tmp_220 @targety
+	mov %tmp_222 %varDef_297
+	store %tmp_222 @targetx
 	addList ( %res_134 %res_142 )
-	%tmp_224 = load @targetx
-	mov %varDef_299 %tmp_224
-	%tmp_222 = load @targety
-	mov %varDef_300 %tmp_222
-	%tmp_220 = load @N
-	mov %varDef_301 %tmp_220
-	%tmp_218 = load @ylist
-	mov %varDef_302 %tmp_218
-	%tmp_216 = load @tail
-	mov %varDef_303 %tmp_216
-	%tmp_214 = load @ok
-	mov %varDef_304 %tmp_214
-	%tmp_212 = load @now
-	mov %varDef_305 %tmp_212
-	%tmp_210 = load @xlist
-	mov %varDef_306 %tmp_210
-	%tmp_208 = load @step
-	mov %varDef_307 %tmp_208
-	mov %idVal_143 %varDef_297
-	mov %oldVal_144 %varDef_297
+	%tmp_223 = load @targetx
+	mov %varDef_298 %tmp_223
+	%tmp_221 = load @targety
+	mov %varDef_299 %tmp_221
+	%tmp_219 = load @N
+	mov %varDef_300 %tmp_219
+	%tmp_217 = load @ylist
+	mov %varDef_301 %tmp_217
+	%tmp_215 = load @tail
+	mov %varDef_302 %tmp_215
+	%tmp_213 = load @ok
+	mov %varDef_303 %tmp_213
+	%tmp_211 = load @now
+	mov %varDef_304 %tmp_211
+	%tmp_209 = load @xlist
+	mov %varDef_305 %tmp_209
+	%tmp_207 = load @step
+	mov %varDef_306 %tmp_207
+	mov %idVal_143 %varDef_296
+	mov %oldVal_144 %varDef_296
 	%newVal_145 = inc %oldVal_144
-	mov %varDef_308 %newVal_145
+	mov %varDef_307 %newVal_145
 	br <12>
 
 <15> for_end
-	mov %idVal_146 %varDef_292
+	mov %idVal_146 %varDef_291
 	%res_147 = eq %idVal_146 1
 	br %res_147 <11> <17>
 
 <17> if_merge
-	mov %idVal_148 %varDef_273
-	mov %oldVal_149 %varDef_273
+	mov %idVal_148 %varDef_272
+	mov %oldVal_149 %varDef_272
 	%newVal_150 = inc %oldVal_149
-	mov %varDef_309 %newVal_150
+	mov %varDef_308 %newVal_150
 	br <9>
 
 <11> while_end
-	%varDef_310 = phi <9> %varDef_272 <15> %varDef_289
+	%varDef_309 = phi <9> %varDef_271 <15> %varDef_288
+	%varDef_310 = phi <9> %varDef_273 <15> %varDef_289
 	%varDef_311 = phi <9> %varDef_274 <15> %varDef_290
 	%varDef_312 = phi <9> %varDef_275 <15> %varDef_291
 	%varDef_313 = phi <9> %varDef_276 <15> %varDef_292
 	%varDef_314 = phi <9> %varDef_277 <15> %varDef_293
-	%varDef_315 = phi <9> %varDef_278 <15> %varDef_294
-	%varDef_316 = phi <9> %varDef_279 <15> %varDef_286
+	%varDef_315 = phi <9> %varDef_278 <15> %varDef_285
+	%varDef_316 = phi <9> %varDef_279 <15> %varDef_294
 	%varDef_317 = phi <9> %varDef_280 <15> %varDef_295
 	%varDef_318 = phi <9> %varDef_281 <15> %varDef_296
-	%varDef_319 = phi <9> %varDef_282 <15> %varDef_297
-	%varDef_320 = phi <9> %varDef_283 <15> %varDef_285
-	%varDef_321 = phi <9> %varDef_284 <15> %varDef_298
-	mov %idVal_151 %varDef_313
+	%varDef_319 = phi <9> %varDef_282 <15> %varDef_284
+	%varDef_320 = phi <9> %varDef_283 <15> %varDef_297
+	mov %idVal_151 %varDef_312
 	%res_152 = eq %idVal_151 1
 	br %res_152 <18> <19>
 
 <18> if_true
-	mov %arrayPtr_154 %varDef_310
-	%arrayBase_155 = add %arrayPtr_154 8
-	mov %idVal_156 %varDef_321
-	%offset_157 = mul %idVal_156 8
-	%elementAddr_158 = add %arrayBase_155 %offset_157
-	%arrayPtr_159 = load %elementAddr_158
-	%arrayBase_160 = add %arrayPtr_159 8
-	mov %idVal_161 %varDef_318
-	%offset_162 = mul %idVal_161 8
-	%elementAddr_163 = add %arrayBase_160 %offset_162
-	%elementVal_164 = load %elementAddr_163
-	%res_153 = toString ( %elementVal_164 )
-	println ( %res_153 )
+	mov %arrayPtr_153 %varDef_309
+	%arrayBase_154 = add %arrayPtr_153 8
+	mov %idVal_155 %varDef_320
+	%offset_156 = mul %idVal_155 8
+	%elementAddr_157 = add %arrayBase_154 %offset_156
+	%arrayPtr_158 = load %elementAddr_157
+	%arrayBase_159 = add %arrayPtr_158 8
+	mov %idVal_160 %varDef_317
+	%offset_161 = mul %idVal_160 8
+	%elementAddr_162 = add %arrayBase_159 %offset_161
+	%elementVal_163 = load %elementAddr_162
+	__printlnInt ( %elementVal_163 )
 	br <20>
 
 <19> if_false
@@ -780,38 +783,38 @@ define main ( ) {
 	br <20>
 
 <20> if_merge
-	mov %tmp_225 %varDef_310
-	store %tmp_225 @step
-	mov %tmp_226 %varDef_255
-	store %tmp_226 @dy
-	mov %tmp_227 %varDef_266
-	store %tmp_227 @i
-	mov %tmp_228 %varDef_273
-	store %tmp_228 @head
+	mov %tmp_224 %varDef_309
+	store %tmp_224 @step
+	mov %tmp_225 %varDef_254
+	store %tmp_225 @dy
+	mov %tmp_226 %varDef_265
+	store %tmp_226 @i
+	mov %tmp_227 %varDef_272
+	store %tmp_227 @head
+	mov %tmp_228 %varDef_310
+	store %tmp_228 @xlist
 	mov %tmp_229 %varDef_311
-	store %tmp_229 @xlist
-	mov %tmp_230 %varDef_312
-	store %tmp_230 @now
-	mov %tmp_231 %varDef_250
-	store %tmp_231 @dx
+	store %tmp_229 @now
+	mov %tmp_230 %varDef_249
+	store %tmp_230 @dx
+	mov %tmp_231 %varDef_312
+	store %tmp_231 @ok
 	mov %tmp_232 %varDef_313
-	store %tmp_232 @ok
+	store %tmp_232 @tail
 	mov %tmp_233 %varDef_314
-	store %tmp_233 @tail
+	store %tmp_233 @ylist
 	mov %tmp_234 %varDef_315
-	store %tmp_234 @ylist
+	store %tmp_234 @y
 	mov %tmp_235 %varDef_316
-	store %tmp_235 @y
+	store %tmp_235 @N
 	mov %tmp_236 %varDef_317
-	store %tmp_236 @N
+	store %tmp_236 @targety
 	mov %tmp_237 %varDef_318
-	store %tmp_237 @targety
+	store %tmp_237 @j
 	mov %tmp_238 %varDef_319
-	store %tmp_238 @j
+	store %tmp_238 @x
 	mov %tmp_239 %varDef_320
-	store %tmp_239 @x
-	mov %tmp_240 %varDef_321
-	store %tmp_240 @targetx
+	store %tmp_239 @targetx
 	ret 0
 
 }

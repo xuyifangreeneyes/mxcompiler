@@ -54,9 +54,9 @@ public class IRInterpreter {
     private int memPtr = 0;
 
     private final Set<String> builtinFuncs = new HashSet<>(Arrays.asList(
-            "print", "println", "getString", "getInt", "toString", "_stringLength", "_stringSubstring",
-            "_stringParseInt", "_stringOrd", "_arraySize", "_stringAdd", "_stringEq", "_stringNeq",
-            "_stringLt", "_stringGt", "_stringLe", "_stringGe"
+            "print", "println", "getString", "getInt", "toString", "__stringLength", "__stringSubstring",
+            "__stringParseInt", "__stringOrd", "__arraySize", "__stringAdd", "__stringEq", "__stringNeq",
+            "__stringLt", "__stringGt", "__stringLe", "__stringGe"
             ));
 
     private BufferedReader br;
@@ -367,7 +367,7 @@ public class IRInterpreter {
             String strVal = String.valueOf(argVals.get(0));
             return addString(strVal);
         }
-        if (funcName.equals("_arraySize")) {
+        if (funcName.equals("__arraySize")) {
             assert memInt.containsKey(argVals.get(0));
             return memInt.get(argVals.get(0));
         }
@@ -382,43 +382,43 @@ public class IRInterpreter {
             System.out.println(StringHandler.unescape(str));
             return 0;
         }
-        if (funcName.equals("_stringLength")) {
+        if (funcName.equals("__stringLength")) {
             String strVal = memString.get(argVals.get(0));
             return strVal.length();
         }
-        if (funcName.equals("_stringSubstring")) {
+        if (funcName.equals("__stringSubstring")) {
             String strVal = memString.get(argVals.get(0));
             String substring = strVal.substring(argVals.get(1), argVals.get(2));
             return addString(substring);
         }
-        if (funcName.equals("_stringParseInt")) {
+        if (funcName.equals("__stringParseInt")) {
             String strVal = memString.get(argVals.get(0));
             return string2int(strVal);
         }
-        if (funcName.equals("_stringOrd")) {
+        if (funcName.equals("__stringOrd")) {
             String strVal = memString.get(argVals.get(0));
             return (int) strVal.charAt(argVals.get(1));
         }
         assert memString.containsKey(argVals.get(1));
-        if (funcName.equals("_stringAdd")) {
+        if (funcName.equals("__stringAdd")) {
             return addString(memString.get(argVals.get(0)) + memString.get(argVals.get(1)));
         }
-        if (funcName.equals("_stringEq")) {
+        if (funcName.equals("__stringEq")) {
             return memString.get(argVals.get(0)).equals(memString.get(argVals.get(1))) ? 1 : 0;
         }
-        if (funcName.equals("_stringNeq")) {
+        if (funcName.equals("__stringNeq")) {
             return memString.get(argVals.get(0)).equals(memString.get(argVals.get(1))) ? 0 : 1;
         }
-        if (funcName.equals("_stringLt")) {
+        if (funcName.equals("__stringLt")) {
             return memString.get(argVals.get(0)).compareTo(memString.get(argVals.get(1))) < 0 ? 1 : 0;
         }
-        if (funcName.equals("_stringGt")) {
+        if (funcName.equals("__stringGt")) {
             return memString.get(argVals.get(0)).compareTo(memString.get(argVals.get(1))) > 0 ? 1 : 0;
         }
-        if (funcName.equals("_stringLe")) {
+        if (funcName.equals("__stringLe")) {
             return memString.get(argVals.get(0)).compareTo(memString.get(argVals.get(1))) <= 0 ? 1 : 0;
         }
-        if (funcName.equals("_stringGe")) {
+        if (funcName.equals("__stringGe")) {
             return memString.get(argVals.get(0)).compareTo(memString.get(argVals.get(1))) >= 0 ? 1 : 0;
         }
         assert false;
@@ -469,7 +469,7 @@ public class IRInterpreter {
 
     public int run() throws IOException {
         curFunc = null;
-        runFunc("_globalInit", new ArrayList<>());
+        runFunc("__globalInit", new ArrayList<>());
         int exitCode = runFunc("main", new ArrayList<>());
         scanner.close();
         return exitCode;

@@ -45,11 +45,11 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     public void visit(Program node) {
-        curInitBB = module.funcs.get("_globalInit").getStartBB();
+        curInitBB = module.funcs.get("__globalInit").getStartBB();
 
         node.decls.forEach(this::visit);
 
-        BasicBlock globalInitTail = module.funcs.get("_globalInit").getLastBB();
+        BasicBlock globalInitTail = module.funcs.get("__globalInit").getLastBB();
         globalInitTail.append(new Return(globalInitTail, null));
     }
 
@@ -65,7 +65,7 @@ public class IRBuilder extends AstBaseVisitor {
             module.globalRegs.add(globalVarAddr);
             node.var.reg = globalVarAddr;
             if (node.init != null) {
-                curFunc = module.funcs.get("_globalInit");
+                curFunc = module.funcs.get("__globalInit");
                 curBB = curInitBB;
                 processVariableDeclInit(globalVarAddr, node.init);
                 curInitBB = curBB;
@@ -84,7 +84,7 @@ public class IRBuilder extends AstBaseVisitor {
     public void visit(FunctionDecl node) {
         boolean isMember = node.func.isClassMember();
         String funcName = node.func.name;
-        if (isMember) funcName = "_" + node.scope.getEnclosingScope().getScopeName() + "_" + funcName;
+        if (isMember) funcName = "__" + node.scope.getEnclosingScope().getScopeName() + "_" + funcName;
         curFunc = new Function(funcName, false);
         node.func.IRFunc = curFunc;
         module.defineFunction(curFunc);
@@ -547,12 +547,20 @@ public class IRBuilder extends AstBaseVisitor {
     }
 
     // print(A + B + C);  =>  print(A); print(B); print(C);
-    private void spiltPrint(Expr node, boolean newline) {
+    // print(toString(num)) => printInt(num);
+    private void processPrint(Expr node, boolean newline) {
         if (node instanceof BinaryExpr) {
             BinaryExpr add = (BinaryExpr) node;
             assert add.op == BinaryExpr.BinaryOp.ADD && add.left.type.isSameType(STRING_TYPE);
-            spiltPrint(add.left, false);
-            spiltPrint(add.right, newline);
+            processPrint(add.left, false);
+            processPrint(add.right, newline);
+        } else if (node instanceof FunctionCall && ((FunctionCall) node).func == TO_STRING) {
+            FunctionSymbol func = newline ? PRINTLN_INT : PRINT_INT;
+            List<Operand> args = new ArrayList<>();
+            Expr intExpr = ((FunctionCall) node).args.get(0);
+            visitExpr(intExpr);
+            args.add(intExpr.val);
+            curBB.append(new Call(curBB, func, null, args));
         } else {
             FunctionSymbol func = newline ? PRINTLN : PRINT;
             List<Operand> args = new ArrayList<>();
@@ -565,7 +573,7 @@ public class IRBuilder extends AstBaseVisitor {
     public void visit(FunctionCall node) {
         if (node.func == PRINT || node.func == PRINTLN) {
             assert node.args.size() == 1;
-            spiltPrint(node.args.get(0), node.func == PRINTLN);
+            processPrint(node.args.get(0), node.func == PRINTLN);
             return;
         }
         LocalReg dst = node.func.type.isSameType(VOID_TYPE) ? null : curFunc.makeLocalReg("res");

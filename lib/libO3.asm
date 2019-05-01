@@ -29,6 +29,36 @@ println:
 
 ALIGN   8
 
+__printInt:
+        mov     rdx, rdi
+        mov     esi, L_012
+        mov     edi, 1
+        xor     eax, eax
+        jmp     __printf_chk
+
+
+
+
+
+
+
+ALIGN   16
+
+__printlnInt:
+        mov     rdx, rdi
+        mov     esi, L_013
+        mov     edi, 1
+        xor     eax, eax
+        jmp     __printf_chk
+
+
+
+
+
+
+
+ALIGN   16
+
 getString:
         push    r12
         push    rbp
@@ -142,7 +172,7 @@ toString:
 
 ALIGN   16
 
-_stringLength:
+__stringLength:
         mov     rax, qword [rdi]
         ret
 
@@ -154,7 +184,7 @@ _stringLength:
 
 ALIGN   16
 
-_stringSubstring:
+__stringSubstring:
         push    r13
         sub     rdx, rsi
         push    r12
@@ -190,7 +220,7 @@ L_004:  mov     byte [rbp+rbx+8H], 0
 
 ALIGN   8
 
-_stringParseInt:
+__stringParseInt:
         movsx   edx, byte [rdi+8H]
         cmp     dl, 45
         jz      L_007
@@ -243,7 +273,7 @@ L_008:  xor     eax, eax
 
 ALIGN   8
 
-_stringOrd:
+__stringOrd:
         movsx   rax, byte [rdi+rsi+8H]
         ret
 
@@ -255,7 +285,7 @@ _stringOrd:
 
 ALIGN   16
 
-_stringAdd:
+__stringAdd:
         push    r15
         push    r14
         mov     r14, rsi
@@ -302,7 +332,7 @@ L_010:  mov     byte [rbx+r15], 0
         nop
 
 ALIGN   16
-_stringEq:
+__stringEq:
         sub     rsp, 8
         add     rsi, 8
         add     rdi, 8
@@ -320,7 +350,7 @@ _stringEq:
 
 ALIGN   8
 
-_stringNeq:
+__stringNeq:
         sub     rsp, 8
         add     rsi, 8
         add     rdi, 8
@@ -338,7 +368,7 @@ _stringNeq:
 
 ALIGN   8
 
-_stringLt:
+__stringLt:
         sub     rsp, 8
         add     rsi, 8
         add     rdi, 8
@@ -355,7 +385,7 @@ _stringLt:
 
 ALIGN   8
 
-_stringGt:
+__stringGt:
         sub     rsp, 8
         add     rsi, 8
         add     rdi, 8
@@ -373,7 +403,7 @@ _stringGt:
 
 ALIGN   8
 
-_stringLe:
+__stringLe:
         sub     rsp, 8
         add     rsi, 8
         add     rdi, 8
@@ -391,7 +421,7 @@ _stringLe:
 
 ALIGN   8
 
-_stringGe:
+__stringGe:
         sub     rsp, 8
         add     rsi, 8
         add     rdi, 8
@@ -406,7 +436,7 @@ _stringGe:
         nop
 
 ALIGN   16
-_arraySize:
+__arraySize:
         mov     rax, qword [rdi]
         ret
 
@@ -425,6 +455,9 @@ L_011:
 
 L_012:
         db 25H, 6CH, 64H, 00H
+
+L_013:
+        db 25H, 6CH, 64H, 0AH, 00H
 
 
 SECTION .text.unlikely

@@ -32,6 +32,36 @@ println:
         ret
 
 
+__printInt:
+        push    rbp
+        mov     rbp, rsp
+        sub     rsp, 16
+        mov     qword [rbp-8H], rdi
+        mov     rax, qword [rbp-8H]
+        mov     rsi, rax
+        mov     edi, L_015
+        mov     eax, 0
+        call    printf
+        nop
+        leave
+        ret
+
+
+__printlnInt:
+        push    rbp
+        mov     rbp, rsp
+        sub     rsp, 16
+        mov     qword [rbp-8H], rdi
+        mov     rax, qword [rbp-8H]
+        mov     rsi, rax
+        mov     edi, L_016
+        mov     eax, 0
+        call    printf
+        nop
+        leave
+        ret
+
+
 getString:
         push    rbp
         mov     rbp, rsp
@@ -105,45 +135,26 @@ toString:
         mov     rbp, rsp
         sub     rsp, 32
         mov     qword [rbp-18H], rdi
-        mov     rax, qword [rbp-18H]
-        mov     rcx, rax
-        mov     edx, L_015
-        mov     esi, 0
-        mov     edi, 0
-        mov     eax, 0
-        call    snprintf
-        cdqe
-        mov     qword [rbp-10H], rax
-        mov     rax, qword [rbp-10H]
-        add     rax, 9
-        mov     rdi, rax
+        mov     edi, 32
         call    malloc
         mov     qword [rbp-8H], rax
-        mov     rax, qword [rbp-10H]
-        add     rax, 1
-        mov     rsi, rax
         mov     rax, qword [rbp-8H]
-        lea     rdi, [rax+8H]
+        lea     rcx, [rax+8H]
         mov     rax, qword [rbp-18H]
-        mov     rcx, rax
-        mov     edx, L_015
-        mov     eax, 0
-        call    snprintf
-        mov     rax, qword [rbp-10H]
-        add     rax, 8
         mov     rdx, rax
+        mov     esi, L_015
+        mov     rdi, rcx
+        mov     eax, 0
+        call    sprintf
+        movsxd  rdx, eax
         mov     rax, qword [rbp-8H]
-        add     rax, rdx
-        mov     byte [rax], 0
-        mov     rax, qword [rbp-8H]
-        mov     rdx, qword [rbp-10H]
         mov     qword [rax], rdx
         mov     rax, qword [rbp-8H]
         leave
         ret
 
 
-_stringLength:
+__stringLength:
         push    rbp
         mov     rbp, rsp
         mov     qword [rbp-8H], rdi
@@ -153,7 +164,7 @@ _stringLength:
         ret
 
 
-_stringSubstring:
+__stringSubstring:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 64
@@ -205,7 +216,7 @@ L_004:  mov     eax, dword [rbp-14H]
         ret
 
 
-_stringParseInt:
+__stringParseInt:
         push    rbp
         mov     rbp, rsp
         mov     qword [rbp-18H], rdi
@@ -253,7 +264,7 @@ L_009:  pop     rbp
         ret
 
 
-_stringOrd:
+__stringOrd:
         push    rbp
         mov     rbp, rsp
         mov     qword [rbp-8H], rdi
@@ -269,7 +280,7 @@ _stringOrd:
         ret
 
 
-_stringAdd:
+__stringAdd:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 48
@@ -350,7 +361,7 @@ L_013:  mov     eax, dword [rbp-1CH]
         ret
 
 
-_stringEq:
+__stringEq:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -370,7 +381,7 @@ _stringEq:
         ret
 
 
-_stringNeq:
+__stringNeq:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -390,7 +401,7 @@ _stringNeq:
         ret
 
 
-_stringLt:
+__stringLt:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -409,7 +420,7 @@ _stringLt:
         ret
 
 
-_stringGt:
+__stringGt:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -429,7 +440,7 @@ _stringGt:
         ret
 
 
-_stringLe:
+__stringLe:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -449,7 +460,7 @@ _stringLe:
         ret
 
 
-_stringGe:
+__stringGe:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 16
@@ -469,7 +480,7 @@ _stringGe:
         ret
 
 
-_arraySize:
+__arraySize:
         push    rbp
         mov     rbp, rsp
         mov     qword [rbp-8H], rdi
@@ -493,5 +504,8 @@ L_014:
 
 L_015:
         db 25H, 6CH, 64H, 00H
+
+L_016:
+        db 25H, 6CH, 64H, 0AH, 00H
 
 

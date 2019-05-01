@@ -1,5 +1,0 @@
-int main() {
-    string s = "abc";
-    println(s);
-    return 0;
-}

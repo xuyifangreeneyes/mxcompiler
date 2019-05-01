@@ -18,7 +18,7 @@ public class Nasm {
 
     private void addExtern() {
 //        externs.add("strcmp");
-//        externs.add("snprintf");
+//        externs.add("sprintf");
 //        externs.add("__stack_chk_fail");
 //        externs.add("strcpy");
 //        externs.add("malloc");

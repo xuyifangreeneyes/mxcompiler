@@ -192,7 +192,7 @@ public class InstructionSelector implements IRVisitor {
             }
 
             if (bb.getParentFunc().getName().equals("main")) {
-                curNasmBlock.addInst(new FuncCall("_globalInit", 0));
+                curNasmBlock.addInst(new FuncCall("__globalInit", 0));
             }
         }
         Instruction inst = bb.getFirstInst();

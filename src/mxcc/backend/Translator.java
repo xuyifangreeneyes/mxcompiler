@@ -198,7 +198,7 @@ public class Translator implements IRVisitor {
         }
 
         if (func.getName().equals("main")) {
-            addLine("call", "_globalInit");
+            addLine("call", "__globalInit");
         }
 
         BasicBlock bb = func.getStartBB();

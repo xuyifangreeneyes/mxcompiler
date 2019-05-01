@@ -59,7 +59,7 @@ public class ConstGlobalRegEliminator {
                 deletedGlobalRegs.add(globalReg);
             } else if (num == 1) {
                 Store store = stores.get(globalReg).get(0);
-                if (store.getParentBB().getParentFunc().getName().equals("_globalInit") &&
+                if (store.getParentBB().getParentFunc().getName().equals("__globalInit") &&
                         store.getVal() instanceof IntImmediate) {
                     int val = ((IntImmediate) store.getVal()).getVal();
                     load2move(loads.get(globalReg), val);
