@@ -26,12 +26,18 @@ long getInt() {
     return num;
 }
 
+//char* toString(long num) {
+//    long length = snprintf(NULL, 0, "%ld", num);
+//    char* ptr = malloc(8 + length + 1);
+//    snprintf(ptr + 8, length + 1, "%ld", num);
+//    ptr[8 + length] = '\0';
+//    *((long*)ptr) = length;
+//    return ptr;
+//}
+
 char* toString(long num) {
-    long length = snprintf(NULL, 0, "%ld", num);
-    char* ptr = malloc(8 + length + 1);
-    snprintf(ptr + 8, length + 1, "%ld", num);
-    ptr[8 + length] = '\0';
-    *((long*)ptr) = length;
+    char* ptr = malloc(8 + 24);
+    *((long*)ptr) = sprintf(ptr + 8, "%ld", num);
     return ptr;
 }
 

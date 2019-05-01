@@ -112,84 +112,35 @@ L_003:  call    __stack_chk_fail
 ALIGN   16
 
 toString:
-
-        db 41H, 54H
-
-        db 55H
-
-        db 49H, 89H, 0F9H
-
-        db 53H
-
-        db 49H, 89H, 0FCH
-
-        db 41H, 0B8H
-        dd L_012
-
-
-
-        db 48H, 0C7H, 0C1H, 0FFH, 0FFH, 0FFH, 0FFH
-
-        db 0BAH, 01H, 00H, 00H, 00H
-
-        db 31H, 0F6H
-
-        db 31H, 0FFH
-
-        db 31H, 0C0H
-
-        db 0E8H
-        dd __snprintf_chk-$-5H
-
-        db 48H, 63H, 0D8H
-
-        db 48H, 8DH, 7BH, 09H
-
-        db 0E8H
-        dd malloc-$-5H
-
-        db 48H, 8DH, 73H, 01H
-
-        db 48H, 8DH, 78H, 08H
-
-        db 48H, 89H, 0C5H
-
-        db 4DH, 89H, 0E1H
-
-        db 41H, 0B8H
-        dd L_012
-
-
-
-        db 48H, 0C7H, 0C1H, 0FFH, 0FFH, 0FFH, 0FFH
-
-        db 0BAH, 01H, 00H, 00H, 00H
-
-        db 31H, 0C0H
-
-        db 0E8H
-        dd __snprintf_chk-$-5H
-
-        db 0C6H, 44H, 1DH, 08H, 00H
-
-        db 48H, 89H, 0E8H
-
-        db 48H, 89H, 5DH, 00H
-
-        db 5BH
-
-        db 5DH
-
-        db 41H, 5CH
-
-        db 0C3H
+        push    rbp
+        push    rbx
+        mov     rbp, rdi
+        mov     edi, 32
+        sub     rsp, 8
+        call    malloc
+        lea     rdi, [rax+8H]
+        mov     rbx, rax
+        mov     r8, rbp
+        mov     ecx, L_012
+        mov     edx, 24
+        mov     esi, 1
+        xor     eax, eax
+        call    __sprintf_chk
+        cdqe
+        mov     qword [rbx], rax
+        add     rsp, 8
+        mov     rax, rbx
+        pop     rbx
+        pop     rbp
+        ret
 
 
 
 
 
 
-ALIGN   8
+
+ALIGN   16
 
 _stringLength:
         mov     rax, qword [rdi]

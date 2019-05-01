@@ -17,24 +17,24 @@ public class Nasm {
     private boolean allocated = false;
 
     private void addExtern() {
-        externs.add("strcmp");
-        externs.add("snprintf");
-        externs.add("__stack_chk_fail");
-        externs.add("strcpy");
-        externs.add("malloc");
-        externs.add("strlen");
-        externs.add("__isoc99_scanf");
-        externs.add("puts");
-        externs.add("printf");
-
 //        externs.add("strcmp");
-//        externs.add("__snprintf_chk");
+//        externs.add("snprintf");
 //        externs.add("__stack_chk_fail");
-//        externs.add("memcpy");
+//        externs.add("strcpy");
 //        externs.add("malloc");
+//        externs.add("strlen");
 //        externs.add("__isoc99_scanf");
 //        externs.add("puts");
-//        externs.add("__printf_chk");
+//        externs.add("printf");
+
+        externs.add("strcmp");
+        externs.add("__sprintf_chk");
+        externs.add("__stack_chk_fail");
+        externs.add("memcpy");
+        externs.add("malloc");
+        externs.add("__isoc99_scanf");
+        externs.add("puts");
+        externs.add("__printf_chk");
     }
 
     public Nasm() {
