@@ -77,7 +77,7 @@ public class Function {
     }
 
     public boolean isInlinable() {
-        return getNumberOfInsts() < 30;
+        return getNumberOfInsts() < 100;
     }
 
 }
