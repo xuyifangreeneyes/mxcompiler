@@ -111,7 +111,7 @@ public class IrrelevantArrayDeleter extends AstBaseVisitor {
             expr = ((ArrayAccess) expr).container;
             ++dim;
         }
-        assert expr instanceof IdentifierExpr;
+        if (!(expr instanceof IdentifierExpr)) return false;
         Symbol var = ((IdentifierExpr) expr).var;
         assert var instanceof VariableSymbol;
         return var instanceof VariableSymbol && var.type instanceof ArrayType &&
