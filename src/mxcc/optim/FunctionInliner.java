@@ -20,7 +20,7 @@ public class FunctionInliner {
     }
 
     public void run() {
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < 2; ++i) {
             for (Call callInst : collectInlineCall()) {
                 Transplantor transplantor = new Transplantor(callInst, funcBackupMap.get(callInst.getFunc().IRFunc));
                 transplantor.fork();
