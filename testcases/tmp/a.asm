@@ -95,7 +95,7 @@ origin:
 		mov     r12, rdi
 		mov     r15, qword [rel _j]
 		mov     rdi, r12
-		imul    rdi, 8
+		shl     rdi, 3
 		add     rdi, 8
 		call    malloc
 		mov     r14, rax
@@ -108,14 +108,14 @@ __L_1:
 		jge     __L_2
 __L_3:
 		mov     rdi, r12
-		imul    rdi, 8
+		shl     rdi, 3
 		add     rdi, 8
 		call    malloc
 		mov     qword [rax], r12
 		mov     rcx, r14
 		add     rcx, 8
 		mov     r8, r15
-		imul    r8, 8
+		shl     r8, 3
 		add     rcx, r8
 		mov     qword [rcx], rax
 		mov     rcx, 0
@@ -126,12 +126,12 @@ __L_6:
 		mov     r8, r14
 		add     r8, 8
 		mov     rdx, r15
-		imul    rdx, 8
+		shl     rdx, 3
 		add     r8, rdx
 		mov     r8, qword [r8]
 		add     r8, 8
 		mov     rdx, rcx
-		imul    rdx, 8
+		shl     rdx, 3
 		add     r8, rdx
 		mov     qword [r8], 0
 		inc     rcx
@@ -228,12 +228,12 @@ __L_23:
 		mov     r14, r9
 		add     r14, 8
 		mov     r13, rdi
-		imul    r13, 8
+		shl     r13, 3
 		add     r14, r13
 		mov     r14, qword [r14]
 		add     r14, 8
 		mov     r13, rsi
-		imul    r13, 8
+		shl     r13, 3
 		add     r14, r13
 		mov     r14, qword [r14]
 		cmp     r14, -1
@@ -245,7 +245,7 @@ __L_25:
 		mov     r14, r10
 		add     r14, 8
 		mov     r13, r8
-		imul    r13, 8
+		shl     r13, 3
 		add     r14, r13
 		mov     qword [r14], rdi
 		mov     r14, r11
@@ -257,12 +257,12 @@ __L_25:
 		mov     r13, r9
 		add     r13, 8
 		mov     r15, rdi
-		imul    r15, 8
+		shl     r15, 3
 		add     r13, r15
 		mov     r13, qword [r13]
 		add     r13, 8
 		mov     r15, rsi
-		imul    r15, 8
+		shl     r15, 3
 		add     r13, r15
 		mov     qword [r13], r14
 		cmp     rdi, rdx
@@ -355,12 +355,12 @@ __L_36:
 		mov     rcx, r15
 		add     rcx, 8
 		mov     rax, qword [rbp - 104]
-		imul    rax, 8
+		shl     rax, 3
 		add     rcx, rax
 		mov     rcx, qword [rcx]
 		add     rcx, 8
 		mov     rax, r9
-		imul    rax, 8
+		shl     rax, 3
 		add     rcx, rax
 		mov     qword [rcx], -1
 		inc     r9
@@ -445,7 +445,7 @@ __L_38:
 		mov     rbx, r10
 		add     rbx, 8
 		mov     r12, qword [rbp - 128]
-		imul    r12, 8
+		shl     r12, 3
 		add     rbx, r12
 		mov     rbx, qword [rbx]
 		mov     qword [rbp - 144], rbx
@@ -456,12 +456,12 @@ __L_38:
 		mov     rbx, r9
 		add     rbx, 8
 		mov     r11, qword [rbp - 144]
-		imul    r11, 8
+		shl     r11, 3
 		add     rbx, r11
 		mov     rbx, qword [rbx]
 		add     rbx, 8
 		mov     r11, r12
-		imul    r11, 8
+		shl     r11, 3
 		add     rbx, r11
 		mov     r11, qword [rbx]
 		mov     r14, r13
@@ -473,7 +473,7 @@ __L_43:
 		mov     r13, qword [rbp - 88]
 		add     r13, 8
 		mov     rdi, rbx
-		imul    rdi, 8
+		shl     rdi, 3
 		add     r13, rdi
 		mov     r15, qword [r13]
 		mov     r13, qword [rbp - 144]
@@ -544,12 +544,12 @@ __L_47:
 		mov     rcx, r13
 		add     rcx, 8
 		mov     r8, r12
-		imul    r8, 8
+		shl     r8, 3
 		add     rcx, r8
 		mov     rcx, qword [rcx]
 		add     rcx, 8
 		mov     r8, qword [rbp - 152]
-		imul    r8, 8
+		shl     r8, 3
 		add     rcx, r8
 		mov     rdi, qword [rcx]
 		call    __printlnInt

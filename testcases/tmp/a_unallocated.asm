@@ -94,7 +94,7 @@ origin:
 		mov     %argVal_0, rdi
 		mov     %tmp_45, qword [rel _j]
 		mov     %memberLength_4, %argVal_0
-		imul    %memberLength_4, 8
+		shl     %memberLength_4, 3
 		mov     %arrayLength_5, %memberLength_4
 		add     %arrayLength_5, 8
 		mov     rdi, %arrayLength_5
@@ -110,7 +110,7 @@ __L_1:
 		jge     __L_2
 __L_3:
 		mov     %memberLength_11, %argVal_0
-		imul    %memberLength_11, 8
+		shl     %memberLength_11, 3
 		mov     %arrayLength_12, %memberLength_11
 		add     %arrayLength_12, 8
 		mov     rdi, %arrayLength_12
@@ -120,7 +120,7 @@ __L_3:
 		mov     %arrayBase_14, %arrayPtr_3
 		add     %arrayBase_14, 8
 		mov     %offset_16, %varDef_63
-		imul    %offset_16, 8
+		shl     %offset_16, 3
 		mov     %elementAddr_17, %arrayBase_14
 		add     %elementAddr_17, %offset_16
 		mov     qword [%elementAddr_17], %arrayPtr_10
@@ -133,14 +133,14 @@ __L_6:
 		mov     %arrayBase_22, %arrayPtr_3
 		add     %arrayBase_22, 8
 		mov     %offset_24, %varDef_63
-		imul    %offset_24, 8
+		shl     %offset_24, 3
 		mov     %elementAddr_25, %arrayBase_22
 		add     %elementAddr_25, %offset_24
 		mov     %arrayPtr_26, qword [%elementAddr_25]
 		mov     %arrayBase_27, %arrayPtr_26
 		add     %arrayBase_27, 8
 		mov     %offset_29, %varDef_65
-		imul    %offset_29, 8
+		shl     %offset_29, 3
 		mov     %elementAddr_30, %arrayBase_27
 		add     %elementAddr_30, %offset_29
 		mov     qword [%elementAddr_30], 0
@@ -255,14 +255,14 @@ __L_23:
 		mov     %arrayBase_9, %tmp_87
 		add     %arrayBase_9, 8
 		mov     %offset_11, %argVal_0
-		imul    %offset_11, 8
+		shl     %offset_11, 3
 		mov     %elementAddr_12, %arrayBase_9
 		add     %elementAddr_12, %offset_11
 		mov     %arrayPtr_13, qword [%elementAddr_12]
 		mov     %arrayBase_14, %arrayPtr_13
 		add     %arrayBase_14, 8
 		mov     %offset_16, %argVal_2
-		imul    %offset_16, 8
+		shl     %offset_16, 3
 		mov     %elementAddr_17, %arrayBase_14
 		add     %elementAddr_17, %offset_16
 		mov     %elementVal_18, qword [%elementAddr_17]
@@ -278,7 +278,7 @@ __L_25:
 		mov     %arrayBase_26, %tmp_88
 		add     %arrayBase_26, 8
 		mov     %offset_28, %newVal_23
-		imul    %offset_28, 8
+		shl     %offset_28, 3
 		mov     %elementAddr_29, %arrayBase_26
 		add     %elementAddr_29, %offset_28
 		mov     qword [%elementAddr_29], %argVal_0
@@ -292,14 +292,14 @@ __L_25:
 		mov     %arrayBase_39, %tmp_87
 		add     %arrayBase_39, 8
 		mov     %offset_41, %argVal_0
-		imul    %offset_41, 8
+		shl     %offset_41, 3
 		mov     %elementAddr_42, %arrayBase_39
 		add     %elementAddr_42, %offset_41
 		mov     %arrayPtr_43, qword [%elementAddr_42]
 		mov     %arrayBase_44, %arrayPtr_43
 		add     %arrayBase_44, 8
 		mov     %offset_46, %argVal_2
-		imul    %offset_46, 8
+		shl     %offset_46, 3
 		mov     %elementAddr_47, %arrayBase_44
 		add     %elementAddr_47, %offset_46
 		mov     qword [%elementAddr_47], %res_37
@@ -390,14 +390,14 @@ __L_36:
 		mov     %arrayBase_12, %tmp_205
 		add     %arrayBase_12, 8
 		mov     %offset_14, %varDef_266
-		imul    %offset_14, 8
+		shl     %offset_14, 3
 		mov     %elementAddr_15, %arrayBase_12
 		add     %elementAddr_15, %offset_14
 		mov     %arrayPtr_16, qword [%elementAddr_15]
 		mov     %arrayBase_17, %arrayPtr_16
 		add     %arrayBase_17, 8
 		mov     %offset_19, %varDef_268
-		imul    %offset_19, 8
+		shl     %offset_19, 3
 		mov     %elementAddr_20, %arrayBase_17
 		add     %elementAddr_20, %offset_19
 		mov     qword [%elementAddr_20], -1
@@ -511,7 +511,7 @@ __L_38:
 		mov     %arrayBase_103, %varDef_277
 		add     %arrayBase_103, 8
 		mov     %offset_105, %varDef_274
-		imul    %offset_105, 8
+		shl     %offset_105, 3
 		mov     %elementAddr_106, %arrayBase_103
 		add     %elementAddr_106, %offset_105
 		mov     %elementVal_107, qword [%elementAddr_106]
@@ -523,14 +523,14 @@ __L_38:
 		mov     %arrayBase_115, %varDef_282
 		add     %arrayBase_115, 8
 		mov     %offset_117, %elementVal_107
-		imul    %offset_117, 8
+		shl     %offset_117, 3
 		mov     %elementAddr_118, %arrayBase_115
 		add     %elementAddr_118, %offset_117
 		mov     %arrayPtr_119, qword [%elementAddr_118]
 		mov     %arrayBase_120, %arrayPtr_119
 		add     %arrayBase_120, 8
 		mov     %offset_122, %elementVal_113
-		imul    %offset_122, 8
+		shl     %offset_122, 3
 		mov     %elementAddr_123, %arrayBase_120
 		add     %elementAddr_123, %offset_122
 		mov     %elementVal_124, qword [%elementAddr_123]
@@ -561,7 +561,7 @@ __L_43:
 		mov     %arrayBase_129, %tmp_185
 		add     %arrayBase_129, 8
 		mov     %offset_131, %varDef_291
-		imul    %offset_131, 8
+		shl     %offset_131, 3
 		mov     %elementAddr_132, %arrayBase_129
 		add     %elementAddr_132, %offset_131
 		mov     %elementVal_133, qword [%elementAddr_132]
@@ -661,14 +661,14 @@ __L_47:
 		mov     %arrayBase_154, %varDef_319
 		add     %arrayBase_154, 8
 		mov     %offset_156, %varDef_317
-		imul    %offset_156, 8
+		shl     %offset_156, 3
 		mov     %elementAddr_157, %arrayBase_154
 		add     %elementAddr_157, %offset_156
 		mov     %arrayPtr_158, qword [%elementAddr_157]
 		mov     %arrayBase_159, %arrayPtr_158
 		add     %arrayBase_159, 8
 		mov     %offset_161, %varDef_309
-		imul    %offset_161, 8
+		shl     %offset_161, 3
 		mov     %elementAddr_162, %arrayBase_159
 		add     %elementAddr_162, %offset_161
 		mov     %elementVal_163, qword [%elementAddr_162]

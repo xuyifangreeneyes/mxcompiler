@@ -347,9 +347,38 @@ public class InstructionSelector implements IRVisitor {
         curNasmBlock.addInst(new BinOp(binary, dstReg, getVar(node.getRhs())));
     }
 
+    private int log2(int x) {
+        if (x <= 0) return -1;
+        int e = 0;
+        while (x % 2 == 0) {
+            x /= 2;
+            ++e;
+        }
+        if (x == 1) return e;
+        else return -1;
+    }
+
+    private boolean mul2shl(BinaryOperation node) {
+        if (node.getOp() != BinaryOperation.BinaryOp.MUL || !(node.getRhs() instanceof IntImmediate)) {
+            return false;
+        }
+        int val = ((IntImmediate) node.getRhs()).getVal();
+        int e = log2(val);
+        if (e == -1) return false;
+        VirtualReg dstReg = getVirtualReg(node.getDst());
+        curNasmBlock.addInst(new Mov(dstReg, getVar(node.getLhs())));
+        if (e != 0) {
+            curNasmBlock.addInst(new Shift("shl", dstReg, new Imm(e)));
+        }
+        return true;
+    }
+
     public void visit(BinaryOperation node) {
         if (isCmp(node)) {
             writeCmp(node);
+            return;
+        }
+        if (mul2shl(node)) {
             return;
         }
         if (node.getOp() == BinaryOperation.BinaryOp.DIV || node.getOp() == BinaryOperation.BinaryOp.MOD) {
