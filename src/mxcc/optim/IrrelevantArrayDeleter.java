@@ -87,19 +87,35 @@ public class IrrelevantArrayDeleter extends AstBaseVisitor {
         for (Stmt stmt : stmts) {
             if (!remove(stmt)) {
                 newStmts.add(stmt);
+            } else {
+//                System.out.println("delete");
             }
         }
         return newStmts;
     }
 
+//    private boolean isIrrelevantArray(Expr expr) {
+//        if (expr instanceof IdentifierExpr) {
+//            Symbol var = ((IdentifierExpr) expr).var;
+//            return var instanceof VariableSymbol && var.type instanceof ArrayType && unusedArrayVars.contains((var));
+//        } else if (expr instanceof ArrayAccess) {
+//            return isIrrelevantArray(((ArrayAccess) expr).container);
+//        }
+//        return false;
+//    }
+
     private boolean isIrrelevantArray(Expr expr) {
-        if (expr instanceof IdentifierExpr) {
-            Symbol var = ((IdentifierExpr) expr).var;
-            return var instanceof VariableSymbol && var.type instanceof ArrayType && unusedArrayVars.contains((var));
-        } else if (expr instanceof ArrayAccess) {
-            return isIrrelevantArray(((ArrayAccess) expr).container);
+        if (!(expr instanceof ArrayAccess)) return false;
+        int dim = 0;
+        while (expr instanceof ArrayAccess) {
+            expr = ((ArrayAccess) expr).container;
+            ++dim;
         }
-        return false;
+        assert expr instanceof IdentifierExpr;
+        Symbol var = ((IdentifierExpr) expr).var;
+        assert var instanceof VariableSymbol;
+        return var instanceof VariableSymbol && var.type instanceof ArrayType &&
+                unusedArrayVars.contains(var) && ((ArrayType) var.type).dim == dim;
     }
 
     private boolean remove(Stmt stmt) {
