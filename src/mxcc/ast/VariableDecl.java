@@ -2,7 +2,6 @@ package mxcc.ast;
 
 import mxcc.symbol.Scope;
 import mxcc.symbol.VariableSymbol;
-import mxcc.utility.Location;
 
 public class VariableDecl extends Decl {
     public final TypeNode typeNode;

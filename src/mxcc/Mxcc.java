@@ -1,6 +1,8 @@
 package mxcc;
 
 import mxcc.ast.AstPrinter;
+import mxcc.ast.ClassDecl;
+import mxcc.ast.Decl;
 import mxcc.ast.Program;
 import mxcc.backend.InstructionSelector;
 import mxcc.backend.RegisterAllocator;
@@ -66,8 +68,18 @@ public class Mxcc {
     }
 
     private void deleteIrrelevantLoop() {
-        IrrelevantLoopDeletor deletor = new IrrelevantLoopDeletor();
-        deletor.visit(ast);
+        IrrelevantLoopDeleter deleter = new IrrelevantLoopDeleter();
+        deleter.visit(ast);
+    }
+
+    private void deleteIrrelevantArray() {
+        for (Decl decl : ast.decls) {
+            if (decl instanceof ClassDecl) {
+                return;
+            }
+        }
+        IrrelevantArrayDeleter deleter = new IrrelevantArrayDeleter(ast);
+        deleter.work();
     }
 
     private void buildIR() {
@@ -189,6 +201,7 @@ public class Mxcc {
         if (Config.debugMode) printAST();
         sematicCheck();
         deleteIrrelevantLoop();
+        deleteIrrelevantArray();
         buildIR();
         if (Config.debugMode) printIR("a.ll");
         optim();

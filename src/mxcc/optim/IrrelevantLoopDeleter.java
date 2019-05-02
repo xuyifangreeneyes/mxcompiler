@@ -1,4 +1,4 @@
-package mxcc.frontend;
+package mxcc.optim;
 
 import mxcc.ast.*;
 import mxcc.symbol.ClassSymbol;
@@ -8,13 +8,13 @@ import mxcc.symbol.VariableSymbol;
 
 import java.util.*;
 
-public class IrrelevantLoopDeletor extends AstBaseVisitor {
+public class IrrelevantLoopDeleter extends AstBaseVisitor {
     private Map<Stmt, Set<VariableSymbol>> loopMap;
     private Set<Stmt> neededLoops;
     private Set<Stmt> curLoops;
 
 
-    public IrrelevantLoopDeletor() {
+    public IrrelevantLoopDeleter() {
 
     }
 
@@ -44,8 +44,8 @@ public class IrrelevantLoopDeletor extends AstBaseVisitor {
         node.paramList.forEach(this::visit);
         node.stmts.forEach(this::visit);
 
-        LoopDeletor deletor = new LoopDeletor(node, neededLoops);
-        deletor.work();
+        LoopDeleter deleter = new LoopDeleter(node, neededLoops);
+        deleter.work();
     }
 
     public void visit(ClassDecl node) {
@@ -224,11 +224,11 @@ public class IrrelevantLoopDeletor extends AstBaseVisitor {
 //    }
 
 
-    private static class LoopDeletor extends AstBaseVisitor {
+    private static class LoopDeleter extends AstBaseVisitor {
         private FunctionDecl func;
         private Set<Stmt> neededLoops;
 
-        public LoopDeletor(FunctionDecl func, Set<Stmt> neededLoops) {
+        public LoopDeleter(FunctionDecl func, Set<Stmt> neededLoops) {
             this.func = func;
             this.neededLoops = neededLoops;
         }

@@ -1,4 +1,4 @@
-package mxcc.frontend;
+package mxcc.optim;
 
 import mxcc.ast.Decl;
 import mxcc.ast.FunctionDecl;
