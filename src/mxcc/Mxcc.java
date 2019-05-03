@@ -139,7 +139,15 @@ public class Mxcc {
         promoter.work();
     }
 
+    private void memorize() {
+        Memorization memorization = new Memorization(ir);
+        memorization.work();
+    }
+
     private void optim() throws IOException {
+        if (Config.debugMode) printIR("a_before_memorize.ll");
+        memorize();
+        if (Config.debugMode) printIR("a_memorize.ll");
         eliminateConstGlobalReg();
         functionInline();
         promoteGlobalReg();

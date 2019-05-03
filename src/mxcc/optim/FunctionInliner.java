@@ -129,6 +129,7 @@ public class FunctionInliner {
         // I am not sure about that.
         private Operand getVar(Operand var) {
             if (var instanceof LocalReg) {
+//                System.out.println(var.toString());
                 assert varReplaceMap.containsKey(var);
                 return varReplaceMap.get(var);
             }

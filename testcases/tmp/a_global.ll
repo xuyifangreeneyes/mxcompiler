@@ -1,8 +1,36 @@
-$str_0 "A"
+@N
 
-$str_1 "B"
+@head
 
-$str_2 "C"
+@targetx
+
+@targety
+
+@x
+
+@y
+
+@xlist
+
+@ylist
+
+@tail
+
+@ok
+
+@now
+
+@dx
+
+@dy
+
+@step
+
+@i
+
+@j
+
+$str_0 "no solution!\n"
 
 define print
 
@@ -44,568 +72,944 @@ define __printlnInt
 
 define __globalInit ( ) {
 <0> entry
+	%global2local_15 = alloca 8
+	%global2local_14 = alloca 8
+	%global2local_13 = alloca 8
+	%global2local_12 = alloca 8
+	%tmp_19 = load @xlist
+	store %tmp_19 %global2local_15
+	%tmp_18 = load @dy
+	store %tmp_18 %global2local_14
+	%tmp_17 = load @dx
+	store %tmp_17 %global2local_13
+	%tmp_16 = load @ylist
+	store %tmp_16 %global2local_12
+	%memberLength_1 = mul 12000 8
+	%arrayLength_2 = add %memberLength_1 8
+	%arrayPtr_0 = malloc %arrayLength_2
+	store 12000 %arrayPtr_0
+	store %arrayPtr_0 %global2local_15
+	%memberLength_4 = mul 12000 8
+	%arrayLength_5 = add %memberLength_4 8
+	%arrayPtr_3 = malloc %arrayLength_5
+	store 12000 %arrayPtr_3
+	store %arrayPtr_3 %global2local_12
+	%memberLength_7 = mul 8 8
+	%arrayLength_8 = add %memberLength_7 8
+	%arrayPtr_6 = malloc %arrayLength_8
+	store 8 %arrayPtr_6
+	store %arrayPtr_6 %global2local_13
+	%memberLength_10 = mul 9 8
+	%arrayLength_11 = add %memberLength_10 8
+	%arrayPtr_9 = malloc %arrayLength_11
+	store 9 %arrayPtr_9
+	store %arrayPtr_9 %global2local_14
+	%tmp_20 = load %global2local_12
+	store %tmp_20 @ylist
+	%tmp_21 = load %global2local_13
+	store %tmp_21 @dx
+	%tmp_22 = load %global2local_14
+	store %tmp_22 @dy
+	%tmp_23 = load %global2local_15
+	store %tmp_23 @xlist
 	ret 
 
 }
 
-define cd ( %argVal_0 %argVal_2 %argVal_4 %argVal_6 %argVal_8 ) {
+define origin ( %argVal_0 ) {
 <0> entry
-	%cargAddr_183 = alloca 8
-	%cargAddr_182 = alloca 8
-	%cargAddr_181 = alloca 8
-	%cargAddr_180 = alloca 8
-	%cargAddr_179 = alloca 8
-	%retValAddr_178 = alloca 8
-	%cargAddr_154 = alloca 8
-	%cargAddr_153 = alloca 8
-	%cargAddr_152 = alloca 8
-	%cargAddr_151 = alloca 8
-	%cargAddr_150 = alloca 8
-	%retValAddr_149 = alloca 8
-	%cargAddr_125 = alloca 8
-	%cargAddr_124 = alloca 8
-	%cargAddr_123 = alloca 8
-	%cargAddr_122 = alloca 8
-	%cargAddr_121 = alloca 8
-	%retValAddr_120 = alloca 8
-	%cargAddr_96 = alloca 8
-	%cargAddr_95 = alloca 8
-	%cargAddr_94 = alloca 8
-	%cargAddr_93 = alloca 8
-	%cargAddr_92 = alloca 8
-	%retValAddr_91 = alloca 8
-	%cargAddr_67 = alloca 8
-	%cargAddr_66 = alloca 8
-	%cargAddr_65 = alloca 8
-	%cargAddr_64 = alloca 8
-	%cargAddr_63 = alloca 8
-	%retValAddr_62 = alloca 8
-	%cargAddr_38 = alloca 8
-	%cargAddr_37 = alloca 8
-	%cargAddr_36 = alloca 8
-	%cargAddr_35 = alloca 8
-	%cargAddr_34 = alloca 8
-	%retValAddr_33 = alloca 8
-	%argAddr_9 = alloca 8
-	%argAddr_7 = alloca 8
-	%argAddr_5 = alloca 8
-	%argAddr_3 = alloca 8
+	%global2local_41 = alloca 8
+	%global2local_40 = alloca 8
+	%global2local_39 = alloca 8
+	%global2local_38 = alloca 8
+	%global2local_37 = alloca 8
 	%argAddr_1 = alloca 8
+	%tmp_46 = load @i
+	store %tmp_46 %global2local_41
+	%tmp_45 = load @j
+	store %tmp_45 %global2local_40
+	%tmp_44 = load @step
+	store %tmp_44 %global2local_39
+	%tmp_43 = load @head
+	store %tmp_43 %global2local_38
+	%tmp_42 = load @tail
+	store %tmp_42 %global2local_37
 	store %argVal_0 %argAddr_1
-	store %argVal_2 %argAddr_3
-	store %argVal_4 %argAddr_5
-	store %argVal_6 %argAddr_7
-	store %argVal_8 %argAddr_9
-	%idVal_10 = load %argAddr_1
-	%res_11 = eq %idVal_10 1
-	br %res_11 <1> <2>
+	store 0 %global2local_38
+	store 0 %global2local_37
+	%idVal_2 = load %argAddr_1
+	%memberLength_4 = mul %idVal_2 8
+	%arrayLength_5 = add %memberLength_4 8
+	%arrayPtr_3 = malloc %arrayLength_5
+	store %idVal_2 %arrayPtr_3
+	store %arrayPtr_3 %global2local_39
+	store 0 %global2local_41
+	br <1>
 
-<1> if_true
-	%idVal_12 = load %argAddr_9
-	%oldVal_13 = load %argAddr_9
-	%newVal_14 = inc %oldVal_13
-	store %newVal_14 %argAddr_9
-	br <3>
+<1> for_cond
+	%idVal_6 = load %global2local_41
+	%idVal_7 = load %argAddr_1
+	%res_8 = lt %idVal_6 %idVal_7
+	br %res_8 <2> <4>
 
-<2> if_false
-	%idVal_16 = load %argAddr_1
-	%res_17 = sub %idVal_16 1
-	%idVal_18 = load %argAddr_3
-	%idVal_19 = load %argAddr_7
-	%idVal_20 = load %argAddr_5
-	%idVal_21 = load %argAddr_9
+<2> for_body
+	%idVal_9 = load %argAddr_1
+	%memberLength_11 = mul %idVal_9 8
+	%arrayLength_12 = add %memberLength_11 8
+	%arrayPtr_10 = malloc %arrayLength_12
+	store %idVal_9 %arrayPtr_10
+	%arrayPtr_13 = load %global2local_39
+	%arrayBase_14 = add %arrayPtr_13 8
+	%idVal_15 = load %global2local_41
+	%offset_16 = mul %idVal_15 8
+	%elementAddr_17 = add %arrayBase_14 %offset_16
+	store %arrayPtr_10 %elementAddr_17
+	store 0 %global2local_40
 	br <5>
 
-<5> centry
-	store %res_17 %cargAddr_38
-	store %idVal_18 %cargAddr_37
-	store %idVal_19 %cargAddr_36
-	store %idVal_20 %cargAddr_35
-	store %idVal_21 %cargAddr_34
-	%cidVal_39 = load %cargAddr_38
-	%cres_40 = eq %cidVal_39 1
-	br %cres_40 <6> <7>
+<5> for_cond
+	%idVal_18 = load %global2local_40
+	%idVal_19 = load %argAddr_1
+	%res_20 = lt %idVal_18 %idVal_19
+	br %res_20 <6> <8>
 
-<6> cif_true
-	%cidVal_41 = load %cargAddr_34
-	%coldVal_42 = load %cargAddr_34
-	%cnewVal_43 = inc %coldVal_42
-	store %cnewVal_43 %cargAddr_34
+<6> for_body
+	%arrayPtr_21 = load %global2local_39
+	%arrayBase_22 = add %arrayPtr_21 8
+	%idVal_23 = load %global2local_41
+	%offset_24 = mul %idVal_23 8
+	%elementAddr_25 = add %arrayBase_22 %offset_24
+	%arrayPtr_26 = load %elementAddr_25
+	%arrayBase_27 = add %arrayPtr_26 8
+	%idVal_28 = load %global2local_40
+	%offset_29 = mul %idVal_28 8
+	%elementAddr_30 = add %arrayBase_27 %offset_29
+	store 0 %elementAddr_30
+	br <7>
+
+<7> for_step
+	%idVal_31 = load %global2local_40
+	%oldVal_32 = load %global2local_40
+	%newVal_33 = inc %oldVal_32
+	store %newVal_33 %global2local_40
+	br <5>
+
+<8> for_end
+	br <3>
+
+<3> for_step
+	%idVal_34 = load %global2local_41
+	%oldVal_35 = load %global2local_41
+	%newVal_36 = inc %oldVal_35
+	store %newVal_36 %global2local_41
+	br <1>
+
+<4> for_end
+	%tmp_47 = load %global2local_37
+	store %tmp_47 @tail
+	%tmp_48 = load %global2local_38
+	store %tmp_48 @head
+	%tmp_49 = load %global2local_39
+	store %tmp_49 @step
+	%tmp_50 = load %global2local_40
+	store %tmp_50 @j
+	%tmp_51 = load %global2local_41
+	store %tmp_51 @i
+	ret 
+
+}
+
+define check ( %argVal_0 ) {
+<0> entry
+	%global2local_9 = alloca 8
+	%boolValAddr_2 = alloca 8
+	%argAddr_1 = alloca 8
+	%tmp_10 = load @N
+	store %tmp_10 %global2local_9
+	store %argVal_0 %argAddr_1
+	%idVal_3 = load %argAddr_1
+	%idVal_4 = load %global2local_9
+	%res_5 = lt %idVal_3 %idVal_4
+	br %res_5 <4> <2>
+
+<4> lhs_true
+	%idVal_6 = load %argAddr_1
+	%res_7 = ge %idVal_6 0
+	br %res_7 <1> <2>
+
+<1> bool_true
+	store 1 %boolValAddr_2
+	br <3>
+
+<2> bool_false
+	store 0 %boolValAddr_2
+	br <3>
+
+<3> bool_merge
+	%boolVal_8 = load %boolValAddr_2
+	%tmp_11 = load %global2local_9
+	store %tmp_11 @N
+	ret %boolVal_8
+
+}
+
+define addList ( %argVal_0 %argVal_2 ) {
+<0> entry
+	%global2local_80 = alloca 8
+	%global2local_79 = alloca 8
+	%global2local_78 = alloca 8
+	%global2local_77 = alloca 8
+	%global2local_76 = alloca 8
+	%global2local_75 = alloca 8
+	%global2local_74 = alloca 8
+	%global2local_73 = alloca 8
+	%global2local_72 = alloca 8
+	%cargAddr_65 = alloca 8
+	%cboolValAddr_64 = alloca 8
+	%retValAddr_63 = alloca 8
+	%cargAddr_56 = alloca 8
+	%cboolValAddr_55 = alloca 8
+	%retValAddr_54 = alloca 8
+	%argAddr_3 = alloca 8
+	%argAddr_1 = alloca 8
+	%tmp_89 = load @now
+	store %tmp_89 %global2local_80
+	%tmp_88 = load @xlist
+	store %tmp_88 %global2local_79
+	%tmp_87 = load @step
+	store %tmp_87 %global2local_78
+	%tmp_86 = load @N
+	store %tmp_86 %global2local_77
+	%tmp_85 = load @targetx
+	store %tmp_85 %global2local_76
+	%tmp_84 = load @ylist
+	store %tmp_84 %global2local_75
+	%tmp_83 = load @ok
+	store %tmp_83 %global2local_74
+	%tmp_82 = load @targety
+	store %tmp_82 %global2local_73
+	%tmp_81 = load @tail
+	store %tmp_81 %global2local_72
+	store %argVal_0 %argAddr_1
+	store %argVal_2 %argAddr_3
+	%idVal_5 = load %argAddr_1
+	br <9>
+
+<9> centry
+	store %idVal_5 %cargAddr_56
+	%cidVal_57 = load %cargAddr_56
+	%cidVal_58 = load %global2local_77
+	%cres_59 = lt %cidVal_57 %cidVal_58
+	br %cres_59 <10> <12>
+
+<10> clhs_true
+	%cidVal_60 = load %cargAddr_56
+	%cres_61 = ge %cidVal_60 0
+	br %cres_61 <11> <12>
+
+<11> cbool_true
+	store 1 %cboolValAddr_55
+	br <13>
+
+<12> cbool_false
+	store 0 %cboolValAddr_55
+	br <13>
+
+<13> cbool_merge
+	%cboolVal_62 = load %cboolValAddr_55
+	store %cboolVal_62 %retValAddr_54
 	br <8>
 
-<7> cif_false
-	%cidVal_44 = load %cargAddr_38
-	%cres_45 = sub %cidVal_44 1
-	%cidVal_46 = load %cargAddr_37
-	%cidVal_47 = load %cargAddr_35
-	%cidVal_48 = load %cargAddr_36
-	%cidVal_49 = load %cargAddr_34
+<8> after_call
+	%res_4 = load %retValAddr_54
+	br %res_4 <4> <2>
+
+<4> lhs_true
+	%idVal_7 = load %argAddr_3
 	br <15>
 
 <15> centry
-	store %cres_45 %cargAddr_96
-	store %cidVal_46 %cargAddr_95
-	store %cidVal_47 %cargAddr_94
-	store %cidVal_48 %cargAddr_93
-	store %cidVal_49 %cargAddr_92
-	%cidVal_97 = load %cargAddr_96
-	%cres_98 = eq %cidVal_97 1
-	br %cres_98 <16> <17>
+	store %idVal_7 %cargAddr_65
+	%cidVal_66 = load %cargAddr_65
+	%cidVal_67 = load %global2local_77
+	%cres_68 = lt %cidVal_66 %cidVal_67
+	br %cres_68 <16> <18>
 
-<16> cif_true
-	%cidVal_99 = load %cargAddr_92
-	%coldVal_100 = load %cargAddr_92
-	%cnewVal_101 = inc %coldVal_100
-	store %cnewVal_101 %cargAddr_92
-	br <18>
+<16> clhs_true
+	%cidVal_69 = load %cargAddr_65
+	%cres_70 = ge %cidVal_69 0
+	br %cres_70 <17> <18>
 
-<17> cif_false
-	%cidVal_102 = load %cargAddr_96
-	%cres_103 = sub %cidVal_102 1
-	%cidVal_104 = load %cargAddr_95
-	%cidVal_105 = load %cargAddr_93
-	%cidVal_106 = load %cargAddr_94
-	%cidVal_107 = load %cargAddr_92
-	%cres_108 = cd ( %cres_103 %cidVal_104 %cidVal_105 %cidVal_106 %cidVal_107 )
-	store %cres_108 %cargAddr_92
-	%cidVal_109 = load %cargAddr_96
-	%cres_110 = sub %cidVal_109 1
-	%cidVal_111 = load %cargAddr_94
-	%cidVal_112 = load %cargAddr_95
-	%cidVal_113 = load %cargAddr_93
-	%cidVal_114 = load %cargAddr_92
-	%cres_115 = cd ( %cres_110 %cidVal_111 %cidVal_112 %cidVal_113 %cidVal_114 )
-	store %cres_115 %cargAddr_92
-	%cidVal_116 = load %cargAddr_92
-	%coldVal_117 = load %cargAddr_92
-	%cnewVal_118 = inc %coldVal_117
-	store %cnewVal_118 %cargAddr_92
-	br <18>
+<17> cbool_true
+	store 1 %cboolValAddr_64
+	br <19>
 
-<18> cif_merge
-	%cidVal_119 = load %cargAddr_92
-	store %cidVal_119 %retValAddr_91
+<18> cbool_false
+	store 0 %cboolValAddr_64
+	br <19>
+
+<19> cbool_merge
+	%cboolVal_71 = load %cboolValAddr_64
+	store %cboolVal_71 %retValAddr_63
 	br <14>
 
 <14> after_call
-	%cres_50 = load %retValAddr_91
-	store %cres_50 %cargAddr_34
-	%cidVal_51 = load %cargAddr_38
-	%cres_52 = sub %cidVal_51 1
-	%cidVal_53 = load %cargAddr_36
-	%cidVal_54 = load %cargAddr_37
-	%cidVal_55 = load %cargAddr_35
-	%cidVal_56 = load %cargAddr_34
-	br <20>
+	%res_6 = load %retValAddr_63
+	br %res_6 <3> <2>
 
-<20> centry
-	store %cres_52 %cargAddr_125
-	store %cidVal_53 %cargAddr_124
-	store %cidVal_54 %cargAddr_123
-	store %cidVal_55 %cargAddr_122
-	store %cidVal_56 %cargAddr_121
-	%cidVal_126 = load %cargAddr_125
-	%cres_127 = eq %cidVal_126 1
-	br %cres_127 <21> <22>
+<3> lhs_true
+	%arrayPtr_8 = load %global2local_78
+	%arrayBase_9 = add %arrayPtr_8 8
+	%idVal_10 = load %argAddr_1
+	%offset_11 = mul %idVal_10 8
+	%elementAddr_12 = add %arrayBase_9 %offset_11
+	%arrayPtr_13 = load %elementAddr_12
+	%arrayBase_14 = add %arrayPtr_13 8
+	%idVal_15 = load %argAddr_3
+	%offset_16 = mul %idVal_15 8
+	%elementAddr_17 = add %arrayBase_14 %offset_16
+	%elementVal_18 = load %elementAddr_17
+	%res_19 = neg 1
+	%res_20 = eq %elementVal_18 %res_19
+	br %res_20 <1> <2>
 
-<21> cif_true
-	%cidVal_128 = load %cargAddr_121
-	%coldVal_129 = load %cargAddr_121
-	%cnewVal_130 = inc %coldVal_129
-	store %cnewVal_130 %cargAddr_121
-	br <23>
+<1> if_true
+	%idVal_21 = load %global2local_72
+	%oldVal_22 = load %global2local_72
+	%newVal_23 = inc %oldVal_22
+	store %newVal_23 %global2local_72
+	%idVal_24 = load %argAddr_1
+	%arrayPtr_25 = load %global2local_79
+	%arrayBase_26 = add %arrayPtr_25 8
+	%idVal_27 = load %global2local_72
+	%offset_28 = mul %idVal_27 8
+	%elementAddr_29 = add %arrayBase_26 %offset_28
+	store %idVal_24 %elementAddr_29
+	%idVal_30 = load %argAddr_3
+	%arrayPtr_31 = load %global2local_75
+	%arrayBase_32 = add %arrayPtr_31 8
+	%idVal_33 = load %global2local_72
+	%offset_34 = mul %idVal_33 8
+	%elementAddr_35 = add %arrayBase_32 %offset_34
+	store %idVal_30 %elementAddr_35
+	%idVal_36 = load %global2local_80
+	%res_37 = add %idVal_36 1
+	%arrayPtr_38 = load %global2local_78
+	%arrayBase_39 = add %arrayPtr_38 8
+	%idVal_40 = load %argAddr_1
+	%offset_41 = mul %idVal_40 8
+	%elementAddr_42 = add %arrayBase_39 %offset_41
+	%arrayPtr_43 = load %elementAddr_42
+	%arrayBase_44 = add %arrayPtr_43 8
+	%idVal_45 = load %argAddr_3
+	%offset_46 = mul %idVal_45 8
+	%elementAddr_47 = add %arrayBase_44 %offset_46
+	store %res_37 %elementAddr_47
+	%idVal_48 = load %argAddr_1
+	%idVal_49 = load %global2local_76
+	%res_50 = eq %idVal_48 %idVal_49
+	br %res_50 <7> <6>
 
-<22> cif_false
-	%cidVal_131 = load %cargAddr_125
-	%cres_132 = sub %cidVal_131 1
-	%cidVal_133 = load %cargAddr_124
-	%cidVal_134 = load %cargAddr_122
-	%cidVal_135 = load %cargAddr_123
-	%cidVal_136 = load %cargAddr_121
-	%cres_137 = cd ( %cres_132 %cidVal_133 %cidVal_134 %cidVal_135 %cidVal_136 )
-	store %cres_137 %cargAddr_121
-	%cidVal_138 = load %cargAddr_125
-	%cres_139 = sub %cidVal_138 1
-	%cidVal_140 = load %cargAddr_123
-	%cidVal_141 = load %cargAddr_124
-	%cidVal_142 = load %cargAddr_122
-	%cidVal_143 = load %cargAddr_121
-	%cres_144 = cd ( %cres_139 %cidVal_140 %cidVal_141 %cidVal_142 %cidVal_143 )
-	store %cres_144 %cargAddr_121
-	%cidVal_145 = load %cargAddr_121
-	%coldVal_146 = load %cargAddr_121
-	%cnewVal_147 = inc %coldVal_146
-	store %cnewVal_147 %cargAddr_121
-	br <23>
+<7> lhs_true
+	%idVal_51 = load %argAddr_3
+	%idVal_52 = load %global2local_73
+	%res_53 = eq %idVal_51 %idVal_52
+	br %res_53 <5> <6>
 
-<23> cif_merge
-	%cidVal_148 = load %cargAddr_121
-	store %cidVal_148 %retValAddr_120
-	br <19>
+<5> if_true
+	store 1 %global2local_74
+	br <6>
 
-<19> after_call
-	%cres_57 = load %retValAddr_120
-	store %cres_57 %cargAddr_34
-	%cidVal_58 = load %cargAddr_34
-	%coldVal_59 = load %cargAddr_34
-	%cnewVal_60 = inc %coldVal_59
-	store %cnewVal_60 %cargAddr_34
-	br <8>
+<6> if_merge
+	br <2>
 
-<8> cif_merge
-	%cidVal_61 = load %cargAddr_34
-	store %cidVal_61 %retValAddr_33
-	br <4>
-
-<4> after_call
-	%res_15 = load %retValAddr_33
-	store %res_15 %argAddr_9
-	%idVal_23 = load %argAddr_1
-	%res_24 = sub %idVal_23 1
-	%idVal_25 = load %argAddr_5
-	%idVal_26 = load %argAddr_3
-	%idVal_27 = load %argAddr_7
-	%idVal_28 = load %argAddr_9
-	br <10>
-
-<10> centry
-	store %res_24 %cargAddr_67
-	store %idVal_25 %cargAddr_66
-	store %idVal_26 %cargAddr_65
-	store %idVal_27 %cargAddr_64
-	store %idVal_28 %cargAddr_63
-	%cidVal_68 = load %cargAddr_67
-	%cres_69 = eq %cidVal_68 1
-	br %cres_69 <11> <12>
-
-<11> cif_true
-	%cidVal_70 = load %cargAddr_63
-	%coldVal_71 = load %cargAddr_63
-	%cnewVal_72 = inc %coldVal_71
-	store %cnewVal_72 %cargAddr_63
-	br <13>
-
-<12> cif_false
-	%cidVal_73 = load %cargAddr_67
-	%cres_74 = sub %cidVal_73 1
-	%cidVal_75 = load %cargAddr_66
-	%cidVal_76 = load %cargAddr_64
-	%cidVal_77 = load %cargAddr_65
-	%cidVal_78 = load %cargAddr_63
-	br <25>
-
-<25> centry
-	store %cres_74 %cargAddr_154
-	store %cidVal_75 %cargAddr_153
-	store %cidVal_76 %cargAddr_152
-	store %cidVal_77 %cargAddr_151
-	store %cidVal_78 %cargAddr_150
-	%cidVal_155 = load %cargAddr_154
-	%cres_156 = eq %cidVal_155 1
-	br %cres_156 <26> <27>
-
-<26> cif_true
-	%cidVal_157 = load %cargAddr_150
-	%coldVal_158 = load %cargAddr_150
-	%cnewVal_159 = inc %coldVal_158
-	store %cnewVal_159 %cargAddr_150
-	br <28>
-
-<27> cif_false
-	%cidVal_160 = load %cargAddr_154
-	%cres_161 = sub %cidVal_160 1
-	%cidVal_162 = load %cargAddr_153
-	%cidVal_163 = load %cargAddr_151
-	%cidVal_164 = load %cargAddr_152
-	%cidVal_165 = load %cargAddr_150
-	%cres_166 = cd ( %cres_161 %cidVal_162 %cidVal_163 %cidVal_164 %cidVal_165 )
-	store %cres_166 %cargAddr_150
-	%cidVal_167 = load %cargAddr_154
-	%cres_168 = sub %cidVal_167 1
-	%cidVal_169 = load %cargAddr_152
-	%cidVal_170 = load %cargAddr_153
-	%cidVal_171 = load %cargAddr_151
-	%cidVal_172 = load %cargAddr_150
-	%cres_173 = cd ( %cres_168 %cidVal_169 %cidVal_170 %cidVal_171 %cidVal_172 )
-	store %cres_173 %cargAddr_150
-	%cidVal_174 = load %cargAddr_150
-	%coldVal_175 = load %cargAddr_150
-	%cnewVal_176 = inc %coldVal_175
-	store %cnewVal_176 %cargAddr_150
-	br <28>
-
-<28> cif_merge
-	%cidVal_177 = load %cargAddr_150
-	store %cidVal_177 %retValAddr_149
-	br <24>
-
-<24> after_call
-	%cres_79 = load %retValAddr_149
-	store %cres_79 %cargAddr_63
-	%cidVal_80 = load %cargAddr_67
-	%cres_81 = sub %cidVal_80 1
-	%cidVal_82 = load %cargAddr_65
-	%cidVal_83 = load %cargAddr_66
-	%cidVal_84 = load %cargAddr_64
-	%cidVal_85 = load %cargAddr_63
-	br <30>
-
-<30> centry
-	store %cres_81 %cargAddr_183
-	store %cidVal_82 %cargAddr_182
-	store %cidVal_83 %cargAddr_181
-	store %cidVal_84 %cargAddr_180
-	store %cidVal_85 %cargAddr_179
-	%cidVal_184 = load %cargAddr_183
-	%cres_185 = eq %cidVal_184 1
-	br %cres_185 <31> <32>
-
-<31> cif_true
-	%cidVal_186 = load %cargAddr_179
-	%coldVal_187 = load %cargAddr_179
-	%cnewVal_188 = inc %coldVal_187
-	store %cnewVal_188 %cargAddr_179
-	br <33>
-
-<32> cif_false
-	%cidVal_189 = load %cargAddr_183
-	%cres_190 = sub %cidVal_189 1
-	%cidVal_191 = load %cargAddr_182
-	%cidVal_192 = load %cargAddr_180
-	%cidVal_193 = load %cargAddr_181
-	%cidVal_194 = load %cargAddr_179
-	%cres_195 = cd ( %cres_190 %cidVal_191 %cidVal_192 %cidVal_193 %cidVal_194 )
-	store %cres_195 %cargAddr_179
-	%cidVal_196 = load %cargAddr_183
-	%cres_197 = sub %cidVal_196 1
-	%cidVal_198 = load %cargAddr_181
-	%cidVal_199 = load %cargAddr_182
-	%cidVal_200 = load %cargAddr_180
-	%cidVal_201 = load %cargAddr_179
-	%cres_202 = cd ( %cres_197 %cidVal_198 %cidVal_199 %cidVal_200 %cidVal_201 )
-	store %cres_202 %cargAddr_179
-	%cidVal_203 = load %cargAddr_179
-	%coldVal_204 = load %cargAddr_179
-	%cnewVal_205 = inc %coldVal_204
-	store %cnewVal_205 %cargAddr_179
-	br <33>
-
-<33> cif_merge
-	%cidVal_206 = load %cargAddr_179
-	store %cidVal_206 %retValAddr_178
-	br <29>
-
-<29> after_call
-	%cres_86 = load %retValAddr_178
-	store %cres_86 %cargAddr_63
-	%cidVal_87 = load %cargAddr_63
-	%coldVal_88 = load %cargAddr_63
-	%cnewVal_89 = inc %coldVal_88
-	store %cnewVal_89 %cargAddr_63
-	br <13>
-
-<13> cif_merge
-	%cidVal_90 = load %cargAddr_63
-	store %cidVal_90 %retValAddr_62
-	br <9>
-
-<9> after_call
-	%res_22 = load %retValAddr_62
-	store %res_22 %argAddr_9
-	%idVal_29 = load %argAddr_9
-	%oldVal_30 = load %argAddr_9
-	%newVal_31 = inc %oldVal_30
-	store %newVal_31 %argAddr_9
-	br <3>
-
-<3> if_merge
-	%idVal_32 = load %argAddr_9
-	ret %idVal_32
+<2> if_merge
+	%tmp_90 = load %global2local_72
+	store %tmp_90 @tail
+	%tmp_91 = load %global2local_73
+	store %tmp_91 @targety
+	%tmp_92 = load %global2local_74
+	store %tmp_92 @ok
+	%tmp_93 = load %global2local_75
+	store %tmp_93 @ylist
+	%tmp_94 = load %global2local_76
+	store %tmp_94 @targetx
+	%tmp_95 = load %global2local_77
+	store %tmp_95 @N
+	%tmp_96 = load %global2local_78
+	store %tmp_96 @step
+	%tmp_97 = load %global2local_79
+	store %tmp_97 @xlist
+	%tmp_98 = load %global2local_80
+	store %tmp_98 @now
+	ret 
 
 }
 
 define main ( ) {
 <0> entry
-	%cargAddr_75 = alloca 8
-	%cargAddr_74 = alloca 8
-	%cargAddr_73 = alloca 8
-	%cargAddr_72 = alloca 8
-	%cargAddr_71 = alloca 8
-	%retValAddr_70 = alloca 8
-	%cargAddr_46 = alloca 8
-	%cargAddr_45 = alloca 8
-	%cargAddr_44 = alloca 8
-	%cargAddr_43 = alloca 8
-	%cargAddr_42 = alloca 8
-	%retValAddr_41 = alloca 8
-	%cargAddr_17 = alloca 8
-	%cargAddr_16 = alloca 8
-	%cargAddr_15 = alloca 8
-	%cargAddr_14 = alloca 8
-	%cargAddr_13 = alloca 8
-	%retValAddr_12 = alloca 8
-	%varAddr_5 = alloca 8
-	%varAddr_3 = alloca 8
-	%varAddr_2 = alloca 8
-	%varAddr_1 = alloca 8
-	%varAddr_0 = alloca 8
-	store $str_0 %varAddr_0
-	store $str_1 %varAddr_1
-	store $str_2 %varAddr_2
-	%res_4 = getInt ( )
-	store %res_4 %varAddr_3
-	%idVal_7 = load %varAddr_3
-	%idVal_8 = load %varAddr_0
-	%idVal_9 = load %varAddr_1
-	%idVal_10 = load %varAddr_2
-	br <2>
+	%global2local_285 = alloca 8
+	%global2local_284 = alloca 8
+	%global2local_283 = alloca 8
+	%global2local_282 = alloca 8
+	%global2local_281 = alloca 8
+	%global2local_280 = alloca 8
+	%global2local_279 = alloca 8
+	%global2local_278 = alloca 8
+	%global2local_277 = alloca 8
+	%global2local_276 = alloca 8
+	%global2local_275 = alloca 8
+	%global2local_274 = alloca 8
+	%global2local_273 = alloca 8
+	%global2local_272 = alloca 8
+	%global2local_271 = alloca 8
+	%global2local_270 = alloca 8
+	%cargAddr_263 = alloca 8
+	%cboolValAddr_262 = alloca 8
+	%retValAddr_261 = alloca 8
+	%cargAddr_254 = alloca 8
+	%cboolValAddr_253 = alloca 8
+	%retValAddr_252 = alloca 8
+	%cargAddr_201 = alloca 8
+	%cargAddr_200 = alloca 8
+	%cargAddr_164 = alloca 8
+	%tmp_301 = load @now
+	store %tmp_301 %global2local_285
+	%tmp_300 = load @dy
+	store %tmp_300 %global2local_284
+	%tmp_299 = load @step
+	store %tmp_299 %global2local_283
+	%tmp_298 = load @N
+	store %tmp_298 %global2local_282
+	%tmp_297 = load @targetx
+	store %tmp_297 %global2local_281
+	%tmp_296 = load @tail
+	store %tmp_296 %global2local_280
+	%tmp_295 = load @x
+	store %tmp_295 %global2local_279
+	%tmp_294 = load @xlist
+	store %tmp_294 %global2local_278
+	%tmp_293 = load @y
+	store %tmp_293 %global2local_277
+	%tmp_292 = load @i
+	store %tmp_292 %global2local_276
+	%tmp_291 = load @dx
+	store %tmp_291 %global2local_275
+	%tmp_290 = load @j
+	store %tmp_290 %global2local_274
+	%tmp_289 = load @head
+	store %tmp_289 %global2local_273
+	%tmp_288 = load @ylist
+	store %tmp_288 %global2local_272
+	%tmp_287 = load @ok
+	store %tmp_287 %global2local_271
+	%tmp_286 = load @targety
+	store %tmp_286 %global2local_270
+	br <22>
 
-<2> centry
-	store %idVal_7 %cargAddr_17
-	store %idVal_8 %cargAddr_16
-	store %idVal_9 %cargAddr_15
-	store %idVal_10 %cargAddr_14
-	store 0 %cargAddr_13
-	%cidVal_18 = load %cargAddr_17
-	%cres_19 = eq %cidVal_18 1
-	br %cres_19 <3> <4>
+<22> centry
+	store 106 %cargAddr_164
+	store 0 %global2local_273
+	store 0 %global2local_280
+	%cidVal_165 = load %cargAddr_164
+	%cmemberLength_166 = mul %cidVal_165 8
+	%carrayLength_167 = add %cmemberLength_166 8
+	%carrayPtr_168 = malloc %carrayLength_167
+	store %cidVal_165 %carrayPtr_168
+	store %carrayPtr_168 %global2local_283
+	store 0 %global2local_276
+	br <23>
 
-<3> cif_true
-	%cidVal_20 = load %cargAddr_13
-	%coldVal_21 = load %cargAddr_13
-	%cnewVal_22 = inc %coldVal_21
-	store %cnewVal_22 %cargAddr_13
-	br <5>
+<23> cfor_cond
+	%cidVal_169 = load %global2local_276
+	%cidVal_170 = load %cargAddr_164
+	%cres_171 = lt %cidVal_169 %cidVal_170
+	br %cres_171 <24> <30>
 
-<4> cif_false
-	%cidVal_23 = load %cargAddr_17
-	%cres_24 = sub %cidVal_23 1
-	%cidVal_25 = load %cargAddr_16
-	%cidVal_26 = load %cargAddr_14
-	%cidVal_27 = load %cargAddr_15
-	%cidVal_28 = load %cargAddr_13
-	br <7>
+<24> cfor_body
+	%cidVal_172 = load %cargAddr_164
+	%cmemberLength_173 = mul %cidVal_172 8
+	%carrayLength_174 = add %cmemberLength_173 8
+	%carrayPtr_175 = malloc %carrayLength_174
+	store %cidVal_172 %carrayPtr_175
+	%carrayPtr_176 = load %global2local_283
+	%carrayBase_177 = add %carrayPtr_176 8
+	%cidVal_178 = load %global2local_276
+	%coffset_179 = mul %cidVal_178 8
+	%celementAddr_180 = add %carrayBase_177 %coffset_179
+	store %carrayPtr_175 %celementAddr_180
+	store 0 %global2local_274
+	br <25>
 
-<7> centry
-	store %cres_24 %cargAddr_46
-	store %cidVal_25 %cargAddr_45
-	store %cidVal_26 %cargAddr_44
-	store %cidVal_27 %cargAddr_43
-	store %cidVal_28 %cargAddr_42
-	%cidVal_47 = load %cargAddr_46
-	%cres_48 = eq %cidVal_47 1
-	br %cres_48 <8> <9>
+<25> cfor_cond
+	%cidVal_181 = load %global2local_274
+	%cidVal_182 = load %cargAddr_164
+	%cres_183 = lt %cidVal_181 %cidVal_182
+	br %cres_183 <26> <28>
 
-<8> cif_true
-	%cidVal_49 = load %cargAddr_42
-	%coldVal_50 = load %cargAddr_42
-	%cnewVal_51 = inc %coldVal_50
-	store %cnewVal_51 %cargAddr_42
-	br <10>
+<26> cfor_body
+	%carrayPtr_184 = load %global2local_283
+	%carrayBase_185 = add %carrayPtr_184 8
+	%cidVal_186 = load %global2local_276
+	%coffset_187 = mul %cidVal_186 8
+	%celementAddr_188 = add %carrayBase_185 %coffset_187
+	%carrayPtr_189 = load %celementAddr_188
+	%carrayBase_190 = add %carrayPtr_189 8
+	%cidVal_191 = load %global2local_274
+	%coffset_192 = mul %cidVal_191 8
+	%celementAddr_193 = add %carrayBase_190 %coffset_192
+	store 0 %celementAddr_193
+	br <27>
 
-<9> cif_false
-	%cidVal_52 = load %cargAddr_46
-	%cres_53 = sub %cidVal_52 1
-	%cidVal_54 = load %cargAddr_45
-	%cidVal_55 = load %cargAddr_43
-	%cidVal_56 = load %cargAddr_44
-	%cidVal_57 = load %cargAddr_42
-	%cres_58 = cd ( %cres_53 %cidVal_54 %cidVal_55 %cidVal_56 %cidVal_57 )
-	store %cres_58 %cargAddr_42
-	%cidVal_59 = load %cargAddr_46
-	%cres_60 = sub %cidVal_59 1
-	%cidVal_61 = load %cargAddr_44
-	%cidVal_62 = load %cargAddr_45
-	%cidVal_63 = load %cargAddr_43
-	%cidVal_64 = load %cargAddr_42
-	%cres_65 = cd ( %cres_60 %cidVal_61 %cidVal_62 %cidVal_63 %cidVal_64 )
-	store %cres_65 %cargAddr_42
-	%cidVal_66 = load %cargAddr_42
-	%coldVal_67 = load %cargAddr_42
-	%cnewVal_68 = inc %coldVal_67
-	store %cnewVal_68 %cargAddr_42
-	br <10>
+<27> cfor_step
+	%cidVal_194 = load %global2local_274
+	%coldVal_195 = load %global2local_274
+	%cnewVal_196 = inc %coldVal_195
+	store %cnewVal_196 %global2local_274
+	br <25>
 
-<10> cif_merge
-	%cidVal_69 = load %cargAddr_42
-	store %cidVal_69 %retValAddr_41
-	br <6>
+<28> cfor_end
+	br <29>
 
-<6> after_call
-	%cres_29 = load %retValAddr_41
-	store %cres_29 %cargAddr_13
-	%cidVal_30 = load %cargAddr_17
-	%cres_31 = sub %cidVal_30 1
-	%cidVal_32 = load %cargAddr_15
-	%cidVal_33 = load %cargAddr_16
-	%cidVal_34 = load %cargAddr_14
-	%cidVal_35 = load %cargAddr_13
-	br <12>
+<29> cfor_step
+	%cidVal_197 = load %global2local_276
+	%coldVal_198 = load %global2local_276
+	%cnewVal_199 = inc %coldVal_198
+	store %cnewVal_199 %global2local_276
+	br <23>
 
-<12> centry
-	store %cres_31 %cargAddr_75
-	store %cidVal_32 %cargAddr_74
-	store %cidVal_33 %cargAddr_73
-	store %cidVal_34 %cargAddr_72
-	store %cidVal_35 %cargAddr_71
-	%cidVal_76 = load %cargAddr_75
-	%cres_77 = eq %cidVal_76 1
-	br %cres_77 <13> <14>
+<30> cfor_end
+	br <21>
 
-<13> cif_true
-	%cidVal_78 = load %cargAddr_71
-	%coldVal_79 = load %cargAddr_71
-	%cnewVal_80 = inc %coldVal_79
-	store %cnewVal_80 %cargAddr_71
-	br <15>
-
-<14> cif_false
-	%cidVal_81 = load %cargAddr_75
-	%cres_82 = sub %cidVal_81 1
-	%cidVal_83 = load %cargAddr_74
-	%cidVal_84 = load %cargAddr_72
-	%cidVal_85 = load %cargAddr_73
-	%cidVal_86 = load %cargAddr_71
-	%cres_87 = cd ( %cres_82 %cidVal_83 %cidVal_84 %cidVal_85 %cidVal_86 )
-	store %cres_87 %cargAddr_71
-	%cidVal_88 = load %cargAddr_75
-	%cres_89 = sub %cidVal_88 1
-	%cidVal_90 = load %cargAddr_73
-	%cidVal_91 = load %cargAddr_74
-	%cidVal_92 = load %cargAddr_72
-	%cidVal_93 = load %cargAddr_71
-	%cres_94 = cd ( %cres_89 %cidVal_90 %cidVal_91 %cidVal_92 %cidVal_93 )
-	store %cres_94 %cargAddr_71
-	%cidVal_95 = load %cargAddr_71
-	%coldVal_96 = load %cargAddr_71
-	%cnewVal_97 = inc %coldVal_96
-	store %cnewVal_97 %cargAddr_71
-	br <15>
-
-<15> cif_merge
-	%cidVal_98 = load %cargAddr_71
-	store %cidVal_98 %retValAddr_70
-	br <11>
-
-<11> after_call
-	%cres_36 = load %retValAddr_70
-	store %cres_36 %cargAddr_13
-	%cidVal_37 = load %cargAddr_13
-	%coldVal_38 = load %cargAddr_13
-	%cnewVal_39 = inc %coldVal_38
-	store %cnewVal_39 %cargAddr_13
-	br <5>
-
-<5> cif_merge
-	%cidVal_40 = load %cargAddr_13
-	store %cidVal_40 %retValAddr_12
+<21> after_call
+	%res_0 = getInt ( )
+	store %res_0 %global2local_282
+	%idVal_1 = load %global2local_282
+	%res_2 = sub %idVal_1 1
+	store %res_2 %global2local_270
+	%idVal_3 = load %global2local_270
+	store %idVal_3 %global2local_281
+	store 0 %global2local_276
 	br <1>
 
-<1> after_call
-	%res_6 = load %retValAddr_12
-	store %res_6 %varAddr_5
-	%idVal_11 = load %varAddr_5
-	__printlnInt ( %idVal_11 )
+<1> for_cond
+	%idVal_4 = load %global2local_276
+	%idVal_5 = load %global2local_282
+	%res_6 = lt %idVal_4 %idVal_5
+	br %res_6 <2> <4>
+
+<2> for_body
+	store 0 %global2local_274
+	br <5>
+
+<5> for_cond
+	%idVal_7 = load %global2local_274
+	%idVal_8 = load %global2local_282
+	%res_9 = lt %idVal_7 %idVal_8
+	br %res_9 <6> <8>
+
+<6> for_body
+	%res_10 = neg 1
+	%arrayPtr_11 = load %global2local_283
+	%arrayBase_12 = add %arrayPtr_11 8
+	%idVal_13 = load %global2local_276
+	%offset_14 = mul %idVal_13 8
+	%elementAddr_15 = add %arrayBase_12 %offset_14
+	%arrayPtr_16 = load %elementAddr_15
+	%arrayBase_17 = add %arrayPtr_16 8
+	%idVal_18 = load %global2local_274
+	%offset_19 = mul %idVal_18 8
+	%elementAddr_20 = add %arrayBase_17 %offset_19
+	store %res_10 %elementAddr_20
+	br <7>
+
+<7> for_step
+	%idVal_21 = load %global2local_274
+	%oldVal_22 = load %global2local_274
+	%newVal_23 = inc %oldVal_22
+	store %newVal_23 %global2local_274
+	br <5>
+
+<8> for_end
+	br <3>
+
+<3> for_step
+	%idVal_24 = load %global2local_276
+	%oldVal_25 = load %global2local_276
+	%newVal_26 = inc %oldVal_25
+	store %newVal_26 %global2local_276
+	br <1>
+
+<4> for_end
+	%res_27 = neg 2
+	%arrayPtr_28 = load %global2local_275
+	%arrayBase_29 = add %arrayPtr_28 8
+	%offset_30 = mul 0 8
+	%elementAddr_31 = add %arrayBase_29 %offset_30
+	store %res_27 %elementAddr_31
+	%res_32 = neg 1
+	%arrayPtr_33 = load %global2local_284
+	%arrayBase_34 = add %arrayPtr_33 8
+	%offset_35 = mul 0 8
+	%elementAddr_36 = add %arrayBase_34 %offset_35
+	store %res_32 %elementAddr_36
+	%res_37 = neg 2
+	%arrayPtr_38 = load %global2local_275
+	%arrayBase_39 = add %arrayPtr_38 8
+	%offset_40 = mul 1 8
+	%elementAddr_41 = add %arrayBase_39 %offset_40
+	store %res_37 %elementAddr_41
+	%arrayPtr_42 = load %global2local_284
+	%arrayBase_43 = add %arrayPtr_42 8
+	%offset_44 = mul 1 8
+	%elementAddr_45 = add %arrayBase_43 %offset_44
+	store 1 %elementAddr_45
+	%arrayPtr_46 = load %global2local_275
+	%arrayBase_47 = add %arrayPtr_46 8
+	%offset_48 = mul 2 8
+	%elementAddr_49 = add %arrayBase_47 %offset_48
+	store 2 %elementAddr_49
+	%res_50 = neg 1
+	%arrayPtr_51 = load %global2local_284
+	%arrayBase_52 = add %arrayPtr_51 8
+	%offset_53 = mul 2 8
+	%elementAddr_54 = add %arrayBase_52 %offset_53
+	store %res_50 %elementAddr_54
+	%arrayPtr_55 = load %global2local_275
+	%arrayBase_56 = add %arrayPtr_55 8
+	%offset_57 = mul 3 8
+	%elementAddr_58 = add %arrayBase_56 %offset_57
+	store 2 %elementAddr_58
+	%arrayPtr_59 = load %global2local_284
+	%arrayBase_60 = add %arrayPtr_59 8
+	%offset_61 = mul 3 8
+	%elementAddr_62 = add %arrayBase_60 %offset_61
+	store 1 %elementAddr_62
+	%res_63 = neg 1
+	%arrayPtr_64 = load %global2local_275
+	%arrayBase_65 = add %arrayPtr_64 8
+	%offset_66 = mul 4 8
+	%elementAddr_67 = add %arrayBase_65 %offset_66
+	store %res_63 %elementAddr_67
+	%res_68 = neg 2
+	%arrayPtr_69 = load %global2local_284
+	%arrayBase_70 = add %arrayPtr_69 8
+	%offset_71 = mul 4 8
+	%elementAddr_72 = add %arrayBase_70 %offset_71
+	store %res_68 %elementAddr_72
+	%res_73 = neg 1
+	%arrayPtr_74 = load %global2local_275
+	%arrayBase_75 = add %arrayPtr_74 8
+	%offset_76 = mul 5 8
+	%elementAddr_77 = add %arrayBase_75 %offset_76
+	store %res_73 %elementAddr_77
+	%arrayPtr_78 = load %global2local_284
+	%arrayBase_79 = add %arrayPtr_78 8
+	%offset_80 = mul 5 8
+	%elementAddr_81 = add %arrayBase_79 %offset_80
+	store 2 %elementAddr_81
+	%arrayPtr_82 = load %global2local_275
+	%arrayBase_83 = add %arrayPtr_82 8
+	%offset_84 = mul 6 8
+	%elementAddr_85 = add %arrayBase_83 %offset_84
+	store 1 %elementAddr_85
+	%res_86 = neg 2
+	%arrayPtr_87 = load %global2local_284
+	%arrayBase_88 = add %arrayPtr_87 8
+	%offset_89 = mul 6 8
+	%elementAddr_90 = add %arrayBase_88 %offset_89
+	store %res_86 %elementAddr_90
+	%arrayPtr_91 = load %global2local_275
+	%arrayBase_92 = add %arrayPtr_91 8
+	%offset_93 = mul 7 8
+	%elementAddr_94 = add %arrayBase_92 %offset_93
+	store 1 %elementAddr_94
+	%arrayPtr_95 = load %global2local_284
+	%arrayBase_96 = add %arrayPtr_95 8
+	%offset_97 = mul 7 8
+	%elementAddr_98 = add %arrayBase_96 %offset_97
+	store 2 %elementAddr_98
+	br <9>
+
+<9> while_cond
+	%idVal_99 = load %global2local_273
+	%idVal_100 = load %global2local_280
+	%res_101 = le %idVal_99 %idVal_100
+	br %res_101 <10> <11>
+
+<10> while_body
+	%arrayPtr_102 = load %global2local_278
+	%arrayBase_103 = add %arrayPtr_102 8
+	%idVal_104 = load %global2local_273
+	%offset_105 = mul %idVal_104 8
+	%elementAddr_106 = add %arrayBase_103 %offset_105
+	%elementVal_107 = load %elementAddr_106
+	store %elementVal_107 %global2local_279
+	%arrayPtr_108 = load %global2local_272
+	%arrayBase_109 = add %arrayPtr_108 8
+	%idVal_110 = load %global2local_273
+	%offset_111 = mul %idVal_110 8
+	%elementAddr_112 = add %arrayBase_109 %offset_111
+	%elementVal_113 = load %elementAddr_112
+	store %elementVal_113 %global2local_277
+	%arrayPtr_114 = load %global2local_283
+	%arrayBase_115 = add %arrayPtr_114 8
+	%idVal_116 = load %global2local_279
+	%offset_117 = mul %idVal_116 8
+	%elementAddr_118 = add %arrayBase_115 %offset_117
+	%arrayPtr_119 = load %elementAddr_118
+	%arrayBase_120 = add %arrayPtr_119 8
+	%idVal_121 = load %global2local_277
+	%offset_122 = mul %idVal_121 8
+	%elementAddr_123 = add %arrayBase_120 %offset_122
+	%elementVal_124 = load %elementAddr_123
+	store %elementVal_124 %global2local_285
+	store 0 %global2local_274
+	br <12>
+
+<12> for_cond
+	%idVal_125 = load %global2local_274
+	%res_126 = lt %idVal_125 8
+	br %res_126 <13> <15>
+
+<13> for_body
+	%idVal_127 = load %global2local_279
+	%arrayPtr_128 = load %global2local_275
+	%arrayBase_129 = add %arrayPtr_128 8
+	%idVal_130 = load %global2local_274
+	%offset_131 = mul %idVal_130 8
+	%elementAddr_132 = add %arrayBase_129 %offset_131
+	%elementVal_133 = load %elementAddr_132
+	%res_134 = add %idVal_127 %elementVal_133
+	%idVal_135 = load %global2local_277
+	%arrayPtr_136 = load %global2local_284
+	%arrayBase_137 = add %arrayPtr_136 8
+	%idVal_138 = load %global2local_274
+	%offset_139 = mul %idVal_138 8
+	%elementAddr_140 = add %arrayBase_137 %offset_139
+	%elementVal_141 = load %elementAddr_140
+	%res_142 = add %idVal_135 %elementVal_141
+	br <32>
+
+<32> centry
+	store %res_134 %cargAddr_201
+	store %res_142 %cargAddr_200
+	%cidVal_202 = load %cargAddr_201
+	br <41>
+
+<41> centry
+	store %cidVal_202 %cargAddr_254
+	%cidVal_255 = load %cargAddr_254
+	%cidVal_256 = load %global2local_282
+	%cres_257 = lt %cidVal_255 %cidVal_256
+	br %cres_257 <42> <44>
+
+<42> clhs_true
+	%cidVal_258 = load %cargAddr_254
+	%cres_259 = ge %cidVal_258 0
+	br %cres_259 <43> <44>
+
+<43> cbool_true
+	store 1 %cboolValAddr_253
+	br <45>
+
+<44> cbool_false
+	store 0 %cboolValAddr_253
+	br <45>
+
+<45> cbool_merge
+	%cboolVal_260 = load %cboolValAddr_253
+	store %cboolVal_260 %retValAddr_252
+	br <40>
+
+<40> after_call
+	%cres_203 = load %retValAddr_252
+	br %cres_203 <33> <39>
+
+<33> clhs_true
+	%cidVal_204 = load %cargAddr_200
+	br <47>
+
+<47> centry
+	store %cidVal_204 %cargAddr_263
+	%cidVal_264 = load %cargAddr_263
+	%cidVal_265 = load %global2local_282
+	%cres_266 = lt %cidVal_264 %cidVal_265
+	br %cres_266 <48> <50>
+
+<48> clhs_true
+	%cidVal_267 = load %cargAddr_263
+	%cres_268 = ge %cidVal_267 0
+	br %cres_268 <49> <50>
+
+<49> cbool_true
+	store 1 %cboolValAddr_262
+	br <51>
+
+<50> cbool_false
+	store 0 %cboolValAddr_262
+	br <51>
+
+<51> cbool_merge
+	%cboolVal_269 = load %cboolValAddr_262
+	store %cboolVal_269 %retValAddr_261
+	br <46>
+
+<46> after_call
+	%cres_205 = load %retValAddr_261
+	br %cres_205 <34> <39>
+
+<34> clhs_true
+	%carrayPtr_206 = load %global2local_283
+	%carrayBase_207 = add %carrayPtr_206 8
+	%cidVal_208 = load %cargAddr_201
+	%coffset_209 = mul %cidVal_208 8
+	%celementAddr_210 = add %carrayBase_207 %coffset_209
+	%carrayPtr_211 = load %celementAddr_210
+	%carrayBase_212 = add %carrayPtr_211 8
+	%cidVal_213 = load %cargAddr_200
+	%coffset_214 = mul %cidVal_213 8
+	%celementAddr_215 = add %carrayBase_212 %coffset_214
+	%celementVal_216 = load %celementAddr_215
+	%cres_217 = neg 1
+	%cres_218 = eq %celementVal_216 %cres_217
+	br %cres_218 <35> <39>
+
+<35> cif_true
+	%cidVal_219 = load %global2local_280
+	%coldVal_220 = load %global2local_280
+	%cnewVal_221 = inc %coldVal_220
+	store %cnewVal_221 %global2local_280
+	%cidVal_222 = load %cargAddr_201
+	%carrayPtr_223 = load %global2local_278
+	%carrayBase_224 = add %carrayPtr_223 8
+	%cidVal_225 = load %global2local_280
+	%coffset_226 = mul %cidVal_225 8
+	%celementAddr_227 = add %carrayBase_224 %coffset_226
+	store %cidVal_222 %celementAddr_227
+	%cidVal_228 = load %cargAddr_200
+	%carrayPtr_229 = load %global2local_272
+	%carrayBase_230 = add %carrayPtr_229 8
+	%cidVal_231 = load %global2local_280
+	%coffset_232 = mul %cidVal_231 8
+	%celementAddr_233 = add %carrayBase_230 %coffset_232
+	store %cidVal_228 %celementAddr_233
+	%cidVal_234 = load %global2local_285
+	%cres_235 = add %cidVal_234 1
+	%carrayPtr_236 = load %global2local_283
+	%carrayBase_237 = add %carrayPtr_236 8
+	%cidVal_238 = load %cargAddr_201
+	%coffset_239 = mul %cidVal_238 8
+	%celementAddr_240 = add %carrayBase_237 %coffset_239
+	%carrayPtr_241 = load %celementAddr_240
+	%carrayBase_242 = add %carrayPtr_241 8
+	%cidVal_243 = load %cargAddr_200
+	%coffset_244 = mul %cidVal_243 8
+	%celementAddr_245 = add %carrayBase_242 %coffset_244
+	store %cres_235 %celementAddr_245
+	%cidVal_246 = load %cargAddr_201
+	%cidVal_247 = load %global2local_281
+	%cres_248 = eq %cidVal_246 %cidVal_247
+	br %cres_248 <36> <38>
+
+<36> clhs_true
+	%cidVal_249 = load %cargAddr_200
+	%cidVal_250 = load %global2local_270
+	%cres_251 = eq %cidVal_249 %cidVal_250
+	br %cres_251 <37> <38>
+
+<37> cif_true
+	store 1 %global2local_271
+	br <38>
+
+<38> cif_merge
+	br <39>
+
+<39> cif_merge
+	br <31>
+
+<31> after_call
+	br <14>
+
+<14> for_step
+	%idVal_143 = load %global2local_274
+	%oldVal_144 = load %global2local_274
+	%newVal_145 = inc %oldVal_144
+	store %newVal_145 %global2local_274
+	br <12>
+
+<15> for_end
+	%idVal_146 = load %global2local_271
+	%res_147 = eq %idVal_146 1
+	br %res_147 <16> <17>
+
+<16> if_true
+	br <11>
+
+<17> if_merge
+	%idVal_148 = load %global2local_273
+	%oldVal_149 = load %global2local_273
+	%newVal_150 = inc %oldVal_149
+	store %newVal_150 %global2local_273
+	br <9>
+
+<11> while_end
+	%idVal_151 = load %global2local_271
+	%res_152 = eq %idVal_151 1
+	br %res_152 <18> <19>
+
+<18> if_true
+	%arrayPtr_153 = load %global2local_283
+	%arrayBase_154 = add %arrayPtr_153 8
+	%idVal_155 = load %global2local_281
+	%offset_156 = mul %idVal_155 8
+	%elementAddr_157 = add %arrayBase_154 %offset_156
+	%arrayPtr_158 = load %elementAddr_157
+	%arrayBase_159 = add %arrayPtr_158 8
+	%idVal_160 = load %global2local_270
+	%offset_161 = mul %idVal_160 8
+	%elementAddr_162 = add %arrayBase_159 %offset_161
+	%elementVal_163 = load %elementAddr_162
+	__printlnInt ( %elementVal_163 )
+	br <20>
+
+<19> if_false
+	print ( $str_0 )
+	br <20>
+
+<20> if_merge
+	%tmp_302 = load %global2local_270
+	store %tmp_302 @targety
+	%tmp_303 = load %global2local_271
+	store %tmp_303 @ok
+	%tmp_304 = load %global2local_272
+	store %tmp_304 @ylist
+	%tmp_305 = load %global2local_273
+	store %tmp_305 @head
+	%tmp_306 = load %global2local_274
+	store %tmp_306 @j
+	%tmp_307 = load %global2local_275
+	store %tmp_307 @dx
+	%tmp_308 = load %global2local_276
+	store %tmp_308 @i
+	%tmp_309 = load %global2local_277
+	store %tmp_309 @y
+	%tmp_310 = load %global2local_278
+	store %tmp_310 @xlist
+	%tmp_311 = load %global2local_279
+	store %tmp_311 @x
+	%tmp_312 = load %global2local_280
+	store %tmp_312 @tail
+	%tmp_313 = load %global2local_281
+	store %tmp_313 @targetx
+	%tmp_314 = load %global2local_282
+	store %tmp_314 @N
+	%tmp_315 = load %global2local_283
+	store %tmp_315 @step
+	%tmp_316 = load %global2local_284
+	store %tmp_316 @dy
+	%tmp_317 = load %global2local_285
+	store %tmp_317 @now
 	ret 0
 
 }

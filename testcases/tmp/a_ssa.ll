@@ -1,8 +1,36 @@
-$str_0 "A"
+@N
 
-$str_1 "B"
+@head
 
-$str_2 "C"
+@targetx
+
+@targety
+
+@x
+
+@y
+
+@xlist
+
+@ylist
+
+@tail
+
+@ok
+
+@now
+
+@dx
+
+@dy
+
+@step
+
+@i
+
+@j
+
+$str_0 "no solution!\n"
 
 define print
 
@@ -44,535 +72,893 @@ define __printlnInt
 
 define __globalInit ( ) {
 <0> entry
+	%tmp_19 = load @xlist
+	mov %varDef_24 %tmp_19
+	%tmp_18 = load @dy
+	mov %varDef_25 %tmp_18
+	%tmp_17 = load @dx
+	mov %varDef_26 %tmp_17
+	%tmp_16 = load @ylist
+	mov %varDef_27 %tmp_16
+	%memberLength_1 = mul 12000 8
+	%arrayLength_2 = add %memberLength_1 8
+	%arrayPtr_0 = malloc %arrayLength_2
+	store 12000 %arrayPtr_0
+	mov %varDef_28 %arrayPtr_0
+	%memberLength_4 = mul 12000 8
+	%arrayLength_5 = add %memberLength_4 8
+	%arrayPtr_3 = malloc %arrayLength_5
+	store 12000 %arrayPtr_3
+	mov %varDef_29 %arrayPtr_3
+	%memberLength_7 = mul 8 8
+	%arrayLength_8 = add %memberLength_7 8
+	%arrayPtr_6 = malloc %arrayLength_8
+	store 8 %arrayPtr_6
+	mov %varDef_30 %arrayPtr_6
+	%memberLength_10 = mul 9 8
+	%arrayLength_11 = add %memberLength_10 8
+	%arrayPtr_9 = malloc %arrayLength_11
+	store 9 %arrayPtr_9
+	mov %varDef_31 %arrayPtr_9
+	mov %tmp_20 %varDef_29
+	store %tmp_20 @ylist
+	mov %tmp_21 %varDef_30
+	store %tmp_21 @dx
+	mov %tmp_22 %varDef_31
+	store %tmp_22 @dy
+	mov %tmp_23 %varDef_28
+	store %tmp_23 @xlist
 	ret 
 
 }
 
-define cd ( %argVal_0 %argVal_2 %argVal_4 %argVal_6 %argVal_8 ) {
+define origin ( %argVal_0 ) {
 <0> entry
-	mov %varDef_207 %argVal_0
-	mov %varDef_208 %argVal_2
-	mov %varDef_209 %argVal_4
-	mov %varDef_210 %argVal_6
-	mov %varDef_211 %argVal_8
-	mov %idVal_10 %varDef_207
-	%res_11 = eq %idVal_10 1
-	br %res_11 <1> <2>
+	%tmp_46 = load @i
+	mov %varDef_52 %tmp_46
+	%tmp_45 = load @j
+	mov %varDef_53 %tmp_45
+	%tmp_44 = load @step
+	mov %varDef_54 %tmp_44
+	%tmp_43 = load @head
+	mov %varDef_55 %tmp_43
+	%tmp_42 = load @tail
+	mov %varDef_56 %tmp_42
+	mov %varDef_57 %argVal_0
+	mov %varDef_58 0
+	mov %varDef_59 0
+	mov %idVal_2 %varDef_57
+	%memberLength_4 = mul %idVal_2 8
+	%arrayLength_5 = add %memberLength_4 8
+	%arrayPtr_3 = malloc %arrayLength_5
+	store %idVal_2 %arrayPtr_3
+	mov %varDef_60 %arrayPtr_3
+	mov %varDef_61 0
+	br <1>
+
+<1> for_cond
+	%varDef_62 = phi <0> %varDef_53 <3> %varDef_65
+	%varDef_63 = phi <0> %varDef_61 <3> %varDef_67
+	mov %idVal_6 %varDef_63
+	mov %idVal_7 %varDef_57
+	%res_8 = lt %idVal_6 %idVal_7
+	br %res_8 <2> <4>
+
+<2> for_body
+	mov %idVal_9 %varDef_57
+	%memberLength_11 = mul %idVal_9 8
+	%arrayLength_12 = add %memberLength_11 8
+	%arrayPtr_10 = malloc %arrayLength_12
+	store %idVal_9 %arrayPtr_10
+	mov %arrayPtr_13 %varDef_60
+	%arrayBase_14 = add %arrayPtr_13 8
+	mov %idVal_15 %varDef_63
+	%offset_16 = mul %idVal_15 8
+	%elementAddr_17 = add %arrayBase_14 %offset_16
+	store %arrayPtr_10 %elementAddr_17
+	mov %varDef_64 0
+	br <5>
+
+<5> for_cond
+	%varDef_65 = phi <2> %varDef_64 <6> %varDef_66
+	mov %idVal_18 %varDef_65
+	mov %idVal_19 %varDef_57
+	%res_20 = lt %idVal_18 %idVal_19
+	br %res_20 <6> <3>
+
+<6> for_body
+	mov %arrayPtr_21 %varDef_60
+	%arrayBase_22 = add %arrayPtr_21 8
+	mov %idVal_23 %varDef_63
+	%offset_24 = mul %idVal_23 8
+	%elementAddr_25 = add %arrayBase_22 %offset_24
+	%arrayPtr_26 = load %elementAddr_25
+	%arrayBase_27 = add %arrayPtr_26 8
+	mov %idVal_28 %varDef_65
+	%offset_29 = mul %idVal_28 8
+	%elementAddr_30 = add %arrayBase_27 %offset_29
+	store 0 %elementAddr_30
+	mov %idVal_31 %varDef_65
+	mov %oldVal_32 %varDef_65
+	%newVal_33 = inc %oldVal_32
+	mov %varDef_66 %newVal_33
+	br <5>
+
+<3> for_step
+	mov %idVal_34 %varDef_63
+	mov %oldVal_35 %varDef_63
+	%newVal_36 = inc %oldVal_35
+	mov %varDef_67 %newVal_36
+	br <1>
+
+<4> for_end
+	mov %tmp_47 %varDef_59
+	store %tmp_47 @tail
+	mov %tmp_48 %varDef_58
+	store %tmp_48 @head
+	mov %tmp_49 %varDef_60
+	store %tmp_49 @step
+	mov %tmp_50 %varDef_62
+	store %tmp_50 @j
+	mov %tmp_51 %varDef_63
+	store %tmp_51 @i
+	ret 
+
+}
+
+define check ( %argVal_0 ) {
+<0> entry
+	%tmp_10 = load @N
+	mov %varDef_12 %tmp_10
+	mov %varDef_13 %argVal_0
+	mov %idVal_3 %varDef_13
+	mov %idVal_4 %varDef_12
+	%res_5 = lt %idVal_3 %idVal_4
+	br %res_5 <4> <2>
+
+<4> lhs_true
+	mov %idVal_6 %varDef_13
+	%res_7 = ge %idVal_6 0
+	br %res_7 <1> <2>
+
+<1> bool_true
+	mov %varDef_14 1
+	br <3>
+
+<2> bool_false
+	mov %varDef_15 0
+	br <3>
+
+<3> bool_merge
+	%varDef_16 = phi <1> %varDef_14 <2> %varDef_15
+	mov %boolVal_8 %varDef_16
+	mov %tmp_11 %varDef_12
+	store %tmp_11 @N
+	ret %boolVal_8
+
+}
+
+define addList ( %argVal_0 %argVal_2 ) {
+<0> entry
+	%tmp_89 = load @now
+	mov %varDef_99 %tmp_89
+	%tmp_88 = load @xlist
+	mov %varDef_100 %tmp_88
+	%tmp_87 = load @step
+	mov %varDef_101 %tmp_87
+	%tmp_86 = load @N
+	mov %varDef_102 %tmp_86
+	%tmp_85 = load @targetx
+	mov %varDef_103 %tmp_85
+	%tmp_84 = load @ylist
+	mov %varDef_104 %tmp_84
+	%tmp_83 = load @ok
+	mov %varDef_105 %tmp_83
+	%tmp_82 = load @targety
+	mov %varDef_106 %tmp_82
+	%tmp_81 = load @tail
+	mov %varDef_107 %tmp_81
+	mov %varDef_108 %argVal_0
+	mov %varDef_109 %argVal_2
+	mov %idVal_5 %varDef_108
+	br <9>
+
+<9> centry
+	mov %varDef_110 %idVal_5
+	mov %cidVal_57 %varDef_110
+	mov %cidVal_58 %varDef_102
+	%cres_59 = lt %cidVal_57 %cidVal_58
+	br %cres_59 <10> <12>
+
+<10> clhs_true
+	mov %cidVal_60 %varDef_110
+	%cres_61 = ge %cidVal_60 0
+	br %cres_61 <11> <12>
+
+<11> cbool_true
+	mov %varDef_111 1
+	br <13>
+
+<12> cbool_false
+	mov %varDef_112 0
+	br <13>
+
+<13> cbool_merge
+	%varDef_113 = phi <11> %varDef_111 <12> %varDef_112
+	mov %cboolVal_62 %varDef_113
+	mov %varDef_114 %cboolVal_62
+	mov %res_4 %varDef_114
+	br %res_4 <4> <2>
+
+<4> lhs_true
+	mov %idVal_7 %varDef_109
+	mov %varDef_115 %idVal_7
+	mov %cidVal_66 %varDef_115
+	mov %cidVal_67 %varDef_102
+	%cres_68 = lt %cidVal_66 %cidVal_67
+	br %cres_68 <16> <18>
+
+<16> clhs_true
+	mov %cidVal_69 %varDef_115
+	%cres_70 = ge %cidVal_69 0
+	br %cres_70 <17> <18>
+
+<17> cbool_true
+	mov %varDef_116 1
+	br <19>
+
+<18> cbool_false
+	mov %varDef_117 0
+	br <19>
+
+<19> cbool_merge
+	%varDef_118 = phi <17> %varDef_116 <18> %varDef_117
+	mov %cboolVal_71 %varDef_118
+	mov %varDef_119 %cboolVal_71
+	mov %res_6 %varDef_119
+	br %res_6 <3> <2>
+
+<3> lhs_true
+	mov %arrayPtr_8 %varDef_101
+	%arrayBase_9 = add %arrayPtr_8 8
+	mov %idVal_10 %varDef_108
+	%offset_11 = mul %idVal_10 8
+	%elementAddr_12 = add %arrayBase_9 %offset_11
+	%arrayPtr_13 = load %elementAddr_12
+	%arrayBase_14 = add %arrayPtr_13 8
+	mov %idVal_15 %varDef_109
+	%offset_16 = mul %idVal_15 8
+	%elementAddr_17 = add %arrayBase_14 %offset_16
+	%elementVal_18 = load %elementAddr_17
+	%res_19 = neg 1
+	%res_20 = eq %elementVal_18 %res_19
+	br %res_20 <1> <2>
 
 <1> if_true
-	mov %idVal_12 %varDef_211
-	mov %oldVal_13 %varDef_211
-	%newVal_14 = inc %oldVal_13
-	mov %varDef_212 %newVal_14
-	br <3>
+	mov %idVal_21 %varDef_107
+	mov %oldVal_22 %varDef_107
+	%newVal_23 = inc %oldVal_22
+	mov %varDef_120 %newVal_23
+	mov %idVal_24 %varDef_108
+	mov %arrayPtr_25 %varDef_100
+	%arrayBase_26 = add %arrayPtr_25 8
+	mov %idVal_27 %varDef_120
+	%offset_28 = mul %idVal_27 8
+	%elementAddr_29 = add %arrayBase_26 %offset_28
+	store %idVal_24 %elementAddr_29
+	mov %idVal_30 %varDef_109
+	mov %arrayPtr_31 %varDef_104
+	%arrayBase_32 = add %arrayPtr_31 8
+	mov %idVal_33 %varDef_120
+	%offset_34 = mul %idVal_33 8
+	%elementAddr_35 = add %arrayBase_32 %offset_34
+	store %idVal_30 %elementAddr_35
+	mov %idVal_36 %varDef_99
+	%res_37 = add %idVal_36 1
+	mov %arrayPtr_38 %varDef_101
+	%arrayBase_39 = add %arrayPtr_38 8
+	mov %idVal_40 %varDef_108
+	%offset_41 = mul %idVal_40 8
+	%elementAddr_42 = add %arrayBase_39 %offset_41
+	%arrayPtr_43 = load %elementAddr_42
+	%arrayBase_44 = add %arrayPtr_43 8
+	mov %idVal_45 %varDef_109
+	%offset_46 = mul %idVal_45 8
+	%elementAddr_47 = add %arrayBase_44 %offset_46
+	store %res_37 %elementAddr_47
+	mov %idVal_48 %varDef_108
+	mov %idVal_49 %varDef_103
+	%res_50 = eq %idVal_48 %idVal_49
+	br %res_50 <7> <2>
 
-<2> if_false
-	mov %idVal_16 %varDef_207
-	%res_17 = sub %idVal_16 1
-	mov %idVal_18 %varDef_208
-	mov %idVal_19 %varDef_210
-	mov %idVal_20 %varDef_209
-	mov %idVal_21 %varDef_211
-	mov %varDef_213 %res_17
-	mov %varDef_214 %idVal_18
-	mov %varDef_215 %idVal_19
-	mov %varDef_216 %idVal_20
-	mov %varDef_217 %idVal_21
-	mov %cidVal_39 %varDef_213
-	%cres_40 = eq %cidVal_39 1
-	br %cres_40 <6> <7>
+<7> lhs_true
+	mov %idVal_51 %varDef_109
+	mov %idVal_52 %varDef_106
+	%res_53 = eq %idVal_51 %idVal_52
+	br %res_53 <5> <2>
 
-<6> cif_true
-	mov %cidVal_41 %varDef_217
-	mov %coldVal_42 %varDef_217
-	%cnewVal_43 = inc %coldVal_42
-	mov %varDef_218 %cnewVal_43
-	br <8>
+<5> if_true
+	mov %varDef_121 1
+	br <2>
 
-<7> cif_false
-	mov %cidVal_44 %varDef_213
-	%cres_45 = sub %cidVal_44 1
-	mov %cidVal_46 %varDef_214
-	mov %cidVal_47 %varDef_216
-	mov %cidVal_48 %varDef_215
-	mov %cidVal_49 %varDef_217
-	mov %varDef_219 %cres_45
-	mov %varDef_220 %cidVal_46
-	mov %varDef_221 %cidVal_47
-	mov %varDef_222 %cidVal_48
-	mov %varDef_223 %cidVal_49
-	mov %cidVal_97 %varDef_219
-	%cres_98 = eq %cidVal_97 1
-	br %cres_98 <16> <17>
-
-<16> cif_true
-	mov %cidVal_99 %varDef_223
-	mov %coldVal_100 %varDef_223
-	%cnewVal_101 = inc %coldVal_100
-	mov %varDef_224 %cnewVal_101
-	br <18>
-
-<17> cif_false
-	mov %cidVal_102 %varDef_219
-	%cres_103 = sub %cidVal_102 1
-	mov %cidVal_104 %varDef_220
-	mov %cidVal_105 %varDef_222
-	mov %cidVal_106 %varDef_221
-	mov %cidVal_107 %varDef_223
-	%cres_108 = cd ( %cres_103 %cidVal_104 %cidVal_105 %cidVal_106 %cidVal_107 )
-	mov %varDef_225 %cres_108
-	mov %cidVal_109 %varDef_219
-	%cres_110 = sub %cidVal_109 1
-	mov %cidVal_111 %varDef_221
-	mov %cidVal_112 %varDef_220
-	mov %cidVal_113 %varDef_222
-	mov %cidVal_114 %varDef_225
-	%cres_115 = cd ( %cres_110 %cidVal_111 %cidVal_112 %cidVal_113 %cidVal_114 )
-	mov %varDef_226 %cres_115
-	mov %cidVal_116 %varDef_226
-	mov %coldVal_117 %varDef_226
-	%cnewVal_118 = inc %coldVal_117
-	mov %varDef_227 %cnewVal_118
-	br <18>
-
-<18> cif_merge
-	%varDef_228 = phi <16> %varDef_224 <17> %varDef_227
-	mov %cidVal_119 %varDef_228
-	mov %varDef_229 %cidVal_119
-	mov %cres_50 %varDef_229
-	mov %varDef_230 %cres_50
-	mov %cidVal_51 %varDef_213
-	%cres_52 = sub %cidVal_51 1
-	mov %cidVal_53 %varDef_215
-	mov %cidVal_54 %varDef_214
-	mov %cidVal_55 %varDef_216
-	mov %cidVal_56 %varDef_230
-	mov %varDef_231 %cres_52
-	mov %varDef_232 %cidVal_53
-	mov %varDef_233 %cidVal_54
-	mov %varDef_234 %cidVal_55
-	mov %varDef_235 %cidVal_56
-	mov %cidVal_126 %varDef_231
-	%cres_127 = eq %cidVal_126 1
-	br %cres_127 <21> <22>
-
-<21> cif_true
-	mov %cidVal_128 %varDef_235
-	mov %coldVal_129 %varDef_235
-	%cnewVal_130 = inc %coldVal_129
-	mov %varDef_236 %cnewVal_130
-	br <23>
-
-<22> cif_false
-	mov %cidVal_131 %varDef_231
-	%cres_132 = sub %cidVal_131 1
-	mov %cidVal_133 %varDef_232
-	mov %cidVal_134 %varDef_234
-	mov %cidVal_135 %varDef_233
-	mov %cidVal_136 %varDef_235
-	%cres_137 = cd ( %cres_132 %cidVal_133 %cidVal_134 %cidVal_135 %cidVal_136 )
-	mov %varDef_237 %cres_137
-	mov %cidVal_138 %varDef_231
-	%cres_139 = sub %cidVal_138 1
-	mov %cidVal_140 %varDef_233
-	mov %cidVal_141 %varDef_232
-	mov %cidVal_142 %varDef_234
-	mov %cidVal_143 %varDef_237
-	%cres_144 = cd ( %cres_139 %cidVal_140 %cidVal_141 %cidVal_142 %cidVal_143 )
-	mov %varDef_238 %cres_144
-	mov %cidVal_145 %varDef_238
-	mov %coldVal_146 %varDef_238
-	%cnewVal_147 = inc %coldVal_146
-	mov %varDef_239 %cnewVal_147
-	br <23>
-
-<23> cif_merge
-	%varDef_240 = phi <21> %varDef_236 <22> %varDef_239
-	mov %cidVal_148 %varDef_240
-	mov %varDef_241 %cidVal_148
-	mov %cres_57 %varDef_241
-	mov %varDef_242 %cres_57
-	mov %cidVal_58 %varDef_242
-	mov %coldVal_59 %varDef_242
-	%cnewVal_60 = inc %coldVal_59
-	mov %varDef_243 %cnewVal_60
-	br <8>
-
-<8> cif_merge
-	%varDef_244 = phi <6> %varDef_218 <23> %varDef_243
-	%varDef_245 = phi <6> 0 <23> %varDef_229
-	%varDef_246 = phi <6> 0 <23> %varDef_228
-	%varDef_247 = phi <6> 0 <23> %varDef_222
-	%varDef_248 = phi <6> 0 <23> %varDef_221
-	%varDef_249 = phi <6> 0 <23> %varDef_220
-	%varDef_250 = phi <6> 0 <23> %varDef_219
-	%varDef_251 = phi <6> 0 <23> %varDef_241
-	%varDef_252 = phi <6> 0 <23> %varDef_240
-	%varDef_253 = phi <6> 0 <23> %varDef_234
-	%varDef_254 = phi <6> 0 <23> %varDef_233
-	%varDef_255 = phi <6> 0 <23> %varDef_232
-	%varDef_256 = phi <6> 0 <23> %varDef_231
-	mov %cidVal_61 %varDef_244
-	mov %varDef_257 %cidVal_61
-	mov %res_15 %varDef_257
-	mov %varDef_258 %res_15
-	mov %idVal_23 %varDef_207
-	%res_24 = sub %idVal_23 1
-	mov %idVal_25 %varDef_209
-	mov %idVal_26 %varDef_208
-	mov %idVal_27 %varDef_210
-	mov %idVal_28 %varDef_258
-	mov %varDef_259 %res_24
-	mov %varDef_260 %idVal_25
-	mov %varDef_261 %idVal_26
-	mov %varDef_262 %idVal_27
-	mov %varDef_263 %idVal_28
-	mov %cidVal_68 %varDef_259
-	%cres_69 = eq %cidVal_68 1
-	br %cres_69 <11> <12>
-
-<11> cif_true
-	mov %cidVal_70 %varDef_263
-	mov %coldVal_71 %varDef_263
-	%cnewVal_72 = inc %coldVal_71
-	mov %varDef_264 %cnewVal_72
-	br <13>
-
-<12> cif_false
-	mov %cidVal_73 %varDef_259
-	%cres_74 = sub %cidVal_73 1
-	mov %cidVal_75 %varDef_260
-	mov %cidVal_76 %varDef_262
-	mov %cidVal_77 %varDef_261
-	mov %cidVal_78 %varDef_263
-	mov %varDef_265 %cres_74
-	mov %varDef_266 %cidVal_75
-	mov %varDef_267 %cidVal_76
-	mov %varDef_268 %cidVal_77
-	mov %varDef_269 %cidVal_78
-	mov %cidVal_155 %varDef_265
-	%cres_156 = eq %cidVal_155 1
-	br %cres_156 <26> <27>
-
-<26> cif_true
-	mov %cidVal_157 %varDef_269
-	mov %coldVal_158 %varDef_269
-	%cnewVal_159 = inc %coldVal_158
-	mov %varDef_270 %cnewVal_159
-	br <28>
-
-<27> cif_false
-	mov %cidVal_160 %varDef_265
-	%cres_161 = sub %cidVal_160 1
-	mov %cidVal_162 %varDef_266
-	mov %cidVal_163 %varDef_268
-	mov %cidVal_164 %varDef_267
-	mov %cidVal_165 %varDef_269
-	%cres_166 = cd ( %cres_161 %cidVal_162 %cidVal_163 %cidVal_164 %cidVal_165 )
-	mov %varDef_271 %cres_166
-	mov %cidVal_167 %varDef_265
-	%cres_168 = sub %cidVal_167 1
-	mov %cidVal_169 %varDef_267
-	mov %cidVal_170 %varDef_266
-	mov %cidVal_171 %varDef_268
-	mov %cidVal_172 %varDef_271
-	%cres_173 = cd ( %cres_168 %cidVal_169 %cidVal_170 %cidVal_171 %cidVal_172 )
-	mov %varDef_272 %cres_173
-	mov %cidVal_174 %varDef_272
-	mov %coldVal_175 %varDef_272
-	%cnewVal_176 = inc %coldVal_175
-	mov %varDef_273 %cnewVal_176
-	br <28>
-
-<28> cif_merge
-	%varDef_274 = phi <26> %varDef_270 <27> %varDef_273
-	mov %cidVal_177 %varDef_274
-	mov %varDef_275 %cidVal_177
-	mov %cres_79 %varDef_275
-	mov %varDef_276 %cres_79
-	mov %cidVal_80 %varDef_259
-	%cres_81 = sub %cidVal_80 1
-	mov %cidVal_82 %varDef_261
-	mov %cidVal_83 %varDef_260
-	mov %cidVal_84 %varDef_262
-	mov %cidVal_85 %varDef_276
-	mov %varDef_277 %cres_81
-	mov %varDef_278 %cidVal_82
-	mov %varDef_279 %cidVal_83
-	mov %varDef_280 %cidVal_84
-	mov %varDef_281 %cidVal_85
-	mov %cidVal_184 %varDef_277
-	%cres_185 = eq %cidVal_184 1
-	br %cres_185 <31> <32>
-
-<31> cif_true
-	mov %cidVal_186 %varDef_281
-	mov %coldVal_187 %varDef_281
-	%cnewVal_188 = inc %coldVal_187
-	mov %varDef_282 %cnewVal_188
-	br <33>
-
-<32> cif_false
-	mov %cidVal_189 %varDef_277
-	%cres_190 = sub %cidVal_189 1
-	mov %cidVal_191 %varDef_278
-	mov %cidVal_192 %varDef_280
-	mov %cidVal_193 %varDef_279
-	mov %cidVal_194 %varDef_281
-	%cres_195 = cd ( %cres_190 %cidVal_191 %cidVal_192 %cidVal_193 %cidVal_194 )
-	mov %varDef_283 %cres_195
-	mov %cidVal_196 %varDef_277
-	%cres_197 = sub %cidVal_196 1
-	mov %cidVal_198 %varDef_279
-	mov %cidVal_199 %varDef_278
-	mov %cidVal_200 %varDef_280
-	mov %cidVal_201 %varDef_283
-	%cres_202 = cd ( %cres_197 %cidVal_198 %cidVal_199 %cidVal_200 %cidVal_201 )
-	mov %varDef_284 %cres_202
-	mov %cidVal_203 %varDef_284
-	mov %coldVal_204 %varDef_284
-	%cnewVal_205 = inc %coldVal_204
-	mov %varDef_285 %cnewVal_205
-	br <33>
-
-<33> cif_merge
-	%varDef_286 = phi <31> %varDef_282 <32> %varDef_285
-	mov %cidVal_206 %varDef_286
-	mov %varDef_287 %cidVal_206
-	mov %cres_86 %varDef_287
-	mov %varDef_288 %cres_86
-	mov %cidVal_87 %varDef_288
-	mov %coldVal_88 %varDef_288
-	%cnewVal_89 = inc %coldVal_88
-	mov %varDef_289 %cnewVal_89
-	br <13>
-
-<13> cif_merge
-	%varDef_290 = phi <11> %varDef_264 <33> %varDef_289
-	%varDef_291 = phi <11> 0 <33> %varDef_275
-	%varDef_292 = phi <11> 0 <33> %varDef_274
-	%varDef_293 = phi <11> 0 <33> %varDef_268
-	%varDef_294 = phi <11> 0 <33> %varDef_267
-	%varDef_295 = phi <11> 0 <33> %varDef_266
-	%varDef_296 = phi <11> 0 <33> %varDef_265
-	%varDef_297 = phi <11> 0 <33> %varDef_287
-	%varDef_298 = phi <11> 0 <33> %varDef_286
-	%varDef_299 = phi <11> 0 <33> %varDef_280
-	%varDef_300 = phi <11> 0 <33> %varDef_279
-	%varDef_301 = phi <11> 0 <33> %varDef_278
-	%varDef_302 = phi <11> 0 <33> %varDef_277
-	mov %cidVal_90 %varDef_290
-	mov %varDef_303 %cidVal_90
-	mov %res_22 %varDef_303
-	mov %varDef_304 %res_22
-	mov %idVal_29 %varDef_304
-	mov %oldVal_30 %varDef_304
-	%newVal_31 = inc %oldVal_30
-	mov %varDef_305 %newVal_31
-	br <3>
-
-<3> if_merge
-	%varDef_306 = phi <1> %varDef_212 <13> %varDef_305
-	%varDef_307 = phi <1> 0 <13> %varDef_257
-	%varDef_308 = phi <1> 0 <13> %varDef_244
-	%varDef_309 = phi <1> 0 <13> %varDef_216
-	%varDef_310 = phi <1> 0 <13> %varDef_215
-	%varDef_311 = phi <1> 0 <13> %varDef_214
-	%varDef_312 = phi <1> 0 <13> %varDef_213
-	%varDef_313 = phi <1> 0 <13> %varDef_303
-	%varDef_314 = phi <1> 0 <13> %varDef_290
-	%varDef_315 = phi <1> 0 <13> %varDef_262
-	%varDef_316 = phi <1> 0 <13> %varDef_261
-	%varDef_317 = phi <1> 0 <13> %varDef_260
-	%varDef_318 = phi <1> 0 <13> %varDef_259
-	%varDef_319 = phi <1> 0 <13> %varDef_245
-	%varDef_320 = phi <1> 0 <13> %varDef_246
-	%varDef_321 = phi <1> 0 <13> %varDef_247
-	%varDef_322 = phi <1> 0 <13> %varDef_248
-	%varDef_323 = phi <1> 0 <13> %varDef_249
-	%varDef_324 = phi <1> 0 <13> %varDef_250
-	%varDef_325 = phi <1> 0 <13> %varDef_251
-	%varDef_326 = phi <1> 0 <13> %varDef_252
-	%varDef_327 = phi <1> 0 <13> %varDef_253
-	%varDef_328 = phi <1> 0 <13> %varDef_254
-	%varDef_329 = phi <1> 0 <13> %varDef_255
-	%varDef_330 = phi <1> 0 <13> %varDef_256
-	%varDef_331 = phi <1> 0 <13> %varDef_291
-	%varDef_332 = phi <1> 0 <13> %varDef_292
-	%varDef_333 = phi <1> 0 <13> %varDef_293
-	%varDef_334 = phi <1> 0 <13> %varDef_294
-	%varDef_335 = phi <1> 0 <13> %varDef_295
-	%varDef_336 = phi <1> 0 <13> %varDef_296
-	%varDef_337 = phi <1> 0 <13> %varDef_297
-	%varDef_338 = phi <1> 0 <13> %varDef_298
-	%varDef_339 = phi <1> 0 <13> %varDef_299
-	%varDef_340 = phi <1> 0 <13> %varDef_300
-	%varDef_341 = phi <1> 0 <13> %varDef_301
-	%varDef_342 = phi <1> 0 <13> %varDef_302
-	mov %idVal_32 %varDef_306
-	ret %idVal_32
+<2> if_merge
+	%varDef_122 = phi <13> 0 <19> %varDef_119 <3> %varDef_119 <1> %varDef_119 <7> %varDef_119 <5> %varDef_119
+	%varDef_123 = phi <13> 0 <19> %varDef_118 <3> %varDef_118 <1> %varDef_118 <7> %varDef_118 <5> %varDef_118
+	%varDef_124 = phi <13> 0 <19> %varDef_115 <3> %varDef_115 <1> %varDef_115 <7> %varDef_115 <5> %varDef_115
+	%varDef_125 = phi <13> %varDef_107 <19> %varDef_107 <3> %varDef_107 <1> %varDef_120 <7> %varDef_120 <5> %varDef_120
+	%varDef_126 = phi <13> %varDef_105 <19> %varDef_105 <3> %varDef_105 <1> %varDef_105 <7> %varDef_105 <5> %varDef_121
+	mov %tmp_90 %varDef_125
+	store %tmp_90 @tail
+	mov %tmp_91 %varDef_106
+	store %tmp_91 @targety
+	mov %tmp_92 %varDef_126
+	store %tmp_92 @ok
+	mov %tmp_93 %varDef_104
+	store %tmp_93 @ylist
+	mov %tmp_94 %varDef_103
+	store %tmp_94 @targetx
+	mov %tmp_95 %varDef_102
+	store %tmp_95 @N
+	mov %tmp_96 %varDef_101
+	store %tmp_96 @step
+	mov %tmp_97 %varDef_100
+	store %tmp_97 @xlist
+	mov %tmp_98 %varDef_99
+	store %tmp_98 @now
+	ret 
 
 }
 
 define main ( ) {
 <0> entry
-	mov %varDef_99 $str_0
-	mov %varDef_100 $str_1
-	mov %varDef_101 $str_2
-	%res_4 = getInt ( )
-	mov %varDef_102 %res_4
-	mov %idVal_7 %varDef_102
-	mov %idVal_8 %varDef_99
-	mov %idVal_9 %varDef_100
-	mov %idVal_10 %varDef_101
-	br <2>
+	%tmp_301 = load @now
+	mov %varDef_318 %tmp_301
+	%tmp_300 = load @dy
+	mov %varDef_319 %tmp_300
+	%tmp_299 = load @step
+	mov %varDef_320 %tmp_299
+	%tmp_298 = load @N
+	mov %varDef_321 %tmp_298
+	%tmp_297 = load @targetx
+	mov %varDef_322 %tmp_297
+	%tmp_296 = load @tail
+	mov %varDef_323 %tmp_296
+	%tmp_295 = load @x
+	mov %varDef_324 %tmp_295
+	%tmp_294 = load @xlist
+	mov %varDef_325 %tmp_294
+	%tmp_293 = load @y
+	mov %varDef_326 %tmp_293
+	%tmp_292 = load @i
+	mov %varDef_327 %tmp_292
+	%tmp_291 = load @dx
+	mov %varDef_328 %tmp_291
+	%tmp_290 = load @j
+	mov %varDef_329 %tmp_290
+	%tmp_289 = load @head
+	mov %varDef_330 %tmp_289
+	%tmp_288 = load @ylist
+	mov %varDef_331 %tmp_288
+	%tmp_287 = load @ok
+	mov %varDef_332 %tmp_287
+	%tmp_286 = load @targety
+	mov %varDef_333 %tmp_286
+	br <22>
 
-<2> centry
-	mov %varDef_103 %idVal_7
-	mov %varDef_104 %idVal_8
-	mov %varDef_105 %idVal_9
-	mov %varDef_106 %idVal_10
-	mov %varDef_107 0
-	mov %cidVal_18 %varDef_103
-	%cres_19 = eq %cidVal_18 1
-	br %cres_19 <3> <4>
+<22> centry
+	mov %varDef_334 106
+	mov %varDef_335 0
+	mov %varDef_336 0
+	mov %cidVal_165 %varDef_334
+	%cmemberLength_166 = mul %cidVal_165 8
+	%carrayLength_167 = add %cmemberLength_166 8
+	%carrayPtr_168 = malloc %carrayLength_167
+	store %cidVal_165 %carrayPtr_168
+	mov %varDef_337 %carrayPtr_168
+	mov %varDef_338 0
+	br <23>
 
-<3> cif_true
-	mov %cidVal_20 %varDef_107
-	mov %coldVal_21 %varDef_107
-	%cnewVal_22 = inc %coldVal_21
-	mov %varDef_108 %cnewVal_22
+<23> cfor_cond
+	%varDef_339 = phi <22> %varDef_329 <29> %varDef_342
+	%varDef_340 = phi <22> %varDef_338 <29> %varDef_344
+	mov %cidVal_169 %varDef_340
+	mov %cidVal_170 %varDef_334
+	%cres_171 = lt %cidVal_169 %cidVal_170
+	br %cres_171 <24> <21>
+
+<24> cfor_body
+	mov %cidVal_172 %varDef_334
+	%cmemberLength_173 = mul %cidVal_172 8
+	%carrayLength_174 = add %cmemberLength_173 8
+	%carrayPtr_175 = malloc %carrayLength_174
+	store %cidVal_172 %carrayPtr_175
+	mov %carrayPtr_176 %varDef_337
+	%carrayBase_177 = add %carrayPtr_176 8
+	mov %cidVal_178 %varDef_340
+	%coffset_179 = mul %cidVal_178 8
+	%celementAddr_180 = add %carrayBase_177 %coffset_179
+	store %carrayPtr_175 %celementAddr_180
+	mov %varDef_341 0
+	br <25>
+
+<25> cfor_cond
+	%varDef_342 = phi <24> %varDef_341 <26> %varDef_343
+	mov %cidVal_181 %varDef_342
+	mov %cidVal_182 %varDef_334
+	%cres_183 = lt %cidVal_181 %cidVal_182
+	br %cres_183 <26> <29>
+
+<26> cfor_body
+	mov %carrayPtr_184 %varDef_337
+	%carrayBase_185 = add %carrayPtr_184 8
+	mov %cidVal_186 %varDef_340
+	%coffset_187 = mul %cidVal_186 8
+	%celementAddr_188 = add %carrayBase_185 %coffset_187
+	%carrayPtr_189 = load %celementAddr_188
+	%carrayBase_190 = add %carrayPtr_189 8
+	mov %cidVal_191 %varDef_342
+	%coffset_192 = mul %cidVal_191 8
+	%celementAddr_193 = add %carrayBase_190 %coffset_192
+	store 0 %celementAddr_193
+	mov %cidVal_194 %varDef_342
+	mov %coldVal_195 %varDef_342
+	%cnewVal_196 = inc %coldVal_195
+	mov %varDef_343 %cnewVal_196
+	br <25>
+
+<29> cfor_step
+	mov %cidVal_197 %varDef_340
+	mov %coldVal_198 %varDef_340
+	%cnewVal_199 = inc %coldVal_198
+	mov %varDef_344 %cnewVal_199
+	br <23>
+
+<21> after_call
+	%res_0 = getInt ( )
+	mov %varDef_345 %res_0
+	mov %idVal_1 %varDef_345
+	%res_2 = sub %idVal_1 1
+	mov %varDef_346 %res_2
+	mov %idVal_3 %varDef_346
+	mov %varDef_347 %idVal_3
+	mov %varDef_348 0
+	br <1>
+
+<1> for_cond
+	%varDef_349 = phi <21> %varDef_339 <3> %varDef_352
+	%varDef_350 = phi <21> %varDef_348 <3> %varDef_354
+	mov %idVal_4 %varDef_350
+	mov %idVal_5 %varDef_345
+	%res_6 = lt %idVal_4 %idVal_5
+	br %res_6 <2> <4>
+
+<2> for_body
+	mov %varDef_351 0
 	br <5>
 
-<4> cif_false
-	mov %cidVal_23 %varDef_103
-	%cres_24 = sub %cidVal_23 1
-	mov %cidVal_25 %varDef_104
-	mov %cidVal_26 %varDef_106
-	mov %cidVal_27 %varDef_105
-	mov %cidVal_28 %varDef_107
-	mov %varDef_109 %cres_24
-	mov %varDef_110 %cidVal_25
-	mov %varDef_111 %cidVal_26
-	mov %varDef_112 %cidVal_27
-	mov %varDef_113 %cidVal_28
-	mov %cidVal_47 %varDef_109
-	%cres_48 = eq %cidVal_47 1
-	br %cres_48 <8> <9>
+<5> for_cond
+	%varDef_352 = phi <2> %varDef_351 <6> %varDef_353
+	mov %idVal_7 %varDef_352
+	mov %idVal_8 %varDef_345
+	%res_9 = lt %idVal_7 %idVal_8
+	br %res_9 <6> <3>
 
-<8> cif_true
-	mov %cidVal_49 %varDef_113
-	mov %coldVal_50 %varDef_113
-	%cnewVal_51 = inc %coldVal_50
-	mov %varDef_114 %cnewVal_51
-	br <10>
-
-<9> cif_false
-	mov %cidVal_52 %varDef_109
-	%cres_53 = sub %cidVal_52 1
-	mov %cidVal_54 %varDef_110
-	mov %cidVal_55 %varDef_112
-	mov %cidVal_56 %varDef_111
-	mov %cidVal_57 %varDef_113
-	%cres_58 = cd ( %cres_53 %cidVal_54 %cidVal_55 %cidVal_56 %cidVal_57 )
-	mov %varDef_115 %cres_58
-	mov %cidVal_59 %varDef_109
-	%cres_60 = sub %cidVal_59 1
-	mov %cidVal_61 %varDef_111
-	mov %cidVal_62 %varDef_110
-	mov %cidVal_63 %varDef_112
-	mov %cidVal_64 %varDef_115
-	%cres_65 = cd ( %cres_60 %cidVal_61 %cidVal_62 %cidVal_63 %cidVal_64 )
-	mov %varDef_116 %cres_65
-	mov %cidVal_66 %varDef_116
-	mov %coldVal_67 %varDef_116
-	%cnewVal_68 = inc %coldVal_67
-	mov %varDef_117 %cnewVal_68
-	br <10>
-
-<10> cif_merge
-	%varDef_118 = phi <8> %varDef_114 <9> %varDef_117
-	mov %cidVal_69 %varDef_118
-	mov %varDef_119 %cidVal_69
-	mov %cres_29 %varDef_119
-	mov %varDef_120 %cres_29
-	mov %cidVal_30 %varDef_103
-	%cres_31 = sub %cidVal_30 1
-	mov %cidVal_32 %varDef_105
-	mov %cidVal_33 %varDef_104
-	mov %cidVal_34 %varDef_106
-	mov %cidVal_35 %varDef_120
-	mov %varDef_121 %cres_31
-	mov %varDef_122 %cidVal_32
-	mov %varDef_123 %cidVal_33
-	mov %varDef_124 %cidVal_34
-	mov %varDef_125 %cidVal_35
-	mov %cidVal_76 %varDef_121
-	%cres_77 = eq %cidVal_76 1
-	br %cres_77 <13> <14>
-
-<13> cif_true
-	mov %cidVal_78 %varDef_125
-	mov %coldVal_79 %varDef_125
-	%cnewVal_80 = inc %coldVal_79
-	mov %varDef_126 %cnewVal_80
-	br <15>
-
-<14> cif_false
-	mov %cidVal_81 %varDef_121
-	%cres_82 = sub %cidVal_81 1
-	mov %cidVal_83 %varDef_122
-	mov %cidVal_84 %varDef_124
-	mov %cidVal_85 %varDef_123
-	mov %cidVal_86 %varDef_125
-	%cres_87 = cd ( %cres_82 %cidVal_83 %cidVal_84 %cidVal_85 %cidVal_86 )
-	mov %varDef_127 %cres_87
-	mov %cidVal_88 %varDef_121
-	%cres_89 = sub %cidVal_88 1
-	mov %cidVal_90 %varDef_123
-	mov %cidVal_91 %varDef_122
-	mov %cidVal_92 %varDef_124
-	mov %cidVal_93 %varDef_127
-	%cres_94 = cd ( %cres_89 %cidVal_90 %cidVal_91 %cidVal_92 %cidVal_93 )
-	mov %varDef_128 %cres_94
-	mov %cidVal_95 %varDef_128
-	mov %coldVal_96 %varDef_128
-	%cnewVal_97 = inc %coldVal_96
-	mov %varDef_129 %cnewVal_97
-	br <15>
-
-<15> cif_merge
-	%varDef_130 = phi <13> %varDef_126 <14> %varDef_129
-	mov %cidVal_98 %varDef_130
-	mov %varDef_131 %cidVal_98
-	mov %cres_36 %varDef_131
-	mov %varDef_132 %cres_36
-	mov %cidVal_37 %varDef_132
-	mov %coldVal_38 %varDef_132
-	%cnewVal_39 = inc %coldVal_38
-	mov %varDef_133 %cnewVal_39
+<6> for_body
+	%res_10 = neg 1
+	mov %arrayPtr_11 %varDef_337
+	%arrayBase_12 = add %arrayPtr_11 8
+	mov %idVal_13 %varDef_350
+	%offset_14 = mul %idVal_13 8
+	%elementAddr_15 = add %arrayBase_12 %offset_14
+	%arrayPtr_16 = load %elementAddr_15
+	%arrayBase_17 = add %arrayPtr_16 8
+	mov %idVal_18 %varDef_352
+	%offset_19 = mul %idVal_18 8
+	%elementAddr_20 = add %arrayBase_17 %offset_19
+	store %res_10 %elementAddr_20
+	mov %idVal_21 %varDef_352
+	mov %oldVal_22 %varDef_352
+	%newVal_23 = inc %oldVal_22
+	mov %varDef_353 %newVal_23
 	br <5>
 
-<5> cif_merge
-	%varDef_134 = phi <3> %varDef_108 <15> %varDef_133
-	%varDef_135 = phi <3> 0 <15> %varDef_119
-	%varDef_136 = phi <3> 0 <15> %varDef_118
-	%varDef_137 = phi <3> 0 <15> %varDef_112
-	%varDef_138 = phi <3> 0 <15> %varDef_111
-	%varDef_139 = phi <3> 0 <15> %varDef_110
-	%varDef_140 = phi <3> 0 <15> %varDef_109
-	%varDef_141 = phi <3> 0 <15> %varDef_131
-	%varDef_142 = phi <3> 0 <15> %varDef_130
-	%varDef_143 = phi <3> 0 <15> %varDef_124
-	%varDef_144 = phi <3> 0 <15> %varDef_123
-	%varDef_145 = phi <3> 0 <15> %varDef_122
-	%varDef_146 = phi <3> 0 <15> %varDef_121
-	mov %cidVal_40 %varDef_134
-	mov %varDef_147 %cidVal_40
-	mov %res_6 %varDef_147
-	mov %varDef_148 %res_6
-	mov %idVal_11 %varDef_148
-	__printlnInt ( %idVal_11 )
+<3> for_step
+	mov %idVal_24 %varDef_350
+	mov %oldVal_25 %varDef_350
+	%newVal_26 = inc %oldVal_25
+	mov %varDef_354 %newVal_26
+	br <1>
+
+<4> for_end
+	%res_27 = neg 2
+	mov %arrayPtr_28 %varDef_328
+	%arrayBase_29 = add %arrayPtr_28 8
+	%offset_30 = mul 0 8
+	%elementAddr_31 = add %arrayBase_29 %offset_30
+	store %res_27 %elementAddr_31
+	%res_32 = neg 1
+	mov %arrayPtr_33 %varDef_319
+	%arrayBase_34 = add %arrayPtr_33 8
+	%offset_35 = mul 0 8
+	%elementAddr_36 = add %arrayBase_34 %offset_35
+	store %res_32 %elementAddr_36
+	%res_37 = neg 2
+	mov %arrayPtr_38 %varDef_328
+	%arrayBase_39 = add %arrayPtr_38 8
+	%offset_40 = mul 1 8
+	%elementAddr_41 = add %arrayBase_39 %offset_40
+	store %res_37 %elementAddr_41
+	mov %arrayPtr_42 %varDef_319
+	%arrayBase_43 = add %arrayPtr_42 8
+	%offset_44 = mul 1 8
+	%elementAddr_45 = add %arrayBase_43 %offset_44
+	store 1 %elementAddr_45
+	mov %arrayPtr_46 %varDef_328
+	%arrayBase_47 = add %arrayPtr_46 8
+	%offset_48 = mul 2 8
+	%elementAddr_49 = add %arrayBase_47 %offset_48
+	store 2 %elementAddr_49
+	%res_50 = neg 1
+	mov %arrayPtr_51 %varDef_319
+	%arrayBase_52 = add %arrayPtr_51 8
+	%offset_53 = mul 2 8
+	%elementAddr_54 = add %arrayBase_52 %offset_53
+	store %res_50 %elementAddr_54
+	mov %arrayPtr_55 %varDef_328
+	%arrayBase_56 = add %arrayPtr_55 8
+	%offset_57 = mul 3 8
+	%elementAddr_58 = add %arrayBase_56 %offset_57
+	store 2 %elementAddr_58
+	mov %arrayPtr_59 %varDef_319
+	%arrayBase_60 = add %arrayPtr_59 8
+	%offset_61 = mul 3 8
+	%elementAddr_62 = add %arrayBase_60 %offset_61
+	store 1 %elementAddr_62
+	%res_63 = neg 1
+	mov %arrayPtr_64 %varDef_328
+	%arrayBase_65 = add %arrayPtr_64 8
+	%offset_66 = mul 4 8
+	%elementAddr_67 = add %arrayBase_65 %offset_66
+	store %res_63 %elementAddr_67
+	%res_68 = neg 2
+	mov %arrayPtr_69 %varDef_319
+	%arrayBase_70 = add %arrayPtr_69 8
+	%offset_71 = mul 4 8
+	%elementAddr_72 = add %arrayBase_70 %offset_71
+	store %res_68 %elementAddr_72
+	%res_73 = neg 1
+	mov %arrayPtr_74 %varDef_328
+	%arrayBase_75 = add %arrayPtr_74 8
+	%offset_76 = mul 5 8
+	%elementAddr_77 = add %arrayBase_75 %offset_76
+	store %res_73 %elementAddr_77
+	mov %arrayPtr_78 %varDef_319
+	%arrayBase_79 = add %arrayPtr_78 8
+	%offset_80 = mul 5 8
+	%elementAddr_81 = add %arrayBase_79 %offset_80
+	store 2 %elementAddr_81
+	mov %arrayPtr_82 %varDef_328
+	%arrayBase_83 = add %arrayPtr_82 8
+	%offset_84 = mul 6 8
+	%elementAddr_85 = add %arrayBase_83 %offset_84
+	store 1 %elementAddr_85
+	%res_86 = neg 2
+	mov %arrayPtr_87 %varDef_319
+	%arrayBase_88 = add %arrayPtr_87 8
+	%offset_89 = mul 6 8
+	%elementAddr_90 = add %arrayBase_88 %offset_89
+	store %res_86 %elementAddr_90
+	mov %arrayPtr_91 %varDef_328
+	%arrayBase_92 = add %arrayPtr_91 8
+	%offset_93 = mul 7 8
+	%elementAddr_94 = add %arrayBase_92 %offset_93
+	store 1 %elementAddr_94
+	mov %arrayPtr_95 %varDef_319
+	%arrayBase_96 = add %arrayPtr_95 8
+	%offset_97 = mul 7 8
+	%elementAddr_98 = add %arrayBase_96 %offset_97
+	store 2 %elementAddr_98
+	br <9>
+
+<9> while_cond
+	%varDef_355 = phi <4> 0 <17> %varDef_374
+	%varDef_356 = phi <4> 0 <17> %varDef_375
+	%varDef_357 = phi <4> 0 <17> %varDef_376
+	%varDef_358 = phi <4> 0 <17> %varDef_377
+	%varDef_359 = phi <4> 0 <17> %varDef_378
+	%varDef_360 = phi <4> 0 <17> %varDef_379
+	%varDef_361 = phi <4> 0 <17> %varDef_380
+	%varDef_362 = phi <4> 0 <17> %varDef_381
+	%varDef_363 = phi <4> %varDef_332 <17> %varDef_382
+	%varDef_364 = phi <4> %varDef_335 <17> %varDef_405
+	%varDef_365 = phi <4> %varDef_349 <17> %varDef_383
+	%varDef_366 = phi <4> %varDef_326 <17> %varDef_371
+	%varDef_367 = phi <4> %varDef_324 <17> %varDef_370
+	%varDef_368 = phi <4> %varDef_336 <17> %varDef_384
+	%varDef_369 = phi <4> %varDef_318 <17> %varDef_372
+	mov %idVal_99 %varDef_364
+	mov %idVal_100 %varDef_368
+	%res_101 = le %idVal_99 %idVal_100
+	br %res_101 <10> <11>
+
+<10> while_body
+	mov %arrayPtr_102 %varDef_325
+	%arrayBase_103 = add %arrayPtr_102 8
+	mov %idVal_104 %varDef_364
+	%offset_105 = mul %idVal_104 8
+	%elementAddr_106 = add %arrayBase_103 %offset_105
+	%elementVal_107 = load %elementAddr_106
+	mov %varDef_370 %elementVal_107
+	mov %arrayPtr_108 %varDef_331
+	%arrayBase_109 = add %arrayPtr_108 8
+	mov %idVal_110 %varDef_364
+	%offset_111 = mul %idVal_110 8
+	%elementAddr_112 = add %arrayBase_109 %offset_111
+	%elementVal_113 = load %elementAddr_112
+	mov %varDef_371 %elementVal_113
+	mov %arrayPtr_114 %varDef_337
+	%arrayBase_115 = add %arrayPtr_114 8
+	mov %idVal_116 %varDef_370
+	%offset_117 = mul %idVal_116 8
+	%elementAddr_118 = add %arrayBase_115 %offset_117
+	%arrayPtr_119 = load %elementAddr_118
+	%arrayBase_120 = add %arrayPtr_119 8
+	mov %idVal_121 %varDef_371
+	%offset_122 = mul %idVal_121 8
+	%elementAddr_123 = add %arrayBase_120 %offset_122
+	%elementVal_124 = load %elementAddr_123
+	mov %varDef_372 %elementVal_124
+	mov %varDef_373 0
+	br <12>
+
+<12> for_cond
+	%varDef_374 = phi <10> %varDef_355 <14> %varDef_386
+	%varDef_375 = phi <10> %varDef_356 <14> %varDef_385
+	%varDef_376 = phi <10> %varDef_357 <14> %varDef_391
+	%varDef_377 = phi <10> %varDef_358 <14> %varDef_390
+	%varDef_378 = phi <10> %varDef_359 <14> %varDef_387
+	%varDef_379 = phi <10> %varDef_360 <14> %varDef_399
+	%varDef_380 = phi <10> %varDef_361 <14> %varDef_400
+	%varDef_381 = phi <10> %varDef_362 <14> %varDef_401
+	%varDef_382 = phi <10> %varDef_363 <14> %varDef_402
+	%varDef_383 = phi <10> %varDef_373 <14> %varDef_404
+	%varDef_384 = phi <10> %varDef_368 <14> %varDef_403
+	mov %idVal_125 %varDef_383
+	%res_126 = lt %idVal_125 8
+	br %res_126 <13> <15>
+
+<13> for_body
+	mov %idVal_127 %varDef_370
+	mov %arrayPtr_128 %varDef_328
+	%arrayBase_129 = add %arrayPtr_128 8
+	mov %idVal_130 %varDef_383
+	%offset_131 = mul %idVal_130 8
+	%elementAddr_132 = add %arrayBase_129 %offset_131
+	%elementVal_133 = load %elementAddr_132
+	%res_134 = add %idVal_127 %elementVal_133
+	mov %idVal_135 %varDef_371
+	mov %arrayPtr_136 %varDef_319
+	%arrayBase_137 = add %arrayPtr_136 8
+	mov %idVal_138 %varDef_383
+	%offset_139 = mul %idVal_138 8
+	%elementAddr_140 = add %arrayBase_137 %offset_139
+	%elementVal_141 = load %elementAddr_140
+	%res_142 = add %idVal_135 %elementVal_141
+	mov %varDef_385 %res_134
+	mov %varDef_386 %res_142
+	mov %cidVal_202 %varDef_385
+	mov %varDef_387 %cidVal_202
+	mov %cidVal_255 %varDef_387
+	mov %cidVal_256 %varDef_345
+	%cres_257 = lt %cidVal_255 %cidVal_256
+	br %cres_257 <42> <44>
+
+<42> clhs_true
+	mov %cidVal_258 %varDef_387
+	%cres_259 = ge %cidVal_258 0
+	br %cres_259 <43> <44>
+
+<43> cbool_true
+	mov %varDef_388 1
+	br <45>
+
+<44> cbool_false
+	mov %varDef_389 0
+	br <45>
+
+<45> cbool_merge
+	%varDef_390 = phi <43> %varDef_388 <44> %varDef_389
+	mov %cboolVal_260 %varDef_390
+	mov %varDef_391 %cboolVal_260
+	mov %cres_203 %varDef_391
+	br %cres_203 <33> <14>
+
+<33> clhs_true
+	mov %cidVal_204 %varDef_386
+	mov %varDef_392 %cidVal_204
+	mov %cidVal_264 %varDef_392
+	mov %cidVal_265 %varDef_345
+	%cres_266 = lt %cidVal_264 %cidVal_265
+	br %cres_266 <48> <50>
+
+<48> clhs_true
+	mov %cidVal_267 %varDef_392
+	%cres_268 = ge %cidVal_267 0
+	br %cres_268 <49> <50>
+
+<49> cbool_true
+	mov %varDef_393 1
+	br <51>
+
+<50> cbool_false
+	mov %varDef_394 0
+	br <51>
+
+<51> cbool_merge
+	%varDef_395 = phi <49> %varDef_393 <50> %varDef_394
+	mov %cboolVal_269 %varDef_395
+	mov %varDef_396 %cboolVal_269
+	mov %cres_205 %varDef_396
+	br %cres_205 <34> <14>
+
+<34> clhs_true
+	mov %carrayPtr_206 %varDef_337
+	%carrayBase_207 = add %carrayPtr_206 8
+	mov %cidVal_208 %varDef_385
+	%coffset_209 = mul %cidVal_208 8
+	%celementAddr_210 = add %carrayBase_207 %coffset_209
+	%carrayPtr_211 = load %celementAddr_210
+	%carrayBase_212 = add %carrayPtr_211 8
+	mov %cidVal_213 %varDef_386
+	%coffset_214 = mul %cidVal_213 8
+	%celementAddr_215 = add %carrayBase_212 %coffset_214
+	%celementVal_216 = load %celementAddr_215
+	%cres_217 = neg 1
+	%cres_218 = eq %celementVal_216 %cres_217
+	br %cres_218 <35> <14>
+
+<35> cif_true
+	mov %cidVal_219 %varDef_384
+	mov %coldVal_220 %varDef_384
+	%cnewVal_221 = inc %coldVal_220
+	mov %varDef_397 %cnewVal_221
+	mov %cidVal_222 %varDef_385
+	mov %carrayPtr_223 %varDef_325
+	%carrayBase_224 = add %carrayPtr_223 8
+	mov %cidVal_225 %varDef_397
+	%coffset_226 = mul %cidVal_225 8
+	%celementAddr_227 = add %carrayBase_224 %coffset_226
+	store %cidVal_222 %celementAddr_227
+	mov %cidVal_228 %varDef_386
+	mov %carrayPtr_229 %varDef_331
+	%carrayBase_230 = add %carrayPtr_229 8
+	mov %cidVal_231 %varDef_397
+	%coffset_232 = mul %cidVal_231 8
+	%celementAddr_233 = add %carrayBase_230 %coffset_232
+	store %cidVal_228 %celementAddr_233
+	mov %cidVal_234 %varDef_372
+	%cres_235 = add %cidVal_234 1
+	mov %carrayPtr_236 %varDef_337
+	%carrayBase_237 = add %carrayPtr_236 8
+	mov %cidVal_238 %varDef_385
+	%coffset_239 = mul %cidVal_238 8
+	%celementAddr_240 = add %carrayBase_237 %coffset_239
+	%carrayPtr_241 = load %celementAddr_240
+	%carrayBase_242 = add %carrayPtr_241 8
+	mov %cidVal_243 %varDef_386
+	%coffset_244 = mul %cidVal_243 8
+	%celementAddr_245 = add %carrayBase_242 %coffset_244
+	store %cres_235 %celementAddr_245
+	mov %cidVal_246 %varDef_385
+	mov %cidVal_247 %varDef_347
+	%cres_248 = eq %cidVal_246 %cidVal_247
+	br %cres_248 <36> <14>
+
+<36> clhs_true
+	mov %cidVal_249 %varDef_386
+	mov %cidVal_250 %varDef_346
+	%cres_251 = eq %cidVal_249 %cidVal_250
+	br %cres_251 <37> <14>
+
+<37> cif_true
+	mov %varDef_398 1
+	br <14>
+
+<14> for_step
+	%varDef_399 = phi <45> %varDef_379 <51> %varDef_396 <34> %varDef_396 <35> %varDef_396 <36> %varDef_396 <37> %varDef_396
+	%varDef_400 = phi <45> %varDef_380 <51> %varDef_395 <34> %varDef_395 <35> %varDef_395 <36> %varDef_395 <37> %varDef_395
+	%varDef_401 = phi <45> %varDef_381 <51> %varDef_392 <34> %varDef_392 <35> %varDef_392 <36> %varDef_392 <37> %varDef_392
+	%varDef_402 = phi <45> %varDef_382 <51> %varDef_382 <34> %varDef_382 <35> %varDef_382 <36> %varDef_382 <37> %varDef_398
+	%varDef_403 = phi <45> %varDef_384 <51> %varDef_384 <34> %varDef_384 <35> %varDef_397 <36> %varDef_397 <37> %varDef_397
+	mov %idVal_143 %varDef_383
+	mov %oldVal_144 %varDef_383
+	%newVal_145 = inc %oldVal_144
+	mov %varDef_404 %newVal_145
+	br <12>
+
+<15> for_end
+	mov %idVal_146 %varDef_382
+	%res_147 = eq %idVal_146 1
+	br %res_147 <11> <17>
+
+<17> if_merge
+	mov %idVal_148 %varDef_364
+	mov %oldVal_149 %varDef_364
+	%newVal_150 = inc %oldVal_149
+	mov %varDef_405 %newVal_150
+	br <9>
+
+<11> while_end
+	%varDef_406 = phi <9> %varDef_355 <15> %varDef_374
+	%varDef_407 = phi <9> %varDef_356 <15> %varDef_375
+	%varDef_408 = phi <9> %varDef_357 <15> %varDef_376
+	%varDef_409 = phi <9> %varDef_358 <15> %varDef_377
+	%varDef_410 = phi <9> %varDef_359 <15> %varDef_378
+	%varDef_411 = phi <9> %varDef_360 <15> %varDef_379
+	%varDef_412 = phi <9> %varDef_361 <15> %varDef_380
+	%varDef_413 = phi <9> %varDef_362 <15> %varDef_381
+	%varDef_414 = phi <9> %varDef_363 <15> %varDef_382
+	%varDef_415 = phi <9> %varDef_365 <15> %varDef_383
+	%varDef_416 = phi <9> %varDef_366 <15> %varDef_371
+	%varDef_417 = phi <9> %varDef_367 <15> %varDef_370
+	%varDef_418 = phi <9> %varDef_368 <15> %varDef_384
+	%varDef_419 = phi <9> %varDef_369 <15> %varDef_372
+	mov %idVal_151 %varDef_414
+	%res_152 = eq %idVal_151 1
+	br %res_152 <18> <19>
+
+<18> if_true
+	mov %arrayPtr_153 %varDef_337
+	%arrayBase_154 = add %arrayPtr_153 8
+	mov %idVal_155 %varDef_347
+	%offset_156 = mul %idVal_155 8
+	%elementAddr_157 = add %arrayBase_154 %offset_156
+	%arrayPtr_158 = load %elementAddr_157
+	%arrayBase_159 = add %arrayPtr_158 8
+	mov %idVal_160 %varDef_346
+	%offset_161 = mul %idVal_160 8
+	%elementAddr_162 = add %arrayBase_159 %offset_161
+	%elementVal_163 = load %elementAddr_162
+	__printlnInt ( %elementVal_163 )
+	br <20>
+
+<19> if_false
+	print ( $str_0 )
+	br <20>
+
+<20> if_merge
+	mov %tmp_302 %varDef_346
+	store %tmp_302 @targety
+	mov %tmp_303 %varDef_414
+	store %tmp_303 @ok
+	mov %tmp_304 %varDef_331
+	store %tmp_304 @ylist
+	mov %tmp_305 %varDef_364
+	store %tmp_305 @head
+	mov %tmp_306 %varDef_415
+	store %tmp_306 @j
+	mov %tmp_307 %varDef_328
+	store %tmp_307 @dx
+	mov %tmp_308 %varDef_350
+	store %tmp_308 @i
+	mov %tmp_309 %varDef_416
+	store %tmp_309 @y
+	mov %tmp_310 %varDef_325
+	store %tmp_310 @xlist
+	mov %tmp_311 %varDef_417
+	store %tmp_311 @x
+	mov %tmp_312 %varDef_418
+	store %tmp_312 @tail
+	mov %tmp_313 %varDef_347
+	store %tmp_313 @targetx
+	mov %tmp_314 %varDef_345
+	store %tmp_314 @N
+	mov %tmp_315 %varDef_337
+	store %tmp_315 @step
+	mov %tmp_316 %varDef_319
+	store %tmp_316 @dy
+	mov %tmp_317 %varDef_419
+	store %tmp_317 @now
 	ret 0
 
 }
