@@ -159,13 +159,17 @@ public class Memorization {
         getAns.append(new DirectBranch(getAns, afterCall));
 
         LocalReg res1 = func.makeLocalReg("res1");
-        setAns.append(new Call(setAns, functionSymbol, res1, Collections.singletonList(arg)));
+        List<Operand> args1 = new ArrayList<>();
+        args1.add(arg);
+        setAns.append(new Call(setAns, functionSymbol, res1, args1));
         setAns.append(new Store(setAns, res1, ansAddr));
         setAns.append(new Store(setAns, res1, retValAddr));
         setAns.append(new DirectBranch(setAns, afterCall));
 
         LocalReg res2 = func.makeLocalReg("res2");
-        normalCall.append(new Call(normalCall, functionSymbol, res2, Collections.singletonList(arg)));
+        List<Operand> args2 = new ArrayList<>();
+        args2.add(arg);
+        normalCall.append(new Call(normalCall, functionSymbol, res2, args2));
         normalCall.append(new Store(normalCall, res2, retValAddr));
         normalCall.append(new DirectBranch(normalCall, afterCall));
 

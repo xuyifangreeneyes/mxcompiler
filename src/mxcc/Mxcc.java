@@ -146,7 +146,7 @@ public class Mxcc {
 
     private void optim() throws IOException {
 //        if (Config.debugMode) printIR("a_before_memorize.ll");
-//        memorize();
+        memorize();
 //        if (Config.debugMode) printIR("a_memorize.ll");
         eliminateConstGlobalReg();
         functionInline();
