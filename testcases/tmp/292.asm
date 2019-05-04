@@ -36,405 +36,281 @@ extern __printf_chk
 SECTION .text
 
 __globalInit:
-		mov     %local_r12, r12
-		mov     %local_r14, r14
-		mov     %local_r13, r13
-		mov     %local_rbx, rbx
-		mov     %local_r15, r15
+		push    rbp
+		mov     rbp, rsp
 		mov     qword [rel _total], 0
-		mov     r12, %local_r12
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		ret     
+		pop     rbp
+		ret
 
 main:
-		mov     %local_r12, r12
-		mov     %local_r14, r14
-		mov     %local_r13, r13
-		mov     %local_rbx, rbx
-		mov     %local_r15, r15
+		push    rbp
+		mov     rbp, rsp
+		sub     rsp, 16
+		mov     qword [rbp - 8], rbx
+		mov     qword [rbp - 16], r13
 		call    __globalInit
-		mov     %tmp_173, qword [rel _total]
+		mov     rbx, qword [rel _total]
 		call    getInt
-		mov     %res_6, rax
-		mov     %alloca_11, 1
-		mov     %alloca_10, 0
-		mov     %alloca_9, 0
-		mov     %alloca_8, 0
-		mov     %alloca_7, 0
-		mov     %alloca_6, %tmp_173
+		mov     r13, rax
+		mov     rcx, 1
+		mov     rax, 0
+		mov     rdx, 0
+		mov     r9, 0
+		mov     r8, 0
 __L_1:
-		mov     %varDef_180, %alloca_11
-		mov     %varDef_182, %alloca_10
-		mov     %varDef_183, %alloca_9
-		mov     %varDef_184, %alloca_8
-		mov     %varDef_185, %alloca_7
-		mov     %varDef_186, %alloca_6
-		cmp     %varDef_180, %res_6
+		cmp     rcx, r13
 		jg      __L_2
 __L_3:
-		mov     %alloca_17, 1
-		mov     %alloca_16, %varDef_182
-		mov     %alloca_15, %varDef_183
-		mov     %alloca_14, %varDef_184
-		mov     %alloca_13, %varDef_185
-		mov     %alloca_12, %varDef_186
+		mov     rsi, 1
 __L_4:
-		mov     %varDef_188, %alloca_17
-		mov     %varDef_189, %alloca_16
-		mov     %varDef_190, %alloca_15
-		mov     %varDef_191, %alloca_14
-		mov     %varDef_192, %alloca_13
-		mov     %varDef_193, %alloca_12
-		cmp     %varDef_188, %res_6
+		cmp     rsi, r13
 		jg      __L_5
 __L_6:
-		mov     %alloca_26, 1
-		mov     %alloca_25, %varDef_190
-		mov     %alloca_24, %varDef_191
-		mov     %alloca_23, %varDef_192
-		mov     %alloca_22, %varDef_193
+		mov     rax, 1
 __L_7:
-		mov     %varDef_195, %alloca_26
-		mov     %varDef_196, %alloca_25
-		mov     %varDef_197, %alloca_24
-		mov     %varDef_198, %alloca_23
-		mov     %varDef_199, %alloca_22
-		cmp     %varDef_195, %res_6
+		cmp     rax, r13
 		jg      __L_8
 __L_9:
-		mov     %alloca_21, 1
-		mov     %alloca_20, %varDef_197
-		mov     %alloca_19, %varDef_198
-		mov     %alloca_18, %varDef_199
+		mov     rdx, 1
 __L_10:
-		mov     %varDef_201, %alloca_21
-		mov     %varDef_202, %alloca_20
-		mov     %varDef_203, %alloca_19
-		mov     %varDef_204, %alloca_18
-		cmp     %varDef_201, %res_6
+		cmp     rdx, r13
 		jg      __L_11
 __L_12:
-		mov     %alloca_5, 1
-		mov     %alloca_4, %varDef_203
-		mov     %alloca_3, %varDef_204
+		mov     r9, 1
 __L_13:
-		mov     %varDef_206, %alloca_5
-		mov     %varDef_207, %alloca_4
-		mov     %varDef_208, %alloca_3
-		cmp     %varDef_206, %res_6
+		cmp     r9, r13
 		jg      __L_14
 __L_15:
-		mov     %alloca_2, 1
-		mov     %alloca_1, %varDef_208
+		mov     r8, 1
 __L_16:
-		mov     %varDef_210, %alloca_2
-		mov     %varDef_211, %alloca_1
-		cmp     %varDef_210, %res_6
+		cmp     r8, r13
 		jg      __L_17
 __L_18:
-		cmp     %varDef_180, %varDef_188
+		cmp     rcx, rsi
 		jne     __L_19
 __L_20:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_19:
-		cmp     %varDef_180, %varDef_195
+		cmp     rcx, rax
 		jne     __L_22
 __L_23:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_22:
-		cmp     %varDef_180, %varDef_201
+		cmp     rcx, rdx
 		jne     __L_24
 __L_25:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_24:
-		cmp     %varDef_180, %varDef_206
+		cmp     rcx, r9
 		jne     __L_26
 __L_27:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_26:
-		cmp     %varDef_180, %varDef_210
+		cmp     rcx, r8
 		jne     __L_28
 __L_29:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_28:
-		cmp     %varDef_180, 99
+		cmp     rcx, 99
 		jne     __L_30
 __L_31:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_30:
-		cmp     %varDef_180, 100
+		cmp     rcx, 100
 		jne     __L_32
 __L_33:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_32:
-		cmp     %varDef_180, 101
+		cmp     rcx, 101
 		jne     __L_34
 __L_35:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_34:
-		cmp     %varDef_180, 102
+		cmp     rcx, 102
 		jne     __L_36
 __L_37:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_36:
-		cmp     %varDef_188, %varDef_195
+		cmp     rsi, rax
 		jne     __L_38
 __L_39:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_38:
-		cmp     %varDef_188, %varDef_201
+		cmp     rsi, rdx
 		jne     __L_40
 __L_41:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_40:
-		cmp     %varDef_188, %varDef_206
+		cmp     rsi, r9
 		jne     __L_42
 __L_43:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_42:
-		cmp     %varDef_188, %varDef_210
+		cmp     rsi, r8
 		jne     __L_44
 __L_45:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_44:
-		cmp     %varDef_188, 99
+		cmp     rsi, 99
 		jne     __L_46
 __L_47:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_46:
-		cmp     %varDef_188, 100
+		cmp     rsi, 100
 		jne     __L_48
 __L_49:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_48:
-		cmp     %varDef_188, 101
+		cmp     rsi, 101
 		jne     __L_50
 __L_51:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_50:
-		cmp     %varDef_188, 102
+		cmp     rsi, 102
 		jne     __L_52
 __L_53:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_52:
-		cmp     %varDef_195, %varDef_201
+		cmp     rax, rdx
 		jne     __L_54
 __L_55:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_54:
-		cmp     %varDef_195, %varDef_206
+		cmp     rax, r9
 		jne     __L_56
 __L_57:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_56:
-		cmp     %varDef_195, %varDef_210
+		cmp     rax, r8
 		jne     __L_58
 __L_59:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_58:
-		cmp     %varDef_195, 99
+		cmp     rax, 99
 		jne     __L_60
 __L_61:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_60:
-		cmp     %varDef_195, 100
+		cmp     rax, 100
 		jne     __L_62
 __L_63:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_62:
-		cmp     %varDef_195, 101
+		cmp     rax, 101
 		jne     __L_64
 __L_65:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_64:
-		cmp     %varDef_195, 102
+		cmp     rax, 102
 		jne     __L_66
 __L_67:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_66:
-		cmp     %varDef_201, %varDef_206
+		cmp     rdx, r9
 		jne     __L_68
 __L_69:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_68:
-		cmp     %varDef_201, %varDef_210
+		cmp     rdx, r8
 		jne     __L_70
 __L_71:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_70:
-		cmp     %varDef_201, 99
+		cmp     rdx, 99
 		jne     __L_72
 __L_73:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_72:
-		cmp     %varDef_201, 100
+		cmp     rdx, 100
 		jne     __L_74
 __L_75:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_74:
-		cmp     %varDef_201, 101
+		cmp     rdx, 101
 		jne     __L_76
 __L_77:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_76:
-		cmp     %varDef_201, 102
+		cmp     rdx, 102
 		jne     __L_78
 __L_79:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_78:
-		cmp     %varDef_206, %varDef_210
+		cmp     r9, r8
 		jne     __L_80
 __L_81:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_80:
-		cmp     %varDef_206, 99
+		cmp     r9, 99
 		jne     __L_82
 __L_83:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_82:
-		cmp     %varDef_206, 100
+		cmp     r9, 100
 		jne     __L_84
 __L_85:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_84:
-		cmp     %varDef_206, 101
+		cmp     r9, 101
 		jne     __L_86
 __L_87:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_86:
-		cmp     %varDef_206, 102
+		cmp     r9, 102
 		jne     __L_88
 __L_89:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_88:
-		cmp     %varDef_210, 99
+		cmp     r8, 99
 		jne     __L_90
 __L_91:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_90:
-		cmp     %varDef_210, 100
+		cmp     r8, 100
 		jne     __L_92
 __L_93:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_92:
-		cmp     %varDef_210, 101
+		cmp     r8, 101
 		jne     __L_94
 __L_95:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_94:
-		cmp     %varDef_210, 102
+		cmp     r8, 102
 		jne     __L_96
 __L_97:
-		mov     %alloca_27, %varDef_211
 		jmp     __L_21
 __L_96:
-		mov     %newVal_150, %varDef_211
-		inc     %newVal_150
-		mov     %alloca_27, %newVal_150
+		inc     rbx
 __L_21:
-		mov     %varDef_213, %alloca_27
-		mov     %newVal_153, %varDef_210
-		inc     %newVal_153
-		mov     %alloca_2, %newVal_153
-		mov     %alloca_1, %varDef_213
+		inc     r8
 		jmp     __L_16
 __L_17:
-		mov     %newVal_156, %varDef_206
-		inc     %newVal_156
-		mov     %alloca_5, %newVal_156
-		mov     %alloca_4, %varDef_210
-		mov     %alloca_3, %varDef_211
+		inc     r9
 		jmp     __L_13
 __L_14:
-		mov     %newVal_159, %varDef_201
-		inc     %newVal_159
-		mov     %alloca_21, %newVal_159
-		mov     %alloca_20, %varDef_206
-		mov     %alloca_19, %varDef_207
-		mov     %alloca_18, %varDef_208
+		inc     rdx
 		jmp     __L_10
 __L_11:
-		mov     %newVal_162, %varDef_195
-		inc     %newVal_162
-		mov     %alloca_26, %newVal_162
-		mov     %alloca_25, %varDef_201
-		mov     %alloca_24, %varDef_202
-		mov     %alloca_23, %varDef_203
-		mov     %alloca_22, %varDef_204
+		inc     rax
 		jmp     __L_7
 __L_8:
-		mov     %newVal_165, %varDef_188
-		inc     %newVal_165
-		mov     %alloca_17, %newVal_165
-		mov     %alloca_16, %varDef_195
-		mov     %alloca_15, %varDef_196
-		mov     %alloca_14, %varDef_197
-		mov     %alloca_13, %varDef_198
-		mov     %alloca_12, %varDef_199
+		inc     rsi
 		jmp     __L_4
 __L_5:
-		mov     %newVal_168, %varDef_180
-		inc     %newVal_168
-		mov     %alloca_11, %newVal_168
-		mov     %alloca_10, %varDef_189
-		mov     %alloca_9, %varDef_190
-		mov     %alloca_8, %varDef_191
-		mov     %alloca_7, %varDef_192
-		mov     %alloca_6, %varDef_193
+		inc     rcx
 		jmp     __L_1
 __L_2:
-		mov     rdi, %varDef_186
+		mov     rdi, rbx
 		call    __printlnInt
-		mov     qword [rel _N], %res_6
-		mov     qword [rel _total], %varDef_186
-		mov     r12, %local_r12
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
+		mov     qword [rel _N], r13
+		mov     qword [rel _total], rbx
+		mov     rbx, qword [rbp - 8]
+		mov     r13, qword [rbp - 16]
 		mov     rax, 0
-		ret     
+		mov     rsp, rbp
+		pop     rbp
+		ret
 
 SECTION .data
 

@@ -24,6 +24,10 @@ public class Func {
         return bbList;
     }
 
+    public void setBbList(List<Block> bbList) {
+        this.bbList = bbList;
+    }
+
     public void addRspOffset(int offset) {
         rspOffset += offset;
     }

@@ -188,6 +188,11 @@ public class Mxcc {
         StackBuilder.visit(nasm);
     }
 
+    private void scheduleJump() {
+        JumpScheduler scheduler = new JumpScheduler(nasm);
+        scheduler.work();
+    }
+
     private void printNasm(String output) throws IOException {
         NasmPrinter printer = new NasmPrinter();
         printer.visit(nasm);
@@ -219,6 +224,7 @@ public class Mxcc {
         if (Config.debugMode) printNasm("a_unallocated.asm");
         allocateRegister();
         buildStack();
+        scheduleJump();
         if (Config.debugMode) printNasm("a.asm");
         if (!Config.debugMode) printNasm(null);
     }
