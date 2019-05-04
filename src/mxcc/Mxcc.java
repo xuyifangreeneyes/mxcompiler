@@ -130,7 +130,7 @@ public class Mxcc {
     }
 
     private void functionInline() {
-        FunctionInliner inliner = new FunctionInliner(ir);
+        FunctionInliner inliner = new FunctionInliner(ast, ir);
         inliner.run();
     }
 
@@ -145,9 +145,9 @@ public class Mxcc {
     }
 
     private void optim() throws IOException {
-        if (Config.debugMode) printIR("a_before_memorize.ll");
-        memorize();
-        if (Config.debugMode) printIR("a_memorize.ll");
+//        if (Config.debugMode) printIR("a_before_memorize.ll");
+//        memorize();
+//        if (Config.debugMode) printIR("a_memorize.ll");
         eliminateConstGlobalReg();
         functionInline();
         promoteGlobalReg();

@@ -11,6 +11,8 @@ public class GlobalRegPromoter {
     private Module module;
     private Map<Function, Set<GlobalReg>> directRegMap = new HashMap<>();
     private Map<Function, Set<GlobalReg>> implicitRegMap = new HashMap<>();
+    private Map<Function, Set<GlobalReg>> localDirtyMap = new HashMap<>();
+    private Map<Function, Set<GlobalReg>> dirtyMap = new HashMap<>();
     private Map<Function, Set<Function>> callMap = new HashMap<>();
 
     public GlobalRegPromoter(Module module) {
@@ -30,6 +32,8 @@ public class GlobalRegPromoter {
             }
             directRegMap.put(func, new HashSet<>());
             implicitRegMap.put(func, new HashSet<>());
+            localDirtyMap.put(func, new HashSet<>());
+            dirtyMap.put(func, new HashSet<>());
             callMap.put(func, new HashSet<>());
 
             BasicBlock bb = func.getStartBB();
@@ -44,7 +48,9 @@ public class GlobalRegPromoter {
                     } else if (inst instanceof Store) {
                         Store store = (Store) inst;
                         if (store.getAddr() instanceof GlobalReg) {
-                            directRegMap.get(func).add((GlobalReg) store.getAddr());
+                            GlobalReg reg = (GlobalReg) store.getAddr();
+                            directRegMap.get(func).add(reg);
+                            localDirtyMap.get(func).add(reg);
                         }
                     } else if (inst instanceof Call) {
                         Function callee = ((Call) inst).getFunc().IRFunc;
@@ -58,6 +64,7 @@ public class GlobalRegPromoter {
             }
 
             implicitRegMap.get(func).addAll(directRegMap.get(func));
+            dirtyMap.get(func).addAll(localDirtyMap.get(func));
         }
     }
 
@@ -71,6 +78,16 @@ public class GlobalRegPromoter {
                     implicitRegMap.get(func).addAll(implicitRegMap.get(callee));
                 }
                 int after = implicitRegMap.get(func).size();
+                if (after > before) {
+                    changed = true;
+                }
+            }
+            for (Function func : dirtyMap.keySet()) {
+                int before = dirtyMap.get(func).size();
+                for (Function callee : callMap.get(func)) {
+                    dirtyMap.get(func).addAll(dirtyMap.get(callee));
+                }
+                int after = dirtyMap.get(func).size();
                 if (after > before) {
                     changed = true;
                 }
@@ -149,21 +166,22 @@ public class GlobalRegPromoter {
                         int counter = 0;
                         for (GlobalReg globalReg : global2localMap.keySet()) {
 //                        System.out.println(callee.getName());
-                            if (!(implicitRegMap.get(callee).contains(globalReg))) {
-                                continue;
-                            }
 
                             LocalReg localReg = global2localMap.get(globalReg);
 
-                            LocalReg tmp1 = func.makeLocalReg("tmp");
-                            inst.insertBefore(new Load(bb, tmp1, localReg));
-                            inst.insertBefore(new Store(bb, tmp1, globalReg));
+                            if (localDirtyMap.get(func).contains(globalReg)
+                                    && implicitRegMap.get(callee).contains(globalReg)) {
+                                LocalReg tmp = func.makeLocalReg("tmp");
+                                inst.insertBefore(new Load(bb, tmp, localReg));
+                                inst.insertBefore(new Store(bb, tmp, globalReg));
+                            }
 
-                            LocalReg tmp2 = func.makeLocalReg("tmp");
-                            inst.insertAfter(new Store(bb, tmp2, localReg));
-                            inst.insertAfter(new Load(bb, tmp2, globalReg));
-
-                            counter += 2;
+                            if (dirtyMap.get(callee).contains(globalReg)) {
+                                LocalReg tmp = func.makeLocalReg("tmp");
+                                inst.insertAfter(new Store(bb, tmp, localReg));
+                                inst.insertAfter(new Load(bb, tmp, globalReg));
+                                counter += 2;
+                            }
                         }
                         for (int i = 0; i < counter; ++i) {
                             inst = inst.next;
@@ -171,6 +189,7 @@ public class GlobalRegPromoter {
                     }
                 } else if (inst instanceof Return) {
                     for (GlobalReg globalReg : global2localMap.keySet()) {
+                        if (!localDirtyMap.get(func).contains(globalReg)) continue;
                         LocalReg tmp = func.makeLocalReg("tmp");
                         inst.insertBefore(new Load(bb, tmp, global2localMap.get(globalReg)));
                         inst.insertBefore(new Store(bb, tmp, globalReg));

@@ -247,8 +247,6 @@ define check ( %argVal_0 ) {
 
 <3> bool_merge
 	%boolVal_8 = load %boolValAddr_2
-	%tmp_11 = load %global2local_9
-	store %tmp_11 @N
 	ret %boolVal_8
 
 }
@@ -426,22 +424,8 @@ define addList ( %argVal_0 %argVal_2 ) {
 <2> if_merge
 	%tmp_90 = load %global2local_72
 	store %tmp_90 @tail
-	%tmp_91 = load %global2local_73
-	store %tmp_91 @targety
-	%tmp_92 = load %global2local_74
-	store %tmp_92 @ok
-	%tmp_93 = load %global2local_75
-	store %tmp_93 @ylist
-	%tmp_94 = load %global2local_76
-	store %tmp_94 @targetx
-	%tmp_95 = load %global2local_77
-	store %tmp_95 @N
-	%tmp_96 = load %global2local_78
-	store %tmp_96 @step
-	%tmp_97 = load %global2local_79
-	store %tmp_97 @xlist
-	%tmp_98 = load %global2local_80
-	store %tmp_98 @now
+	%tmp_91 = load %global2local_74
+	store %tmp_91 @ok
 	ret 
 
 }
@@ -982,34 +966,26 @@ define main ( ) {
 	store %tmp_302 @targety
 	%tmp_303 = load %global2local_271
 	store %tmp_303 @ok
-	%tmp_304 = load %global2local_272
-	store %tmp_304 @ylist
-	%tmp_305 = load %global2local_273
-	store %tmp_305 @head
-	%tmp_306 = load %global2local_274
-	store %tmp_306 @j
-	%tmp_307 = load %global2local_275
-	store %tmp_307 @dx
-	%tmp_308 = load %global2local_276
-	store %tmp_308 @i
-	%tmp_309 = load %global2local_277
-	store %tmp_309 @y
-	%tmp_310 = load %global2local_278
-	store %tmp_310 @xlist
-	%tmp_311 = load %global2local_279
-	store %tmp_311 @x
-	%tmp_312 = load %global2local_280
-	store %tmp_312 @tail
-	%tmp_313 = load %global2local_281
-	store %tmp_313 @targetx
-	%tmp_314 = load %global2local_282
-	store %tmp_314 @N
-	%tmp_315 = load %global2local_283
-	store %tmp_315 @step
-	%tmp_316 = load %global2local_284
-	store %tmp_316 @dy
-	%tmp_317 = load %global2local_285
-	store %tmp_317 @now
+	%tmp_304 = load %global2local_273
+	store %tmp_304 @head
+	%tmp_305 = load %global2local_274
+	store %tmp_305 @j
+	%tmp_306 = load %global2local_276
+	store %tmp_306 @i
+	%tmp_307 = load %global2local_277
+	store %tmp_307 @y
+	%tmp_308 = load %global2local_279
+	store %tmp_308 @x
+	%tmp_309 = load %global2local_280
+	store %tmp_309 @tail
+	%tmp_310 = load %global2local_281
+	store %tmp_310 @targetx
+	%tmp_311 = load %global2local_282
+	store %tmp_311 @N
+	%tmp_312 = load %global2local_283
+	store %tmp_312 @step
+	%tmp_313 = load %global2local_285
+	store %tmp_313 @now
 	ret 0
 
 }

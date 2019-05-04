@@ -1,26 +1,32 @@
 package mxcc.optim;
 
+import mxcc.ast.Program;
 import mxcc.ir.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FunctionInliner {
     // Map<originFunc, backupFunc>
     private Map<Function, Function> funcBackupMap = new HashMap<>();
+    private Set<Function> prohibited = new HashSet<>();
 
-    public FunctionInliner(Module module) {
+    public FunctionInliner(Program program, Module module) {
         for (Function originFunc : module.funcs.values()) {
             if (originFunc.isBuiltin()) continue;
             FunctionBackuper backuper = new FunctionBackuper(originFunc);
             funcBackupMap.put(originFunc, backuper.fork());
         }
+
+        InlineEvaluator evaluator = new InlineEvaluator(program);
+        evaluator.work();
+        for (Function func : evaluator.getProhibited()) {
+            assert funcBackupMap.containsKey(func);
+            prohibited.add(funcBackupMap.get(func));
+        }
     }
 
     public void run() {
-        for (int i = 0; i < 2; ++i) {
+        for (int i = 0; i < 3; ++i) {
             for (Call callInst : collectInlineCall()) {
                 Transplantor transplantor = new Transplantor(callInst, funcBackupMap.get(callInst.getFunc().IRFunc));
                 transplantor.fork();
@@ -38,7 +44,7 @@ public class FunctionInliner {
                     if (inst instanceof Call) {
                         Call callInst = (Call) inst;
                         Function callFunc = funcBackupMap.get(callInst.getFunc().IRFunc);
-                        if (callFunc != null && callFunc.isInlinable()) {
+                        if (callFunc != null && callFunc.isInlinable() && !prohibited.contains(callFunc)) {
                             callList.add(callInst);
                         }
                     }

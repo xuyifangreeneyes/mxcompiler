@@ -11,6 +11,7 @@ public class StackBuilder implements NasmVisitor {
     private LinkedList<Inst> oldInstList;
     private LinkedList<Inst> newInstList;
     private int rbpOffset = 0;
+    private boolean needSubRsp;
 
     public static void visit(Nasm nasm) {
         for (Func func : nasm.getFuncs()) {
@@ -24,6 +25,16 @@ public class StackBuilder implements NasmVisitor {
     }
 
     private void work() {
+        boolean leafFunc = true;
+        for (Block block : func.getBbList()) {
+            for (Inst inst : block.getInstList()) {
+                if (inst instanceof FuncCall) {
+                    leafFunc = false;
+                    break;
+                }
+            }
+        }
+
         for (Block block : func.getBbList()) {
             oldInstList = block.getInstList();
             newInstList = new LinkedList<>();
@@ -34,7 +45,8 @@ public class StackBuilder implements NasmVisitor {
                 }
                 newInstList.add(new Push(physicalRegMap.get("rbp")));
                 newInstList.add(new Mov(physicalRegMap.get("rbp"), physicalRegMap.get("rsp")));
-                if (rspOffset != 0) {
+                needSubRsp = rspOffset != 0 && !leafFunc;
+                if (needSubRsp) {
                     newInstList.add(new BinOp("sub", physicalRegMap.get("rsp"), new Imm(rspOffset)));
                 }
             }
@@ -115,7 +127,9 @@ public class StackBuilder implements NasmVisitor {
     }
 
     public void visit(Ret inst) {
-        newInstList.add(new Mov(physicalRegMap.get("rsp"), physicalRegMap.get("rbp")));
+        if (needSubRsp) {
+            newInstList.add(new Mov(physicalRegMap.get("rsp"), physicalRegMap.get("rbp")));
+        }
         newInstList.add(new Pop(physicalRegMap.get("rbp")));
         newInstList.add(inst);
     }
