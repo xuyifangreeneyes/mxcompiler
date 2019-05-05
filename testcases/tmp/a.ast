@@ -1,332 +1,462 @@
 <Program>
-	<VariableDecl> int N
-	<VariableDecl> int head
-	<VariableDecl> int startx
-	<VariableDecl> int starty
-	<VariableDecl> int targetx
-	<VariableDecl> int targety
-	<VariableDecl> int x
-	<VariableDecl> int y
-	<VariableDecl> int[] xlist
-		<NewExpr> int[]
-			<IntConst> 12000
-	<VariableDecl> int[] ylist
-		<NewExpr> int[]
-			<IntConst> 12000
-	<VariableDecl> int tail
-	<VariableDecl> int ok
+	<VariableDecl> int n
+	<VariableDecl> int h
 	<VariableDecl> int now
-	<VariableDecl> int[] dx
-		<NewExpr> int[]
-			<IntConst> 8
-	<VariableDecl> int[] dy
-		<NewExpr> int[]
-			<IntConst> 9
-	<VariableDecl> int[][] step
-	<VariableDecl> int i
-	<VariableDecl> int j
-	<FunctionDecl> void origin int N
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> head
-			<IntConst> 0
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> tail
-			<IntConst> 0
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> step
-			<NewExpr> int[][]
-				<IdentifierExpr> N
-		<ForStmt>
-			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
-				<IntConst> 0
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<IdentifierExpr> N
-			<UnaryExpr> INC_SUF
-				<IdentifierExpr> i
-			<BlockStmt>
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<IdentifierExpr> step
-						<IdentifierExpr> i
-					<NewExpr> int[]
-						<IdentifierExpr> N
-				<ForStmt>
-					<BinaryExpr> ASSIGN
-						<IdentifierExpr> j
-						<IntConst> 0
-					<BinaryExpr> LT
-						<IdentifierExpr> j
-						<IdentifierExpr> N
-					<UnaryExpr> INC_SUF
-						<IdentifierExpr> j
-					<BlockStmt>
-						<BinaryExpr> ASSIGN
-							<ArrayAccess>
-								<ArrayAccess>
-									<IdentifierExpr> step
-									<IdentifierExpr> i
-								<IdentifierExpr> j
-							<IntConst> 0
-	<FunctionDecl> bool check int a
-		<ReturnStmt>
-			<BinaryExpr> AND
-				<BinaryExpr> LT
-					<IdentifierExpr> a
-					<IdentifierExpr> N
-				<BinaryExpr> GE
-					<IdentifierExpr> a
-					<IntConst> 0
-	<FunctionDecl> void addList int x int y
+	<VariableDecl> int[] a
+	<VariableDecl> int A
+		<IntConst> 48271
+	<VariableDecl> int M
+		<IntConst> 2147483647
+	<VariableDecl> int Q
+	<VariableDecl> int R
+	<VariableDecl> int seed
+		<IntConst> 1
+	<FunctionDecl> int random
+		<VariableDeclStmt>
+			<VariableDecl> int tempseed
+				<BinaryExpr> SUB
+					<BinaryExpr> MUL
+						<IdentifierExpr> A
+						<BinaryExpr> MOD
+							<IdentifierExpr> seed
+							<IdentifierExpr> Q
+					<BinaryExpr> MUL
+						<IdentifierExpr> R
+						<BinaryExpr> DIV
+							<IdentifierExpr> seed
+							<IdentifierExpr> Q
 		<IfStmt>
-			<BinaryExpr> AND
-				<BinaryExpr> AND
-					<FunctionCall>
-						<IdentifierExpr> check
-						<IdentifierExpr> x
-					<FunctionCall>
-						<IdentifierExpr> check
-						<IdentifierExpr> y
-				<BinaryExpr> EQ
-					<ArrayAccess>
-						<ArrayAccess>
-							<IdentifierExpr> step
-							<IdentifierExpr> x
-						<IdentifierExpr> y
-					<UnaryExpr> NEG
-						<IntConst> 1
+			<BinaryExpr> GE
+				<IdentifierExpr> tempseed
+				<IntConst> 0
 			<BlockStmt>
-				<UnaryExpr> INC_SUF
-					<IdentifierExpr> tail
 				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<IdentifierExpr> xlist
-						<IdentifierExpr> tail
+					<IdentifierExpr> seed
+					<IdentifierExpr> tempseed
+		<ReturnStmt>
+			<IdentifierExpr> seed
+	<FunctionDecl> void initialize int val
+		<BinaryExpr> ASSIGN
+			<IdentifierExpr> seed
+			<IdentifierExpr> val
+	<FunctionDecl> void swap int x int y
+		<VariableDeclStmt>
+			<VariableDecl> int temp
+				<ArrayAccess>
+					<IdentifierExpr> a
 					<IdentifierExpr> x
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<IdentifierExpr> ylist
-						<IdentifierExpr> tail
-					<IdentifierExpr> y
-				<BinaryExpr> ASSIGN
-					<ArrayAccess>
-						<ArrayAccess>
-							<IdentifierExpr> step
-							<IdentifierExpr> x
-						<IdentifierExpr> y
-					<BinaryExpr> ADD
-						<IdentifierExpr> now
-						<IntConst> 1
-				<IfStmt>
-					<BinaryExpr> AND
-						<BinaryExpr> EQ
-							<IdentifierExpr> x
-							<IdentifierExpr> targetx
-						<BinaryExpr> EQ
-							<IdentifierExpr> y
-							<IdentifierExpr> targety
-					<BlockStmt>
-						<BinaryExpr> ASSIGN
-							<IdentifierExpr> ok
-							<IntConst> 1
-	<FunctionDecl> int main
-		<FunctionCall>
-			<IdentifierExpr> origin
-			<IntConst> 106
 		<BinaryExpr> ASSIGN
-			<IdentifierExpr> N
-			<FunctionCall>
-				<IdentifierExpr> getInt
+			<ArrayAccess>
+				<IdentifierExpr> a
+				<IdentifierExpr> x
+			<ArrayAccess>
+				<IdentifierExpr> a
+				<IdentifierExpr> y
 		<BinaryExpr> ASSIGN
-			<IdentifierExpr> targety
-			<BinaryExpr> SUB
-				<IdentifierExpr> N
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<IdentifierExpr> targetx
-			<IdentifierExpr> targety
+			<ArrayAccess>
+				<IdentifierExpr> a
+				<IdentifierExpr> y
+			<IdentifierExpr> temp
+	<FunctionDecl> bool pd int x
 		<ForStmt>
-			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
-				<IntConst> 0
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<IdentifierExpr> N
-			<UnaryExpr> INC_SUF
-				<IdentifierExpr> i
-			<BlockStmt>
-				<ForStmt>
-					<BinaryExpr> ASSIGN
-						<IdentifierExpr> j
-						<IntConst> 0
-					<BinaryExpr> LT
-						<IdentifierExpr> j
-						<IdentifierExpr> N
-					<UnaryExpr> INC_SUF
-						<IdentifierExpr> j
-					<BlockStmt>
-						<BinaryExpr> ASSIGN
-							<ArrayAccess>
-								<ArrayAccess>
-									<IdentifierExpr> step
-									<IdentifierExpr> i
-								<IdentifierExpr> j
-							<UnaryExpr> NEG
-								<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 0
-			<UnaryExpr> NEG
-				<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 0
-			<UnaryExpr> NEG
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 1
-			<UnaryExpr> NEG
-				<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 1
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 2
-			<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 2
-			<UnaryExpr> NEG
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 3
-			<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 3
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 4
-			<UnaryExpr> NEG
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 4
-			<UnaryExpr> NEG
-				<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 5
-			<UnaryExpr> NEG
-				<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 5
-			<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 6
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 6
-			<UnaryExpr> NEG
-				<IntConst> 2
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dx
-				<IntConst> 7
-			<IntConst> 1
-		<BinaryExpr> ASSIGN
-			<ArrayAccess>
-				<IdentifierExpr> dy
-				<IntConst> 7
-			<IntConst> 2
-		<WhileStmt>
 			<BinaryExpr> LE
-				<IdentifierExpr> head
-				<IdentifierExpr> tail
+				<IdentifierExpr> h
+				<IdentifierExpr> x
+			<UnaryExpr> INC
+				<IdentifierExpr> h
 			<BlockStmt>
-				<BinaryExpr> ASSIGN
-					<IdentifierExpr> x
-					<ArrayAccess>
-						<IdentifierExpr> xlist
-						<IdentifierExpr> head
-				<BinaryExpr> ASSIGN
-					<IdentifierExpr> y
-					<ArrayAccess>
-						<IdentifierExpr> ylist
-						<IdentifierExpr> head
-				<BinaryExpr> ASSIGN
-					<IdentifierExpr> now
-					<ArrayAccess>
-						<ArrayAccess>
-							<IdentifierExpr> step
-							<IdentifierExpr> x
-						<IdentifierExpr> y
-				<ForStmt>
-					<BinaryExpr> ASSIGN
-						<IdentifierExpr> j
-						<IntConst> 0
-					<BinaryExpr> LT
-						<IdentifierExpr> j
-						<IntConst> 8
-					<UnaryExpr> INC_SUF
-						<IdentifierExpr> j
-					<BlockStmt>
-						<FunctionCall>
-							<IdentifierExpr> addList
-							<BinaryExpr> ADD
-								<IdentifierExpr> x
-								<ArrayAccess>
-									<IdentifierExpr> dx
-									<IdentifierExpr> j
-							<BinaryExpr> ADD
-								<IdentifierExpr> y
-								<ArrayAccess>
-									<IdentifierExpr> dy
-									<IdentifierExpr> j
 				<IfStmt>
 					<BinaryExpr> EQ
-						<IdentifierExpr> ok
-						<IntConst> 1
+						<IdentifierExpr> x
+						<BinaryExpr> DIV
+							<BinaryExpr> MUL
+								<IdentifierExpr> h
+								<BinaryExpr> ADD
+									<IdentifierExpr> h
+									<IntConst> 1
+							<IntConst> 2
 					<BlockStmt>
-						<BreakStmt>
-				<UnaryExpr> INC_SUF
-					<IdentifierExpr> head
-		<IfStmt>
-			<BinaryExpr> EQ
-				<IdentifierExpr> ok
-				<IntConst> 1
+						<ReturnStmt>
+							<BoolConst> true
+		<ReturnStmt>
+			<BoolConst> false
+	<FunctionDecl> void show
+		<VariableDeclStmt>
+			<VariableDecl> int i
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IntConst> 0
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IdentifierExpr> now
+			<UnaryExpr> INC
+				<IdentifierExpr> i
 			<BlockStmt>
+				<FunctionCall>
+					<IdentifierExpr> print
+					<BinaryExpr> ADD
+						<FunctionCall>
+							<IdentifierExpr> toString
+							<ArrayAccess>
+								<IdentifierExpr> a
+								<IdentifierExpr> i
+						<StringConst>  
+		<FunctionCall>
+			<IdentifierExpr> println
+			<StringConst> 
+	<FunctionDecl> bool win
+		<VariableDeclStmt>
+			<VariableDecl> int i
+		<VariableDeclStmt>
+			<VariableDecl> int j
+		<VariableDeclStmt>
+			<VariableDecl> int[] b
+				<NewExpr> int[]
+					<IntConst> 101
+		<VariableDeclStmt>
+			<VariableDecl> int temp
+		<IfStmt>
+			<BinaryExpr> NEQ
+				<IdentifierExpr> now
+				<IdentifierExpr> h
+			<BlockStmt>
+				<ReturnStmt>
+					<BoolConst> false
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> j
+				<IntConst> 0
+			<BinaryExpr> LT
+				<IdentifierExpr> j
+				<IdentifierExpr> now
+			<UnaryExpr> INC
+				<IdentifierExpr> j
+			<BlockStmt>
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> b
+						<IdentifierExpr> j
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<IdentifierExpr> j
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IntConst> 0
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<BinaryExpr> SUB
+					<IdentifierExpr> now
+					<IntConst> 1
+			<UnaryExpr> INC
+				<IdentifierExpr> i
+			<BlockStmt>
+				<ForStmt>
+					<BinaryExpr> ASSIGN
+						<IdentifierExpr> j
+						<BinaryExpr> ADD
+							<IdentifierExpr> i
+							<IntConst> 1
+					<BinaryExpr> LT
+						<IdentifierExpr> j
+						<IdentifierExpr> now
+					<UnaryExpr> INC
+						<IdentifierExpr> j
+					<BlockStmt>
+						<IfStmt>
+							<BinaryExpr> GT
+								<ArrayAccess>
+									<IdentifierExpr> b
+									<IdentifierExpr> i
+								<ArrayAccess>
+									<IdentifierExpr> b
+									<IdentifierExpr> j
+							<BlockStmt>
+								<BinaryExpr> ASSIGN
+									<IdentifierExpr> temp
+									<ArrayAccess>
+										<IdentifierExpr> b
+										<IdentifierExpr> i
+								<BinaryExpr> ASSIGN
+									<ArrayAccess>
+										<IdentifierExpr> b
+										<IdentifierExpr> i
+									<ArrayAccess>
+										<IdentifierExpr> b
+										<IdentifierExpr> j
+								<BinaryExpr> ASSIGN
+									<ArrayAccess>
+										<IdentifierExpr> b
+										<IdentifierExpr> j
+									<IdentifierExpr> temp
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IntConst> 0
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IdentifierExpr> now
+			<UnaryExpr> INC
+				<IdentifierExpr> i
+			<BlockStmt>
+				<IfStmt>
+					<BinaryExpr> NEQ
+						<ArrayAccess>
+							<IdentifierExpr> b
+							<IdentifierExpr> i
+						<BinaryExpr> ADD
+							<IdentifierExpr> i
+							<IntConst> 1
+					<BlockStmt>
+						<ReturnStmt>
+							<BoolConst> false
+		<ReturnStmt>
+			<BoolConst> true
+	<FunctionDecl> void merge
+		<VariableDeclStmt>
+			<VariableDecl> int i
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IntConst> 0
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IdentifierExpr> now
+			<UnaryExpr> INC
+				<IdentifierExpr> i
+			<BlockStmt>
+				<IfStmt>
+					<BinaryExpr> EQ
+						<ArrayAccess>
+							<IdentifierExpr> a
+							<IdentifierExpr> i
+						<IntConst> 0
+					<BlockStmt>
+						<VariableDeclStmt>
+							<VariableDecl> int j
+						<ForStmt>
+							<BinaryExpr> ASSIGN
+								<IdentifierExpr> j
+								<BinaryExpr> ADD
+									<IdentifierExpr> i
+									<IntConst> 1
+							<BinaryExpr> LT
+								<IdentifierExpr> j
+								<IdentifierExpr> now
+							<UnaryExpr> INC
+								<IdentifierExpr> j
+							<BlockStmt>
+								<IfStmt>
+									<BinaryExpr> NEQ
+										<ArrayAccess>
+											<IdentifierExpr> a
+											<IdentifierExpr> j
+										<IntConst> 0
+									<BlockStmt>
+										<FunctionCall>
+											<IdentifierExpr> swap
+											<IdentifierExpr> i
+											<IdentifierExpr> j
+										<BreakStmt>
+		<ForStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> i
+				<IntConst> 0
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IdentifierExpr> now
+			<UnaryExpr> INC
+				<IdentifierExpr> i
+			<BlockStmt>
+				<IfStmt>
+					<BinaryExpr> EQ
+						<ArrayAccess>
+							<IdentifierExpr> a
+							<IdentifierExpr> i
+						<IntConst> 0
+					<BlockStmt>
+						<BinaryExpr> ASSIGN
+							<IdentifierExpr> now
+							<IdentifierExpr> i
+						<BreakStmt>
+	<FunctionDecl> void move
+		<VariableDeclStmt>
+			<VariableDecl> int i
+				<IntConst> 0
+		<ForStmt>
+			<BinaryExpr> LT
+				<IdentifierExpr> i
+				<IdentifierExpr> now
+			<BlockStmt>
+				<UnaryExpr> DEC
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<IdentifierExpr> i
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> i
+					<BinaryExpr> ADD
+						<IdentifierExpr> i
+						<IntConst> 1
+		<BinaryExpr> ASSIGN
+			<ArrayAccess>
+				<IdentifierExpr> a
+				<IdentifierExpr> now
+			<IdentifierExpr> now
+		<UnaryExpr> INC_SUF
+			<IdentifierExpr> now
+	<FunctionDecl> int main
+		<VariableDeclStmt>
+			<VariableDecl> int T
+				<IntConst> 0
+		<VariableDeclStmt>
+			<VariableDecl> int times
+				<FunctionCall>
+					<IdentifierExpr> getInt
+		<ForStmt>
+			<BinaryExpr> LT
+				<IdentifierExpr> T
+				<IdentifierExpr> times
+			<UnaryExpr> INC
+				<IdentifierExpr> T
+			<BlockStmt>
+				<VariableDeclStmt>
+					<VariableDecl> int i
+						<IntConst> 0
+				<VariableDeclStmt>
+					<VariableDecl> int temp
+						<IntConst> 0
+				<VariableDeclStmt>
+					<VariableDecl> int count
+						<IntConst> 0
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> n
+					<IntConst> 5050
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> h
+					<IntConst> 0
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> a
+					<NewExpr> int[]
+						<IntConst> 200
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> Q
+					<BinaryExpr> DIV
+						<IdentifierExpr> M
+						<IdentifierExpr> A
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> R
+					<BinaryExpr> MOD
+						<IdentifierExpr> M
+						<IdentifierExpr> A
+				<IfStmt>
+					<UnaryExpr> NOT
+						<FunctionCall>
+							<IdentifierExpr> pd
+							<IdentifierExpr> n
+					<BlockStmt>
+						<FunctionCall>
+							<IdentifierExpr> println
+							<StringConst> Sorry, the number n must be a number s.t. there exists i satisfying n=1+2+...+i
+						<ReturnStmt>
+							<IntConst> 1
+				<FunctionCall>
+					<IdentifierExpr> println
+					<StringConst> Let's start!
+				<FunctionCall>
+					<IdentifierExpr> initialize
+					<FunctionCall>
+						<IdentifierExpr> random
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> now
+					<BinaryExpr> ADD
+						<BinaryExpr> MOD
+							<FunctionCall>
+								<IdentifierExpr> random
+							<IntConst> 10
+						<IntConst> 1
 				<FunctionCall>
 					<IdentifierExpr> println
 					<FunctionCall>
 						<IdentifierExpr> toString
-						<ArrayAccess>
+						<IdentifierExpr> now
+				<ForStmt>
+					<BinaryExpr> LT
+						<IdentifierExpr> i
+						<BinaryExpr> SUB
+							<IdentifierExpr> now
+							<IntConst> 1
+					<UnaryExpr> INC
+						<IdentifierExpr> i
+					<BlockStmt>
+						<BinaryExpr> ASSIGN
 							<ArrayAccess>
-								<IdentifierExpr> step
-								<IdentifierExpr> targetx
-							<IdentifierExpr> targety
+								<IdentifierExpr> a
+								<IdentifierExpr> i
+							<BinaryExpr> ADD
+								<BinaryExpr> MOD
+									<FunctionCall>
+										<IdentifierExpr> random
+									<IntConst> 10
+								<IntConst> 1
+						<WhileStmt>
+							<BinaryExpr> GT
+								<BinaryExpr> ADD
+									<ArrayAccess>
+										<IdentifierExpr> a
+										<IdentifierExpr> i
+									<IdentifierExpr> temp
+								<IdentifierExpr> n
+							<BlockStmt>
+								<BinaryExpr> ASSIGN
+									<ArrayAccess>
+										<IdentifierExpr> a
+										<IdentifierExpr> i
+									<BinaryExpr> ADD
+										<BinaryExpr> MOD
+											<FunctionCall>
+												<IdentifierExpr> random
+											<IntConst> 10
+										<IntConst> 1
+						<BinaryExpr> ASSIGN
+							<IdentifierExpr> temp
+							<BinaryExpr> ADD
+								<IdentifierExpr> temp
+								<ArrayAccess>
+									<IdentifierExpr> a
+									<IdentifierExpr> i
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<BinaryExpr> SUB
+							<IdentifierExpr> now
+							<IntConst> 1
+					<BinaryExpr> SUB
+						<IdentifierExpr> n
+						<IdentifierExpr> temp
+				<FunctionCall>
+					<IdentifierExpr> show
+				<FunctionCall>
+					<IdentifierExpr> merge
+				<WhileStmt>
+					<UnaryExpr> NOT
+						<FunctionCall>
+							<IdentifierExpr> win
+					<BlockStmt>
+						<UnaryExpr> INC
+							<IdentifierExpr> count
+						<FunctionCall>
+							<IdentifierExpr> move
+						<FunctionCall>
+							<IdentifierExpr> merge
+				<FunctionCall>
+					<IdentifierExpr> println
+					<BinaryExpr> ADD
+						<BinaryExpr> ADD
+							<StringConst> Total: 
+							<FunctionCall>
+								<IdentifierExpr> toString
+								<IdentifierExpr> count
+						<StringConst>  step(s)
 		<ReturnStmt>
 			<IntConst> 0

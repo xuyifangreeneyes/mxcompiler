@@ -308,22 +308,16 @@ public class IRBuilder extends AstBaseVisitor {
 
         if (expr instanceof ArrayAccess) {
             ArrayAccess arrayAccess = (ArrayAccess) expr;
-            // arrayPtrPtr int**
-            // arrayPtr int*
-            // array structure [n, element_0, element_1, ..., element_n-1]
-
-            LocalReg arrayPtr;
+            LocalReg arrayBase;
             if (arrayAccess.container instanceof NewExpr || arrayAccess.container instanceof FunctionCall) {
                 visitExpr(arrayAccess.container);
-                arrayPtr = (LocalReg) arrayAccess.container.val;
+                arrayBase = (LocalReg) arrayAccess.container.val;
             } else {
-                Operand arrayPtrPtr = getTargetAddr(arrayAccess.container);
-                arrayPtr = curFunc.makeLocalReg("arrayPtr");
-                curBB.append(new Load(curBB, arrayPtr, arrayPtrPtr));
+                Operand arrayBasePtr = getTargetAddr(arrayAccess.container);
+                arrayBase = curFunc.makeLocalReg("arrayBase");
+                curBB.append(new Load(curBB, arrayBase, arrayBasePtr));
             }
 
-            LocalReg arrayBase = curFunc.makeLocalReg("arrayBase");
-            curBB.append(new BinaryOperation(curBB, arrayBase, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(8)));
             visitExpr(arrayAccess.subscript);
             Operand index = arrayAccess.subscript.val;
             LocalReg offset = curFunc.makeLocalReg("offset");
@@ -639,6 +633,8 @@ public class IRBuilder extends AstBaseVisitor {
         curBB.append(new BinaryOperation(curBB, arrayLength, BinaryOperation.BinaryOp.ADD, memberLength, new IntImmediate(8)));
         curBB.append(new Malloc(curBB, arrayPtr, arrayLength));
         curBB.append(new Store(curBB, firstDim, arrayPtr));
+        LocalReg arrayBase = curFunc.makeLocalReg("arrayBase");
+        curBB.append(new BinaryOperation(curBB, arrayBase, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(8)));
 
         if (dimSizes.isEmpty()) {
             // new int[5]
@@ -646,7 +642,7 @@ public class IRBuilder extends AstBaseVisitor {
             // new A[5]
             // new A[5][]
             // new string[5]
-            return arrayPtr;
+            return arrayBase;
         }
 
         BasicBlock forCondBB = curFunc.makeBB("new_for_cond");
@@ -663,12 +659,10 @@ public class IRBuilder extends AstBaseVisitor {
         loopEndStack.push(forEndBB);
 
         LocalReg arrayEndPos = curFunc.makeLocalReg("arrayEndPos");
-        curBB.append(new BinaryOperation(curBB, arrayEndPos, BinaryOperation.BinaryOp.ADD, arrayPtr, arrayLength));
-        LocalReg startPos = curFunc.makeLocalReg("startPos");
-        curBB.append(new BinaryOperation(curBB, startPos, BinaryOperation.BinaryOp.ADD, arrayPtr, new IntImmediate(8)));
+        curBB.append(new BinaryOperation(curBB, arrayEndPos, BinaryOperation.BinaryOp.ADD, arrayBase, memberLength));
         LocalReg storageCell = curFunc.makeLocalReg("storageCell");
         curFunc.getStartBB().appendFront(new Alloca(curFunc.getStartBB(), storageCell, 8));
-        curBB.append(new Store(curBB, startPos, storageCell));
+        curBB.append(new Store(curBB, arrayBase, storageCell));
         curBB.append(new DirectBranch(curBB, forCondBB));
 
         curBB = forCondBB;
@@ -694,7 +688,7 @@ public class IRBuilder extends AstBaseVisitor {
 
         curBB = forEndBB;
 
-        return arrayPtr;
+        return arrayBase;
     }
 
     private void processArrayNew(NewExpr node) {

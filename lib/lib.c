@@ -1,6 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//
+//char* __malloc(long sz) {
+//  if (sz >= 128)
+//    return malloc(sz);
+//
+//  const long CHUNK_SIZE = 2048;
+//  static char* storage = NULL;
+//  static long used = CHUNK_SIZE;
+//  if (used + sz > CHUNK_SIZE) {
+//    storage = malloc(CHUNK_SIZE);
+//    used = 0;
+//  }
+//
+//  char* res = storage + used;
+//  used += sz;
+//  return res;
+//}
 
 void print(char* ptr) {
     printf("%s", ptr + 8);
@@ -120,7 +137,7 @@ long __stringGe(char* ptr1, char* ptr2) {
 }
 
 long __arraySize(char* ptr) {
-    return *((long*)ptr);
+    return *((long*)(ptr - 8));
 }
 
 
