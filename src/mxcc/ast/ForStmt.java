@@ -6,7 +6,7 @@ public class ForStmt extends Stmt {
     public final Expr init;
     public final Expr cond;
     public final Expr step;
-    public final BlockStmt body;
+    public BlockStmt body;
 
     public ForStmt(Expr init, Expr cond, Expr step, BlockStmt body, Scope scope) {
         super(scope);

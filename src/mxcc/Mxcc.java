@@ -74,12 +74,19 @@ public class Mxcc {
 
     private void deleteIrrelevantArray() {
         for (Decl decl : ast.decls) {
-            if (decl instanceof ClassDecl) {
-                return;
-            }
+            if (decl instanceof ClassDecl) return;
         }
         IrrelevantArrayDeleter deleter = new IrrelevantArrayDeleter(ast);
         deleter.work();
+    }
+
+    // This makes scope invalid.
+    private void switchForAndIf() {
+        for (Decl decl : ast.decls) {
+            if (decl instanceof ClassDecl) return;
+        }
+        ForIfSwitcher switcher = new ForIfSwitcher(ast);
+        switcher.work();
     }
 
     private void buildIR() {
@@ -188,6 +195,7 @@ public class Mxcc {
         StackBuilder.visit(nasm);
     }
 
+    // This makes cfg of nasm invalid.
     private void scheduleJump() {
         JumpScheduler scheduler = new JumpScheduler(nasm);
         scheduler.work();
@@ -215,6 +223,7 @@ public class Mxcc {
         sematicCheck();
         deleteIrrelevantLoop();
         deleteIrrelevantArray();
+        switchForAndIf(); // This makes scope invalid.
         buildIR();
         if (Config.debugMode) printIR("a.ll");
         optim();
@@ -224,7 +233,7 @@ public class Mxcc {
         if (Config.debugMode) printNasm("a_unallocated.asm");
         allocateRegister();
         buildStack();
-        scheduleJump();
+        scheduleJump(); // This makes cfg of nasm invalid.
         if (Config.debugMode) printNasm("a.asm");
         if (!Config.debugMode) printNasm(null);
     }

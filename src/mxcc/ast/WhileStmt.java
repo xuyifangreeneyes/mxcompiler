@@ -4,7 +4,7 @@ import mxcc.symbol.Scope;
 
 public class WhileStmt extends Stmt {
     public final Expr cond;
-    public final BlockStmt body;
+    public BlockStmt body;
 
     public WhileStmt(Expr cond, BlockStmt body, Scope scope) {
         super(scope);
