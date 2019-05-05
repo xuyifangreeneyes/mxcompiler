@@ -80,6 +80,12 @@ public class Mxcc {
         deleter.work();
     }
 
+    // This creates Identifier whose isLvalid is unset.
+    private void matchExprTree() {
+        ExprTreeMatcher matcher = new ExprTreeMatcher(ast);
+        matcher.work();
+    }
+
     // This makes scope invalid.
     private void switchForAndIf() {
         for (Decl decl : ast.decls) {
@@ -223,6 +229,7 @@ public class Mxcc {
         sematicCheck();
         deleteIrrelevantLoop();
         deleteIrrelevantArray();
+        matchExprTree(); // This creates Identifier whose isLvalid is unset.
         switchForAndIf(); // This makes scope invalid.
         buildIR();
         if (Config.debugMode) printIR("a.ll");

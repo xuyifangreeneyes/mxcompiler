@@ -51,6 +51,19 @@ user    0m1.128s
 sys     0m0.000s
 */
 
+/*
+schedule
+
+no match
+real    0m1.125s
+user    0m1.082s
+sys     0m0.000s
+match
+real    0m0.342s
+user    0m0.302s
+sys     0m0.000s
+*/
+
 
 /*!! metadata:
 === comment ===

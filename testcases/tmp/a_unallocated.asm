@@ -53,11 +53,11 @@ extern __printf_chk
 SECTION .text
 
 __globalInit:
-		mov     %local_r15, r15
-		mov     %local_r12, r12
 		mov     %local_r13, r13
-		mov     %local_r14, r14
+		mov     %local_r12, r12
+		mov     %local_r15, r15
 		mov     %local_rbx, rbx
+		mov     %local_r14, r14
 		mov     rdi, 96008
 		call    malloc
 		mov     %arrayPtr_0, rax
@@ -82,25 +82,25 @@ __globalInit:
 		mov     qword [%arrayPtr_12], 9
 		mov     %arrayBase_15, %arrayPtr_12
 		add     %arrayBase_15, 8
-		mov     qword [rel _dy], %arrayBase_15
 		mov     qword [rel _dx], %arrayBase_11
 		mov     qword [rel _xlist], %arrayBase_3
 		mov     qword [rel _ylist], %arrayBase_7
-		mov     r15, %local_r15
-		mov     r12, %local_r12
+		mov     qword [rel _dy], %arrayBase_15
 		mov     r13, %local_r13
-		mov     r14, %local_r14
+		mov     r12, %local_r12
+		mov     r15, %local_r15
 		mov     rbx, %local_rbx
+		mov     r14, %local_r14
 		ret     
 
 origin:
-		mov     %local_r15, r15
-		mov     %local_r12, r12
 		mov     %local_r13, r13
-		mov     %local_r14, r14
+		mov     %local_r12, r12
+		mov     %local_r15, r15
 		mov     %local_rbx, rbx
+		mov     %local_r14, r14
 		mov     %argVal_0, rdi
-		mov     %tmp_42, qword [rel _j]
+		mov     %tmp_45, qword [rel _j]
 		mov     %memberLength_4, %argVal_0
 		shl     %memberLength_4, 3
 		mov     %arrayLength_5, %memberLength_4
@@ -112,7 +112,7 @@ origin:
 		mov     %arrayBase_6, %arrayPtr_3
 		add     %arrayBase_6, 8
 		mov     %alloca_3, 0
-		mov     %alloca_2, %tmp_42
+		mov     %alloca_2, %tmp_45
 __L_1:
 		mov     %varDef_61, %alloca_3
 		mov     %varDef_62, %alloca_2
@@ -161,24 +161,24 @@ __L_5:
 		mov     %alloca_2, %varDef_64
 		jmp     __L_1
 __L_2:
-		mov     qword [rel _i], %varDef_61
-		mov     qword [rel _j], %varDef_62
 		mov     qword [rel _tail], 0
-		mov     qword [rel _step], %arrayBase_6
+		mov     qword [rel _i], %varDef_61
 		mov     qword [rel _head], 0
-		mov     r15, %local_r15
-		mov     r12, %local_r12
+		mov     qword [rel _step], %arrayBase_6
+		mov     qword [rel _j], %varDef_62
 		mov     r13, %local_r13
-		mov     r14, %local_r14
+		mov     r12, %local_r12
+		mov     r15, %local_r15
 		mov     rbx, %local_rbx
+		mov     r14, %local_r14
 		ret     
 
 check:
-		mov     %local_r15, r15
-		mov     %local_r12, r12
 		mov     %local_r13, r13
-		mov     %local_r14, r14
+		mov     %local_r12, r12
+		mov     %local_r15, r15
 		mov     %local_rbx, rbx
+		mov     %local_r14, r14
 		mov     %argVal_0, rdi
 		mov     %tmp_10, qword [rel _N]
 		cmp     %argVal_0, %tmp_10
@@ -193,33 +193,33 @@ __L_7:
 		mov     %alloca_4, 0
 __L_10:
 		mov     %varDef_15, %alloca_4
-		mov     r15, %local_r15
-		mov     r12, %local_r12
 		mov     r13, %local_r13
-		mov     r14, %local_r14
+		mov     r12, %local_r12
+		mov     r15, %local_r15
 		mov     rbx, %local_rbx
+		mov     r14, %local_r14
 		mov     rax, %varDef_15
 		ret     
 
 addList:
-		mov     %local_r15, r15
-		mov     %local_r12, r12
 		mov     %local_r13, r13
-		mov     %local_r14, r14
+		mov     %local_r12, r12
+		mov     %local_r15, r15
 		mov     %local_rbx, rbx
+		mov     %local_r14, r14
 		mov     %argVal_0, rdi
 		mov     %argVal_2, rsi
-		mov     %tmp_83, qword [rel _targetx]
-		mov     %tmp_82, qword [rel _ylist]
-		mov     %tmp_81, qword [rel _ok]
-		mov     %tmp_80, qword [rel _tail]
-		mov     %tmp_79, qword [rel _step]
-		mov     %tmp_78, qword [rel _now]
-		mov     %tmp_77, qword [rel _N]
-		mov     %tmp_76, qword [rel _xlist]
-		mov     %tmp_75, qword [rel _targety]
+		mov     %tmp_83, qword [rel _step]
+		mov     %tmp_82, qword [rel _targetx]
+		mov     %tmp_81, qword [rel _ylist]
+		mov     %tmp_80, qword [rel _xlist]
+		mov     %tmp_79, qword [rel _ok]
+		mov     %tmp_78, qword [rel _targety]
+		mov     %tmp_77, qword [rel _tail]
+		mov     %tmp_76, qword [rel _N]
+		mov     %tmp_75, qword [rel _now]
 __L_11:
-		cmp     %argVal_0, %tmp_77
+		cmp     %argVal_0, %tmp_76
 		jge     __L_12
 __L_13:
 		cmp     %argVal_0, 0
@@ -234,32 +234,32 @@ __L_15:
 		cmp     %varDef_100, 0
 		jne     __L_16
 __L_17:
-		mov     %alloca_7, %tmp_80
-		mov     %alloca_6, %tmp_81
+		mov     %alloca_8, %tmp_77
+		mov     %alloca_7, %tmp_79
 		jmp     __L_18
 __L_16:
-		cmp     %argVal_2, %tmp_77
+		cmp     %argVal_2, %tmp_76
 		jge     __L_19
 __L_20:
 		cmp     %argVal_2, 0
 		jl      __L_19
 __L_21:
-		mov     %alloca_8, 1
+		mov     %alloca_6, 1
 		jmp     __L_22
 __L_19:
-		mov     %alloca_8, 0
+		mov     %alloca_6, 0
 __L_22:
-		mov     %varDef_105, %alloca_8
+		mov     %varDef_105, %alloca_6
 		cmp     %varDef_105, 0
 		jne     __L_23
 __L_24:
-		mov     %alloca_7, %tmp_80
-		mov     %alloca_6, %tmp_81
+		mov     %alloca_8, %tmp_77
+		mov     %alloca_7, %tmp_79
 		jmp     __L_18
 __L_23:
 		mov     %offset_10, %argVal_0
 		shl     %offset_10, 3
-		mov     %elementAddr_11, %tmp_79
+		mov     %elementAddr_11, %tmp_83
 		add     %elementAddr_11, %offset_10
 		mov     %arrayBase_12, qword [%elementAddr_11]
 		mov     %offset_14, %argVal_2
@@ -270,25 +270,25 @@ __L_23:
 		cmp     %elementVal_16, -1
 		je      __L_25
 __L_26:
-		mov     %alloca_7, %tmp_80
-		mov     %alloca_6, %tmp_81
+		mov     %alloca_8, %tmp_77
+		mov     %alloca_7, %tmp_79
 		jmp     __L_18
 __L_25:
-		mov     %newVal_21, %tmp_80
+		mov     %newVal_21, %tmp_77
 		inc     %newVal_21
 		mov     %offset_25, %newVal_21
 		shl     %offset_25, 3
-		mov     %elementAddr_26, %tmp_76
+		mov     %elementAddr_26, %tmp_80
 		add     %elementAddr_26, %offset_25
 		mov     qword [%elementAddr_26], %argVal_0
-		mov     %elementAddr_31, %tmp_82
+		mov     %elementAddr_31, %tmp_81
 		add     %elementAddr_31, %offset_25
 		mov     qword [%elementAddr_31], %argVal_2
-		mov     %res_33, %tmp_78
+		mov     %res_33, %tmp_75
 		add     %res_33, 1
 		mov     %offset_36, %argVal_0
 		shl     %offset_36, 3
-		mov     %elementAddr_37, %tmp_79
+		mov     %elementAddr_37, %tmp_83
 		add     %elementAddr_37, %offset_36
 		mov     %arrayBase_38, qword [%elementAddr_37]
 		mov     %offset_40, %argVal_2
@@ -296,50 +296,50 @@ __L_25:
 		mov     %elementAddr_41, %arrayBase_38
 		add     %elementAddr_41, %offset_40
 		mov     qword [%elementAddr_41], %res_33
-		cmp     %argVal_0, %tmp_83
+		cmp     %argVal_0, %tmp_82
 		je      __L_27
 __L_28:
-		mov     %alloca_7, %newVal_21
-		mov     %alloca_6, %tmp_81
+		mov     %alloca_8, %newVal_21
+		mov     %alloca_7, %tmp_79
 		jmp     __L_18
 __L_27:
-		cmp     %argVal_2, %tmp_75
+		cmp     %argVal_2, %tmp_78
 		je      __L_29
 __L_30:
-		mov     %alloca_7, %newVal_21
-		mov     %alloca_6, %tmp_81
+		mov     %alloca_8, %newVal_21
+		mov     %alloca_7, %tmp_79
 		jmp     __L_18
 __L_29:
-		mov     %alloca_7, %newVal_21
-		mov     %alloca_6, 1
+		mov     %alloca_8, %newVal_21
+		mov     %alloca_7, 1
 __L_18:
-		mov     %varDef_112, %alloca_7
-		mov     %varDef_113, %alloca_6
+		mov     %varDef_112, %alloca_8
+		mov     %varDef_113, %alloca_7
 		mov     qword [rel _tail], %varDef_112
 		mov     qword [rel _ok], %varDef_113
-		mov     r15, %local_r15
-		mov     r12, %local_r12
 		mov     r13, %local_r13
-		mov     r14, %local_r14
+		mov     r12, %local_r12
+		mov     r15, %local_r15
 		mov     rbx, %local_rbx
+		mov     r14, %local_r14
 		ret     
 
 main:
-		mov     %local_r15, r15
-		mov     %local_r12, r12
 		mov     %local_r13, r13
-		mov     %local_r14, r14
+		mov     %local_r12, r12
+		mov     %local_r15, r15
 		mov     %local_rbx, rbx
+		mov     %local_r14, r14
 		call    __globalInit
-		mov     %tmp_266, qword [rel _ylist]
-		mov     %tmp_264, qword [rel _j]
-		mov     %tmp_263, qword [rel _x]
-		mov     %tmp_261, qword [rel _dx]
-		mov     %tmp_260, qword [rel _y]
-		mov     %tmp_259, qword [rel _dy]
-		mov     %tmp_257, qword [rel _ok]
-		mov     %tmp_255, qword [rel _now]
-		mov     %tmp_253, qword [rel _xlist]
+		mov     %tmp_268, qword [rel _dy]
+		mov     %tmp_267, qword [rel _y]
+		mov     %tmp_266, qword [rel _x]
+		mov     %tmp_262, qword [rel _now]
+		mov     %tmp_261, qword [rel _j]
+		mov     %tmp_258, qword [rel _ylist]
+		mov     %tmp_257, qword [rel _xlist]
+		mov     %tmp_256, qword [rel _ok]
+		mov     %tmp_255, qword [rel _dx]
 __L_31:
 		mov     rdi, 856
 		call    malloc
@@ -347,12 +347,12 @@ __L_31:
 		mov     qword [%carrayPtr_142], 106
 		mov     %carrayBase_143, %carrayPtr_142
 		add     %carrayBase_143, 8
-		mov     %alloca_37, 0
-		mov     %alloca_36, %tmp_264
+		mov     %alloca_17, %tmp_261
+		mov     %alloca_16, 0
 __L_32:
-		mov     %varDef_302, %alloca_37
-		mov     %varDef_303, %alloca_36
-		cmp     %varDef_302, 106
+		mov     %varDef_302, %alloca_17
+		mov     %varDef_303, %alloca_16
+		cmp     %varDef_303, 106
 		jge     __L_33
 __L_34:
 		mov     rdi, 856
@@ -361,18 +361,18 @@ __L_34:
 		mov     qword [%carrayPtr_150], 106
 		mov     %carrayBase_151, %carrayPtr_150
 		add     %carrayBase_151, 8
-		mov     %coffset_154, %varDef_302
+		mov     %coffset_154, %varDef_303
 		shl     %coffset_154, 3
 		mov     %celementAddr_155, %carrayBase_143
 		add     %celementAddr_155, %coffset_154
 		mov     qword [%celementAddr_155], %carrayBase_151
-		mov     %alloca_27, 0
+		mov     %alloca_41, 0
 __L_35:
-		mov     %varDef_305, %alloca_27
+		mov     %varDef_305, %alloca_41
 		cmp     %varDef_305, 106
 		jge     __L_36
 __L_37:
-		mov     %coffset_161, %varDef_302
+		mov     %coffset_161, %varDef_303
 		shl     %coffset_161, 3
 		mov     %celementAddr_162, %carrayBase_143
 		add     %celementAddr_162, %coffset_161
@@ -384,34 +384,34 @@ __L_37:
 		mov     qword [%celementAddr_166], 0
 		mov     %cnewVal_169, %varDef_305
 		inc     %cnewVal_169
-		mov     %alloca_27, %cnewVal_169
+		mov     %alloca_41, %cnewVal_169
 		jmp     __L_35
 __L_36:
-		mov     %cnewVal_172, %varDef_302
+		mov     %cnewVal_172, %varDef_303
 		inc     %cnewVal_172
-		mov     %alloca_37, %cnewVal_172
-		mov     %alloca_36, %varDef_305
+		mov     %alloca_17, %varDef_305
+		mov     %alloca_16, %cnewVal_172
 		jmp     __L_32
 __L_33:
 		call    getInt
 		mov     %res_0, rax
 		mov     %res_2, %res_0
 		sub     %res_2, 1
-		mov     %alloca_29, 0
-		mov     %alloca_28, %varDef_303
+		mov     %alloca_35, %varDef_302
+		mov     %alloca_34, 0
 __L_38:
-		mov     %varDef_312, %alloca_29
-		mov     %varDef_313, %alloca_28
-		cmp     %varDef_312, %res_0
+		mov     %varDef_312, %alloca_35
+		mov     %varDef_313, %alloca_34
+		cmp     %varDef_313, %res_0
 		jge     __L_39
 __L_40:
-		mov     %alloca_35, 0
+		mov     %alloca_42, 0
 __L_41:
-		mov     %varDef_315, %alloca_35
+		mov     %varDef_315, %alloca_42
 		cmp     %varDef_315, %res_0
 		jge     __L_42
 __L_43:
-		mov     %offset_13, %varDef_312
+		mov     %offset_13, %varDef_313
 		shl     %offset_13, 3
 		mov     %elementAddr_14, %carrayBase_143
 		add     %elementAddr_14, %offset_13
@@ -423,111 +423,111 @@ __L_43:
 		mov     qword [%elementAddr_18], -1
 		mov     %newVal_21, %varDef_315
 		inc     %newVal_21
-		mov     %alloca_35, %newVal_21
+		mov     %alloca_42, %newVal_21
 		jmp     __L_41
 __L_42:
-		mov     %newVal_24, %varDef_312
+		mov     %newVal_24, %varDef_313
 		inc     %newVal_24
-		mov     %alloca_29, %newVal_24
-		mov     %alloca_28, %varDef_315
+		mov     %alloca_35, %varDef_315
+		mov     %alloca_34, %newVal_24
 		jmp     __L_38
 __L_39:
-		mov     %elementAddr_28, %tmp_261
+		mov     %elementAddr_28, %tmp_255
 		add     %elementAddr_28, 0
 		mov     qword [%elementAddr_28], -2
-		mov     %elementAddr_32, %tmp_259
+		mov     %elementAddr_32, %tmp_268
 		add     %elementAddr_32, 0
 		mov     qword [%elementAddr_32], -1
-		mov     %elementAddr_36, %tmp_261
+		mov     %elementAddr_36, %tmp_255
 		add     %elementAddr_36, 8
 		mov     qword [%elementAddr_36], -2
-		mov     %elementAddr_39, %tmp_259
+		mov     %elementAddr_39, %tmp_268
 		add     %elementAddr_39, 8
 		mov     qword [%elementAddr_39], 1
-		mov     %elementAddr_42, %tmp_261
+		mov     %elementAddr_42, %tmp_255
 		add     %elementAddr_42, 16
 		mov     qword [%elementAddr_42], 2
-		mov     %elementAddr_46, %tmp_259
+		mov     %elementAddr_46, %tmp_268
 		add     %elementAddr_46, 16
 		mov     qword [%elementAddr_46], -1
-		mov     %elementAddr_49, %tmp_261
+		mov     %elementAddr_49, %tmp_255
 		add     %elementAddr_49, 24
 		mov     qword [%elementAddr_49], 2
-		mov     %elementAddr_52, %tmp_259
+		mov     %elementAddr_52, %tmp_268
 		add     %elementAddr_52, 24
 		mov     qword [%elementAddr_52], 1
-		mov     %elementAddr_56, %tmp_261
+		mov     %elementAddr_56, %tmp_255
 		add     %elementAddr_56, 32
 		mov     qword [%elementAddr_56], -1
-		mov     %elementAddr_60, %tmp_259
+		mov     %elementAddr_60, %tmp_268
 		add     %elementAddr_60, 32
 		mov     qword [%elementAddr_60], -2
-		mov     %elementAddr_64, %tmp_261
+		mov     %elementAddr_64, %tmp_255
 		add     %elementAddr_64, 40
 		mov     qword [%elementAddr_64], -1
-		mov     %elementAddr_67, %tmp_259
+		mov     %elementAddr_67, %tmp_268
 		add     %elementAddr_67, 40
 		mov     qword [%elementAddr_67], 2
-		mov     %elementAddr_70, %tmp_261
+		mov     %elementAddr_70, %tmp_255
 		add     %elementAddr_70, 48
 		mov     qword [%elementAddr_70], 1
-		mov     %elementAddr_74, %tmp_259
+		mov     %elementAddr_74, %tmp_268
 		add     %elementAddr_74, 48
 		mov     qword [%elementAddr_74], -2
-		mov     %elementAddr_77, %tmp_261
+		mov     %elementAddr_77, %tmp_255
 		add     %elementAddr_77, 56
 		mov     qword [%elementAddr_77], 1
-		mov     %elementAddr_80, %tmp_259
+		mov     %elementAddr_80, %tmp_268
 		add     %elementAddr_80, 56
 		mov     qword [%elementAddr_80], 2
-		mov     %alloca_53, 0
-		mov     %alloca_52, 0
-		mov     %alloca_51, 0
-		mov     %alloca_50, 0
-		mov     %alloca_49, 0
-		mov     %alloca_48, 0
-		mov     %alloca_47, 0
-		mov     %alloca_46, 0
-		mov     %alloca_45, %tmp_255
-		mov     %alloca_44, 0
-		mov     %alloca_43, %tmp_257
-		mov     %alloca_42, %tmp_260
-		mov     %alloca_41, %tmp_263
-		mov     %alloca_40, %varDef_313
-		mov     %alloca_39, 0
+		mov     %alloca_32, 0
+		mov     %alloca_31, 0
+		mov     %alloca_30, 0
+		mov     %alloca_29, 0
+		mov     %alloca_28, 0
+		mov     %alloca_27, 0
+		mov     %alloca_26, 0
+		mov     %alloca_25, 0
+		mov     %alloca_24, 0
+		mov     %alloca_23, %tmp_256
+		mov     %alloca_22, 0
+		mov     %alloca_21, %varDef_312
+		mov     %alloca_20, %tmp_262
+		mov     %alloca_19, %tmp_266
+		mov     %alloca_18, %tmp_267
 __L_44:
-		mov     %varDef_318, %alloca_53
-		mov     %varDef_319, %alloca_52
-		mov     %varDef_320, %alloca_51
-		mov     %varDef_321, %alloca_50
-		mov     %varDef_322, %alloca_49
-		mov     %varDef_323, %alloca_48
-		mov     %varDef_324, %alloca_47
-		mov     %varDef_325, %alloca_46
-		mov     %varDef_326, %alloca_45
-		mov     %varDef_327, %alloca_44
-		mov     %varDef_328, %alloca_43
-		mov     %varDef_329, %alloca_42
-		mov     %varDef_330, %alloca_41
-		mov     %varDef_331, %alloca_40
-		mov     %varDef_332, %alloca_39
-		cmp     %varDef_332, %varDef_327
+		mov     %varDef_318, %alloca_32
+		mov     %varDef_319, %alloca_31
+		mov     %varDef_320, %alloca_30
+		mov     %varDef_321, %alloca_29
+		mov     %varDef_322, %alloca_28
+		mov     %varDef_323, %alloca_27
+		mov     %varDef_324, %alloca_26
+		mov     %varDef_325, %alloca_25
+		mov     %varDef_326, %alloca_24
+		mov     %varDef_327, %alloca_23
+		mov     %varDef_328, %alloca_22
+		mov     %varDef_329, %alloca_21
+		mov     %varDef_330, %alloca_20
+		mov     %varDef_331, %alloca_19
+		mov     %varDef_332, %alloca_18
+		cmp     %varDef_328, %varDef_326
 		jle     __L_45
 __L_46:
-		mov     %alloca_26, %varDef_326
-		mov     %alloca_25, %varDef_327
-		mov     %alloca_24, %varDef_328
-		mov     %alloca_23, %varDef_329
-		mov     %alloca_22, %varDef_330
-		mov     %alloca_21, %varDef_331
+		mov     %alloca_14, %varDef_326
+		mov     %alloca_13, %varDef_327
+		mov     %alloca_12, %varDef_329
+		mov     %alloca_11, %varDef_330
+		mov     %alloca_10, %varDef_331
+		mov     %alloca_9, %varDef_332
 		jmp     __L_47
 __L_45:
-		mov     %offset_86, %varDef_332
+		mov     %offset_86, %varDef_328
 		shl     %offset_86, 3
-		mov     %elementAddr_87, %tmp_253
+		mov     %elementAddr_87, %tmp_257
 		add     %elementAddr_87, %offset_86
 		mov     %elementVal_88, qword [%elementAddr_87]
-		mov     %elementAddr_92, %tmp_266
+		mov     %elementAddr_92, %tmp_258
 		add     %elementAddr_92, %offset_86
 		mov     %elementVal_93, qword [%elementAddr_92]
 		mov     %offset_96, %elementVal_88
@@ -540,40 +540,40 @@ __L_45:
 		mov     %elementAddr_101, %arrayBase_98
 		add     %elementAddr_101, %offset_100
 		mov     %elementVal_102, qword [%elementAddr_101]
-		mov     %alloca_19, %varDef_318
-		mov     %alloca_18, %varDef_319
-		mov     %alloca_17, %varDef_320
-		mov     %alloca_16, %varDef_321
-		mov     %alloca_15, %varDef_322
-		mov     %alloca_14, %varDef_323
-		mov     %alloca_13, %varDef_324
-		mov     %alloca_12, %varDef_325
-		mov     %alloca_11, %varDef_327
-		mov     %alloca_10, %varDef_328
-		mov     %alloca_9, 0
+		mov     %alloca_53, %varDef_318
+		mov     %alloca_52, %varDef_319
+		mov     %alloca_51, %varDef_320
+		mov     %alloca_50, %varDef_321
+		mov     %alloca_49, %varDef_322
+		mov     %alloca_48, %varDef_323
+		mov     %alloca_47, %varDef_324
+		mov     %alloca_46, %varDef_325
+		mov     %alloca_45, %varDef_326
+		mov     %alloca_44, %varDef_327
+		mov     %alloca_43, 0
 __L_48:
-		mov     %varDef_337, %alloca_19
-		mov     %varDef_338, %alloca_18
-		mov     %varDef_339, %alloca_17
-		mov     %varDef_340, %alloca_16
-		mov     %varDef_341, %alloca_15
-		mov     %varDef_342, %alloca_14
-		mov     %varDef_343, %alloca_13
-		mov     %varDef_344, %alloca_12
-		mov     %varDef_345, %alloca_11
-		mov     %varDef_346, %alloca_10
-		mov     %varDef_347, %alloca_9
+		mov     %varDef_337, %alloca_53
+		mov     %varDef_338, %alloca_52
+		mov     %varDef_339, %alloca_51
+		mov     %varDef_340, %alloca_50
+		mov     %varDef_341, %alloca_49
+		mov     %varDef_342, %alloca_48
+		mov     %varDef_343, %alloca_47
+		mov     %varDef_344, %alloca_46
+		mov     %varDef_345, %alloca_45
+		mov     %varDef_346, %alloca_44
+		mov     %varDef_347, %alloca_43
 		cmp     %varDef_347, 8
 		jge     __L_49
 __L_50:
 		mov     %offset_108, %varDef_347
 		shl     %offset_108, 3
-		mov     %elementAddr_109, %tmp_261
+		mov     %elementAddr_109, %tmp_255
 		add     %elementAddr_109, %offset_108
 		mov     %elementVal_110, qword [%elementAddr_109]
 		mov     %res_111, %elementVal_88
 		add     %res_111, %elementVal_110
-		mov     %elementAddr_116, %tmp_259
+		mov     %elementAddr_116, %tmp_268
 		add     %elementAddr_116, %offset_108
 		mov     %elementVal_117, qword [%elementAddr_116]
 		mov     %res_118, %elementVal_93
@@ -584,20 +584,20 @@ __L_52:
 		cmp     %res_111, 0
 		jl      __L_51
 __L_53:
-		mov     %alloca_38, 1
+		mov     %alloca_33, 1
 		jmp     __L_54
 __L_51:
-		mov     %alloca_38, 0
+		mov     %alloca_33, 0
 __L_54:
-		mov     %varDef_353, %alloca_38
+		mov     %varDef_353, %alloca_33
 		cmp     %varDef_353, 0
 		jne     __L_55
 __L_56:
-		mov     %alloca_34, %varDef_342
-		mov     %alloca_33, %varDef_343
-		mov     %alloca_32, %varDef_344
-		mov     %alloca_31, %varDef_345
-		mov     %alloca_30, %varDef_346
+		mov     %alloca_40, %varDef_342
+		mov     %alloca_39, %varDef_343
+		mov     %alloca_38, %varDef_344
+		mov     %alloca_37, %varDef_345
+		mov     %alloca_36, %varDef_346
 		jmp     __L_57
 __L_55:
 		cmp     %res_118, %res_0
@@ -606,20 +606,20 @@ __L_59:
 		cmp     %res_118, 0
 		jl      __L_58
 __L_60:
-		mov     %alloca_20, 1
+		mov     %alloca_15, 1
 		jmp     __L_61
 __L_58:
-		mov     %alloca_20, 0
+		mov     %alloca_15, 0
 __L_61:
-		mov     %varDef_358, %alloca_20
+		mov     %varDef_358, %alloca_15
 		cmp     %varDef_358, 0
 		jne     __L_62
 __L_63:
-		mov     %alloca_34, %varDef_358
-		mov     %alloca_33, %varDef_358
-		mov     %alloca_32, %res_118
-		mov     %alloca_31, %varDef_345
-		mov     %alloca_30, %varDef_346
+		mov     %alloca_40, %varDef_358
+		mov     %alloca_39, %varDef_358
+		mov     %alloca_38, %res_118
+		mov     %alloca_37, %varDef_345
+		mov     %alloca_36, %varDef_346
 		jmp     __L_57
 __L_62:
 		mov     %coffset_181, %res_111
@@ -635,21 +635,21 @@ __L_62:
 		cmp     %celementVal_187, -1
 		je      __L_64
 __L_65:
-		mov     %alloca_34, %varDef_358
-		mov     %alloca_33, %varDef_358
-		mov     %alloca_32, %res_118
-		mov     %alloca_31, %varDef_345
-		mov     %alloca_30, %varDef_346
+		mov     %alloca_40, %varDef_358
+		mov     %alloca_39, %varDef_358
+		mov     %alloca_38, %res_118
+		mov     %alloca_37, %varDef_345
+		mov     %alloca_36, %varDef_346
 		jmp     __L_57
 __L_64:
 		mov     %cnewVal_192, %varDef_345
 		inc     %cnewVal_192
 		mov     %coffset_196, %cnewVal_192
 		shl     %coffset_196, 3
-		mov     %celementAddr_197, %tmp_253
+		mov     %celementAddr_197, %tmp_257
 		add     %celementAddr_197, %coffset_196
 		mov     qword [%celementAddr_197], %res_111
-		mov     %celementAddr_202, %tmp_266
+		mov     %celementAddr_202, %tmp_258
 		add     %celementAddr_202, %coffset_196
 		mov     qword [%celementAddr_202], %res_118
 		mov     %cres_204, %elementVal_102
@@ -667,86 +667,86 @@ __L_64:
 		cmp     %res_111, %res_2
 		je      __L_66
 __L_67:
-		mov     %alloca_34, %varDef_358
-		mov     %alloca_33, %varDef_358
-		mov     %alloca_32, %res_118
-		mov     %alloca_31, %cnewVal_192
-		mov     %alloca_30, %varDef_346
+		mov     %alloca_40, %varDef_358
+		mov     %alloca_39, %varDef_358
+		mov     %alloca_38, %res_118
+		mov     %alloca_37, %cnewVal_192
+		mov     %alloca_36, %varDef_346
 		jmp     __L_57
 __L_66:
 		cmp     %res_118, %res_2
 		je      __L_68
 __L_69:
-		mov     %alloca_34, %varDef_358
-		mov     %alloca_33, %varDef_358
-		mov     %alloca_32, %res_118
-		mov     %alloca_31, %cnewVal_192
-		mov     %alloca_30, %varDef_346
+		mov     %alloca_40, %varDef_358
+		mov     %alloca_39, %varDef_358
+		mov     %alloca_38, %res_118
+		mov     %alloca_37, %cnewVal_192
+		mov     %alloca_36, %varDef_346
 		jmp     __L_57
 __L_68:
-		mov     %alloca_34, %varDef_358
-		mov     %alloca_33, %varDef_358
-		mov     %alloca_32, %res_118
-		mov     %alloca_31, %cnewVal_192
-		mov     %alloca_30, 1
+		mov     %alloca_40, %varDef_358
+		mov     %alloca_39, %varDef_358
+		mov     %alloca_38, %res_118
+		mov     %alloca_37, %cnewVal_192
+		mov     %alloca_36, 1
 __L_57:
-		mov     %varDef_362, %alloca_34
-		mov     %varDef_363, %alloca_33
-		mov     %varDef_364, %alloca_32
-		mov     %varDef_365, %alloca_31
-		mov     %varDef_366, %alloca_30
+		mov     %varDef_362, %alloca_40
+		mov     %varDef_363, %alloca_39
+		mov     %varDef_364, %alloca_38
+		mov     %varDef_365, %alloca_37
+		mov     %varDef_366, %alloca_36
 		mov     %newVal_121, %varDef_347
 		inc     %newVal_121
-		mov     %alloca_19, %res_118
-		mov     %alloca_18, %res_111
-		mov     %alloca_17, %varDef_353
-		mov     %alloca_16, %varDef_353
-		mov     %alloca_15, %res_111
-		mov     %alloca_14, %varDef_362
-		mov     %alloca_13, %varDef_363
-		mov     %alloca_12, %varDef_364
-		mov     %alloca_11, %varDef_365
-		mov     %alloca_10, %varDef_366
-		mov     %alloca_9, %newVal_121
+		mov     %alloca_53, %res_118
+		mov     %alloca_52, %res_111
+		mov     %alloca_51, %varDef_353
+		mov     %alloca_50, %varDef_353
+		mov     %alloca_49, %res_111
+		mov     %alloca_48, %varDef_362
+		mov     %alloca_47, %varDef_363
+		mov     %alloca_46, %varDef_364
+		mov     %alloca_45, %varDef_365
+		mov     %alloca_44, %varDef_366
+		mov     %alloca_43, %newVal_121
 		jmp     __L_48
 __L_49:
 		cmp     %varDef_346, 1
 		jne     __L_70
 __L_71:
-		mov     %alloca_26, %elementVal_102
-		mov     %alloca_25, %varDef_345
-		mov     %alloca_24, %varDef_346
-		mov     %alloca_23, %elementVal_93
-		mov     %alloca_22, %elementVal_88
-		mov     %alloca_21, %varDef_347
+		mov     %alloca_14, %varDef_345
+		mov     %alloca_13, %varDef_346
+		mov     %alloca_12, %varDef_347
+		mov     %alloca_11, %elementVal_102
+		mov     %alloca_10, %elementVal_88
+		mov     %alloca_9, %elementVal_93
 		jmp     __L_47
 __L_70:
-		mov     %newVal_126, %varDef_332
+		mov     %newVal_126, %varDef_328
 		inc     %newVal_126
-		mov     %alloca_53, %varDef_337
-		mov     %alloca_52, %varDef_338
-		mov     %alloca_51, %varDef_339
-		mov     %alloca_50, %varDef_340
-		mov     %alloca_49, %varDef_341
-		mov     %alloca_48, %varDef_342
-		mov     %alloca_47, %varDef_343
-		mov     %alloca_46, %varDef_344
-		mov     %alloca_45, %elementVal_102
-		mov     %alloca_44, %varDef_345
-		mov     %alloca_43, %varDef_346
-		mov     %alloca_42, %elementVal_93
-		mov     %alloca_41, %elementVal_88
-		mov     %alloca_40, %varDef_347
-		mov     %alloca_39, %newVal_126
+		mov     %alloca_32, %varDef_337
+		mov     %alloca_31, %varDef_338
+		mov     %alloca_30, %varDef_339
+		mov     %alloca_29, %varDef_340
+		mov     %alloca_28, %varDef_341
+		mov     %alloca_27, %varDef_342
+		mov     %alloca_26, %varDef_343
+		mov     %alloca_25, %varDef_344
+		mov     %alloca_24, %varDef_345
+		mov     %alloca_23, %varDef_346
+		mov     %alloca_22, %newVal_126
+		mov     %alloca_21, %varDef_347
+		mov     %alloca_20, %elementVal_102
+		mov     %alloca_19, %elementVal_88
+		mov     %alloca_18, %elementVal_93
 		jmp     __L_44
 __L_47:
-		mov     %varDef_377, %alloca_26
-		mov     %varDef_378, %alloca_25
-		mov     %varDef_379, %alloca_24
-		mov     %varDef_380, %alloca_23
-		mov     %varDef_381, %alloca_22
-		mov     %varDef_382, %alloca_21
-		cmp     %varDef_379, 1
+		mov     %varDef_377, %alloca_14
+		mov     %varDef_378, %alloca_13
+		mov     %varDef_379, %alloca_12
+		mov     %varDef_380, %alloca_11
+		mov     %varDef_381, %alloca_10
+		mov     %varDef_382, %alloca_9
+		cmp     %varDef_378, 1
 		jne     __L_72
 __L_73:
 		mov     %offset_131, %res_2
@@ -764,23 +764,23 @@ __L_72:
 		mov     rdi, __str_0
 		call    print
 __L_74:
-		mov     qword [rel _N], %res_0
-		mov     qword [rel _now], %varDef_377
-		mov     qword [rel _tail], %varDef_378
-		mov     qword [rel _ok], %varDef_379
+		mov     qword [rel _tail], %varDef_377
 		mov     qword [rel _targety], %res_2
-		mov     qword [rel _y], %varDef_380
-		mov     qword [rel _i], %varDef_312
-		mov     qword [rel _x], %varDef_381
-		mov     qword [rel _j], %varDef_382
+		mov     qword [rel _ok], %varDef_378
+		mov     qword [rel _head], %varDef_328
 		mov     qword [rel _step], %carrayBase_143
+		mov     qword [rel _j], %varDef_379
+		mov     qword [rel _now], %varDef_380
+		mov     qword [rel _N], %res_0
 		mov     qword [rel _targetx], %res_2
-		mov     qword [rel _head], %varDef_332
-		mov     r15, %local_r15
-		mov     r12, %local_r12
+		mov     qword [rel _i], %varDef_313
+		mov     qword [rel _x], %varDef_381
+		mov     qword [rel _y], %varDef_382
 		mov     r13, %local_r13
-		mov     r14, %local_r14
+		mov     r12, %local_r12
+		mov     r15, %local_r15
 		mov     rbx, %local_rbx
+		mov     r14, %local_r14
 		mov     rax, 0
 		ret     
 

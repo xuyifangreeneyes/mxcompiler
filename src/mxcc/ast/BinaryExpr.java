@@ -12,8 +12,8 @@ public class BinaryExpr extends Expr {
     }
 
     public final BinaryOp op;
-    public final Expr left;
-    public final Expr right;
+    public Expr left;
+    public Expr right;
 
     public BinaryExpr(BinaryOp op, Expr left, Expr right, Scope scope) {
         super(scope);
