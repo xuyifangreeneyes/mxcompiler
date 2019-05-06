@@ -25,10 +25,6 @@ public class IrrelevantLoopDeleter extends AstBaseVisitor {
 
     public void visit(Program node) {
         for (Decl decl : node.decls) {
-            if (decl instanceof ClassDecl) return;
-        }
-        // For now I only consider the case where there is no class.
-        for (Decl decl : node.decls) {
             if (decl instanceof VariableDecl) {
                 continue;
             }
@@ -49,12 +45,12 @@ public class IrrelevantLoopDeleter extends AstBaseVisitor {
     }
 
     public void visit(ClassDecl node) {
-//        for (Decl decl : node.decls) {
-//            if (decl instanceof VariableDecl) {
-//                continue;
-//            }
-//            visit(decl);
-//        }
+        for (Decl decl : node.decls) {
+            if (decl instanceof VariableDecl) {
+                continue;
+            }
+            visit(decl);
+        }
     }
 
     private void takeVar(VariableSymbol var) {
@@ -142,7 +138,7 @@ public class IrrelevantLoopDeleter extends AstBaseVisitor {
 
     public void visit(FunctionCall node) {
         neededLoops.addAll(curLoops);
-//        visit(node.caller);
+        visit(node.caller);
         for (Expr arg : node.args) {
             visit(arg);
         }
@@ -154,7 +150,9 @@ public class IrrelevantLoopDeleter extends AstBaseVisitor {
     }
 
     public void visit(MemberAccess node) {
-        assert false;
+        neededLoops.addAll(curLoops);
+        visit(node.container);
+        visit(node.member);
     }
 
     public void visit(NewExpr node) {
@@ -165,8 +163,11 @@ public class IrrelevantLoopDeleter extends AstBaseVisitor {
     }
 
     public void visit(IdentifierExpr node) {
-        assert node.var instanceof VariableSymbol;
-        takeVar((VariableSymbol) node.var);
+        if (node.var instanceof VariableSymbol) {
+            takeVar((VariableSymbol) node.var);
+        } else {
+            neededLoops.addAll(curLoops);
+        }
     }
 
     public void visit(IntConst node) {
@@ -184,44 +185,6 @@ public class IrrelevantLoopDeleter extends AstBaseVisitor {
     public void visit(NullLiteral node) {
 
     }
-
-//    private static class LoopCollector extends AstBaseVisitor {
-//        private Set<Stmt> loops = new HashSet<>();
-//
-//        public LoopCollector() {
-//
-//        }
-//
-//        public Set<Stmt> work(FunctionDecl node) {
-//            visit(node);
-//            return loops;
-//        }
-//
-//        public void visit(FunctionDecl node) {
-//            node.stmts.forEach(this::visit);
-//        }
-//
-//        public void visit(BlockStmt node) {
-//            node.stmts.forEach(this::visit);
-//        }
-//
-//        public void visit(IfStmt node) {
-//            visit(node.then);
-//            visit(node.otherwise);
-//        }
-//
-//        public void visit(ForStmt node) {
-//            loops.add(node);
-//            visit(node.body);
-//        }
-//
-//        public void visit(WhileStmt node) {
-//            loops.add(node);
-//            visit(node.body);
-//        }
-//
-//
-//    }
 
 
     private static class LoopDeleter extends AstBaseVisitor {
