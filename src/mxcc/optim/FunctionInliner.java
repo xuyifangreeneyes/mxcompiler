@@ -26,12 +26,17 @@ public class FunctionInliner {
     }
 
     public void run() {
+        int counter = 0;
         for (int i = 0; i < 3; ++i) {
             for (Call callInst : collectInlineCall()) {
                 Transplantor transplantor = new Transplantor(callInst, funcBackupMap.get(callInst.getFunc().IRFunc));
                 transplantor.fork();
+                ++counter;
+                if (counter > 30) break;
             }
+            if (counter > 30) break;
         }
+//        System.out.println(counter);
     }
 
     private List<Call> collectInlineCall() {
