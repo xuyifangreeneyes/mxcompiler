@@ -163,6 +163,7 @@ public class Mxcc {
 //        if (Config.debugMode) printIR("a_memorize.ll");
         eliminateConstGlobalReg();
         functionInline();
+//        if (Config.debugMode) printIR("a_inline.ll");
         promoteGlobalReg();
         if (Config.debugMode) printIR("a_global.ll");
         CFGSimplifier.visit(ir);

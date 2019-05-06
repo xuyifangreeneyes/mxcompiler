@@ -185,32 +185,33 @@ __stringLength:
 ALIGN   16
 
 __stringSubstring:
-        push    r13
         sub     rdx, rsi
+        push    r14
+        mov     r14, rdi
+        push    r13
+        lea     rdi, [rdx+0AH]
         push    r12
+        lea     r12, [rdx+1H]
         push    rbp
         push    rbx
-        mov     r13, rdi
-        lea     rdi, [rdx+9H]
+        mov     r13, rsi
         mov     rbx, rdx
-        mov     r12, rsi
-        sub     rsp, 8
         call    malloc
-        test    rbx, rbx
+        test    r12, r12
         mov     rbp, rax
-        mov     qword [rax], rbx
+        mov     qword [rax], r12
         jle     L_004
         lea     rdi, [rax+8H]
-        lea     rsi, [r13+r12+8H]
-        mov     rdx, rbx
+        lea     rsi, [r14+r13+8H]
+        mov     rdx, r12
         call    memcpy
-L_004:  mov     byte [rbp+rbx+8H], 0
-        add     rsp, 8
+L_004:  mov     byte [rbp+rbx+9H], 0
         mov     rax, rbp
         pop     rbx
         pop     rbp
         pop     r12
         pop     r13
+        pop     r14
         ret
 
 

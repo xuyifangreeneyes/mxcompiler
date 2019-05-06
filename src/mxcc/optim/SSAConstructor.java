@@ -32,6 +32,7 @@ public class SSAConstructor extends Pass {
         preprocess();
         insertPhiFunction();
         renameVariables();
+        postProcess();
     }
 
     private void preprocess() {
@@ -132,6 +133,96 @@ public class SSAConstructor extends Pass {
         }
         reachingDef.putAll(changedReachingDef);
     }
+
+    private void postProcess() {
+        collectDefUseRelation();
+        removeUselessPhi();
+    }
+
+    private void removeUselessPhi() {
+        LinkedList<Phi> workList = collectPhi();
+        Set<Phi> workSet = new HashSet<>(workList);
+        while (!workList.isEmpty()) {
+            Phi phi = workList.poll();
+            workSet.remove(phi);
+            if (deleteSelfSource(phi)) {
+                continue;
+            }
+            List<Phi> phiList = getRealSource(phi);
+            if (phiList != null) {
+                for (Phi other : phiList) {
+                    if (workSet.contains(other)) continue;
+                    workList.add(other);
+                    workSet.add(other);
+                }
+            }
+        }
+    }
+
+    private List<Phi> getRealSource(Phi phi) {
+        if (phi.getAllSource().size() != 2) return null;
+        LocalReg dst = phi.getDst();
+        IntImmediate fake = null;
+        LocalReg real = null;
+        for (Operand operand : phi.getAllSource().values()) {
+            if (operand instanceof IntImmediate) {
+                fake = (IntImmediate) operand;
+                assert fake.getVal() == 0;
+            } else {
+                assert operand instanceof LocalReg;
+                if (real != dst) {
+                    real = (LocalReg) operand;
+                }
+            }
+        }
+        if (fake == null || real == null) return null;
+        List<Phi> phiList = new ArrayList<>();
+        useMap.get(real).remove(phi);
+        for (Instruction inst : useMap.get(dst)) {
+            inst.replaceOperand(dst, real);
+            useMap.get(real).add(inst);
+            if (inst instanceof Phi) {
+                phiList.add((Phi) inst);
+            }
+        }
+        defMap.remove(dst);
+        useMap.remove(dst);
+        phi.delete();
+        return phiList;
+    }
+
+    private boolean deleteSelfSource(Phi phi) {
+        if (phi.getAllSource().size() != 2) return false;
+        LocalReg dst = phi.getDst();
+        if (!phi.getAllSource().values().contains(dst) || useMap.get(dst).size() != 1) return false;
+        assert useMap.get(dst).contains(phi);
+        for (Operand operand : phi.getAllSource().values()) {
+            if (operand == dst) continue;
+            assert operand instanceof LocalReg;
+            useMap.get(operand).remove(phi);
+        }
+        defMap.remove(dst);
+        useMap.remove(dst);
+        phi.delete();
+        return true;
+    }
+
+    private LinkedList<Phi> collectPhi() {
+        LinkedList<Phi> workList= new LinkedList<>();
+        BasicBlock bb = irFunc.getStartBB();
+        while (bb != null) {
+            Instruction inst = bb.getFirstInst();
+            while (inst != null) {
+                if (inst instanceof Phi) {
+                    workList.add((Phi) inst);
+                }
+                inst = inst.next;
+            }
+            bb = bb.next;
+        }
+        return workList;
+    }
+
 
     private Set<BasicBlock> getDefBBs(LocalReg varAddr) {
         Set<BasicBlock> defBBs = new HashSet<>();

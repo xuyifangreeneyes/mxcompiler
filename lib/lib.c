@@ -71,7 +71,7 @@ long __stringLength(char* ptr) {
 }
 
 char* __stringSubstring(char* ptr, long left, long right) {
-    long length = right - left;
+    long length = right - left + 1;
     char* sptr = malloc(8 + length + 1);
     *((long*)sptr) = length;
     for (int i = 0; i < length; ++i)
