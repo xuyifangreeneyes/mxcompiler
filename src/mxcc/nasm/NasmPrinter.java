@@ -131,7 +131,8 @@ public class NasmPrinter implements NasmVisitor {
     }
 
     public void visit(Cqo inst) {
-        addLine("cqo");
+//        addLine("cqo");
+        addLine("cdq");
     }
 
     public void visit(FuncCall inst) {
@@ -139,7 +140,21 @@ public class NasmPrinter implements NasmVisitor {
     }
 
     public void visit(Idiv inst) {
-        addLine("idiv", dump(inst.getDivisor()));
+//        addLine("idiv", dump(inst.getDivisor()));
+        String divisor = dump(inst.getDivisor());
+        if (divisor.startsWith("qword")) {
+            divisor = divisor.replace("qword", "dword");
+        } else {
+            switch (divisor) {
+                case "rax": case "rcx": case "rdx": case "rbx":
+                case "rsp": case "rbp": case "rsi": case "rdi":
+                    divisor = divisor.replace("r", "e");
+                    break;
+                default:
+                    divisor = divisor + "d"; break;
+            }
+        }
+        addLine("idiv", divisor);
     }
 
     public void visit(Jmp inst) {

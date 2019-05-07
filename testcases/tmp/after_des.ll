@@ -136,33 +136,33 @@ define main ( ) {
 	%tmp_116 = load @a8
 	%tmp_114 = load @b0
 	%res_2 = getInt ( )
+	mov %varDef_194 %tmp_121
+	mov %varDef_186 0
+	mov %varDef_199 %tmp_126
+	mov %varDef_205 %tmp_132
+	mov %varDef_196 %tmp_123
+	mov %varDef_203 %tmp_130
+	mov %varDef_191 %tmp_118
+	mov %varDef_189 %tmp_116
+	mov %varDef_190 %tmp_117
+	mov %varDef_208 %tmp_135
+	mov %varDef_187 %tmp_114
+	mov %varDef_204 %tmp_131
+	mov %varDef_207 %tmp_134
+	mov %varDef_192 %tmp_119
+	mov %varDef_200 %tmp_127
+	mov %varDef_197 %tmp_124
+	mov %varDef_195 %tmp_122
+	mov %varDef_198 %tmp_125
+	mov %varDef_202 %tmp_129
+	mov %varDef_209 %tmp_136
+	mov %varDef_206 %tmp_133
+	mov %varDef_193 %tmp_120
+	mov %varDef_188 0
+	mov %varDef_201 %tmp_128
 	br <1>
 
 <1> for_cond
-	%varDef_186 = phi <0> 0 <3> %varDef_233
-	%varDef_187 = phi <0> %tmp_114 <3> %res_7
-	%varDef_188 = phi <0> 0 <3> %res_89
-	%varDef_189 = phi <0> %tmp_116 <3> %res_17
-	%varDef_190 = phi <0> %tmp_117 <3> %res_15
-	%varDef_191 = phi <0> %tmp_118 <3> %res_15
-	%varDef_192 = phi <0> %tmp_119 <3> %res_13
-	%varDef_193 = phi <0> %tmp_120 <3> %res_17
-	%varDef_194 = phi <0> %tmp_121 <3> %res_9
-	%varDef_195 = phi <0> %tmp_122 <3> %res_13
-	%varDef_196 = phi <0> %tmp_123 <3> %res_9
-	%varDef_197 = phi <0> %tmp_124 <3> %res_27
-	%varDef_198 = phi <0> %tmp_125 <3> %res_13
-	%varDef_199 = phi <0> %tmp_126 <3> %res_27
-	%varDef_200 = phi <0> %tmp_127 <3> %res_15
-	%varDef_201 = phi <0> %tmp_128 <3> %res_13
-	%varDef_202 = phi <0> %tmp_129 <3> %res_11
-	%varDef_203 = phi <0> %tmp_130 <3> %res_13
-	%varDef_204 = phi <0> %tmp_131 <3> %res_17
-	%varDef_205 = phi <0> %tmp_132 <3> %res_13
-	%varDef_206 = phi <0> %tmp_133 <3> %res_7
-	%varDef_207 = phi <0> %tmp_134 <3> %res_15
-	%varDef_208 = phi <0> %tmp_135 <3> %res_17
-	%varDef_209 = phi <0> %tmp_136 <3> %res_11
 	%res_5 = lt %varDef_188 %res_2
 	br %res_5 <2> <4>
 
@@ -176,7 +176,11 @@ define main ( ) {
 	%res_27 = add %res_9 0
 	%res_40 = mod %varDef_188 10000000
 	%res_41 = eq %res_40 0
-	br %res_41 <5> <3>
+	br %res_41 <5> <7>
+
+<7> parallel_copy
+	mov %varDef_233 %varDef_186
+	br <3>
 
 <5> if_true
 	%res_44 = add %varDef_186 %res_7
@@ -202,11 +206,35 @@ define main ( ) {
 	%res_84 = add %res_82 %res_13
 	%res_86 = add %res_84 %res_27
 	%res_87 = bit_and %res_86 2147450879
+	mov %varDef_233 %res_87
 	br <3>
 
 <3> for_step
-	%varDef_233 = phi <2> %varDef_186 <5> %res_87
 	%res_89 = add %varDef_188 1
+	mov %varDef_200 %res_15
+	mov %varDef_197 %res_27
+	mov %varDef_201 %res_13
+	mov %varDef_193 %res_17
+	mov %varDef_194 %res_9
+	mov %varDef_189 %res_17
+	mov %varDef_196 %res_9
+	mov %varDef_198 %res_13
+	mov %varDef_208 %res_17
+	mov %varDef_186 %varDef_233
+	mov %varDef_199 %res_27
+	mov %varDef_187 %res_7
+	mov %varDef_195 %res_13
+	mov %varDef_203 %res_13
+	mov %varDef_205 %res_13
+	mov %varDef_191 %res_15
+	mov %varDef_202 %res_11
+	mov %varDef_209 %res_11
+	mov %varDef_190 %res_15
+	mov %varDef_204 %res_17
+	mov %varDef_192 %res_13
+	mov %varDef_188 %res_89
+	mov %varDef_206 %res_7
+	mov %varDef_207 %res_15
 	br <1>
 
 <4> for_end
