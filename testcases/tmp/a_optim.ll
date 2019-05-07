@@ -94,22 +94,17 @@ define __globalInit ( ) {
 
 define origin ( %argVal_0 ) {
 <0> entry
-	%varAddr_69 = alloca 4
-	%varAddr_68 = alloca 4
-	%varAddr_67 = alloca 4
 	%tmp_45 = load @j
 	%memberLength_4 = mul %argVal_0 8
 	%arrayLength_5 = add %memberLength_4 8
 	%arrayPtr_3 = malloc %arrayLength_5
 	store %argVal_0 %arrayPtr_3
 	%arrayBase_6 = add %arrayPtr_3 8
-	store 0 %varAddr_67
-	store %tmp_45 %varAddr_68
+	mov %varDef_62 %tmp_45
+	mov %varDef_61 0
 	br <1>
 
 <1> for_cond
-	%varDef_61 = load %varAddr_67
-	%varDef_62 = load %varAddr_68
 	%res_9 = lt %varDef_61 %argVal_0
 	br %res_9 <2> <4>
 
@@ -122,11 +117,10 @@ define origin ( %argVal_0 ) {
 	%offset_17 = mul %varDef_61 8
 	%elementAddr_18 = add %arrayBase_6 %offset_17
 	store %arrayBase_14 %elementAddr_18
-	store 0 %varAddr_69
+	mov %varDef_64 0
 	br <5>
 
 <5> for_cond
-	%varDef_64 = load %varAddr_69
 	%res_21 = lt %varDef_64 %argVal_0
 	br %res_21 <6> <3>
 
@@ -138,13 +132,13 @@ define origin ( %argVal_0 ) {
 	%elementAddr_29 = add %arrayBase_26 %offset_28
 	store 0 %elementAddr_29
 	%newVal_32 = inc %varDef_64
-	store %newVal_32 %varAddr_69
+	mov %varDef_64 %newVal_32
 	br <5>
 
 <3> for_step
 	%newVal_35 = inc %varDef_61
-	store %newVal_35 %varAddr_67
-	store %varDef_64 %varAddr_68
+	mov %varDef_62 %varDef_64
+	mov %varDef_61 %newVal_35
 	br <1>
 
 <4> for_end
@@ -159,7 +153,6 @@ define origin ( %argVal_0 ) {
 
 define check ( %argVal_0 ) {
 <0> entry
-	%varAddr_16 = alloca 4
 	%tmp_10 = load @N
 	%res_5 = lt %argVal_0 %tmp_10
 	br %res_5 <4> <2>
@@ -169,25 +162,20 @@ define check ( %argVal_0 ) {
 	br %res_7 <1> <2>
 
 <1> bool_true
-	store 1 %varAddr_16
+	mov %varDef_15 1
 	br <3>
 
 <2> bool_false
-	store 0 %varAddr_16
+	mov %varDef_15 0
 	br <3>
 
 <3> bool_merge
-	%varDef_15 = load %varAddr_16
 	ret %varDef_15
 
 }
 
 define addList ( %argVal_0 %argVal_2 ) {
 <0> entry
-	%varAddr_117 = alloca 4
-	%varAddr_116 = alloca 4
-	%varAddr_115 = alloca 4
-	%varAddr_114 = alloca 4
 	%tmp_83 = load @step
 	%tmp_82 = load @targetx
 	%tmp_81 = load @ylist
@@ -208,20 +196,19 @@ define addList ( %argVal_0 %argVal_2 ) {
 	br %cres_55 <11> <12>
 
 <11> cbool_true
-	store 1 %varAddr_117
+	mov %varDef_100 1
 	br <13>
 
 <12> cbool_false
-	store 0 %varAddr_117
+	mov %varDef_100 0
 	br <13>
 
 <13> cbool_merge
-	%varDef_100 = load %varAddr_117
 	br %varDef_100 <4> <23>
 
 <23> parallel_copy
-	store %tmp_77 %varAddr_114
-	store %tmp_79 %varAddr_115
+	mov %varDef_112 %tmp_77
+	mov %varDef_113 %tmp_79
 	br <2>
 
 <4> lhs_true
@@ -233,20 +220,19 @@ define addList ( %argVal_0 %argVal_2 ) {
 	br %cres_64 <17> <18>
 
 <17> cbool_true
-	store 1 %varAddr_116
+	mov %varDef_105 1
 	br <19>
 
 <18> cbool_false
-	store 0 %varAddr_116
+	mov %varDef_105 0
 	br <19>
 
 <19> cbool_merge
-	%varDef_105 = load %varAddr_116
 	br %varDef_105 <3> <22>
 
 <22> parallel_copy
-	store %tmp_77 %varAddr_114
-	store %tmp_79 %varAddr_115
+	mov %varDef_113 %tmp_79
+	mov %varDef_112 %tmp_77
 	br <2>
 
 <3> lhs_true
@@ -260,8 +246,8 @@ define addList ( %argVal_0 %argVal_2 ) {
 	br %res_18 <1> <24>
 
 <24> parallel_copy
-	store %tmp_77 %varAddr_114
-	store %tmp_79 %varAddr_115
+	mov %varDef_112 %tmp_77
+	mov %varDef_113 %tmp_79
 	br <2>
 
 <1> if_true
@@ -282,8 +268,8 @@ define addList ( %argVal_0 %argVal_2 ) {
 	br %res_44 <7> <20>
 
 <20> parallel_copy
-	store %newVal_21 %varAddr_114
-	store %tmp_79 %varAddr_115
+	mov %varDef_113 %tmp_79
+	mov %varDef_112 %newVal_21
 	br <2>
 
 <7> lhs_true
@@ -291,18 +277,16 @@ define addList ( %argVal_0 %argVal_2 ) {
 	br %res_47 <5> <21>
 
 <21> parallel_copy
-	store %newVal_21 %varAddr_114
-	store %tmp_79 %varAddr_115
+	mov %varDef_112 %newVal_21
+	mov %varDef_113 %tmp_79
 	br <2>
 
 <5> if_true
-	store %newVal_21 %varAddr_114
-	store 1 %varAddr_115
+	mov %varDef_112 %newVal_21
+	mov %varDef_113 1
 	br <2>
 
 <2> if_merge
-	%varDef_112 = load %varAddr_114
-	%varDef_113 = load %varAddr_115
 	store %varDef_112 @tail
 	store %varDef_113 @ok
 	ret 
@@ -311,43 +295,6 @@ define addList ( %argVal_0 %argVal_2 ) {
 
 define main ( ) {
 <0> entry
-	%varAddr_419 = alloca 4
-	%varAddr_418 = alloca 4
-	%varAddr_417 = alloca 4
-	%varAddr_416 = alloca 4
-	%varAddr_415 = alloca 4
-	%varAddr_414 = alloca 4
-	%varAddr_413 = alloca 4
-	%varAddr_412 = alloca 4
-	%varAddr_411 = alloca 4
-	%varAddr_410 = alloca 4
-	%varAddr_409 = alloca 4
-	%varAddr_408 = alloca 4
-	%varAddr_407 = alloca 4
-	%varAddr_406 = alloca 4
-	%varAddr_405 = alloca 4
-	%varAddr_404 = alloca 4
-	%varAddr_403 = alloca 4
-	%varAddr_402 = alloca 4
-	%varAddr_401 = alloca 4
-	%varAddr_400 = alloca 4
-	%varAddr_399 = alloca 4
-	%varAddr_398 = alloca 4
-	%varAddr_397 = alloca 4
-	%varAddr_396 = alloca 4
-	%varAddr_395 = alloca 4
-	%varAddr_394 = alloca 4
-	%varAddr_393 = alloca 4
-	%varAddr_392 = alloca 4
-	%varAddr_391 = alloca 4
-	%varAddr_390 = alloca 4
-	%varAddr_389 = alloca 4
-	%varAddr_388 = alloca 4
-	%varAddr_387 = alloca 4
-	%varAddr_386 = alloca 4
-	%varAddr_385 = alloca 4
-	%varAddr_384 = alloca 4
-	%varAddr_383 = alloca 4
 	%tmp_268 = load @dy
 	%tmp_267 = load @y
 	%tmp_266 = load @x
@@ -363,13 +310,11 @@ define main ( ) {
 	%carrayPtr_142 = malloc 856
 	store 106 %carrayPtr_142
 	%carrayBase_143 = add %carrayPtr_142 8
-	store %tmp_261 %varAddr_411
-	store 0 %varAddr_412
+	mov %varDef_302 %tmp_261
+	mov %varDef_303 0
 	br <23>
 
 <23> cfor_cond
-	%varDef_302 = load %varAddr_411
-	%varDef_303 = load %varAddr_412
 	%cres_146 = lt %varDef_303 106
 	br %cres_146 <24> <21>
 
@@ -380,11 +325,10 @@ define main ( ) {
 	%coffset_154 = mul %varDef_303 8
 	%celementAddr_155 = add %carrayBase_143 %coffset_154
 	store %carrayBase_151 %celementAddr_155
-	store 0 %varAddr_395
+	mov %varDef_305 0
 	br <25>
 
 <25> cfor_cond
-	%varDef_305 = load %varAddr_395
 	%cres_158 = lt %varDef_305 106
 	br %cres_158 <26> <29>
 
@@ -396,34 +340,31 @@ define main ( ) {
 	%celementAddr_166 = add %carrayBase_163 %coffset_165
 	store 0 %celementAddr_166
 	%cnewVal_169 = inc %varDef_305
-	store %cnewVal_169 %varAddr_395
+	mov %varDef_305 %cnewVal_169
 	br <25>
 
 <29> cfor_step
 	%cnewVal_172 = inc %varDef_303
-	store %varDef_305 %varAddr_411
-	store %cnewVal_172 %varAddr_412
+	mov %varDef_303 %cnewVal_172
+	mov %varDef_302 %varDef_305
 	br <23>
 
 <21> after_call
 	%res_0 = getInt ( )
 	%res_2 = sub %res_0 1
-	store %varDef_302 %varAddr_401
-	store 0 %varAddr_402
+	mov %varDef_312 %varDef_302
+	mov %varDef_313 0
 	br <1>
 
 <1> for_cond
-	%varDef_312 = load %varAddr_401
-	%varDef_313 = load %varAddr_402
 	%res_6 = lt %varDef_313 %res_0
 	br %res_6 <2> <4>
 
 <2> for_body
-	store 0 %varAddr_394
+	mov %varDef_315 0
 	br <5>
 
 <5> for_cond
-	%varDef_315 = load %varAddr_394
 	%res_9 = lt %varDef_315 %res_0
 	br %res_9 <6> <3>
 
@@ -435,13 +376,13 @@ define main ( ) {
 	%elementAddr_18 = add %arrayBase_15 %offset_17
 	store -1 %elementAddr_18
 	%newVal_21 = inc %varDef_315
-	store %newVal_21 %varAddr_394
+	mov %varDef_315 %newVal_21
 	br <5>
 
 <3> for_step
 	%newVal_24 = inc %varDef_313
-	store %varDef_315 %varAddr_401
-	store %newVal_24 %varAddr_402
+	mov %varDef_312 %varDef_315
+	mov %varDef_313 %newVal_24
 	br <1>
 
 <4> for_end
@@ -477,33 +418,26 @@ define main ( ) {
 	store 1 %elementAddr_77
 	%elementAddr_80 = add %tmp_268 56
 	store 2 %elementAddr_80
-	store 0 %varAddr_404
-	store %tmp_256 %varAddr_405
-	store 0 %varAddr_406
-	store %varDef_312 %varAddr_407
-	store %tmp_262 %varAddr_408
-	store %tmp_266 %varAddr_409
-	store %tmp_267 %varAddr_410
+	mov %varDef_327 %tmp_256
+	mov %varDef_332 %tmp_267
+	mov %varDef_326 0
+	mov %varDef_330 %tmp_262
+	mov %varDef_329 %varDef_312
+	mov %varDef_328 0
+	mov %varDef_331 %tmp_266
 	br <9>
 
 <9> while_cond
-	%varDef_326 = load %varAddr_404
-	%varDef_327 = load %varAddr_405
-	%varDef_328 = load %varAddr_406
-	%varDef_329 = load %varAddr_407
-	%varDef_330 = load %varAddr_408
-	%varDef_331 = load %varAddr_409
-	%varDef_332 = load %varAddr_410
 	%res_83 = le %varDef_328 %varDef_326
 	br %res_83 <10> <57>
 
 <57> parallel_copy
-	store %varDef_326 %varAddr_414
-	store %varDef_327 %varAddr_415
-	store %varDef_329 %varAddr_416
-	store %varDef_330 %varAddr_417
-	store %varDef_331 %varAddr_418
-	store %varDef_332 %varAddr_419
+	mov %varDef_382 %varDef_332
+	mov %varDef_380 %varDef_330
+	mov %varDef_381 %varDef_331
+	mov %varDef_377 %varDef_326
+	mov %varDef_378 %varDef_327
+	mov %varDef_379 %varDef_329
 	br <11>
 
 <10> while_body
@@ -518,31 +452,12 @@ define main ( ) {
 	%offset_100 = mul %elementVal_93 8
 	%elementAddr_101 = add %arrayBase_98 %offset_100
 	%elementVal_102 = load %elementAddr_101
-	store %varDef_337 %varAddr_383
-	store %varDef_338 %varAddr_384
-	store %varDef_339 %varAddr_385
-	store %varDef_340 %varAddr_386
-	store %varDef_341 %varAddr_387
-	store %varDef_342 %varAddr_388
-	store %varDef_343 %varAddr_389
-	store %varDef_344 %varAddr_390
-	store %varDef_326 %varAddr_391
-	store %varDef_327 %varAddr_392
-	store 0 %varAddr_393
+	mov %varDef_345 %varDef_326
+	mov %varDef_346 %varDef_327
+	mov %varDef_347 0
 	br <12>
 
 <12> for_cond
-	%varDef_337 = load %varAddr_383
-	%varDef_338 = load %varAddr_384
-	%varDef_339 = load %varAddr_385
-	%varDef_340 = load %varAddr_386
-	%varDef_341 = load %varAddr_387
-	%varDef_342 = load %varAddr_388
-	%varDef_343 = load %varAddr_389
-	%varDef_344 = load %varAddr_390
-	%varDef_345 = load %varAddr_391
-	%varDef_346 = load %varAddr_392
-	%varDef_347 = load %varAddr_393
 	%res_104 = lt %varDef_347 8
 	br %res_104 <13> <15>
 
@@ -562,23 +477,22 @@ define main ( ) {
 	br %cres_226 <43> <44>
 
 <43> cbool_true
-	store 1 %varAddr_403
+	mov %varDef_353 1
 	br <45>
 
 <44> cbool_false
-	store 0 %varAddr_403
+	mov %varDef_353 0
 	br <45>
 
 <45> cbool_merge
-	%varDef_353 = load %varAddr_403
 	br %varDef_353 <33> <52>
 
 <52> parallel_copy
-	store %varDef_342 %varAddr_396
-	store %varDef_343 %varAddr_397
-	store %varDef_344 %varAddr_398
-	store %varDef_345 %varAddr_399
-	store %varDef_346 %varAddr_400
+	mov %varDef_363 %varDef_343
+	mov %varDef_362 %varDef_342
+	mov %varDef_366 %varDef_346
+	mov %varDef_365 %varDef_345
+	mov %varDef_364 %varDef_344
 	br <14>
 
 <33> clhs_true
@@ -590,23 +504,22 @@ define main ( ) {
 	br %cres_235 <49> <50>
 
 <49> cbool_true
-	store 1 %varAddr_413
+	mov %varDef_358 1
 	br <51>
 
 <50> cbool_false
-	store 0 %varAddr_413
+	mov %varDef_358 0
 	br <51>
 
 <51> cbool_merge
-	%varDef_358 = load %varAddr_413
 	br %varDef_358 <34> <53>
 
 <53> parallel_copy
-	store %varDef_358 %varAddr_396
-	store %varDef_358 %varAddr_397
-	store %res_118 %varAddr_398
-	store %varDef_345 %varAddr_399
-	store %varDef_346 %varAddr_400
+	mov %varDef_363 %varDef_358
+	mov %varDef_366 %varDef_346
+	mov %varDef_362 %varDef_358
+	mov %varDef_364 %res_118
+	mov %varDef_365 %varDef_345
 	br <14>
 
 <34> clhs_true
@@ -620,11 +533,11 @@ define main ( ) {
 	br %cres_189 <35> <54>
 
 <54> parallel_copy
-	store %varDef_358 %varAddr_396
-	store %varDef_358 %varAddr_397
-	store %res_118 %varAddr_398
-	store %varDef_345 %varAddr_399
-	store %varDef_346 %varAddr_400
+	mov %varDef_366 %varDef_346
+	mov %varDef_364 %res_118
+	mov %varDef_362 %varDef_358
+	mov %varDef_363 %varDef_358
+	mov %varDef_365 %varDef_345
 	br <14>
 
 <35> cif_true
@@ -645,11 +558,11 @@ define main ( ) {
 	br %cres_215 <36> <56>
 
 <56> parallel_copy
-	store %varDef_358 %varAddr_396
-	store %varDef_358 %varAddr_397
-	store %res_118 %varAddr_398
-	store %cnewVal_192 %varAddr_399
-	store %varDef_346 %varAddr_400
+	mov %varDef_363 %varDef_358
+	mov %varDef_362 %varDef_358
+	mov %varDef_364 %res_118
+	mov %varDef_365 %cnewVal_192
+	mov %varDef_366 %varDef_346
 	br <14>
 
 <36> clhs_true
@@ -657,39 +570,34 @@ define main ( ) {
 	br %cres_218 <37> <55>
 
 <55> parallel_copy
-	store %varDef_358 %varAddr_396
-	store %varDef_358 %varAddr_397
-	store %res_118 %varAddr_398
-	store %cnewVal_192 %varAddr_399
-	store %varDef_346 %varAddr_400
+	mov %varDef_364 %res_118
+	mov %varDef_366 %varDef_346
+	mov %varDef_365 %cnewVal_192
+	mov %varDef_362 %varDef_358
+	mov %varDef_363 %varDef_358
 	br <14>
 
 <37> cif_true
-	store %varDef_358 %varAddr_396
-	store %varDef_358 %varAddr_397
-	store %res_118 %varAddr_398
-	store %cnewVal_192 %varAddr_399
-	store 1 %varAddr_400
+	mov %varDef_366 1
+	mov %varDef_362 %varDef_358
+	mov %varDef_363 %varDef_358
+	mov %varDef_365 %cnewVal_192
+	mov %varDef_364 %res_118
 	br <14>
 
 <14> for_step
-	%varDef_362 = load %varAddr_396
-	%varDef_363 = load %varAddr_397
-	%varDef_364 = load %varAddr_398
-	%varDef_365 = load %varAddr_399
-	%varDef_366 = load %varAddr_400
 	%newVal_121 = inc %varDef_347
-	store %res_118 %varAddr_383
-	store %res_111 %varAddr_384
-	store %varDef_353 %varAddr_385
-	store %varDef_353 %varAddr_386
-	store %res_111 %varAddr_387
-	store %varDef_362 %varAddr_388
-	store %varDef_363 %varAddr_389
-	store %varDef_364 %varAddr_390
-	store %varDef_365 %varAddr_391
-	store %varDef_366 %varAddr_392
-	store %newVal_121 %varAddr_393
+	mov %varDef_337 %res_118
+	mov %varDef_340 %varDef_353
+	mov %varDef_347 %newVal_121
+	mov %varDef_341 %res_111
+	mov %varDef_344 %varDef_364
+	mov %varDef_338 %res_111
+	mov %varDef_339 %varDef_353
+	mov %varDef_346 %varDef_366
+	mov %varDef_343 %varDef_363
+	mov %varDef_342 %varDef_362
+	mov %varDef_345 %varDef_365
 	br <12>
 
 <15> for_end
@@ -697,32 +605,26 @@ define main ( ) {
 	br %res_123 <58> <17>
 
 <58> parallel_copy
-	store %varDef_345 %varAddr_414
-	store %varDef_346 %varAddr_415
-	store %varDef_347 %varAddr_416
-	store %elementVal_102 %varAddr_417
-	store %elementVal_88 %varAddr_418
-	store %elementVal_93 %varAddr_419
+	mov %varDef_378 %varDef_346
+	mov %varDef_377 %varDef_345
+	mov %varDef_380 %elementVal_102
+	mov %varDef_379 %varDef_347
+	mov %varDef_381 %elementVal_88
+	mov %varDef_382 %elementVal_93
 	br <11>
 
 <17> if_merge
 	%newVal_126 = inc %varDef_328
-	store %varDef_345 %varAddr_404
-	store %varDef_346 %varAddr_405
-	store %newVal_126 %varAddr_406
-	store %varDef_347 %varAddr_407
-	store %elementVal_102 %varAddr_408
-	store %elementVal_88 %varAddr_409
-	store %elementVal_93 %varAddr_410
+	mov %varDef_326 %varDef_345
+	mov %varDef_329 %varDef_347
+	mov %varDef_331 %elementVal_88
+	mov %varDef_328 %newVal_126
+	mov %varDef_327 %varDef_346
+	mov %varDef_330 %elementVal_102
+	mov %varDef_332 %elementVal_93
 	br <9>
 
 <11> while_end
-	%varDef_377 = load %varAddr_414
-	%varDef_378 = load %varAddr_415
-	%varDef_379 = load %varAddr_416
-	%varDef_380 = load %varAddr_417
-	%varDef_381 = load %varAddr_418
-	%varDef_382 = load %varAddr_419
 	%res_128 = eq %varDef_378 1
 	br %res_128 <18> <19>
 

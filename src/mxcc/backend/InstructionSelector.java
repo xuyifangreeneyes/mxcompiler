@@ -211,6 +211,7 @@ public class InstructionSelector implements IRVisitor {
     }
 
     public void visit(Alloca node) {
+        assert false;
         ++allocaCounter;
         VirtualReg virtualReg = new VirtualReg("%alloca_" + allocaCounter);
         allocaMap.put(node.getDst(), virtualReg);
