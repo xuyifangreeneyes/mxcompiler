@@ -1,3 +1,21 @@
+$str_0 "( "
+
+$str_1 ", "
+
+$str_2 " )"
+
+$str_3 "vector x: "
+
+$str_4 "excited!"
+
+$str_5 "vector y: "
+
+$str_6 "x + y: "
+
+$str_7 "x * y: "
+
+$str_8 "(1 << 3) * y: "
+
 define print
 
 define println
@@ -42,340 +60,830 @@ define __globalInit ( ) {
 
 }
 
-define func ( %argVal_0 %argVal_2 %argVal_4 ) {
+define __vector_init ( %thisVal_0 %argVal_2 ) {
 <0> entry
-	mov %varDef_12 %argVal_0
-	mov %varDef_13 %argVal_2
-	mov %varDef_14 %argVal_4
-	mov %idVal_6 %varDef_12
-	mov %idVal_7 %varDef_13
-	%res_8 = add %idVal_6 %idVal_7
-	mov %idVal_9 %varDef_14
-	%res_10 = add %res_8 %idVal_9
-	%res_11 = bit_and %res_10 1073741823
-	ret %res_11
+	mov %varDef_33 %thisVal_0
+	mov %varDef_34 %argVal_2
+	mov %idVal_4 %varDef_34
+	%res_5 = eq %idVal_4 0
+	br %res_5 <1> <2>
+
+<1> if_true
+	ret 
+
+<2> if_merge
+	mov %classPtr_7 %varDef_34
+	%res_6 = __arraySize ( %classPtr_7 )
+	%memberLength_9 = mul %res_6 8
+	%arrayLength_10 = add %memberLength_9 8
+	%arrayPtr_8 = malloc %arrayLength_10
+	store %res_6 %arrayPtr_8
+	%arrayBase_11 = add %arrayPtr_8 8
+	mov %classPtr_12 %varDef_33
+	%memberAddr_13 = add %classPtr_12 0
+	store %arrayBase_11 %memberAddr_13
+	mov %varDef_35 0
+	br <3>
+
+<3> for_cond
+	%varDef_36 = phi <2> %varDef_35 <4> %varDef_37
+	mov %idVal_15 %varDef_36
+	mov %classPtr_17 %varDef_34
+	%res_16 = __arraySize ( %classPtr_17 )
+	%res_18 = lt %idVal_15 %res_16
+	br %res_18 <4> <6>
+
+<4> for_body
+	mov %arrayBase_19 %varDef_34
+	mov %idVal_20 %varDef_36
+	%offset_21 = mul %idVal_20 8
+	%elementAddr_22 = add %arrayBase_19 %offset_21
+	%elementVal_23 = load %elementAddr_22
+	mov %classPtr_24 %varDef_33
+	%memberAddr_25 = add %classPtr_24 0
+	%arrayBase_26 = load %memberAddr_25
+	mov %idVal_27 %varDef_36
+	%offset_28 = mul %idVal_27 8
+	%elementAddr_29 = add %arrayBase_26 %offset_28
+	store %elementVal_23 %elementAddr_29
+	mov %idVal_30 %varDef_36
+	mov %oldVal_31 %varDef_36
+	%newVal_32 = inc %oldVal_31
+	mov %varDef_37 %newVal_32
+	br <3>
+
+<6> for_end
+	ret 
+
+}
+
+define __vector_getDim ( %thisVal_0 ) {
+<0> entry
+	mov %varDef_10 %thisVal_0
+	mov %classPtr_2 %varDef_10
+	%memberAddr_3 = add %classPtr_2 0
+	%idVal_4 = load %memberAddr_3
+	%res_5 = eq %idVal_4 0
+	br %res_5 <1> <2>
+
+<1> if_true
+	ret 0
+
+<2> if_merge
+	mov %classPtr_7 %varDef_10
+	%memberAddr_8 = add %classPtr_7 0
+	%classPtr_9 = load %memberAddr_8
+	%res_6 = __arraySize ( %classPtr_9 )
+	ret %res_6
+
+}
+
+define __vector_dot ( %thisVal_0 %argVal_2 ) {
+<0> entry
+	mov %varDef_39 %thisVal_0
+	mov %varDef_40 %argVal_2
+	mov %varDef_41 0
+	mov %varDef_42 0
+	br <1>
+
+<1> while_cond
+	%varDef_43 = phi <0> %varDef_41 <2> %varDef_52
+	%varDef_44 = phi <0> %varDef_42 <2> %varDef_51
+	mov %idVal_6 %varDef_43
+	mov %classPtr_8 %varDef_39
+	mov %varDef_47 %classPtr_8
+	mov %cclassPtr_31 %varDef_47
+	%cmemberAddr_32 = add %cclassPtr_31 0
+	%cidVal_33 = load %cmemberAddr_32
+	%cres_34 = eq %cidVal_33 0
+	br %cres_34 <6> <7>
+
+<6> cif_true
+	mov %varDef_48 0
+	br <4>
+
+<7> cif_merge
+	mov %cclassPtr_35 %varDef_47
+	%cmemberAddr_36 = add %cclassPtr_35 0
+	%cclassPtr_37 = load %cmemberAddr_36
+	%cres_38 = __arraySize ( %cclassPtr_37 )
+	mov %varDef_49 %cres_38
+	br <4>
+
+<4> after_call
+	%varDef_50 = phi <6> %varDef_48 <7> %varDef_49
+	mov %res_7 %varDef_50
+	%res_9 = lt %idVal_6 %res_7
+	br %res_9 <2> <3>
+
+<2> while_body
+	mov %classPtr_10 %varDef_39
+	%memberAddr_11 = add %classPtr_10 0
+	%arrayBase_12 = load %memberAddr_11
+	mov %idVal_13 %varDef_43
+	%offset_14 = mul %idVal_13 8
+	%elementAddr_15 = add %arrayBase_12 %offset_14
+	%elementVal_16 = load %elementAddr_15
+	mov %classPtr_17 %varDef_40
+	%memberAddr_18 = add %classPtr_17 0
+	%arrayBase_19 = load %memberAddr_18
+	mov %idVal_20 %varDef_43
+	%offset_21 = mul %idVal_20 8
+	%elementAddr_22 = add %arrayBase_19 %offset_21
+	%elementVal_23 = load %elementAddr_22
+	%res_24 = mul %elementVal_16 %elementVal_23
+	mov %varDef_51 %res_24
+	mov %idVal_25 %varDef_43
+	mov %oldVal_26 %varDef_43
+	%newVal_27 = inc %oldVal_26
+	mov %varDef_52 %newVal_27
+	br <1>
+
+<3> while_end
+	mov %idVal_28 %varDef_44
+	ret %idVal_28
+
+}
+
+define __vector_scalarInPlaceMultiply ( %thisVal_0 %argVal_2 ) {
+<0> entry
+	mov %varDef_42 %thisVal_0
+	mov %varDef_43 %argVal_2
+	mov %classPtr_4 %varDef_42
+	%memberAddr_5 = add %classPtr_4 0
+	%idVal_6 = load %memberAddr_5
+	%res_7 = eq %idVal_6 0
+	br %res_7 <1> <2>
+
+<1> if_true
+	ret 0
+
+<2> if_merge
+	mov %varDef_44 0
+	br <3>
+
+<3> for_cond
+	%varDef_45 = phi <2> %varDef_44 <4> %varDef_52
+	mov %idVal_9 %varDef_45
+	mov %classPtr_11 %varDef_42
+	mov %varDef_48 %classPtr_11
+	mov %cclassPtr_34 %varDef_48
+	%cmemberAddr_35 = add %cclassPtr_34 0
+	%cidVal_36 = load %cmemberAddr_35
+	%cres_37 = eq %cidVal_36 0
+	br %cres_37 <9> <10>
+
+<9> cif_true
+	mov %varDef_49 0
+	br <7>
+
+<10> cif_merge
+	mov %cclassPtr_38 %varDef_48
+	%cmemberAddr_39 = add %cclassPtr_38 0
+	%cclassPtr_40 = load %cmemberAddr_39
+	%cres_41 = __arraySize ( %cclassPtr_40 )
+	mov %varDef_50 %cres_41
+	br <7>
+
+<7> after_call
+	%varDef_51 = phi <9> %varDef_49 <10> %varDef_50
+	mov %res_10 %varDef_51
+	%res_12 = lt %idVal_9 %res_10
+	br %res_12 <4> <6>
+
+<4> for_body
+	mov %idVal_13 %varDef_43
+	mov %classPtr_14 %varDef_42
+	%memberAddr_15 = add %classPtr_14 0
+	%arrayBase_16 = load %memberAddr_15
+	mov %idVal_17 %varDef_45
+	%offset_18 = mul %idVal_17 8
+	%elementAddr_19 = add %arrayBase_16 %offset_18
+	%elementVal_20 = load %elementAddr_19
+	%res_21 = mul %idVal_13 %elementVal_20
+	mov %classPtr_22 %varDef_42
+	%memberAddr_23 = add %classPtr_22 0
+	%arrayBase_24 = load %memberAddr_23
+	mov %idVal_25 %varDef_45
+	%offset_26 = mul %idVal_25 8
+	%elementAddr_27 = add %arrayBase_24 %offset_26
+	store %res_21 %elementAddr_27
+	mov %idVal_28 %varDef_45
+	mov %oldVal_29 %varDef_45
+	%newVal_30 = inc %oldVal_29
+	mov %varDef_52 %newVal_30
+	br <3>
+
+<6> for_end
+	mov %idVal_31 %varDef_42
+	ret %idVal_31
+
+}
+
+define __vector_add ( %thisVal_0 %argVal_2 ) {
+<0> entry
+	mov %varDef_102 %thisVal_0
+	mov %varDef_103 %argVal_2
+	mov %classPtr_5 %varDef_102
+	br <9>
+
+<9> centry
+	mov %varDef_104 %classPtr_5
+	mov %cclassPtr_54 %varDef_104
+	%cmemberAddr_55 = add %cclassPtr_54 0
+	%cidVal_56 = load %cmemberAddr_55
+	%cres_57 = eq %cidVal_56 0
+	br %cres_57 <10> <11>
+
+<10> cif_true
+	mov %varDef_105 0
+	br <8>
+
+<11> cif_merge
+	mov %cclassPtr_58 %varDef_104
+	%cmemberAddr_59 = add %cclassPtr_58 0
+	%cclassPtr_60 = load %cmemberAddr_59
+	%cres_61 = __arraySize ( %cclassPtr_60 )
+	mov %varDef_106 %cres_61
+	br <8>
+
+<8> after_call
+	%varDef_107 = phi <10> %varDef_105 <11> %varDef_106
+	mov %res_4 %varDef_107
+	mov %classPtr_7 %varDef_103
+	mov %varDef_108 %classPtr_7
+	mov %cclassPtr_64 %varDef_108
+	%cmemberAddr_65 = add %cclassPtr_64 0
+	%cidVal_66 = load %cmemberAddr_65
+	%cres_67 = eq %cidVal_66 0
+	br %cres_67 <14> <15>
+
+<14> cif_true
+	mov %varDef_109 0
+	br <12>
+
+<15> cif_merge
+	mov %cclassPtr_68 %varDef_108
+	%cmemberAddr_69 = add %cclassPtr_68 0
+	%cclassPtr_70 = load %cmemberAddr_69
+	%cres_71 = __arraySize ( %cclassPtr_70 )
+	mov %varDef_110 %cres_71
+	br <12>
+
+<12> after_call
+	%varDef_111 = phi <14> %varDef_109 <15> %varDef_110
+	mov %res_6 %varDef_111
+	%res_8 = neq %res_4 %res_6
+	br %res_8 <1> <3>
+
+<3> lhs_false
+	mov %classPtr_10 %varDef_102
+	mov %varDef_112 %classPtr_10
+	mov %cclassPtr_74 %varDef_112
+	%cmemberAddr_75 = add %cclassPtr_74 0
+	%cidVal_76 = load %cmemberAddr_75
+	%cres_77 = eq %cidVal_76 0
+	br %cres_77 <18> <19>
+
+<18> cif_true
+	mov %varDef_113 0
+	br <16>
+
+<19> cif_merge
+	mov %cclassPtr_78 %varDef_112
+	%cmemberAddr_79 = add %cclassPtr_78 0
+	%cclassPtr_80 = load %cmemberAddr_79
+	%cres_81 = __arraySize ( %cclassPtr_80 )
+	mov %varDef_114 %cres_81
+	br <16>
+
+<16> after_call
+	%varDef_115 = phi <18> %varDef_113 <19> %varDef_114
+	mov %res_9 %varDef_115
+	%res_11 = eq %res_9 0
+	br %res_11 <1> <2>
+
+<1> if_true
+	ret 0
+
+<2> if_merge
+	%classPtr_13 = malloc 8
+	mov %varDef_116 %classPtr_13
+	mov %classPtr_16 %varDef_102
+	mov %varDef_117 %classPtr_16
+	mov %cclassPtr_84 %varDef_117
+	%cmemberAddr_85 = add %cclassPtr_84 0
+	%cidVal_86 = load %cmemberAddr_85
+	%cres_87 = eq %cidVal_86 0
+	br %cres_87 <22> <23>
+
+<22> cif_true
+	mov %varDef_118 0
+	br <20>
+
+<23> cif_merge
+	mov %cclassPtr_88 %varDef_117
+	%cmemberAddr_89 = add %cclassPtr_88 0
+	%cclassPtr_90 = load %cmemberAddr_89
+	%cres_91 = __arraySize ( %cclassPtr_90 )
+	mov %varDef_119 %cres_91
+	br <20>
+
+<20> after_call
+	%varDef_120 = phi <22> %varDef_118 <23> %varDef_119
+	mov %res_15 %varDef_120
+	%memberLength_18 = mul %res_15 8
+	%arrayLength_19 = add %memberLength_18 8
+	%arrayPtr_17 = malloc %arrayLength_19
+	store %res_15 %arrayPtr_17
+	%arrayBase_20 = add %arrayPtr_17 8
+	mov %classPtr_21 %varDef_116
+	%memberAddr_22 = add %classPtr_21 0
+	store %arrayBase_20 %memberAddr_22
+	mov %varDef_121 0
+	br <4>
+
+<4> for_cond
+	%varDef_122 = phi <20> %varDef_121 <5> %varDef_129
+	mov %idVal_23 %varDef_122
+	mov %classPtr_25 %varDef_102
+	mov %varDef_125 %classPtr_25
+	mov %cclassPtr_94 %varDef_125
+	%cmemberAddr_95 = add %cclassPtr_94 0
+	%cidVal_96 = load %cmemberAddr_95
+	%cres_97 = eq %cidVal_96 0
+	br %cres_97 <26> <27>
+
+<26> cif_true
+	mov %varDef_126 0
+	br <24>
+
+<27> cif_merge
+	mov %cclassPtr_98 %varDef_125
+	%cmemberAddr_99 = add %cclassPtr_98 0
+	%cclassPtr_100 = load %cmemberAddr_99
+	%cres_101 = __arraySize ( %cclassPtr_100 )
+	mov %varDef_127 %cres_101
+	br <24>
+
+<24> after_call
+	%varDef_128 = phi <26> %varDef_126 <27> %varDef_127
+	mov %res_24 %varDef_128
+	%res_26 = lt %idVal_23 %res_24
+	br %res_26 <5> <7>
+
+<5> for_body
+	mov %classPtr_27 %varDef_102
+	%memberAddr_28 = add %classPtr_27 0
+	%arrayBase_29 = load %memberAddr_28
+	mov %idVal_30 %varDef_122
+	%offset_31 = mul %idVal_30 8
+	%elementAddr_32 = add %arrayBase_29 %offset_31
+	%elementVal_33 = load %elementAddr_32
+	mov %classPtr_34 %varDef_103
+	%memberAddr_35 = add %classPtr_34 0
+	%arrayBase_36 = load %memberAddr_35
+	mov %idVal_37 %varDef_122
+	%offset_38 = mul %idVal_37 8
+	%elementAddr_39 = add %arrayBase_36 %offset_38
+	%elementVal_40 = load %elementAddr_39
+	%res_41 = add %elementVal_33 %elementVal_40
+	mov %classPtr_42 %varDef_116
+	%memberAddr_43 = add %classPtr_42 0
+	%arrayBase_44 = load %memberAddr_43
+	mov %idVal_45 %varDef_122
+	%offset_46 = mul %idVal_45 8
+	%elementAddr_47 = add %arrayBase_44 %offset_46
+	store %res_41 %elementAddr_47
+	mov %idVal_48 %varDef_122
+	mov %oldVal_49 %varDef_122
+	%newVal_50 = inc %oldVal_49
+	mov %varDef_129 %newVal_50
+	br <4>
+
+<7> for_end
+	mov %idVal_51 %varDef_116
+	ret %idVal_51
+
+}
+
+define __vector_set ( %thisVal_0 %argVal_2 %argVal_4 ) {
+<0> entry
+	mov %varDef_27 %thisVal_0
+	mov %varDef_28 %argVal_2
+	mov %varDef_29 %argVal_4
+	mov %classPtr_7 %varDef_27
+	br <4>
+
+<4> centry
+	mov %varDef_30 %classPtr_7
+	mov %cclassPtr_19 %varDef_30
+	%cmemberAddr_20 = add %cclassPtr_19 0
+	%cidVal_21 = load %cmemberAddr_20
+	%cres_22 = eq %cidVal_21 0
+	br %cres_22 <5> <6>
+
+<5> cif_true
+	mov %varDef_31 0
+	br <3>
+
+<6> cif_merge
+	mov %cclassPtr_23 %varDef_30
+	%cmemberAddr_24 = add %cclassPtr_23 0
+	%cclassPtr_25 = load %cmemberAddr_24
+	%cres_26 = __arraySize ( %cclassPtr_25 )
+	mov %varDef_32 %cres_26
+	br <3>
+
+<3> after_call
+	%varDef_33 = phi <5> %varDef_31 <6> %varDef_32
+	mov %res_6 %varDef_33
+	mov %idVal_8 %varDef_28
+	%res_9 = lt %res_6 %idVal_8
+	br %res_9 <1> <2>
+
+<1> if_true
+	ret 0
+
+<2> if_merge
+	mov %idVal_10 %varDef_29
+	mov %classPtr_11 %varDef_27
+	%memberAddr_12 = add %classPtr_11 0
+	%arrayBase_13 = load %memberAddr_12
+	mov %idVal_14 %varDef_28
+	%offset_15 = mul %idVal_14 8
+	%elementAddr_16 = add %arrayBase_13 %offset_15
+	store %idVal_10 %elementAddr_16
+	ret 1
+
+}
+
+define __vector_tostring ( %thisVal_0 ) {
+<0> entry
+	mov %varDef_57 %thisVal_0
+	mov %varDef_58 $str_0
+	mov %classPtr_4 %varDef_57
+	br <8>
+
+<8> centry
+	mov %varDef_59 %classPtr_4
+	mov %cclassPtr_39 %varDef_59
+	%cmemberAddr_40 = add %cclassPtr_39 0
+	%cidVal_41 = load %cmemberAddr_40
+	%cres_42 = eq %cidVal_41 0
+	br %cres_42 <9> <10>
+
+<9> cif_true
+	mov %varDef_60 0
+	br <7>
+
+<10> cif_merge
+	mov %cclassPtr_43 %varDef_59
+	%cmemberAddr_44 = add %cclassPtr_43 0
+	%cclassPtr_45 = load %cmemberAddr_44
+	%cres_46 = __arraySize ( %cclassPtr_45 )
+	mov %varDef_61 %cres_46
+	br <7>
+
+<7> after_call
+	%varDef_62 = phi <9> %varDef_60 <10> %varDef_61
+	mov %res_3 %varDef_62
+	%res_5 = gt %res_3 0
+	br %res_5 <1> <2>
+
+<1> if_true
+	mov %idVal_6 %varDef_58
+	mov %classPtr_8 %varDef_57
+	%memberAddr_9 = add %classPtr_8 0
+	%arrayBase_10 = load %memberAddr_9
+	%offset_11 = mul 0 8
+	%elementAddr_12 = add %arrayBase_10 %offset_11
+	%elementVal_13 = load %elementAddr_12
+	%res_7 = toString ( %elementVal_13 )
+	%res_14 = __stringAdd ( %idVal_6 %res_7 )
+	mov %varDef_63 %res_14
+	br <2>
+
+<2> if_merge
+	%varDef_64 = phi <7> %varDef_58 <1> %varDef_63
+	mov %varDef_65 1
+	br <3>
+
+<3> for_cond
+	%varDef_66 = phi <2> %varDef_64 <4> %varDef_74
+	%varDef_67 = phi <2> %varDef_65 <4> %varDef_75
+	mov %idVal_16 %varDef_67
+	mov %classPtr_18 %varDef_57
+	mov %varDef_70 %classPtr_18
+	mov %cclassPtr_49 %varDef_70
+	%cmemberAddr_50 = add %cclassPtr_49 0
+	%cidVal_51 = load %cmemberAddr_50
+	%cres_52 = eq %cidVal_51 0
+	br %cres_52 <13> <14>
+
+<13> cif_true
+	mov %varDef_71 0
+	br <11>
+
+<14> cif_merge
+	mov %cclassPtr_53 %varDef_70
+	%cmemberAddr_54 = add %cclassPtr_53 0
+	%cclassPtr_55 = load %cmemberAddr_54
+	%cres_56 = __arraySize ( %cclassPtr_55 )
+	mov %varDef_72 %cres_56
+	br <11>
+
+<11> after_call
+	%varDef_73 = phi <13> %varDef_71 <14> %varDef_72
+	mov %res_17 %varDef_73
+	%res_19 = lt %idVal_16 %res_17
+	br %res_19 <4> <6>
+
+<4> for_body
+	mov %idVal_20 %varDef_66
+	%res_21 = __stringAdd ( %idVal_20 $str_1 )
+	mov %classPtr_23 %varDef_57
+	%memberAddr_24 = add %classPtr_23 0
+	%arrayBase_25 = load %memberAddr_24
+	mov %idVal_26 %varDef_67
+	%offset_27 = mul %idVal_26 8
+	%elementAddr_28 = add %arrayBase_25 %offset_27
+	%elementVal_29 = load %elementAddr_28
+	%res_22 = toString ( %elementVal_29 )
+	%res_30 = __stringAdd ( %res_21 %res_22 )
+	mov %varDef_74 %res_30
+	mov %idVal_31 %varDef_67
+	mov %oldVal_32 %varDef_67
+	%newVal_33 = inc %oldVal_32
+	mov %varDef_75 %newVal_33
+	br <3>
+
+<6> for_end
+	mov %idVal_34 %varDef_66
+	%res_35 = __stringAdd ( %idVal_34 $str_2 )
+	mov %varDef_76 %res_35
+	mov %idVal_36 %varDef_76
+	ret %idVal_36
+
+}
+
+define __vector_copy ( %thisVal_0 %argVal_2 ) {
+<0> entry
+	mov %varDef_70 %thisVal_0
+	mov %varDef_71 %argVal_2
+	mov %idVal_4 %varDef_71
+	%res_5 = eq %idVal_4 0
+	br %res_5 <1> <2>
+
+<1> if_true
+	ret 0
+
+<2> if_merge
+	mov %classPtr_7 %varDef_71
+	mov %varDef_72 %classPtr_7
+	mov %cclassPtr_42 %varDef_72
+	%cmemberAddr_43 = add %cclassPtr_42 0
+	%cidVal_44 = load %cmemberAddr_43
+	%cres_45 = eq %cidVal_44 0
+	br %cres_45 <12> <13>
+
+<12> cif_true
+	mov %varDef_73 0
+	br <10>
+
+<13> cif_merge
+	mov %cclassPtr_46 %varDef_72
+	%cmemberAddr_47 = add %cclassPtr_46 0
+	%cclassPtr_48 = load %cmemberAddr_47
+	%cres_49 = __arraySize ( %cclassPtr_48 )
+	mov %varDef_74 %cres_49
+	br <10>
+
+<10> after_call
+	%varDef_75 = phi <12> %varDef_73 <13> %varDef_74
+	mov %res_6 %varDef_75
+	%res_8 = eq %res_6 0
+	br %res_8 <3> <4>
+
+<3> if_true
+	mov %classPtr_9 %varDef_70
+	%memberAddr_10 = add %classPtr_9 0
+	store 0 %memberAddr_10
+	br <5>
+
+<4> if_false
+	mov %classPtr_12 %varDef_71
+	mov %varDef_76 %classPtr_12
+	mov %cclassPtr_52 %varDef_76
+	%cmemberAddr_53 = add %cclassPtr_52 0
+	%cidVal_54 = load %cmemberAddr_53
+	%cres_55 = eq %cidVal_54 0
+	br %cres_55 <16> <17>
+
+<16> cif_true
+	mov %varDef_77 0
+	br <14>
+
+<17> cif_merge
+	mov %cclassPtr_56 %varDef_76
+	%cmemberAddr_57 = add %cclassPtr_56 0
+	%cclassPtr_58 = load %cmemberAddr_57
+	%cres_59 = __arraySize ( %cclassPtr_58 )
+	mov %varDef_78 %cres_59
+	br <14>
+
+<14> after_call
+	%varDef_79 = phi <16> %varDef_77 <17> %varDef_78
+	mov %res_11 %varDef_79
+	%memberLength_14 = mul %res_11 8
+	%arrayLength_15 = add %memberLength_14 8
+	%arrayPtr_13 = malloc %arrayLength_15
+	store %res_11 %arrayPtr_13
+	%arrayBase_16 = add %arrayPtr_13 8
+	mov %classPtr_17 %varDef_70
+	%memberAddr_18 = add %classPtr_17 0
+	store %arrayBase_16 %memberAddr_18
+	mov %varDef_80 0
+	br <6>
+
+<6> for_cond
+	%varDef_81 = phi <14> %varDef_80 <7> %varDef_88
+	mov %idVal_20 %varDef_81
+	mov %classPtr_22 %varDef_70
+	mov %varDef_84 %classPtr_22
+	mov %cclassPtr_62 %varDef_84
+	%cmemberAddr_63 = add %cclassPtr_62 0
+	%cidVal_64 = load %cmemberAddr_63
+	%cres_65 = eq %cidVal_64 0
+	br %cres_65 <20> <21>
+
+<20> cif_true
+	mov %varDef_85 0
+	br <18>
+
+<21> cif_merge
+	mov %cclassPtr_66 %varDef_84
+	%cmemberAddr_67 = add %cclassPtr_66 0
+	%cclassPtr_68 = load %cmemberAddr_67
+	%cres_69 = __arraySize ( %cclassPtr_68 )
+	mov %varDef_86 %cres_69
+	br <18>
+
+<18> after_call
+	%varDef_87 = phi <20> %varDef_85 <21> %varDef_86
+	mov %res_21 %varDef_87
+	%res_23 = lt %idVal_20 %res_21
+	br %res_23 <7> <5>
+
+<7> for_body
+	mov %classPtr_24 %varDef_71
+	%memberAddr_25 = add %classPtr_24 0
+	%arrayBase_26 = load %memberAddr_25
+	mov %idVal_27 %varDef_81
+	%offset_28 = mul %idVal_27 8
+	%elementAddr_29 = add %arrayBase_26 %offset_28
+	%elementVal_30 = load %elementAddr_29
+	mov %classPtr_31 %varDef_70
+	%memberAddr_32 = add %classPtr_31 0
+	%arrayBase_33 = load %memberAddr_32
+	mov %idVal_34 %varDef_81
+	%offset_35 = mul %idVal_34 8
+	%elementAddr_36 = add %arrayBase_33 %offset_35
+	store %elementVal_30 %elementAddr_36
+	mov %idVal_37 %varDef_81
+	mov %oldVal_38 %varDef_81
+	%newVal_39 = inc %oldVal_38
+	mov %varDef_88 %newVal_39
+	br <6>
+
+<5> if_merge
+	ret 1
 
 }
 
 define main ( ) {
 <0> entry
-	%res_1 = getInt ( )
-	mov %varDef_169 %res_1
-	mov %idVal_3 %varDef_169
-	mov %idVal_4 %varDef_169
-	%memberLength_6 = mul %idVal_3 8
-	%arrayLength_7 = add %memberLength_6 8
-	%arrayPtr_5 = malloc %arrayLength_7
-	store %idVal_3 %arrayPtr_5
-	%arrayBase_8 = add %arrayPtr_5 8
-	%arrayEndPos_9 = add %arrayBase_8 %memberLength_6
-	mov %varDef_170 %arrayBase_8
+	%classPtr_1 = malloc 8
+	mov %varDef_67 %classPtr_1
+	%memberLength_4 = mul 10 8
+	%arrayLength_5 = add %memberLength_4 8
+	%arrayPtr_3 = malloc %arrayLength_5
+	store 10 %arrayPtr_3
+	%arrayBase_6 = add %arrayPtr_3 8
+	mov %varDef_68 %arrayBase_6
+	mov %varDef_69 0
 	br <1>
 
-<1> new_for_cond
-	%varDef_171 = phi <0> %varDef_170 <2> %varDef_172
-	mov %pos_11 %varDef_171
-	%condition_12 = lt %pos_11 %arrayEndPos_9
-	br %condition_12 <2> <4>
+<1> for_cond
+	%varDef_70 = phi <0> %varDef_69 <2> %varDef_71
+	mov %idVal_8 %varDef_70
+	%res_9 = lt %idVal_8 10
+	br %res_9 <2> <4>
 
-<2> new_for_body
-	%memberLength_14 = mul %idVal_4 8
-	%arrayLength_15 = add %memberLength_14 8
-	%arrayPtr_13 = malloc %arrayLength_15
-	store %idVal_4 %arrayPtr_13
-	%arrayBase_16 = add %arrayPtr_13 8
-	store %arrayBase_16 %pos_11
-	%pos_17 = add %pos_11 8
-	mov %varDef_172 %pos_17
+<2> for_body
+	mov %idVal_10 %varDef_70
+	%res_11 = sub 9 %idVal_10
+	mov %arrayBase_12 %varDef_68
+	mov %idVal_13 %varDef_70
+	%offset_14 = mul %idVal_13 8
+	%elementAddr_15 = add %arrayBase_12 %offset_14
+	store %res_11 %elementAddr_15
+	mov %idVal_16 %varDef_70
+	mov %oldVal_17 %varDef_70
+	%newVal_18 = inc %oldVal_17
+	mov %varDef_71 %newVal_18
 	br <1>
 
-<4> new_for_end
-	mov %varDef_173 %arrayBase_8
-	mov %idVal_19 %varDef_169
-	mov %idVal_20 %varDef_169
-	%memberLength_22 = mul %idVal_19 8
-	%arrayLength_23 = add %memberLength_22 8
-	%arrayPtr_21 = malloc %arrayLength_23
-	store %idVal_19 %arrayPtr_21
-	%arrayBase_24 = add %arrayPtr_21 8
-	%arrayEndPos_25 = add %arrayBase_24 %memberLength_22
-	mov %varDef_174 %arrayBase_24
-	br <5>
+<4> for_end
+	mov %classPtr_19 %varDef_67
+	mov %idVal_20 %varDef_68
+	__vector_init ( %classPtr_19 %idVal_20 )
+	print ( $str_3 )
+	mov %classPtr_22 %varDef_67
+	%res_21 = __vector_tostring ( %classPtr_22 )
+	println ( %res_21 )
+	%classPtr_24 = malloc 8
+	mov %varDef_72 %classPtr_24
+	mov %classPtr_26 %varDef_72
+	mov %idVal_27 %varDef_67
+	%res_25 = __vector_copy ( %classPtr_26 %idVal_27 )
+	mov %classPtr_29 %varDef_72
+	mov %varDef_73 %classPtr_29
+	mov %varDef_74 3
+	mov %varDef_75 817
+	mov %cclassPtr_46 %varDef_73
+	mov %varDef_76 %cclassPtr_46
+	mov %cclassPtr_59 %varDef_76
+	%cmemberAddr_60 = add %cclassPtr_59 0
+	%cidVal_61 = load %cmemberAddr_60
+	%cres_62 = eq %cidVal_61 0
+	br %cres_62 <13> <14>
 
-<5> new_for_cond
-	%varDef_175 = phi <4> %varDef_174 <6> %varDef_176
-	mov %pos_27 %varDef_175
-	%condition_28 = lt %pos_27 %arrayEndPos_25
-	br %condition_28 <6> <8>
+<13> cif_true
+	mov %varDef_77 0
+	br <11>
 
-<6> new_for_body
-	%memberLength_30 = mul %idVal_20 8
-	%arrayLength_31 = add %memberLength_30 8
-	%arrayPtr_29 = malloc %arrayLength_31
-	store %idVal_20 %arrayPtr_29
-	%arrayBase_32 = add %arrayPtr_29 8
-	store %arrayBase_32 %pos_27
-	%pos_33 = add %pos_27 8
-	mov %varDef_176 %pos_33
-	br <5>
+<14> cif_merge
+	mov %cclassPtr_63 %varDef_76
+	%cmemberAddr_64 = add %cclassPtr_63 0
+	%cclassPtr_65 = load %cmemberAddr_64
+	%cres_66 = __arraySize ( %cclassPtr_65 )
+	mov %varDef_78 %cres_66
+	br <11>
 
-<8> new_for_end
-	mov %varDef_177 %arrayBase_24
-	mov %idVal_35 %varDef_169
-	mov %idVal_36 %varDef_169
-	%memberLength_38 = mul %idVal_35 8
-	%arrayLength_39 = add %memberLength_38 8
-	%arrayPtr_37 = malloc %arrayLength_39
-	store %idVal_35 %arrayPtr_37
-	%arrayBase_40 = add %arrayPtr_37 8
-	%arrayEndPos_41 = add %arrayBase_40 %memberLength_38
-	mov %varDef_178 %arrayBase_40
-	br <9>
+<11> after_call
+	%varDef_79 = phi <13> %varDef_77 <14> %varDef_78
+	mov %cres_47 %varDef_79
+	mov %cidVal_48 %varDef_74
+	%cres_49 = lt %cres_47 %cidVal_48
+	br %cres_49 <9> <10>
 
-<9> new_for_cond
-	%varDef_179 = phi <8> %varDef_178 <10> %varDef_180
-	mov %pos_43 %varDef_179
-	%condition_44 = lt %pos_43 %arrayEndPos_41
-	br %condition_44 <10> <12>
+<9> cif_true
+	mov %varDef_80 0
+	br <7>
 
-<10> new_for_body
-	%memberLength_46 = mul %idVal_36 8
-	%arrayLength_47 = add %memberLength_46 8
-	%arrayPtr_45 = malloc %arrayLength_47
-	store %idVal_36 %arrayPtr_45
-	%arrayBase_48 = add %arrayPtr_45 8
-	store %arrayBase_48 %pos_43
-	%pos_49 = add %pos_43 8
-	mov %varDef_180 %pos_49
-	br <9>
+<10> cif_merge
+	mov %cidVal_50 %varDef_75
+	mov %cclassPtr_51 %varDef_73
+	%cmemberAddr_52 = add %cclassPtr_51 0
+	%carrayBase_53 = load %cmemberAddr_52
+	mov %cidVal_54 %varDef_74
+	%coffset_55 = mul %cidVal_54 8
+	%celementAddr_56 = add %carrayBase_53 %coffset_55
+	store %cidVal_50 %celementAddr_56
+	mov %varDef_81 1
+	br <7>
 
-<12> new_for_end
-	mov %varDef_181 %arrayBase_40
-	mov %varDef_182 0
-	br <13>
+<7> after_call
+	%varDef_82 = phi <9> %varDef_80 <10> %varDef_81
+	mov %res_28 %varDef_82
+	br %res_28 <5> <6>
 
-<13> for_cond
-	%varDef_183 = phi <12> %varDef_182 <15> %varDef_188
-	mov %idVal_53 %varDef_183
-	mov %idVal_54 %varDef_169
-	%res_55 = lt %idVal_53 %idVal_54
-	br %res_55 <14> <16>
+<5> if_true
+	println ( $str_4 )
+	br <6>
 
-<14> for_body
-	mov %varDef_185 0
-	br <17>
-
-<17> for_cond
-	%varDef_186 = phi <14> %varDef_185 <18> %varDef_187
-	mov %idVal_56 %varDef_186
-	mov %idVal_57 %varDef_169
-	%res_58 = lt %idVal_56 %idVal_57
-	br %res_58 <18> <15>
-
-<18> for_body
-	mov %idVal_59 %varDef_183
-	mov %idVal_60 %varDef_186
-	%res_61 = add %idVal_59 %idVal_60
-	mov %arrayBase_62 %varDef_173
-	mov %idVal_63 %varDef_183
-	%offset_64 = mul %idVal_63 8
-	%elementAddr_65 = add %arrayBase_62 %offset_64
-	%arrayBase_66 = load %elementAddr_65
-	mov %idVal_67 %varDef_186
-	%offset_68 = mul %idVal_67 8
-	%elementAddr_69 = add %arrayBase_66 %offset_68
-	store %res_61 %elementAddr_69
-	mov %idVal_70 %varDef_186
-	mov %oldVal_71 %varDef_186
-	%newVal_72 = inc %oldVal_71
-	mov %varDef_187 %newVal_72
-	br <17>
-
-<15> for_step
-	mov %idVal_73 %varDef_183
-	mov %oldVal_74 %varDef_183
-	%newVal_75 = inc %oldVal_74
-	mov %varDef_188 %newVal_75
-	br <13>
-
-<16> for_end
-	mov %varDef_189 0
-	br <21>
-
-<21> for_cond
-	%varDef_190 = phi <16> %varDef_189 <23> %varDef_221
-	%varDef_191 = phi <16> %varDef_186 <23> %varDef_198
-	mov %idVal_76 %varDef_190
-	mov %idVal_77 %varDef_169
-	%res_78 = lt %idVal_76 %idVal_77
-	br %res_78 <22> <24>
-
-<22> for_body
-	mov %varDef_197 0
-	br <25>
-
-<25> for_cond
-	%varDef_198 = phi <22> %varDef_197 <27> %varDef_220
-	%varDef_199 = phi <22> %varDef_199 <27> %varDef_215
-	%varDef_200 = phi <22> %varDef_200 <27> %varDef_216
-	%varDef_201 = phi <22> %varDef_201 <27> %varDef_217
-	%varDef_202 = phi <22> %varDef_202 <27> %varDef_218
-	%varDef_203 = phi <22> %varDef_203 <27> %varDef_219
-	mov %idVal_79 %varDef_198
-	mov %idVal_80 %varDef_169
-	%res_81 = lt %idVal_79 %idVal_80
-	br %res_81 <26> <23>
-
-<26> for_body
-	mov %idVal_82 %varDef_198
-	mov %idVal_83 %varDef_190
-	%res_84 = ge %idVal_82 %idVal_83
-	br %res_84 <29> <27>
-
-<29> if_true
-	mov %varDef_204 0
-	br <31>
-
-<31> for_cond
-	%varDef_205 = phi <29> %varDef_204 <32> %varDef_214
-	%varDef_206 = phi <29> %varDef_200 <32> %varDef_213
-	%varDef_207 = phi <29> %varDef_201 <32> %varDef_212
-	%varDef_208 = phi <29> %varDef_202 <32> %varDef_211
-	%varDef_209 = phi <29> %varDef_203 <32> %varDef_210
-	mov %idVal_85 %varDef_205
-	mov %idVal_86 %varDef_169
-	%res_87 = lt %idVal_85 %idVal_86
-	br %res_87 <32> <27>
-
-<32> for_body
-	mov %arrayBase_89 %varDef_177
-	mov %idVal_90 %varDef_190
-	%offset_91 = mul %idVal_90 8
-	%elementAddr_92 = add %arrayBase_89 %offset_91
-	%arrayBase_93 = load %elementAddr_92
-	mov %idVal_94 %varDef_198
-	%offset_95 = mul %idVal_94 8
-	%elementAddr_96 = add %arrayBase_93 %offset_95
-	%elementVal_97 = load %elementAddr_96
-	mov %arrayBase_98 %varDef_173
-	mov %idVal_99 %varDef_190
-	%offset_100 = mul %idVal_99 8
-	%elementAddr_101 = add %arrayBase_98 %offset_100
-	%arrayBase_102 = load %elementAddr_101
-	mov %idVal_103 %varDef_205
-	%offset_104 = mul %idVal_103 8
-	%elementAddr_105 = add %arrayBase_102 %offset_104
-	%elementVal_106 = load %elementAddr_105
-	mov %arrayBase_107 %varDef_173
-	mov %idVal_108 %varDef_205
-	%offset_109 = mul %idVal_108 8
-	%elementAddr_110 = add %arrayBase_107 %offset_109
-	%arrayBase_111 = load %elementAddr_110
-	mov %idVal_112 %varDef_198
-	%offset_113 = mul %idVal_112 8
-	%elementAddr_114 = add %arrayBase_111 %offset_113
-	%elementVal_115 = load %elementAddr_114
-	mov %varDef_210 %elementVal_97
-	mov %varDef_211 %elementVal_106
-	mov %varDef_212 %elementVal_115
-	mov %cidVal_163 %varDef_210
-	mov %cidVal_164 %varDef_211
-	%cres_165 = add %cidVal_163 %cidVal_164
-	mov %cidVal_166 %varDef_212
-	%cres_167 = add %cres_165 %cidVal_166
-	%cres_168 = bit_and %cres_167 1073741823
-	mov %varDef_213 %cres_168
-	mov %res_88 %varDef_213
-	mov %arrayBase_116 %varDef_177
-	mov %idVal_117 %varDef_190
-	%offset_118 = mul %idVal_117 8
-	%elementAddr_119 = add %arrayBase_116 %offset_118
-	%arrayBase_120 = load %elementAddr_119
-	mov %idVal_121 %varDef_198
-	%offset_122 = mul %idVal_121 8
-	%elementAddr_123 = add %arrayBase_120 %offset_122
-	store %res_88 %elementAddr_123
-	mov %idVal_124 %varDef_205
-	mov %oldVal_125 %varDef_205
-	%newVal_126 = inc %oldVal_125
-	mov %varDef_214 %newVal_126
-	br <31>
-
-<27> for_step
-	%varDef_215 = phi <26> %varDef_199 <31> %varDef_205
-	%varDef_216 = phi <26> %varDef_200 <31> %varDef_206
-	%varDef_217 = phi <26> %varDef_201 <31> %varDef_207
-	%varDef_218 = phi <26> %varDef_202 <31> %varDef_208
-	%varDef_219 = phi <26> %varDef_203 <31> %varDef_209
-	mov %idVal_127 %varDef_198
-	mov %oldVal_128 %varDef_198
-	%newVal_129 = inc %oldVal_128
-	mov %varDef_220 %newVal_129
-	br <25>
-
-<23> for_step
-	mov %idVal_130 %varDef_190
-	mov %oldVal_131 %varDef_190
-	%newVal_132 = inc %oldVal_131
-	mov %varDef_221 %newVal_132
-	br <21>
-
-<24> for_end
-	mov %varDef_222 0
-	mov %varDef_223 0
-	br <35>
-
-<35> for_cond
-	%varDef_224 = phi <24> %varDef_223 <37> %varDef_232
-	%varDef_225 = phi <24> %varDef_191 <37> %varDef_228
-	%varDef_226 = phi <24> %varDef_222 <37> %varDef_229
-	mov %idVal_134 %varDef_224
-	mov %idVal_135 %varDef_169
-	%res_136 = lt %idVal_134 %idVal_135
-	br %res_136 <36> <38>
-
-<36> for_body
-	mov %varDef_227 0
-	br <39>
-
-<39> for_cond
-	%varDef_228 = phi <36> %varDef_227 <40> %varDef_231
-	%varDef_229 = phi <36> %varDef_226 <40> %varDef_230
-	mov %idVal_137 %varDef_228
-	mov %idVal_138 %varDef_169
-	%res_139 = lt %idVal_137 %idVal_138
-	br %res_139 <40> <37>
-
-<40> for_body
-	mov %idVal_140 %varDef_229
-	mov %arrayBase_141 %varDef_177
-	mov %idVal_142 %varDef_224
-	%offset_143 = mul %idVal_142 8
-	%elementAddr_144 = add %arrayBase_141 %offset_143
-	%arrayBase_145 = load %elementAddr_144
-	mov %idVal_146 %varDef_228
-	%offset_147 = mul %idVal_146 8
-	%elementAddr_148 = add %arrayBase_145 %offset_147
-	%elementVal_149 = load %elementAddr_148
-	%res_150 = add %idVal_140 %elementVal_149
-	%res_151 = bit_and %res_150 1073741823
-	mov %varDef_230 %res_151
-	mov %idVal_152 %varDef_228
-	mov %oldVal_153 %varDef_228
-	%newVal_154 = inc %oldVal_153
-	mov %varDef_231 %newVal_154
-	br <39>
-
-<37> for_step
-	mov %idVal_155 %varDef_224
-	mov %oldVal_156 %varDef_224
-	%newVal_157 = inc %oldVal_156
-	mov %varDef_232 %newVal_157
-	br <35>
-
-<38> for_end
-	mov %idVal_158 %varDef_226
-	__printInt ( %idVal_158 )
+<6> if_merge
+	print ( $str_5 )
+	mov %classPtr_31 %varDef_72
+	%res_30 = __vector_tostring ( %classPtr_31 )
+	println ( %res_30 )
+	print ( $str_6 )
+	mov %classPtr_34 %varDef_67
+	mov %idVal_35 %varDef_72
+	%res_33 = __vector_add ( %classPtr_34 %idVal_35 )
+	%res_32 = __vector_tostring ( %res_33 )
+	println ( %res_32 )
+	print ( $str_7 )
+	mov %classPtr_37 %varDef_67
+	mov %idVal_38 %varDef_72
+	%res_36 = __vector_dot ( %classPtr_37 %idVal_38 )
+	__printlnInt ( %res_36 )
+	print ( $str_8 )
+	mov %classPtr_41 %varDef_72
+	%res_40 = __vector_scalarInPlaceMultiply ( %classPtr_41 8 )
+	%res_39 = __vector_tostring ( %res_40 )
+	println ( %res_39 )
 	ret 0
 
 }

@@ -22,6 +22,10 @@ public class Pass {
     protected void collectDefUseRelation() {
         defMap = new LinkedHashMap<>();
         useMap = new LinkedHashMap<>();
+        for (LocalReg reg : irFunc.args) {
+            defMap.put(reg, null);
+            useMap.put(reg, new HashSet<>());
+        }
         BasicBlock bb = irFunc.getStartBB();
         while (bb != null) {
             Instruction inst = bb.getFirstInst();

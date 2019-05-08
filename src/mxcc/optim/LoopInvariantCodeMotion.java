@@ -75,6 +75,10 @@ public class LoopInvariantCodeMotion extends Pass {
                         for (Operand arg : call.getArgs()) {
                             if (arg instanceof IntImmediate || arg instanceof StringLiteral) continue;
                             assert arg instanceof LocalReg;
+                            if (defMap.get(arg) == null) {
+                                // arg's def is from declaration of function parameter.
+                                continue;
+                            }
                             BasicBlock defBB = defMap.get(arg).getParentBB();
                             if (loop.contains(defBB)) {
                                 invariant = false;

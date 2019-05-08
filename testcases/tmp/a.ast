@@ -1,241 +1,371 @@
 <Program>
-	<FunctionDecl> int func int a int b int c
-		<ReturnStmt>
-			<BinaryExpr> BIT_AND
-				<BinaryExpr> ADD
-					<BinaryExpr> ADD
-						<IdentifierExpr> a
-						<IdentifierExpr> b
-					<IdentifierExpr> c
-				<BinaryExpr> SUB
-					<BinaryExpr> LSFT
-						<IntConst> 1
-						<IntConst> 30
+	<ClassDecl> vector
+		<VariableDecl> int[] data
+		<FunctionDecl> void init int[] vec
+			<IfStmt>
+				<BinaryExpr> EQ
+					<IdentifierExpr> vec
+					<NullLiteral>
+				<BlockStmt>
+					<ReturnStmt>
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> data
+				<NewExpr> int[]
+					<FunctionCall>
+						<MemberAccess>
+							<IdentifierExpr> vec
+							<IdentifierExpr> size
+			<VariableDeclStmt>
+				<VariableDecl> int i
+			<ForStmt>
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> i
+					<IntConst> 0
+				<BinaryExpr> LT
+					<IdentifierExpr> i
+					<FunctionCall>
+						<MemberAccess>
+							<IdentifierExpr> vec
+							<IdentifierExpr> size
+				<UnaryExpr> INC
+					<IdentifierExpr> i
+				<BlockStmt>
+					<BinaryExpr> ASSIGN
+						<ArrayAccess>
+							<IdentifierExpr> data
+							<IdentifierExpr> i
+						<ArrayAccess>
+							<IdentifierExpr> vec
+							<IdentifierExpr> i
+		<FunctionDecl> int getDim
+			<IfStmt>
+				<BinaryExpr> EQ
+					<IdentifierExpr> data
+					<NullLiteral>
+				<BlockStmt>
+					<ReturnStmt>
+						<IntConst> 0
+			<ReturnStmt>
+				<FunctionCall>
+					<MemberAccess>
+						<IdentifierExpr> data
+						<IdentifierExpr> size
+		<FunctionDecl> int dot vector rhs
+			<VariableDeclStmt>
+				<VariableDecl> int i
+					<IntConst> 0
+			<VariableDeclStmt>
+				<VariableDecl> int result
+					<IntConst> 0
+			<WhileStmt>
+				<BinaryExpr> LT
+					<IdentifierExpr> i
+					<FunctionCall>
+						<IdentifierExpr> getDim
+				<BlockStmt>
+					<BinaryExpr> ASSIGN
+						<IdentifierExpr> result
+						<BinaryExpr> MUL
+							<ArrayAccess>
+								<IdentifierExpr> data
+								<IdentifierExpr> i
+							<ArrayAccess>
+								<MemberAccess>
+									<IdentifierExpr> rhs
+									<IdentifierExpr> data
+								<IdentifierExpr> i
+					<UnaryExpr> INC
+						<IdentifierExpr> i
+			<ReturnStmt>
+				<IdentifierExpr> result
+		<FunctionDecl> vector scalarInPlaceMultiply int c
+			<IfStmt>
+				<BinaryExpr> EQ
+					<IdentifierExpr> data
+					<NullLiteral>
+				<BlockStmt>
+					<ReturnStmt>
+						<NullLiteral>
+			<VariableDeclStmt>
+				<VariableDecl> int i
+			<ForStmt>
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> i
+					<IntConst> 0
+				<BinaryExpr> LT
+					<IdentifierExpr> i
+					<FunctionCall>
+						<IdentifierExpr> getDim
+				<UnaryExpr> INC
+					<IdentifierExpr> i
+				<BlockStmt>
+					<BinaryExpr> ASSIGN
+						<ArrayAccess>
+							<MemberAccess>
+								<IdentifierExpr> this
+								<IdentifierExpr> data
+							<IdentifierExpr> i
+						<BinaryExpr> MUL
+							<IdentifierExpr> c
+							<ArrayAccess>
+								<MemberAccess>
+									<IdentifierExpr> this
+									<IdentifierExpr> data
+								<IdentifierExpr> i
+			<ReturnStmt>
+				<IdentifierExpr> this
+		<FunctionDecl> vector add vector rhs
+			<IfStmt>
+				<BinaryExpr> OR
+					<BinaryExpr> NEQ
+						<FunctionCall>
+							<IdentifierExpr> getDim
+						<FunctionCall>
+							<MemberAccess>
+								<IdentifierExpr> rhs
+								<IdentifierExpr> getDim
+					<BinaryExpr> EQ
+						<FunctionCall>
+							<IdentifierExpr> getDim
+						<IntConst> 0
+				<BlockStmt>
+					<ReturnStmt>
+						<NullLiteral>
+			<VariableDeclStmt>
+				<VariableDecl> vector temp
+					<NewExpr> vector
+			<VariableDeclStmt>
+				<VariableDecl> int i
+			<BinaryExpr> ASSIGN
+				<MemberAccess>
+					<IdentifierExpr> temp
+					<IdentifierExpr> data
+				<NewExpr> int[]
+					<FunctionCall>
+						<IdentifierExpr> getDim
+			<ForStmt>
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> i
+					<IntConst> 0
+				<BinaryExpr> LT
+					<IdentifierExpr> i
+					<FunctionCall>
+						<IdentifierExpr> getDim
+				<UnaryExpr> INC
+					<IdentifierExpr> i
+				<BlockStmt>
+					<BinaryExpr> ASSIGN
+						<ArrayAccess>
+							<MemberAccess>
+								<IdentifierExpr> temp
+								<IdentifierExpr> data
+							<IdentifierExpr> i
+						<BinaryExpr> ADD
+							<ArrayAccess>
+								<IdentifierExpr> data
+								<IdentifierExpr> i
+							<ArrayAccess>
+								<MemberAccess>
+									<IdentifierExpr> rhs
+									<IdentifierExpr> data
+								<IdentifierExpr> i
+			<ReturnStmt>
+				<IdentifierExpr> temp
+		<FunctionDecl> bool set int idx int value
+			<IfStmt>
+				<BinaryExpr> LT
+					<FunctionCall>
+						<IdentifierExpr> getDim
+					<IdentifierExpr> idx
+				<BlockStmt>
+					<ReturnStmt>
+						<BoolConst> false
+			<BinaryExpr> ASSIGN
+				<ArrayAccess>
+					<IdentifierExpr> data
+					<IdentifierExpr> idx
+				<IdentifierExpr> value
+			<ReturnStmt>
+				<BoolConst> true
+		<FunctionDecl> string tostring
+			<VariableDeclStmt>
+				<VariableDecl> string temp
+					<StringConst> ( 
+			<IfStmt>
+				<BinaryExpr> GT
+					<FunctionCall>
+						<IdentifierExpr> getDim
+					<IntConst> 0
+				<BlockStmt>
+					<BinaryExpr> ASSIGN
+						<IdentifierExpr> temp
+						<BinaryExpr> ADD
+							<IdentifierExpr> temp
+							<FunctionCall>
+								<IdentifierExpr> toString
+								<ArrayAccess>
+									<IdentifierExpr> data
+									<IntConst> 0
+			<VariableDeclStmt>
+				<VariableDecl> int i
+			<ForStmt>
+				<BinaryExpr> ASSIGN
+					<IdentifierExpr> i
 					<IntConst> 1
+				<BinaryExpr> LT
+					<IdentifierExpr> i
+					<FunctionCall>
+						<IdentifierExpr> getDim
+				<UnaryExpr> INC
+					<IdentifierExpr> i
+				<BlockStmt>
+					<BinaryExpr> ASSIGN
+						<IdentifierExpr> temp
+						<BinaryExpr> ADD
+							<BinaryExpr> ADD
+								<IdentifierExpr> temp
+								<StringConst> , 
+							<FunctionCall>
+								<IdentifierExpr> toString
+								<ArrayAccess>
+									<IdentifierExpr> data
+									<IdentifierExpr> i
+			<BinaryExpr> ASSIGN
+				<IdentifierExpr> temp
+				<BinaryExpr> ADD
+					<IdentifierExpr> temp
+					<StringConst>  )
+			<ReturnStmt>
+				<IdentifierExpr> temp
+		<FunctionDecl> bool copy vector rhs
+			<IfStmt>
+				<BinaryExpr> EQ
+					<IdentifierExpr> rhs
+					<NullLiteral>
+				<BlockStmt>
+					<ReturnStmt>
+						<BoolConst> false
+			<IfStmt>
+				<BinaryExpr> EQ
+					<FunctionCall>
+						<MemberAccess>
+							<IdentifierExpr> rhs
+							<IdentifierExpr> getDim
+					<IntConst> 0
+				<BlockStmt>
+					<BinaryExpr> ASSIGN
+						<IdentifierExpr> data
+						<NullLiteral>
+			<ReturnStmt>
+				<BoolConst> true
 	<FunctionDecl> int main
 		<VariableDeclStmt>
-			<VariableDecl> int n
-				<FunctionCall>
-					<IdentifierExpr> getInt
+			<VariableDecl> vector x
+				<NewExpr> vector
 		<VariableDeclStmt>
-			<VariableDecl> int[][] f
-				<NewExpr> int[][]
-					<IdentifierExpr> n
-					<IdentifierExpr> n
-		<VariableDeclStmt>
-			<VariableDecl> int[][] g
-				<NewExpr> int[][]
-					<IdentifierExpr> n
-					<IdentifierExpr> n
-		<VariableDeclStmt>
-			<VariableDecl> int[][] g_useless
-				<NewExpr> int[][]
-					<IdentifierExpr> n
-					<IdentifierExpr> n
+			<VariableDecl> int[] a
+				<NewExpr> int[]
+					<IntConst> 10
 		<VariableDeclStmt>
 			<VariableDecl> int i
-		<VariableDeclStmt>
-			<VariableDecl> int j
-		<VariableDeclStmt>
-			<VariableDecl> int k
 		<ForStmt>
 			<BinaryExpr> ASSIGN
 				<IdentifierExpr> i
 				<IntConst> 0
 			<BinaryExpr> LT
 				<IdentifierExpr> i
-				<IdentifierExpr> n
+				<IntConst> 10
 			<UnaryExpr> INC
 				<IdentifierExpr> i
 			<BlockStmt>
-				<ForStmt>
-					<BinaryExpr> ASSIGN
-						<IdentifierExpr> j
-						<IntConst> 0
-					<BinaryExpr> LT
-						<IdentifierExpr> j
-						<IdentifierExpr> n
-					<UnaryExpr> INC
-						<IdentifierExpr> j
-					<BlockStmt>
-						<BinaryExpr> ASSIGN
-							<ArrayAccess>
-								<ArrayAccess>
-									<IdentifierExpr> f
-									<IdentifierExpr> i
-								<IdentifierExpr> j
-							<BinaryExpr> ADD
-								<IdentifierExpr> i
-								<IdentifierExpr> j
-		<ForStmt>
-			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
-				<IntConst> 0
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<IdentifierExpr> n
-			<UnaryExpr> INC
-				<IdentifierExpr> i
-			<BlockStmt>
-				<ForStmt>
-					<BinaryExpr> ASSIGN
-						<IdentifierExpr> j
-						<IntConst> 0
-					<BinaryExpr> LT
-						<IdentifierExpr> j
-						<IdentifierExpr> n
-					<UnaryExpr> INC
-						<IdentifierExpr> j
-					<BlockStmt>
-						<ForStmt>
-							<BinaryExpr> ASSIGN
-								<IdentifierExpr> k
-								<IntConst> 0
-							<BinaryExpr> LT
-								<IdentifierExpr> k
-								<IdentifierExpr> n
-							<UnaryExpr> INC
-								<IdentifierExpr> k
-							<BlockStmt>
-								<IfStmt>
-									<BinaryExpr> GE
-										<IdentifierExpr> j
-										<IdentifierExpr> i
-									<BlockStmt>
-										<BinaryExpr> ASSIGN
-											<ArrayAccess>
-												<ArrayAccess>
-													<IdentifierExpr> g
-													<IdentifierExpr> i
-												<IdentifierExpr> j
-											<FunctionCall>
-												<IdentifierExpr> func
-												<ArrayAccess>
-													<ArrayAccess>
-														<IdentifierExpr> g
-														<IdentifierExpr> i
-													<IdentifierExpr> j
-												<ArrayAccess>
-													<ArrayAccess>
-														<IdentifierExpr> f
-														<IdentifierExpr> i
-													<IdentifierExpr> k
-												<ArrayAccess>
-													<ArrayAccess>
-														<IdentifierExpr> f
-														<IdentifierExpr> k
-													<IdentifierExpr> j
-										<BinaryExpr> ASSIGN
-											<ArrayAccess>
-												<ArrayAccess>
-													<IdentifierExpr> g_useless
-													<IdentifierExpr> i
-												<IdentifierExpr> j
-											<FunctionCall>
-												<IdentifierExpr> func
-												<ArrayAccess>
-													<ArrayAccess>
-														<IdentifierExpr> g
-														<IdentifierExpr> i
-													<IdentifierExpr> j
-												<ArrayAccess>
-													<ArrayAccess>
-														<IdentifierExpr> f
-														<IdentifierExpr> i
-													<IdentifierExpr> k
-												<ArrayAccess>
-													<ArrayAccess>
-														<IdentifierExpr> f
-														<IdentifierExpr> k
-													<IdentifierExpr> j
-										<BinaryExpr> ASSIGN
-											<ArrayAccess>
-												<ArrayAccess>
-													<IdentifierExpr> g_useless
-													<IdentifierExpr> i
-												<IdentifierExpr> j
-											<FunctionCall>
-												<IdentifierExpr> func
-												<ArrayAccess>
-													<ArrayAccess>
-														<IdentifierExpr> g
-														<IdentifierExpr> i
-													<IdentifierExpr> j
-												<ArrayAccess>
-													<ArrayAccess>
-														<IdentifierExpr> f
-														<IdentifierExpr> i
-													<IdentifierExpr> k
-												<ArrayAccess>
-													<ArrayAccess>
-														<IdentifierExpr> f
-														<IdentifierExpr> k
-													<IdentifierExpr> j
-										<BinaryExpr> ASSIGN
-											<ArrayAccess>
-												<ArrayAccess>
-													<IdentifierExpr> g_useless
-													<IdentifierExpr> i
-												<IdentifierExpr> j
-											<FunctionCall>
-												<IdentifierExpr> func
-												<ArrayAccess>
-													<ArrayAccess>
-														<IdentifierExpr> g
-														<IdentifierExpr> i
-													<IdentifierExpr> j
-												<ArrayAccess>
-													<ArrayAccess>
-														<IdentifierExpr> f
-														<IdentifierExpr> i
-													<IdentifierExpr> k
-												<ArrayAccess>
-													<ArrayAccess>
-														<IdentifierExpr> f
-														<IdentifierExpr> k
-													<IdentifierExpr> j
-		<VariableDeclStmt>
-			<VariableDecl> int sum
-				<IntConst> 0
-		<ForStmt>
-			<BinaryExpr> ASSIGN
-				<IdentifierExpr> i
-				<IntConst> 0
-			<BinaryExpr> LT
-				<IdentifierExpr> i
-				<IdentifierExpr> n
-			<UnaryExpr> INC
-				<IdentifierExpr> i
-			<BlockStmt>
-				<ForStmt>
-					<BinaryExpr> ASSIGN
-						<IdentifierExpr> j
-						<IntConst> 0
-					<BinaryExpr> LT
-						<IdentifierExpr> j
-						<IdentifierExpr> n
-					<UnaryExpr> INC
-						<IdentifierExpr> j
-					<BlockStmt>
-						<BinaryExpr> ASSIGN
-							<IdentifierExpr> sum
-							<BinaryExpr> BIT_AND
-								<BinaryExpr> ADD
-									<IdentifierExpr> sum
-									<ArrayAccess>
-										<ArrayAccess>
-											<IdentifierExpr> g
-											<IdentifierExpr> i
-										<IdentifierExpr> j
-								<BinaryExpr> SUB
-									<BinaryExpr> LSFT
-										<IntConst> 1
-										<IntConst> 30
-									<IntConst> 1
+				<BinaryExpr> ASSIGN
+					<ArrayAccess>
+						<IdentifierExpr> a
+						<IdentifierExpr> i
+					<BinaryExpr> SUB
+						<IntConst> 9
+						<IdentifierExpr> i
+		<FunctionCall>
+			<MemberAccess>
+				<IdentifierExpr> x
+				<IdentifierExpr> init
+			<IdentifierExpr> a
 		<FunctionCall>
 			<IdentifierExpr> print
+			<StringConst> vector x: 
+		<FunctionCall>
+			<IdentifierExpr> println
+			<FunctionCall>
+				<MemberAccess>
+					<IdentifierExpr> x
+					<IdentifierExpr> tostring
+		<VariableDeclStmt>
+			<VariableDecl> vector y
+				<NewExpr> vector
+		<FunctionCall>
+			<MemberAccess>
+				<IdentifierExpr> y
+				<IdentifierExpr> copy
+			<IdentifierExpr> x
+		<IfStmt>
+			<FunctionCall>
+				<MemberAccess>
+					<IdentifierExpr> y
+					<IdentifierExpr> set
+				<IntConst> 3
+				<IntConst> 817
+			<BlockStmt>
+				<FunctionCall>
+					<IdentifierExpr> println
+					<StringConst> excited!
+		<FunctionCall>
+			<IdentifierExpr> print
+			<StringConst> vector y: 
+		<FunctionCall>
+			<IdentifierExpr> println
+			<FunctionCall>
+				<MemberAccess>
+					<IdentifierExpr> y
+					<IdentifierExpr> tostring
+		<FunctionCall>
+			<IdentifierExpr> print
+			<StringConst> x + y: 
+		<FunctionCall>
+			<IdentifierExpr> println
+			<FunctionCall>
+				<MemberAccess>
+					<FunctionCall>
+						<MemberAccess>
+							<IdentifierExpr> x
+							<IdentifierExpr> add
+						<IdentifierExpr> y
+					<IdentifierExpr> tostring
+		<FunctionCall>
+			<IdentifierExpr> print
+			<StringConst> x * y: 
+		<FunctionCall>
+			<IdentifierExpr> println
 			<FunctionCall>
 				<IdentifierExpr> toString
-				<IdentifierExpr> sum
+				<FunctionCall>
+					<MemberAccess>
+						<IdentifierExpr> x
+						<IdentifierExpr> dot
+					<IdentifierExpr> y
+		<FunctionCall>
+			<IdentifierExpr> print
+			<StringConst> (1 << 3) * y: 
+		<FunctionCall>
+			<IdentifierExpr> println
+			<FunctionCall>
+				<MemberAccess>
+					<FunctionCall>
+						<MemberAccess>
+							<IdentifierExpr> y
+							<IdentifierExpr> scalarInPlaceMultiply
+						<BinaryExpr> LSFT
+							<IntConst> 1
+							<IntConst> 3
+					<IdentifierExpr> tostring
 		<ReturnStmt>
 			<IntConst> 0
