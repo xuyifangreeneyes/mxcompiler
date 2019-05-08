@@ -60,10 +60,10 @@ define main ( ) {
 	store %res_1 %arrayPtr_5
 	%arrayBase_8 = add %arrayPtr_5 8
 	%arrayEndPos_9 = add %arrayBase_8 %memberLength_6
-	mov %varDef_171 %arrayBase_8
 	br <1>
 
 <1> new_for_cond
+	%varDef_171 = phi <0> %arrayBase_8 <2> %pos_17
 	%condition_12 = lt %varDef_171 %arrayEndPos_9
 	br %condition_12 <2> <4>
 
@@ -75,7 +75,6 @@ define main ( ) {
 	%arrayBase_16 = add %arrayPtr_13 8
 	store %arrayBase_16 %varDef_171
 	%pos_17 = add %varDef_171 8
-	mov %varDef_171 %pos_17
 	br <1>
 
 <4> new_for_end
@@ -85,10 +84,10 @@ define main ( ) {
 	store %res_1 %arrayPtr_21
 	%arrayBase_24 = add %arrayPtr_21 8
 	%arrayEndPos_25 = add %arrayBase_24 %memberLength_22
-	mov %varDef_175 %arrayBase_24
 	br <5>
 
 <5> new_for_cond
+	%varDef_175 = phi <4> %arrayBase_24 <6> %pos_33
 	%condition_28 = lt %varDef_175 %arrayEndPos_25
 	br %condition_28 <6> <8>
 
@@ -100,7 +99,6 @@ define main ( ) {
 	%arrayBase_32 = add %arrayPtr_29 8
 	store %arrayBase_32 %varDef_175
 	%pos_33 = add %varDef_175 8
-	mov %varDef_175 %pos_33
 	br <5>
 
 <8> new_for_end
@@ -110,10 +108,10 @@ define main ( ) {
 	store %res_1 %arrayPtr_37
 	%arrayBase_40 = add %arrayPtr_37 8
 	%arrayEndPos_41 = add %arrayBase_40 %memberLength_38
-	mov %varDef_179 %arrayBase_40
 	br <9>
 
 <9> new_for_cond
+	%varDef_179 = phi <8> %arrayBase_40 <10> %pos_49
 	%condition_44 = lt %varDef_179 %arrayEndPos_41
 	br %condition_44 <10> <12>
 
@@ -125,22 +123,21 @@ define main ( ) {
 	%arrayBase_48 = add %arrayPtr_45 8
 	store %arrayBase_48 %varDef_179
 	%pos_49 = add %varDef_179 8
-	mov %varDef_179 %pos_49
 	br <9>
 
 <12> new_for_end
-	mov %varDef_183 0
 	br <13>
 
 <13> for_cond
+	%varDef_183 = phi <12> 0 <15> %newVal_75
 	%res_55 = lt %varDef_183 %res_1
 	br %res_55 <14> <16>
 
 <14> for_body
-	mov %varDef_186 0
 	br <17>
 
 <17> for_cond
+	%varDef_186 = phi <14> 0 <18> %newVal_72
 	%res_58 = lt %varDef_186 %res_1
 	br %res_58 <18> <15>
 
@@ -153,61 +150,48 @@ define main ( ) {
 	%elementAddr_69 = add %arrayBase_66 %offset_68
 	store %res_61 %elementAddr_69
 	%newVal_72 = inc %varDef_186
-	mov %varDef_186 %newVal_72
 	br <17>
 
 <15> for_step
 	%newVal_75 = inc %varDef_183
-	mov %varDef_183 %newVal_75
 	br <13>
 
 <16> for_end
-	mov %varDef_190 0
 	br <21>
 
 <21> for_cond
+	%varDef_190 = phi <16> 0 <23> %newVal_132
 	%res_78 = lt %varDef_190 %res_1
 	br %res_78 <22> <24>
 
 <22> for_body
-	mov %varDef_198 0
 	br <25>
 
 <25> for_cond
+	%varDef_198 = phi <22> 0 <27> %newVal_129
+	%varDef_199 = phi <22> %varDef_199 <27> %varDef_215
+	%varDef_200 = phi <22> %varDef_200 <27> %varDef_216
+	%varDef_201 = phi <22> %varDef_201 <27> %varDef_217
+	%varDef_202 = phi <22> %varDef_202 <27> %varDef_218
+	%varDef_203 = phi <22> %varDef_203 <27> %varDef_219
 	%res_81 = lt %varDef_198 %res_1
 	br %res_81 <26> <23>
 
 <26> for_body
 	%res_84 = ge %varDef_198 %varDef_190
-	br %res_84 <29> <45>
-
-<45> parallel_copy
-	mov %varDef_216 %varDef_200
-	mov %varDef_218 %varDef_202
-	mov %varDef_215 %varDef_199
-	mov %varDef_217 %varDef_201
-	mov %varDef_219 %varDef_203
-	br <27>
+	br %res_84 <29> <27>
 
 <29> if_true
-	mov %varDef_208 %varDef_202
-	mov %varDef_206 %varDef_200
-	mov %varDef_207 %varDef_201
-	mov %varDef_209 %varDef_203
-	mov %varDef_205 0
 	br <31>
 
 <31> for_cond
+	%varDef_205 = phi <29> 0 <32> %newVal_126
+	%varDef_206 = phi <29> %varDef_200 <32> %cres_168
+	%varDef_207 = phi <29> %varDef_201 <32> %elementVal_115
+	%varDef_208 = phi <29> %varDef_202 <32> %elementVal_106
+	%varDef_209 = phi <29> %varDef_203 <32> %elementVal_97
 	%res_87 = lt %varDef_205 %res_1
-	br %res_87 <32> <46>
-
-<46> parallel_copy
-	mov %varDef_216 %varDef_206
-	mov %varDef_215 %varDef_205
-	mov %varDef_219 %varDef_209
-	mov %varDef_217 %varDef_207
-	mov %varDef_218 %varDef_208
-	br <27>
+	br %res_87 <32> <27>
 
 <32> for_body
 	%offset_91 = mul %varDef_190 8
@@ -232,43 +216,36 @@ define main ( ) {
 	%elementAddr_123 = add %arrayBase_120 %offset_95
 	store %cres_168 %elementAddr_123
 	%newVal_126 = inc %varDef_205
-	mov %varDef_208 %elementVal_106
-	mov %varDef_207 %elementVal_115
-	mov %varDef_205 %newVal_126
-	mov %varDef_209 %elementVal_97
-	mov %varDef_206 %cres_168
 	br <31>
 
 <27> for_step
+	%varDef_215 = phi <26> %varDef_199 <31> %varDef_205
+	%varDef_216 = phi <26> %varDef_200 <31> %varDef_206
+	%varDef_217 = phi <26> %varDef_201 <31> %varDef_207
+	%varDef_218 = phi <26> %varDef_202 <31> %varDef_208
+	%varDef_219 = phi <26> %varDef_203 <31> %varDef_209
 	%newVal_129 = inc %varDef_198
-	mov %varDef_198 %newVal_129
-	mov %varDef_203 %varDef_219
-	mov %varDef_200 %varDef_216
-	mov %varDef_201 %varDef_217
-	mov %varDef_199 %varDef_215
-	mov %varDef_202 %varDef_218
 	br <25>
 
 <23> for_step
 	%newVal_132 = inc %varDef_190
-	mov %varDef_190 %newVal_132
 	br <21>
 
 <24> for_end
-	mov %varDef_224 0
-	mov %varDef_226 0
 	br <35>
 
 <35> for_cond
+	%varDef_224 = phi <24> 0 <37> %newVal_157
+	%varDef_226 = phi <24> 0 <37> %varDef_229
 	%res_136 = lt %varDef_224 %res_1
 	br %res_136 <36> <38>
 
 <36> for_body
-	mov %varDef_228 0
-	mov %varDef_229 %varDef_226
 	br <39>
 
 <39> for_cond
+	%varDef_228 = phi <36> 0 <40> %newVal_154
+	%varDef_229 = phi <36> %varDef_226 <40> %res_151
 	%res_139 = lt %varDef_228 %res_1
 	br %res_139 <40> <37>
 
@@ -282,14 +259,10 @@ define main ( ) {
 	%res_150 = add %varDef_229 %elementVal_149
 	%res_151 = bit_and %res_150 1073741823
 	%newVal_154 = inc %varDef_228
-	mov %varDef_228 %newVal_154
-	mov %varDef_229 %res_151
 	br <39>
 
 <37> for_step
 	%newVal_157 = inc %varDef_224
-	mov %varDef_226 %varDef_229
-	mov %varDef_224 %newVal_157
 	br <35>
 
 <38> for_end

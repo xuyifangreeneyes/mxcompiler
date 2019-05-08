@@ -62,22 +62,4 @@ public class Function {
         return name;
     }
 
-    private int getNumberOfInsts() {
-        int counter = 0;
-        BasicBlock bb = this.getStartBB();
-        while (bb != null) {
-            Instruction inst = bb.getFirstInst();
-            while (inst != null) {
-                ++counter;
-                inst = inst.next;
-            }
-            bb = bb.next;
-        }
-        return counter;
-    }
-
-    public boolean isInlinable() {
-        return getNumberOfInsts() < 100;
-    }
-
 }

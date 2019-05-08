@@ -23,6 +23,43 @@ public class FunctionInliner {
             assert funcBackupMap.containsKey(func);
             prohibited.add(funcBackupMap.get(func));
         }
+
+        for (Function func : funcBackupMap.values()) {
+            if (prohibited.contains(func)) continue;
+            if (calcInstNumber(func) >= 100) {
+                prohibited.add(func);
+            }
+        }
+    }
+
+    private int calcInstNumber(Function func) {
+        LoopFinder loopFinder = new LoopFinder(func);
+        Map<BasicBlock, Set<BasicBlock>> loopMap = loopFinder.getLoopMap();
+        Map<BasicBlock, Integer> weightMap = new HashMap<>();
+        BasicBlock bb = func.getStartBB();
+        while (bb != null) {
+            int weight = 1;
+            for (Set<BasicBlock> loop : loopMap.values()) {
+                if (loop.contains(bb)) {
+                    weight *= 10;
+                }
+            }
+            weightMap.put(bb, weight);
+            bb = bb.next;
+        }
+
+        int num = 0;
+        bb = func.getStartBB();
+        while (bb != null) {
+            int weight = weightMap.get(bb);
+            Instruction inst = bb.getFirstInst();
+            while (inst != null) {
+                num += weight;
+                inst = inst.next;
+            }
+            bb = bb.next;
+        }
+        return num;
     }
 
     public void run() {
@@ -31,12 +68,13 @@ public class FunctionInliner {
             for (Call callInst : collectInlineCall()) {
                 Transplantor transplantor = new Transplantor(callInst, funcBackupMap.get(callInst.getFunc().IRFunc));
                 transplantor.fork();
+                System.err.println("inline " + callInst.getFunc().IRFunc.getName() + " to " + callInst.getParentBB().getParentFunc().getName());
                 ++counter;
-                if (counter > 30) break;
+                if (counter > 50) break;
             }
-            if (counter > 30) break;
+            if (counter > 50) break;
         }
-//        System.out.println(counter);
+        System.err.println("total inline: " + counter);
     }
 
     private List<Call> collectInlineCall() {
@@ -49,7 +87,7 @@ public class FunctionInliner {
                     if (inst instanceof Call) {
                         Call callInst = (Call) inst;
                         Function callFunc = funcBackupMap.get(callInst.getFunc().IRFunc);
-                        if (callFunc != null && callFunc.isInlinable() && !prohibited.contains(callFunc)) {
+                        if (callFunc != null && !prohibited.contains(callFunc)) {
                             callList.add(callInst);
                         }
                     }

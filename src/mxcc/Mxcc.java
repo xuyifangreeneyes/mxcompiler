@@ -132,6 +132,10 @@ public class Mxcc {
             CFGSimplifier.visit(ir);
 //            if (Config.debugMode) printIR("a_cfg_" + i + ".ll");
         }
+        // Since only calls of pure function would be moved(which don't use GlobalReg),
+        // it's ok to execute LoopInvariantCodeMotion after GlobalRegPromoter.
+        LoopInvariantCodeMotion.visit(ir);
+        if (Config.debugMode) printIR("a_code_motion.ll");
 //        if (Config.debugMode) printIR("before_des.ll");
         SSADestructor.visit(ir);
 //        if (Config.debugMode) printIR("after_des.ll");

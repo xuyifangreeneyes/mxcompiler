@@ -1,25 +1,7 @@
 default rel
 
-global _N
-global _head
-global _targetx
-global _targety
-global _x
-global _y
-global _xlist
-global _ylist
-global _tail
-global _ok
-global _now
-global _dx
-global _dy
-global _step
-global _i
-global _j
 global __globalInit
-global origin
-global check
-global addList
+global func
 global main
 global print
 global println
@@ -55,60 +37,44 @@ SECTION .text
 __globalInit:
 		push    rbp
 		mov     rbp, rsp
-		sub     rsp, 32
-		mov     qword [rbp - 8], r13
-		mov     qword [rbp - 16], r14
-		mov     qword [rbp - 24], r15
-		mov     rdi, 96008
-		call    malloc
-		mov     r14, rax
-		mov     qword [r14], 12000
-		add     r14, 8
-		mov     rdi, 96008
-		call    malloc
-		mov     r13, rax
-		mov     qword [r13], 12000
-		add     r13, 8
-		mov     rdi, 72
-		call    malloc
-		mov     r15, rax
-		mov     qword [r15], 8
-		add     r15, 8
-		mov     rdi, 80
-		call    malloc
-		mov     qword [rax], 9
-		add     rax, 8
-		mov     qword [rel _dx], r15
-		mov     qword [rel _xlist], r14
-		mov     qword [rel _ylist], r13
-		mov     qword [rel _dy], rax
-		mov     r13, qword [rbp - 8]
-		mov     r14, qword [rbp - 16]
-		mov     r15, qword [rbp - 24]
-		mov     rsp, rbp
 		pop     rbp
 		ret     
 
-origin:
+func:
 		push    rbp
 		mov     rbp, rsp
-		sub     rsp, 32
-		mov     qword [rbp - 8], r13
-		mov     qword [rbp - 16], r14
-		mov     qword [rbp - 24], r15
-		mov     r13, rdi
-		mov     r15, qword [rel _j]
-		mov     rdi, r13
-		shl     rdi, 3
+		add     rdi, rsi
+		add     rdi, rdx
+		and     rdi, 1073741823
+		mov     rax, rdi
+		pop     rbp
+		ret     
+
+main:
+		push    rbp
+		mov     rbp, rsp
+		sub     rsp, 80
+		mov     qword [rbp - 8], r12
+		mov     qword [rbp - 16], rbx
+		mov     qword [rbp - 24], r14
+		mov     qword [rbp - 32], r13
+		mov     qword [rbp - 40], r15
+		call    __globalInit
+		call    getInt
+		mov     r13, rax
+		mov     r12, r13
+		shl     r12, 3
+		mov     rdi, r12
 		add     rdi, 8
 		call    malloc
 		mov     qword [rax], r13
 		mov     r14, rax
 		add     r14, 8
-		mov     rcx, r15
-		mov     r15, 0
+		mov     rbx, r14
+		add     rbx, r12
+		mov     r12, r14
 __L_1:
-		cmp     r15, r13
+		cmp     r12, rbx
 		jge     __L_2
 __L_3:
 		mov     rdi, r13
@@ -117,488 +83,191 @@ __L_3:
 		call    malloc
 		mov     qword [rax], r13
 		add     rax, 8
-		mov     rcx, r15
-		shl     rcx, 3
-		mov     r8, r14
-		add     r8, rcx
-		mov     qword [r8], rax
-		mov     rcx, 0
-__L_4:
-		cmp     rcx, r13
-		jge     __L_5
-__L_6:
-		mov     r8, r15
-		shl     r8, 3
-		mov     rdx, r14
-		add     rdx, r8
-		mov     rdx, qword [rdx]
-		mov     r8, rcx
-		shl     r8, 3
-		add     rdx, r8
-		mov     qword [rdx], 0
-		inc     rcx
-		jmp     __L_4
-__L_5:
-		inc     r15
+		mov     qword [r12], rax
+		add     r12, 8
 		jmp     __L_1
 __L_2:
-		mov     qword [rel _tail], 0
-		mov     qword [rel _i], r15
-		mov     qword [rel _head], 0
-		mov     qword [rel _step], r14
-		mov     qword [rel _j], rcx
-		mov     r13, qword [rbp - 8]
-		mov     r14, qword [rbp - 16]
-		mov     r15, qword [rbp - 24]
-		mov     rsp, rbp
-		pop     rbp
-		ret     
-
-check:
-		push    rbp
-		mov     rbp, rsp
-		mov     rcx, qword [rel _N]
-		cmp     rdi, rcx
-		jge     __L_7
-__L_8:
-		cmp     rdi, 0
-		jl      __L_7
-__L_9:
-		mov     rax, 1
-		jmp     __L_10
-__L_7:
-		mov     rax, 0
-__L_10:
-		pop     rbp
-		ret     
-
-addList:
-		push    rbp
-		mov     rbp, rsp
-		mov     qword [rbp - 8], r13
-		mov     qword [rbp - 16], r14
-		mov     qword [rbp - 24], r15
-		mov     r13, qword [rel _step]
-		mov     rax, qword [rel _targetx]
-		mov     r10, qword [rel _ylist]
-		mov     r9, qword [rel _xlist]
-		mov     rcx, qword [rel _ok]
-		mov     r11, qword [rel _targety]
-		mov     r8, qword [rel _tail]
-		mov     r15, qword [rel _N]
-		mov     r14, qword [rel _now]
-__L_11:
-		cmp     rdi, r15
-		jge     __L_12
-__L_13:
-		cmp     rdi, 0
-		jl      __L_12
-__L_14:
-		mov     rdx, 1
-		jmp     __L_15
-__L_12:
-		mov     rdx, 0
-__L_15:
-		cmp     rdx, 0
-		je      __L_18
-__L_16:
-		cmp     rsi, r15
-		jge     __L_19
-__L_20:
-		cmp     rsi, 0
-		jl      __L_19
-__L_21:
-		mov     rdx, 1
-		jmp     __L_22
-__L_19:
-		mov     rdx, 0
-__L_22:
-		cmp     rdx, 0
-		je      __L_18
-__L_23:
-		mov     rdx, rdi
-		shl     rdx, 3
 		mov     r15, r13
-		add     r15, rdx
-		mov     r15, qword [r15]
-		mov     rdx, rsi
-		shl     rdx, 3
-		add     r15, rdx
-		mov     rdx, qword [r15]
-		cmp     rdx, -1
-		jne     __L_18
-__L_25:
-		inc     r8
-		mov     rdx, r8
-		shl     rdx, 3
-		add     r9, rdx
-		mov     qword [r9], rdi
-		add     r10, rdx
-		mov     qword [r10], rsi
-		add     r14, 1
-		mov     rdx, rdi
-		shl     rdx, 3
-		add     r13, rdx
-		mov     r9, qword [r13]
-		mov     rdx, rsi
-		shl     rdx, 3
-		add     r9, rdx
-		mov     qword [r9], r14
-		cmp     rdi, rax
-		jne     __L_18
-__L_27:
-		cmp     rsi, r11
-		jne     __L_18
-__L_29:
-		mov     rcx, 1
-__L_18:
-		mov     qword [rel _tail], r8
-		mov     qword [rel _ok], rcx
-		mov     r13, qword [rbp - 8]
-		mov     r14, qword [rbp - 16]
-		mov     r15, qword [rbp - 24]
-		pop     rbp
-		ret     
-
-main:
-		push    rbp
-		mov     rbp, rsp
-		sub     rsp, 160
-		mov     qword [rbp - 8], r13
-		mov     qword [rbp - 16], r14
-		mov     qword [rbp - 24], r15
-		mov     qword [rbp - 32], rbx
-		mov     qword [rbp - 40], r12
-		call    __globalInit
-		mov     rcx, qword [rel _dy]
-		mov     qword [rbp - 48], rcx
-		mov     rcx, qword [rel _y]
-		mov     qword [rbp - 56], rcx
-		mov     rcx, qword [rel _x]
-		mov     qword [rbp - 64], rcx
-		mov     r15, qword [rel _now]
-		mov     rbx, qword [rel _j]
-		mov     rcx, qword [rel _ylist]
-		mov     qword [rbp - 72], rcx
-		mov     rcx, qword [rel _xlist]
-		mov     qword [rbp - 80], rcx
-		mov     r14, qword [rel _ok]
-		mov     rcx, qword [rel _dx]
-		mov     qword [rbp - 88], rcx
-__L_31:
-		mov     rdi, 856
+		shl     r15, 3
+		mov     rdi, r15
+		add     rdi, 8
 		call    malloc
-		mov     qword [rax], 106
-		mov     qword [rbp - 96], rax
-		add     qword [rbp - 96], 8
-		mov     r12, 0
-__L_32:
-		cmp     r12, 106
-		jge     __L_33
-__L_34:
-		mov     rdi, 856
+		mov     qword [rax], r13
+		mov     r12, rax
+		add     r12, 8
+		mov     rbx, r12
+		add     rbx, r15
+		mov     r15, r12
+__L_4:
+		cmp     r15, rbx
+		jge     __L_5
+__L_6:
+		mov     rdi, r13
+		shl     rdi, 3
+		add     rdi, 8
 		call    malloc
-		mov     qword [rax], 106
+		mov     qword [rax], r13
 		add     rax, 8
-		mov     rcx, r12
-		shl     rcx, 3
-		mov     r8, qword [rbp - 96]
-		add     r8, rcx
-		mov     qword [r8], rax
-		mov     rbx, 0
-__L_35:
-		cmp     rbx, 106
-		jge     __L_36
-__L_37:
-		mov     rcx, r12
-		shl     rcx, 3
-		mov     r8, qword [rbp - 96]
-		add     r8, rcx
-		mov     r8, qword [r8]
-		mov     rcx, rbx
-		shl     rcx, 3
-		add     r8, rcx
-		mov     qword [r8], 0
-		inc     rbx
-		jmp     __L_35
-__L_36:
-		inc     r12
-		jmp     __L_32
-__L_33:
-		call    getInt
-		mov     qword [rbp - 104], rax
-		mov     rcx, qword [rbp - 104]
-		mov     qword [rbp - 112], rcx
-		sub     qword [rbp - 112], 1
-		mov     qword [rbp - 120], 0
-__L_38:
-		mov     rcx, qword [rbp - 104]
-		cmp     qword [rbp - 120], rcx
-		jge     __L_39
-__L_40:
-		mov     rbx, 0
-__L_41:
-		cmp     rbx, qword [rbp - 104]
-		jge     __L_42
-__L_43:
-		mov     r8, qword [rbp - 120]
-		shl     r8, 3
-		mov     rcx, qword [rbp - 96]
-		add     rcx, r8
-		mov     r8, qword [rcx]
-		mov     rcx, rbx
-		shl     rcx, 3
-		add     r8, rcx
-		mov     qword [r8], -1
-		inc     rbx
-		jmp     __L_41
-__L_42:
-		mov     rcx, qword [rbp - 120]
-		inc     rcx
-		mov     qword [rbp - 120], rcx
-		jmp     __L_38
-__L_39:
-		mov     rcx, qword [rbp - 88]
-		add     rcx, 0
-		mov     qword [rcx], -2
-		mov     rcx, qword [rbp - 48]
-		add     rcx, 0
-		mov     qword [rcx], -1
-		mov     rcx, qword [rbp - 88]
-		add     rcx, 8
-		mov     qword [rcx], -2
-		mov     rcx, qword [rbp - 48]
-		add     rcx, 8
-		mov     qword [rcx], 1
-		mov     rcx, qword [rbp - 88]
-		add     rcx, 16
-		mov     qword [rcx], 2
-		mov     rcx, qword [rbp - 48]
-		add     rcx, 16
-		mov     qword [rcx], -1
-		mov     rcx, qword [rbp - 88]
-		add     rcx, 24
-		mov     qword [rcx], 2
-		mov     rcx, qword [rbp - 48]
-		add     rcx, 24
-		mov     qword [rcx], 1
-		mov     rcx, qword [rbp - 88]
-		add     rcx, 32
-		mov     qword [rcx], -1
-		mov     rcx, qword [rbp - 48]
-		add     rcx, 32
-		mov     qword [rcx], -2
-		mov     rcx, qword [rbp - 88]
-		add     rcx, 40
-		mov     qword [rcx], -1
-		mov     rcx, qword [rbp - 48]
-		add     rcx, 40
-		mov     qword [rcx], 2
-		mov     rcx, qword [rbp - 88]
-		add     rcx, 48
-		mov     qword [rcx], 1
-		mov     rcx, qword [rbp - 48]
-		add     rcx, 48
-		mov     qword [rcx], -2
-		mov     rcx, qword [rbp - 88]
-		add     rcx, 56
-		mov     qword [rcx], 1
-		mov     rcx, qword [rbp - 48]
-		add     rcx, 56
-		mov     qword [rcx], 2
-		mov     r8, qword [rbp - 56]
-		mov     r12, 0
-		mov     qword [rbp - 128], 0
-		mov     r13, qword [rbp - 64]
-__L_44:
-		cmp     qword [rbp - 128], r12
-		jle     __L_45
-__L_46:
-		mov     qword [rbp - 136], r8
-		jmp     __L_47
-__L_45:
-		mov     r8, qword [rbp - 128]
-		shl     r8, 3
-		mov     rcx, qword [rbp - 80]
-		add     rcx, r8
-		mov     r13, qword [rcx]
-		mov     rcx, qword [rbp - 72]
-		add     rcx, r8
-		mov     r8, qword [rcx]
-		mov     rcx, r13
-		shl     rcx, 3
-		mov     rdx, qword [rbp - 96]
-		add     rdx, rcx
-		mov     rdx, qword [rdx]
-		mov     rcx, r8
-		shl     rcx, 3
-		add     rdx, rcx
-		mov     r15, qword [rdx]
-		mov     rbx, 0
-__L_48:
-		cmp     rbx, 8
-		jge     __L_49
-__L_50:
-		mov     rcx, rbx
-		shl     rcx, 3
-		mov     rdx, qword [rbp - 88]
-		add     rdx, rcx
-		mov     rdx, qword [rdx]
-		mov     r10, r13
-		add     r10, rdx
-		mov     rdx, qword [rbp - 48]
-		add     rdx, rcx
-		mov     rcx, qword [rdx]
-		mov     r9, r8
-		add     r9, rcx
-		cmp     r10, qword [rbp - 104]
-		jge     __L_51
-__L_52:
-		cmp     r10, 0
-		jl      __L_51
-__L_53:
-		mov     rax, 1
-		jmp     __L_54
-__L_51:
-		mov     rax, 0
-__L_54:
-		cmp     rax, 0
-		jne     __L_55
-__L_56:
-		mov     rdx, qword [rbp - 144]
-		mov     rcx, qword [rbp - 152]
-		mov     rsi, qword [rbp - 160]
-		jmp     __L_57
-__L_55:
-		cmp     r9, qword [rbp - 104]
-		jge     __L_58
-__L_59:
-		cmp     r9, 0
-		jl      __L_58
-__L_60:
-		mov     rcx, 1
-		jmp     __L_61
-__L_58:
+		mov     qword [r15], rax
+		add     r15, 8
+		jmp     __L_4
+__L_5:
+		mov     rbx, r13
+		shl     rbx, 3
+		mov     rdi, rbx
+		add     rdi, 8
+		call    malloc
+		mov     qword [rax], r13
+		add     rax, 8
+		mov     r15, rax
+		add     r15, rbx
+		mov     rbx, rax
+__L_7:
+		cmp     rbx, r15
+		jge     __L_8
+__L_9:
+		mov     rdi, r13
+		shl     rdi, 3
+		add     rdi, 8
+		call    malloc
+		mov     qword [rax], r13
+		add     rax, 8
+		mov     qword [rbx], rax
+		add     rbx, 8
+		jmp     __L_7
+__L_8:
 		mov     rcx, 0
-__L_61:
-		cmp     rcx, 0
-		jne     __L_62
-__L_63:
+__L_10:
+		cmp     rcx, r13
+		jge     __L_11
+__L_12:
+		mov     rax, 0
+__L_13:
+		cmp     rax, r13
+		jge     __L_14
+__L_15:
+		mov     r8, rcx
+		add     r8, rax
 		mov     rdx, rcx
-		mov     rsi, r9
-		jmp     __L_57
-__L_62:
-		mov     rdx, r10
 		shl     rdx, 3
-		mov     rsi, qword [rbp - 96]
-		add     rsi, rdx
-		mov     rsi, qword [rsi]
-		mov     rdx, r9
+		mov     r9, r14
+		add     r9, rdx
+		mov     r9, qword [r9]
+		mov     rdx, rax
 		shl     rdx, 3
-		add     rsi, rdx
-		mov     rdx, qword [rsi]
-		cmp     rdx, -1
-		je      __L_64
-__L_65:
-		mov     rsi, r9
-		mov     rdx, rcx
-		jmp     __L_57
-__L_64:
-		inc     r12
-		mov     rdx, r12
-		shl     rdx, 3
-		mov     rsi, qword [rbp - 80]
-		add     rsi, rdx
-		mov     qword [rsi], r10
-		mov     rsi, qword [rbp - 72]
-		add     rsi, rdx
-		mov     qword [rsi], r9
-		mov     rdx, r15
-		add     rdx, 1
-		mov     rsi, r10
-		shl     rsi, 3
-		mov     r11, qword [rbp - 96]
-		add     r11, rsi
-		mov     r11, qword [r11]
-		mov     rsi, r9
-		shl     rsi, 3
-		add     r11, rsi
-		mov     qword [r11], rdx
-		cmp     r10, qword [rbp - 112]
-		je      __L_66
-__L_67:
-		mov     rdx, rcx
-		mov     rsi, r9
-		jmp     __L_57
-__L_66:
-		cmp     r9, qword [rbp - 112]
-		je      __L_68
-__L_69:
-		mov     rsi, r9
-		mov     rdx, rcx
-		jmp     __L_57
-__L_68:
-		mov     r14, 1
-		mov     rdx, rcx
-		mov     rsi, r9
-__L_57:
-		inc     rbx
-		mov     qword [rbp - 160], rsi
-		mov     qword [rbp - 144], rdx
-		mov     qword [rbp - 152], rcx
-		jmp     __L_48
-__L_49:
-		cmp     r14, 1
-		jne     __L_70
-__L_71:
-		mov     qword [rbp - 136], r8
-		jmp     __L_47
-__L_70:
-		mov     rcx, qword [rbp - 128]
+		add     r9, rdx
+		mov     qword [r9], r8
+		inc     rax
+		jmp     __L_13
+__L_14:
 		inc     rcx
-		mov     qword [rbp - 128], rcx
-		jmp     __L_44
-__L_47:
-		cmp     r14, 1
-		jne     __L_72
-__L_73:
-		mov     r8, qword [rbp - 112]
+		jmp     __L_10
+__L_11:
+		mov     rcx, 0
+__L_16:
+		cmp     rcx, r13
+		jge     __L_17
+__L_18:
+		mov     r8, 0
+__L_19:
+		cmp     r8, r13
+		jge     __L_20
+__L_21:
+		cmp     r8, rcx
+		jge     __L_22
+__L_23:
+		mov     rdx, qword [rbp - 48]
+		mov     r11, qword [rbp - 56]
+		mov     rsi, qword [rbp - 64]
+		mov     rbx, qword [rbp - 72]
+		mov     r10, qword [rbp - 80]
+		jmp     __L_24
+__L_22:
+		mov     r11, qword [rbp - 56]
+		mov     rdx, qword [rbp - 48]
+		mov     rbx, qword [rbp - 72]
+		mov     r10, qword [rbp - 80]
+		mov     rsi, 0
+__L_25:
+		cmp     rsi, r13
+		jge     __L_24
+__L_26:
+		mov     rdx, rcx
+		shl     rdx, 3
+		mov     r9, r12
+		add     r9, rdx
+		mov     rbx, qword [r9]
+		mov     rax, r8
+		shl     rax, 3
+		add     rbx, rax
+		mov     r10, qword [rbx]
+		mov     rbx, r14
+		add     rbx, rdx
+		mov     rbx, qword [rbx]
+		mov     rdx, rsi
+		shl     rdx, 3
+		add     rbx, rdx
+		mov     r11, qword [rbx]
+		mov     rbx, r14
+		add     rbx, rdx
+		mov     rdx, qword [rbx]
+		add     rdx, rax
+		mov     rbx, qword [rdx]
+		mov     rdx, r10
+		add     rdx, r11
+		add     rdx, rbx
+		and     rdx, 1073741823
+		mov     r9, qword [r9]
+		add     r9, rax
+		mov     qword [r9], rdx
+		inc     rsi
+		jmp     __L_25
+__L_24:
+		inc     r8
+		mov     qword [rbp - 80], r10
+		mov     qword [rbp - 48], rdx
+		mov     qword [rbp - 72], rbx
+		mov     qword [rbp - 64], rsi
+		mov     qword [rbp - 56], r11
+		jmp     __L_19
+__L_20:
+		inc     rcx
+		jmp     __L_16
+__L_17:
+		mov     rcx, 0
+		mov     rdi, 0
+__L_28:
+		cmp     rcx, r13
+		jge     __L_29
+__L_30:
+		mov     r9, 0
+__L_31:
+		cmp     r9, r13
+		jge     __L_32
+__L_33:
+		mov     r8, rcx
 		shl     r8, 3
-		mov     rcx, qword [rbp - 96]
-		add     rcx, r8
-		mov     rcx, qword [rcx]
-		add     rcx, r8
-		mov     rdi, qword [rcx]
-		call    __printlnInt
-		jmp     __L_74
-__L_72:
-		mov     rdi, __str_0
-		call    print
-__L_74:
-		mov     qword [rel _tail], r12
-		mov     rcx, qword [rbp - 112]
-		mov     qword [rel _targety], rcx
-		mov     qword [rel _ok], r14
-		mov     rcx, qword [rbp - 128]
-		mov     qword [rel _head], rcx
-		mov     rcx, qword [rbp - 96]
-		mov     qword [rel _step], rcx
-		mov     qword [rel _j], rbx
-		mov     qword [rel _now], r15
-		mov     rcx, qword [rbp - 104]
-		mov     qword [rel _N], rcx
-		mov     rcx, qword [rbp - 112]
-		mov     qword [rel _targetx], rcx
-		mov     rcx, qword [rbp - 120]
-		mov     qword [rel _i], rcx
-		mov     qword [rel _x], r13
-		mov     rcx, qword [rbp - 136]
-		mov     qword [rel _y], rcx
-		mov     r13, qword [rbp - 8]
-		mov     r14, qword [rbp - 16]
-		mov     r15, qword [rbp - 24]
-		mov     rbx, qword [rbp - 32]
-		mov     r12, qword [rbp - 40]
+		mov     rdx, r12
+		add     rdx, r8
+		mov     rdx, qword [rdx]
+		mov     r8, r9
+		shl     r8, 3
+		add     rdx, r8
+		mov     r8, qword [rdx]
+		add     rdi, r8
+		and     rdi, 1073741823
+		inc     r9
+		jmp     __L_31
+__L_32:
+		inc     rcx
+		jmp     __L_28
+__L_29:
+		call    __printInt
+		mov     r12, qword [rbp - 8]
+		mov     rbx, qword [rbp - 16]
+		mov     r14, qword [rbp - 24]
+		mov     r13, qword [rbp - 32]
+		mov     r15, qword [rbp - 40]
 		mov     rax, 0
 		mov     rsp, rbp
 		pop     rbp
@@ -606,59 +275,7 @@ __L_74:
 
 SECTION .data
 
-__str_0:
-		dq      13
-		db      6EH, 6FH, 20H, 73H, 6FH, 6CH, 75H, 74H, 69H, 6FH, 6EH, 21H, 0AH, 00H
-
 SECTION .bss
-
-_N:
-		resb    8
-
-_head:
-		resb    8
-
-_targetx:
-		resb    8
-
-_targety:
-		resb    8
-
-_x:
-		resb    8
-
-_y:
-		resb    8
-
-_xlist:
-		resb    8
-
-_ylist:
-		resb    8
-
-_tail:
-		resb    8
-
-_ok:
-		resb    8
-
-_now:
-		resb    8
-
-_dx:
-		resb    8
-
-_dy:
-		resb    8
-
-_step:
-		resb    8
-
-_i:
-		resb    8
-
-_j:
-		resb    8
 
 
 SECTION .text   6

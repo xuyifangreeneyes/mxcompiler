@@ -5,8 +5,7 @@ import mxcc.symbol.*;
 
 import java.util.*;
 
-import static mxcc.symbol.GlobalSymbolTable.PRINT;
-import static mxcc.symbol.GlobalSymbolTable.PRINTLN;
+import static mxcc.symbol.GlobalSymbolTable.*;
 
 public class IrrelevantArrayDeleter extends AstBaseVisitor {
     private Program ast;
@@ -242,7 +241,7 @@ public class IrrelevantArrayDeleter extends AstBaseVisitor {
 
         public void visit(FunctionCall node) {
             assert node.func != null;
-            if (node.func == PRINT || node.func == PRINTLN) {
+            if (node.func == PRINT || node.func == PRINTLN || node.func == GET_INT || node.func == GET_STRING) {
                 relevant = true;
             }
             calls.add(node.func);
@@ -253,17 +252,19 @@ public class IrrelevantArrayDeleter extends AstBaseVisitor {
         }
 
         public void visit(ArrayAccess node) {
+            relevant = true;
             visit(node.container);
             visit(node.subscript);
         }
 
         public void visit(NewExpr node) {
+            relevant = true;
             node.dimArgs.forEach(this::visit);
         }
 
         public void visit(IdentifierExpr node) {
             assert node.var instanceof VariableSymbol;
-            if (node.var.def.scope instanceof GlobalSymbolTable) {
+            if (node.var.type instanceof ArrayType || node.var.def.scope instanceof GlobalSymbolTable) {
                 relevant = true;
             }
         }

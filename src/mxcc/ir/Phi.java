@@ -21,6 +21,15 @@ public class Phi extends Instruction {
         this.varAddr = varAddr;
     }
 
+    public Phi(BasicBlock parent, LocalReg dst, Map<BasicBlock, Operand> source) {
+        super(parent);
+        this.dst = dst;
+        this.source = source;
+
+        defReg = dst;
+        collectUseRegs();
+    }
+
     public void acceptSource(BasicBlock bb, Operand var) {
         source.put(bb, var);
         if (var instanceof Register) useRegs.add((Register) var);

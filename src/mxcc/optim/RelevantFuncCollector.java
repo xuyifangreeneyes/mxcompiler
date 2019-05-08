@@ -29,6 +29,8 @@ public class RelevantFuncCollector {
         relevantFuncs.add(PRINTLN.IRFunc);
         relevantFuncs.add(PRINT_INT.IRFunc);
         relevantFuncs.add(PRINTLN_INT.IRFunc);
+        relevantFuncs.add(GET_INT.IRFunc);
+        relevantFuncs.add(GET_STRING.IRFunc);
 
         Map<Function, Set<Function>> callMap = new HashMap<>();
         for (Function func : module.funcs.values()) {
@@ -56,7 +58,8 @@ public class RelevantFuncCollector {
 
     private boolean isOutputRelevant(FunctionSymbol functionSymbol) {
         return functionSymbol == PRINT || functionSymbol == PRINTLN ||
-                functionSymbol == PRINT_INT || functionSymbol == PRINTLN_INT;
+                functionSymbol == PRINT_INT || functionSymbol == PRINTLN_INT ||
+                functionSymbol == GET_INT || functionSymbol == GET_STRING;
     }
 
     private Set<Function> check(Function func) {

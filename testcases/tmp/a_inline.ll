@@ -208,17 +208,79 @@ define check ( %argVal_0 ) {
 
 define addList ( %argVal_0 %argVal_2 ) {
 <0> entry
+	%cargAddr_59 = alloca 8
+	%cboolValAddr_58 = alloca 8
+	%retValAddr_57 = alloca 8
+	%cargAddr_50 = alloca 8
+	%cboolValAddr_49 = alloca 8
+	%retValAddr_48 = alloca 8
 	%argAddr_3 = alloca 8
 	%argAddr_1 = alloca 8
 	store %argVal_0 %argAddr_1
 	store %argVal_2 %argAddr_3
 	%idVal_5 = load %argAddr_1
-	%res_4 = check ( %idVal_5 )
+	br <9>
+
+<9> centry
+	store %idVal_5 %cargAddr_50
+	%cidVal_51 = load %cargAddr_50
+	%cidVal_52 = load @N
+	%cres_53 = lt %cidVal_51 %cidVal_52
+	br %cres_53 <10> <12>
+
+<10> clhs_true
+	%cidVal_54 = load %cargAddr_50
+	%cres_55 = ge %cidVal_54 0
+	br %cres_55 <11> <12>
+
+<11> cbool_true
+	store 1 %cboolValAddr_49
+	br <13>
+
+<12> cbool_false
+	store 0 %cboolValAddr_49
+	br <13>
+
+<13> cbool_merge
+	%cboolVal_56 = load %cboolValAddr_49
+	store %cboolVal_56 %retValAddr_48
+	br <8>
+
+<8> after_call
+	%res_4 = load %retValAddr_48
 	br %res_4 <4> <2>
 
 <4> lhs_true
 	%idVal_7 = load %argAddr_3
-	%res_6 = check ( %idVal_7 )
+	br <15>
+
+<15> centry
+	store %idVal_7 %cargAddr_59
+	%cidVal_60 = load %cargAddr_59
+	%cidVal_61 = load @N
+	%cres_62 = lt %cidVal_60 %cidVal_61
+	br %cres_62 <16> <18>
+
+<16> clhs_true
+	%cidVal_63 = load %cargAddr_59
+	%cres_64 = ge %cidVal_63 0
+	br %cres_64 <17> <18>
+
+<17> cbool_true
+	store 1 %cboolValAddr_58
+	br <19>
+
+<18> cbool_false
+	store 0 %cboolValAddr_58
+	br <19>
+
+<19> cbool_merge
+	%cboolVal_65 = load %cboolValAddr_58
+	store %cboolVal_65 %retValAddr_57
+	br <14>
+
+<14> after_call
+	%res_6 = load %retValAddr_57
 	br %res_6 <3> <2>
 
 <3> lhs_true
@@ -288,6 +350,14 @@ define addList ( %argVal_0 %argVal_2 ) {
 
 define main ( ) {
 <0> entry
+	%cargAddr_195 = alloca 8
+	%cboolValAddr_194 = alloca 8
+	%retValAddr_193 = alloca 8
+	%cargAddr_186 = alloca 8
+	%cboolValAddr_185 = alloca 8
+	%retValAddr_184 = alloca 8
+	%cargAddr_139 = alloca 8
+	%cargAddr_138 = alloca 8
 	origin ( 106 )
 	%res_0 = getInt ( )
 	store %res_0 @N
@@ -472,7 +542,140 @@ define main ( ) {
 	%elementAddr_116 = add %arrayBase_113 %offset_115
 	%elementVal_117 = load %elementAddr_116
 	%res_118 = add %idVal_112 %elementVal_117
-	addList ( %res_111 %res_118 )
+	br <22>
+
+<22> centry
+	store %res_111 %cargAddr_139
+	store %res_118 %cargAddr_138
+	%cidVal_140 = load %cargAddr_139
+	br <31>
+
+<31> centry
+	store %cidVal_140 %cargAddr_186
+	%cidVal_187 = load %cargAddr_186
+	%cidVal_188 = load @N
+	%cres_189 = lt %cidVal_187 %cidVal_188
+	br %cres_189 <32> <34>
+
+<32> clhs_true
+	%cidVal_190 = load %cargAddr_186
+	%cres_191 = ge %cidVal_190 0
+	br %cres_191 <33> <34>
+
+<33> cbool_true
+	store 1 %cboolValAddr_185
+	br <35>
+
+<34> cbool_false
+	store 0 %cboolValAddr_185
+	br <35>
+
+<35> cbool_merge
+	%cboolVal_192 = load %cboolValAddr_185
+	store %cboolVal_192 %retValAddr_184
+	br <30>
+
+<30> after_call
+	%cres_141 = load %retValAddr_184
+	br %cres_141 <23> <29>
+
+<23> clhs_true
+	%cidVal_142 = load %cargAddr_138
+	br <37>
+
+<37> centry
+	store %cidVal_142 %cargAddr_195
+	%cidVal_196 = load %cargAddr_195
+	%cidVal_197 = load @N
+	%cres_198 = lt %cidVal_196 %cidVal_197
+	br %cres_198 <38> <40>
+
+<38> clhs_true
+	%cidVal_199 = load %cargAddr_195
+	%cres_200 = ge %cidVal_199 0
+	br %cres_200 <39> <40>
+
+<39> cbool_true
+	store 1 %cboolValAddr_194
+	br <41>
+
+<40> cbool_false
+	store 0 %cboolValAddr_194
+	br <41>
+
+<41> cbool_merge
+	%cboolVal_201 = load %cboolValAddr_194
+	store %cboolVal_201 %retValAddr_193
+	br <36>
+
+<36> after_call
+	%cres_143 = load %retValAddr_193
+	br %cres_143 <24> <29>
+
+<24> clhs_true
+	%carrayBase_144 = load @step
+	%cidVal_145 = load %cargAddr_139
+	%coffset_146 = mul %cidVal_145 8
+	%celementAddr_147 = add %carrayBase_144 %coffset_146
+	%carrayBase_148 = load %celementAddr_147
+	%cidVal_149 = load %cargAddr_138
+	%coffset_150 = mul %cidVal_149 8
+	%celementAddr_151 = add %carrayBase_148 %coffset_150
+	%celementVal_152 = load %celementAddr_151
+	%cres_153 = neg 1
+	%cres_154 = eq %celementVal_152 %cres_153
+	br %cres_154 <25> <29>
+
+<25> cif_true
+	%cidVal_155 = load @tail
+	%coldVal_156 = load @tail
+	%cnewVal_157 = inc %coldVal_156
+	store %cnewVal_157 @tail
+	%cidVal_158 = load %cargAddr_139
+	%carrayBase_159 = load @xlist
+	%cidVal_160 = load @tail
+	%coffset_161 = mul %cidVal_160 8
+	%celementAddr_162 = add %carrayBase_159 %coffset_161
+	store %cidVal_158 %celementAddr_162
+	%cidVal_163 = load %cargAddr_138
+	%carrayBase_164 = load @ylist
+	%cidVal_165 = load @tail
+	%coffset_166 = mul %cidVal_165 8
+	%celementAddr_167 = add %carrayBase_164 %coffset_166
+	store %cidVal_163 %celementAddr_167
+	%cidVal_168 = load @now
+	%cres_169 = add %cidVal_168 1
+	%carrayBase_170 = load @step
+	%cidVal_171 = load %cargAddr_139
+	%coffset_172 = mul %cidVal_171 8
+	%celementAddr_173 = add %carrayBase_170 %coffset_172
+	%carrayBase_174 = load %celementAddr_173
+	%cidVal_175 = load %cargAddr_138
+	%coffset_176 = mul %cidVal_175 8
+	%celementAddr_177 = add %carrayBase_174 %coffset_176
+	store %cres_169 %celementAddr_177
+	%cidVal_178 = load %cargAddr_139
+	%cidVal_179 = load @targetx
+	%cres_180 = eq %cidVal_178 %cidVal_179
+	br %cres_180 <26> <28>
+
+<26> clhs_true
+	%cidVal_181 = load %cargAddr_138
+	%cidVal_182 = load @targety
+	%cres_183 = eq %cidVal_181 %cidVal_182
+	br %cres_183 <27> <28>
+
+<27> cif_true
+	store 1 @ok
+	br <28>
+
+<28> cif_merge
+	br <29>
+
+<29> cif_merge
+	br <21>
+
+<21> after_call
 	br <14>
 
 <14> for_step
