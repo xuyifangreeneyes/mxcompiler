@@ -6,13 +6,7 @@ import mxcc.ir.*;
 import java.util.*;
 
 public class SSAConstructor extends Pass {
-    // Map<BB, dominators>
-    private Map<BasicBlock, List<BasicBlock>> dominatorMap = new HashMap<>();
-    // Map<BB, nodes which it immediately dominates>
-    private Map<BasicBlock, List<BasicBlock>> dominatingTree = new HashMap<>();
-    private Map<BasicBlock, BasicBlock> iDomMap = new HashMap<>();
-    private Map<BasicBlock, List<BasicBlock>> DFMap = new HashMap<>();
-
+    private DominatorManager dominatorManager;
     private Map<Register, LocalReg> reachingDef = new HashMap<>();
 
     public static void visit(Module module) {
@@ -26,20 +20,13 @@ public class SSAConstructor extends Pass {
 
     private SSAConstructor(Function irFunc) {
         super(irFunc);
+        dominatorManager = new DominatorManager(irFunc);
     }
 
     private void pass() {
-        preprocess();
         insertPhiFunction();
         renameVariables();
         postProcess();
-    }
-
-    private void preprocess() {
-        calcDominators();
-        calcImmediateDominator();
-        calcDominanceFrontier();
-        buildDominatorTree();
     }
 
     private void insertPhiFunction() {
@@ -63,7 +50,7 @@ public class SSAConstructor extends Pass {
             Set<BasicBlock> visited = new HashSet<>();
             while (!workList.isEmpty()) {
                 BasicBlock bb = workList.poll();
-                List<BasicBlock> dfBBs = DFMap.get(bb);
+                List<BasicBlock> dfBBs = dominatorManager.getDFMap().get(bb);
                 for (BasicBlock dfBB : dfBBs) {
                     if (visited.contains(dfBB)) continue;
                     dfBB.appendFront(new Phi(dfBB, varAddr));
@@ -128,7 +115,7 @@ public class SSAConstructor extends Pass {
                 succInst = succInst.next;
             }
         }
-        for (BasicBlock son : dominatingTree.get(curBB)) {
+        for (BasicBlock son : dominatorManager.getDominatingTree().get(curBB)) {
             renameVariables(son);
         }
         reachingDef.putAll(changedReachingDef);
@@ -242,107 +229,5 @@ public class SSAConstructor extends Pass {
         }
         return defBBs;
     }
-
-    // self-loop does not strictly dominate itself ?
-    private boolean strictlyDominate(BasicBlock bb1, BasicBlock bb2) {
-//        if (dominatorMap.get(bb2) == null) {
-//            System.out.println(bb2.getName() + " null");
-//        }
-        return dominatorMap.get(bb2).contains(bb1) && bb1 != bb2;
-    }
-
-    private List<Pair<BasicBlock, BasicBlock>> collectCFGEdges() {
-        List<Pair<BasicBlock, BasicBlock>> edges = new ArrayList<>();
-        BasicBlock bb = irFunc.getStartBB();
-        while (bb != null) {
-            for (BasicBlock succ : bb.getSuccessors()) {
-                edges.add(new Pair<>(bb, succ));
-            }
-            bb = bb.next;
-        }
-        return edges;
-    }
-
-    private void calcDominanceFrontier() {
-        BasicBlock bb = irFunc.getStartBB();
-        while (bb != null) {
-            DFMap.put(bb, new ArrayList<>());
-            bb = bb.next;
-        }
-        for (Pair<BasicBlock, BasicBlock> edge : collectCFGEdges()) {
-            BasicBlock x = edge.getKey(), b = edge.getValue();
-            while (x != null && !strictlyDominate(x, b)) {
-                DFMap.get(x).add(b);
-                x = iDomMap.get(x);
-            }
-        }
-    }
-
-    // delete a BB in cfg and make dfs search from function entry
-    // the deletedBB is dominator of those untouched BBs
-    // TODO: change type of touchedBBs from List to Set
-    private void touch(BasicBlock curBB, BasicBlock deletedBB, List<BasicBlock> touchedBBs) {
-        if (curBB == deletedBB || touchedBBs.contains(curBB)) return;
-        touchedBBs.add(curBB);
-        for (BasicBlock successor : curBB.getSuccessors()) {
-            touch(successor, deletedBB, touchedBBs);
-        }
-    }
-
-    private void calcDominators() {
-        BasicBlock deletedBB = irFunc.getStartBB();
-        while (deletedBB != null) {
-            List<BasicBlock> touchedBBs = new ArrayList<>();
-            touch(irFunc.getStartBB(), deletedBB, touchedBBs);
-            BasicBlock bb = irFunc.getStartBB();
-            while (bb != null) {
-                if (!touchedBBs.contains(bb)) {
-                    if (!dominatorMap.containsKey(bb)) {
-                        dominatorMap.put(bb, new ArrayList<>());
-                    }
-                    dominatorMap.get(bb).add(deletedBB);
-                }
-                bb = bb.next;
-            }
-            deletedBB = deletedBB.next;
-        }
-    }
-
-    private void calcImmediateDominator() {
-        BasicBlock bb = irFunc.getStartBB();
-        while (bb != null) {
-            BasicBlock iDom = null;
-            for (BasicBlock dom : dominatorMap.get(bb)) {
-                if (dom == bb) continue;
-                if (iDom == null) {
-                    iDom = dom;
-                } else {
-                    if (dominatorMap.get(dom).contains(iDom)) {
-                        iDom = dom;
-                    }
-                }
-            }
-            iDomMap.put(bb, iDom);
-            bb = bb.next;
-        }
-    }
-
-    private void buildDominatorTree() {
-        BasicBlock bb = irFunc.getStartBB();
-        while (bb != null) {
-            dominatingTree.put(bb, new ArrayList<>());
-            bb = bb.next;
-        }
-
-        bb = irFunc.getStartBB();
-        while (bb != null) {
-            BasicBlock iDom = iDomMap.get(bb);
-            if (iDom != null) {
-                dominatingTree.get(iDom).add(bb);
-            }
-            bb = bb.next;
-        }
-    }
-
 
 }

@@ -10,6 +10,8 @@ public class Alloca extends Instruction {
         this.size = size;
 
         defReg = dst;
+
+        dst.setFromAlloca(true);
     }
 
     public LocalReg getDst() {

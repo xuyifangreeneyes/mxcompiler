@@ -13,16 +13,15 @@ public class Memorization {
     private int counter = 0;
     private final int tableSize = 256;
     private Map<Function, GlobalReg> tableMap = new HashMap<>();
-    private Set<Function> relevantFuncs = new HashSet<>();
+    private Set<Function> relevantFuncs;
 
     public Memorization(Module module) {
         this.module = module;
+        RelevantFuncCollector collector = new RelevantFuncCollector(module);
+        relevantFuncs = collector.getRelevantFuncs();
     }
 
-
     public void work() {
-        findRelevantFuncs();
-
         for (Function func : module.funcs.values()) {
             if (func.isBuiltin() || func.getName().equals("main") || func.getName().equals("__globalInit")) continue;
             List<Call> selfCalls = fetchSelfCalls(func);
@@ -33,74 +32,6 @@ public class Memorization {
                 }
             }
         }
-    }
-
-    private void findRelevantFuncs() {
-        relevantFuncs.add(module.funcs.get("main"));
-        relevantFuncs.add(PRINT.IRFunc);
-        relevantFuncs.add(PRINTLN.IRFunc);
-        relevantFuncs.add(PRINT_INT.IRFunc);
-        relevantFuncs.add(PRINTLN_INT.IRFunc);
-
-        Map<Function, Set<Function>> callMap = new HashMap<>();
-        for (Function func : module.funcs.values()) {
-            if (func.isBuiltin()) continue;
-            callMap.put(func, check(func));
-        }
-
-        boolean changed = true;
-        while (changed) {
-            changed = false;
-            int oldSize = relevantFuncs.size();
-            for (Function func : callMap.keySet()) {
-                if (relevantFuncs.contains(func)) continue;
-                for (Function callee : callMap.get(func)) {
-                    if (relevantFuncs.contains(callee)) {
-                        relevantFuncs.add(func);
-                        break;
-                    }
-                }
-            }
-            int newSize = relevantFuncs.size();
-            if (newSize - oldSize  > 0) changed = true;
-        }
-    }
-
-    private boolean isOutputRelevant(FunctionSymbol functionSymbol) {
-        return functionSymbol == PRINT || functionSymbol == PRINTLN ||
-                functionSymbol == PRINT_INT || functionSymbol == PRINTLN_INT;
-    }
-
-    private Set<Function> check(Function func) {
-        boolean relevant = false;
-        Set<Function> callees = new HashSet<>();
-        BasicBlock bb = func.getStartBB();
-        while (bb != null) {
-            Instruction inst = bb.getFirstInst();
-            while (inst != null) {
-                if (inst instanceof Call) {
-                    Call call = (Call) inst;
-                    callees.add(call.getFunc().IRFunc);
-                    if (isOutputRelevant(call.getFunc())) {
-                        relevant = true;
-                    }
-                } else if (inst instanceof Load) {
-                    if (((Load) inst).getAddr() instanceof GlobalReg) {
-                        relevant = true;
-                    }
-                } else if (inst instanceof Store) {
-                    if (((Store) inst).getAddr() instanceof GlobalReg) {
-                        relevant = true;
-                    }
-                }
-                inst = inst.next;
-            }
-            bb = bb.next;
-        }
-        if (relevant) {
-            relevantFuncs.add(func);
-        }
-        return callees;
     }
 
     private void makeTable(Function func) {
@@ -185,8 +116,7 @@ public class Memorization {
     }
 
     public List<Call> fetchSelfCalls(Function func) {
-        if (func.args.size() != 1) return null;
-        boolean pure = true;
+        if (func.args.size() != 1 || relevantFuncs.contains(func)) return null;
         List<Call> selfCalls = null;
         BasicBlock bb = func.getStartBB();
         while (bb != null) {
@@ -194,9 +124,7 @@ public class Memorization {
             while (inst != null) {
                 if (inst instanceof Call) {
                     Call call = (Call) inst;
-                    if (relevantFuncs.contains(call.getFunc().IRFunc)) {
-                        pure = false;
-                    } else if (call.getFunc().IRFunc == func) {
+                    if (call.getFunc().IRFunc == func) {
                         if (selfCalls == null) {
                             selfCalls = new ArrayList<>();
                             if (match(call.getFunc())) {
@@ -206,20 +134,12 @@ public class Memorization {
                             selfCalls.add(call);
                         }
                     }
-                } else if (inst instanceof Load) {
-                    if (((Load) inst).getAddr() instanceof GlobalReg) {
-                        pure = false;
-                    }
-                } else if (inst instanceof Store) {
-                    if (((Store) inst).getAddr() instanceof GlobalReg) {
-                        pure = false;
-                    }
                 }
                 inst = inst.next;
             }
             bb = bb.next;
         }
-        if (pure && selfCalls != null && !selfCalls.isEmpty()) {
+        if (selfCalls != null && !selfCalls.isEmpty()) {
             return selfCalls;
         } else {
             return null;
