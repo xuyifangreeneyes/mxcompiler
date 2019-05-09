@@ -2,34 +2,9 @@ package mxcc.optim;
 
 import mxcc.ir.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CommonSubexpressionElimination extends Pass {
-
-    private static class BinaryExpr {
-        private String lhs;
-        private String rhs;
-        private String op;
-
-        public BinaryExpr(String lhs, String rhs, String op) {
-            this.lhs = lhs;
-            this.rhs = rhs;
-            this.op = op;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (!(obj instanceof BinaryExpr)) return false;
-            BinaryExpr other = (BinaryExpr) obj;
-            return this.lhs.equals(other.lhs) && this.rhs.equals(other.rhs) && this.op.equals(other.op);
-        }
-
-        @Override
-        public int hashCode() {
-            return lhs.hashCode() ^ rhs.hashCode() ^ op.hashCode();
-        }
-    }
 
     // maybe it won't have much effect for unary expression
 
@@ -73,4 +48,27 @@ public class CommonSubexpressionElimination extends Pass {
         }
     }
 
+    private static class BinaryExpr {
+        private String lhs;
+        private String rhs;
+        private String op;
+
+        public BinaryExpr(String lhs, String rhs, String op) {
+            this.lhs = lhs;
+            this.rhs = rhs;
+            this.op = op;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof BinaryExpr)) return false;
+            BinaryExpr other = (BinaryExpr) obj;
+            return this.lhs.equals(other.lhs) && this.rhs.equals(other.rhs) && this.op.equals(other.op);
+        }
+
+        @Override
+        public int hashCode() {
+            return lhs.hashCode() ^ rhs.hashCode() ^ op.hashCode();
+        }
+    }
 }

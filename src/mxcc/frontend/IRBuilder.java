@@ -51,6 +51,19 @@ public class IRBuilder extends AstBaseVisitor {
 
         BasicBlock globalInitTail = module.funcs.get("__globalInit").getLastBB();
         globalInitTail.append(new Return(globalInitTail, null));
+
+        BasicBlock mainEntry = module.funcs.get("main").getStartBB();
+        Call globalInitCall = new Call(mainEntry, GLOBAL_INIT, null, new ArrayList<>());
+        // Main doesn't have any argument, so there is no instruction about saving argument.
+        Instruction inst = mainEntry.getFirstInst();
+        if (inst instanceof Alloca) {
+            while (inst.next instanceof Alloca) {
+                inst = inst.next;
+            }
+            inst.insertAfter(globalInitCall);
+        } else {
+            mainEntry.appendFront(globalInitCall);
+        }
     }
 
     private void processVariableDeclInit(Operand varAddr, Expr init) {

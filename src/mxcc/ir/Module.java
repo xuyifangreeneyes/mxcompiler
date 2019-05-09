@@ -42,6 +42,8 @@ public class Module {
         PRINT_INT.IRFunc = new Function("__printInt", true);
         PRINTLN_INT.IRFunc = new Function("__printlnInt", true);
 
+        GLOBAL_INIT.IRFunc = new Function("__globalInit", false);
+
         defineFunction(PRINT.IRFunc);
         defineFunction(PRINTLN.IRFunc);
         defineFunction(GET_STRING.IRFunc);
@@ -64,7 +66,7 @@ public class Module {
         defineFunction(PRINT_INT.IRFunc);
         defineFunction(PRINTLN_INT.IRFunc);
 
-        defineFunction(new Function("__globalInit", false));
+        defineFunction(GLOBAL_INIT.IRFunc);
     }
 
 }

@@ -2,10 +2,7 @@ package mxcc.optim;
 
 import mxcc.ir.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ConstGlobalRegEliminator {
     private Module module;
@@ -76,4 +73,50 @@ public class ConstGlobalRegEliminator {
             load.replacedBy(new Move(load.getParentBB(), load.getDst(), new IntImmediate(val)));
         }
     }
+
+    // This function is unnecessary if we insert call __globalInit at head of main.
+    // After FunctionInline, GlobalRegPromotion, SSAConstruction and some optim,
+    // constant initialization of GlobalReg would be propagated.
+    // But for now I insert call __globalInit at head of main during instruction selection.
+//    private void rewriteMainEntry() {
+//        Map<GlobalReg, Integer> initMap = new HashMap<>();
+//        BasicBlock bb = module.funcs.get("__globalInit").getStartBB();
+//        while (bb != null) {
+//            Instruction inst = bb.getFirstInst();
+//            while (inst != null) {
+//                if (inst instanceof Store) {
+//                    Store store = (Store) inst;
+//                    if (store.getAddr() instanceof GlobalReg) {
+//                        GlobalReg globalReg = (GlobalReg) store.getAddr();
+//                        if (initMap.containsKey(globalReg)) {
+//                            initMap.remove(globalReg);
+//                        } else if (store.getVal() instanceof IntImmediate) {
+//                            initMap.put(globalReg, ((IntImmediate) store.getVal()).getVal());
+//                        }
+//                    }
+//                }
+//                inst = inst.next;
+//            }
+//            bb = bb.next;
+//        }
+//        Set<GlobalReg> dirtyRegs = new HashSet<>();
+//        BasicBlock mainEntry = module.funcs.get("main").getStartBB();
+//        Instruction inst = mainEntry.getFirstInst();
+//        while (inst != null) {
+//            if (inst instanceof Load) {
+//                Load load = (Load) inst;
+//                Operand addr = load.getAddr();
+//                if (addr instanceof GlobalReg && initMap.containsKey(addr) && !dirtyRegs.contains(addr)) {
+//                    int val = initMap.get(addr);
+//                    load.replacedBy(new Move(mainEntry, load.getDst(), new IntImmediate(val)));
+//                }
+//            } else if (inst instanceof Store) {
+//                Store store = (Store) inst;
+//                if (store.getAddr() instanceof GlobalReg) {
+//                    dirtyRegs.add((GlobalReg) store.getAddr());
+//                }
+//            }
+//            inst = inst.next;
+//        }
+//    }
 }

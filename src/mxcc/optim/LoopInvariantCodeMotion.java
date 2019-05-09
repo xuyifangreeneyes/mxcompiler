@@ -41,6 +41,7 @@ public class LoopInvariantCodeMotion extends Pass {
         update();
         for (BasicBlock header : loopMap.keySet()) {
             if (hoist(header, loopMap.get(header))) {
+                // Here we don't update backEdge and loopMap.
                 update();
             }
         }

@@ -1,14 +1,25 @@
 default rel
 
+global _N
+global _head
+global _targetx
+global _targety
+global _x
+global _y
+global _xlist
+global _ylist
+global _tail
+global _ok
+global _now
+global _dx
+global _dy
+global _step
+global _i
+global _j
 global __globalInit
-global __vector_init
-global __vector_getDim
-global __vector_dot
-global __vector_scalarInPlaceMultiply
-global __vector_add
-global __vector_set
-global __vector_tostring
-global __vector_copy
+global origin
+global check
+global addList
 global main
 global print
 global println
@@ -42,825 +53,642 @@ extern __printf_chk
 SECTION .text
 
 __globalInit:
-		mov     %local_rbx, rbx
-		mov     %local_r15, r15
-		mov     %local_r14, r14
 		mov     %local_r13, r13
-		mov     %local_r12, r12
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     r12, %local_r12
-		ret     
-
-__vector_init:
-		mov     %local_rbx, rbx
-		mov     %local_r15, r15
 		mov     %local_r14, r14
-		mov     %local_r13, r13
+		mov     %local_r15, r15
+		mov     %local_rbx, rbx
 		mov     %local_r12, r12
-		mov     %thisVal_0, rdi
-		mov     %argVal_2, rsi
-		cmp     %argVal_2, 0
-		jne     __L_1
-__L_2:
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     r12, %local_r12
-		ret     
-__L_1:
-		mov     rdi, %argVal_2
-		call    __arraySize
-		mov     %res_6, rax
-		mov     %memberLength_9, %res_6
-		shl     %memberLength_9, 3
-		mov     %arrayLength_10, %memberLength_9
-		add     %arrayLength_10, 8
-		mov     rdi, %arrayLength_10
+		mov     rdi, 96008
+		call    malloc
+		mov     %arrayPtr_0, rax
+		mov     qword [%arrayPtr_0], 12000
+		mov     %arrayBase_3, %arrayPtr_0
+		add     %arrayBase_3, 8
+		mov     rdi, 96008
+		call    malloc
+		mov     %arrayPtr_4, rax
+		mov     qword [%arrayPtr_4], 12000
+		mov     %arrayBase_7, %arrayPtr_4
+		add     %arrayBase_7, 8
+		mov     rdi, 72
 		call    malloc
 		mov     %arrayPtr_8, rax
-		mov     qword [%arrayPtr_8], %res_6
+		mov     qword [%arrayPtr_8], 8
 		mov     %arrayBase_11, %arrayPtr_8
 		add     %arrayBase_11, 8
-		mov     %memberAddr_13, %thisVal_0
-		add     %memberAddr_13, 0
-		mov     qword [%memberAddr_13], %arrayBase_11
-		mov     rdi, %argVal_2
-		call    __arraySize
-		mov     %res_16, rax
-		mov     %varDef_36, 0
+		mov     rdi, 80
+		call    malloc
+		mov     %arrayPtr_12, rax
+		mov     qword [%arrayPtr_12], 9
+		mov     %arrayBase_15, %arrayPtr_12
+		add     %arrayBase_15, 8
+		mov     qword [rel _dx], %arrayBase_11
+		mov     qword [rel _xlist], %arrayBase_3
+		mov     qword [rel _ylist], %arrayBase_7
+		mov     qword [rel _dy], %arrayBase_15
+		mov     r13, %local_r13
+		mov     r14, %local_r14
+		mov     r15, %local_r15
+		mov     rbx, %local_rbx
+		mov     r12, %local_r12
+		ret     
+
+origin:
+		mov     %local_r13, r13
+		mov     %local_r14, r14
+		mov     %local_r15, r15
+		mov     %local_rbx, rbx
+		mov     %local_r12, r12
+		mov     %argVal_0, rdi
+		mov     %tmp_45, qword [rel _j]
+		mov     %memberLength_4, %argVal_0
+		shl     %memberLength_4, 3
+		mov     %arrayLength_5, %memberLength_4
+		add     %arrayLength_5, 8
+		mov     rdi, %arrayLength_5
+		call    malloc
+		mov     %arrayPtr_3, rax
+		mov     qword [%arrayPtr_3], %argVal_0
+		mov     %arrayBase_6, %arrayPtr_3
+		add     %arrayBase_6, 8
+		mov     %varDef_62, %tmp_45
+		mov     %varDef_61, 0
+__L_1:
+		cmp     %varDef_61, %argVal_0
+		jge     __L_2
 __L_3:
-		cmp     %varDef_36, %res_16
-		jge     __L_4
-__L_5:
-		mov     %offset_21, %varDef_36
-		shl     %offset_21, 3
-		mov     %elementAddr_22, %argVal_2
-		add     %elementAddr_22, %offset_21
-		mov     %elementVal_23, qword [%elementAddr_22]
-		mov     %memberAddr_25, %thisVal_0
-		add     %memberAddr_25, 0
-		mov     %arrayBase_26, qword [%memberAddr_25]
-		mov     %elementAddr_29, %arrayBase_26
-		add     %elementAddr_29, %offset_21
-		mov     qword [%elementAddr_29], %elementVal_23
-		mov     %newVal_32, %varDef_36
-		inc     %newVal_32
-		mov     %varDef_36, %newVal_32
-		jmp     __L_3
+		mov     %memberLength_12, %argVal_0
+		shl     %memberLength_12, 3
+		mov     %arrayLength_13, %memberLength_12
+		add     %arrayLength_13, 8
+		mov     rdi, %arrayLength_13
+		call    malloc
+		mov     %arrayPtr_11, rax
+		mov     qword [%arrayPtr_11], %argVal_0
+		mov     %arrayBase_14, %arrayPtr_11
+		add     %arrayBase_14, 8
+		mov     %offset_17, %varDef_61
+		shl     %offset_17, 3
+		mov     %elementAddr_18, %arrayBase_6
+		add     %elementAddr_18, %offset_17
+		mov     qword [%elementAddr_18], %arrayBase_14
+		mov     %varDef_64, 0
 __L_4:
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     r12, %local_r12
-		ret     
-
-__vector_getDim:
-		mov     %local_rbx, rbx
-		mov     %local_r15, r15
-		mov     %local_r14, r14
-		mov     %local_r13, r13
-		mov     %local_r12, r12
-		mov     %thisVal_0, rdi
-		mov     %memberAddr_3, %thisVal_0
-		add     %memberAddr_3, 0
-		mov     %idVal_4, qword [%memberAddr_3]
-		cmp     %idVal_4, 0
-		jne     __L_6
-__L_7:
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     r12, %local_r12
-		mov     rax, 0
-		ret     
+		cmp     %varDef_64, %argVal_0
+		jge     __L_5
 __L_6:
-		mov     %memberAddr_8, %thisVal_0
-		add     %memberAddr_8, 0
-		mov     %classPtr_9, qword [%memberAddr_8]
-		mov     rdi, %classPtr_9
-		call    __arraySize
-		mov     %res_6, rax
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
+		mov     %offset_24, %varDef_61
+		shl     %offset_24, 3
+		mov     %elementAddr_25, %arrayBase_6
+		add     %elementAddr_25, %offset_24
+		mov     %arrayBase_26, qword [%elementAddr_25]
+		mov     %offset_28, %varDef_64
+		shl     %offset_28, 3
+		mov     %elementAddr_29, %arrayBase_26
+		add     %elementAddr_29, %offset_28
+		mov     qword [%elementAddr_29], 0
+		mov     %newVal_32, %varDef_64
+		inc     %newVal_32
+		mov     %varDef_64, %newVal_32
+		jmp     __L_4
+__L_5:
+		mov     %newVal_35, %varDef_61
+		inc     %newVal_35
+		mov     %varDef_61, %newVal_35
+		mov     %varDef_62, %varDef_64
+		jmp     __L_1
+__L_2:
+		mov     qword [rel _tail], 0
+		mov     qword [rel _i], %varDef_61
+		mov     qword [rel _head], 0
+		mov     qword [rel _step], %arrayBase_6
+		mov     qword [rel _j], %varDef_62
 		mov     r13, %local_r13
+		mov     r14, %local_r14
+		mov     r15, %local_r15
+		mov     rbx, %local_rbx
 		mov     r12, %local_r12
-		mov     rax, %res_6
 		ret     
 
-__vector_dot:
-		mov     %local_rbx, rbx
-		mov     %local_r15, r15
-		mov     %local_r14, r14
+check:
 		mov     %local_r13, r13
+		mov     %local_r14, r14
+		mov     %local_r15, r15
+		mov     %local_rbx, rbx
 		mov     %local_r12, r12
-		mov     %thisVal_0, rdi
-		mov     %argVal_2, rsi
-		mov     %varDef_43, 0
-		mov     %varDef_44, 0
+		mov     %argVal_0, rdi
+		mov     %tmp_10, qword [rel _N]
+		cmp     %argVal_0, %tmp_10
+		jge     __L_7
 __L_8:
-		mov     %cmemberAddr_32, %thisVal_0
-		add     %cmemberAddr_32, 0
-		mov     %cidVal_33, qword [%cmemberAddr_32]
-		cmp     %cidVal_33, 0
-		jne     __L_9
-__L_10:
-		mov     %varDef_50, 0
-		jmp     __L_11
+		cmp     %argVal_0, 0
+		jl      __L_7
 __L_9:
-		mov     %cmemberAddr_36, %thisVal_0
-		add     %cmemberAddr_36, 0
-		mov     %cclassPtr_37, qword [%cmemberAddr_36]
-		mov     rdi, %cclassPtr_37
-		call    __arraySize
-		mov     %cres_38, rax
-		mov     %varDef_50, %cres_38
+		mov     %varDef_15, 1
+		jmp     __L_10
+__L_7:
+		mov     %varDef_15, 0
+__L_10:
+		mov     r13, %local_r13
+		mov     r14, %local_r14
+		mov     r15, %local_r15
+		mov     rbx, %local_rbx
+		mov     r12, %local_r12
+		mov     rax, %varDef_15
+		ret     
+
+addList:
+		mov     %local_r13, r13
+		mov     %local_r14, r14
+		mov     %local_r15, r15
+		mov     %local_rbx, rbx
+		mov     %local_r12, r12
+		mov     %argVal_0, rdi
+		mov     %argVal_2, rsi
+		mov     %tmp_83, qword [rel _step]
+		mov     %tmp_82, qword [rel _targetx]
+		mov     %tmp_81, qword [rel _ylist]
+		mov     %tmp_80, qword [rel _xlist]
+		mov     %tmp_79, qword [rel _ok]
+		mov     %tmp_78, qword [rel _targety]
+		mov     %tmp_77, qword [rel _tail]
+		mov     %tmp_76, qword [rel _N]
+		mov     %tmp_75, qword [rel _now]
 __L_11:
-		cmp     %varDef_43, %varDef_50
+		cmp     %argVal_0, %tmp_76
 		jge     __L_12
 __L_13:
-		mov     %memberAddr_11, %thisVal_0
-		add     %memberAddr_11, 0
-		mov     %arrayBase_12, qword [%memberAddr_11]
-		mov     %offset_14, %varDef_43
+		cmp     %argVal_0, 0
+		jl      __L_12
+__L_14:
+		mov     %varDef_100, 1
+		jmp     __L_15
+__L_12:
+		mov     %varDef_100, 0
+__L_15:
+		cmp     %varDef_100, 0
+		jne     __L_16
+__L_17:
+		mov     %varDef_112, %tmp_77
+		mov     %varDef_113, %tmp_79
+		jmp     __L_18
+__L_16:
+		cmp     %argVal_2, %tmp_76
+		jge     __L_19
+__L_20:
+		cmp     %argVal_2, 0
+		jl      __L_19
+__L_21:
+		mov     %varDef_105, 1
+		jmp     __L_22
+__L_19:
+		mov     %varDef_105, 0
+__L_22:
+		cmp     %varDef_105, 0
+		jne     __L_23
+__L_24:
+		mov     %varDef_113, %tmp_79
+		mov     %varDef_112, %tmp_77
+		jmp     __L_18
+__L_23:
+		mov     %offset_10, %argVal_0
+		shl     %offset_10, 3
+		mov     %elementAddr_11, %tmp_83
+		add     %elementAddr_11, %offset_10
+		mov     %arrayBase_12, qword [%elementAddr_11]
+		mov     %offset_14, %argVal_2
 		shl     %offset_14, 3
 		mov     %elementAddr_15, %arrayBase_12
 		add     %elementAddr_15, %offset_14
 		mov     %elementVal_16, qword [%elementAddr_15]
-		mov     %memberAddr_18, %argVal_2
-		add     %memberAddr_18, 0
-		mov     %arrayBase_19, qword [%memberAddr_18]
-		mov     %elementAddr_22, %arrayBase_19
-		add     %elementAddr_22, %offset_14
-		mov     %elementVal_23, qword [%elementAddr_22]
-		mov     %res_24, %elementVal_16
-		imul    %res_24, %elementVal_23
-		mov     %newVal_27, %varDef_43
-		inc     %newVal_27
-		mov     %varDef_43, %newVal_27
-		mov     %varDef_44, %res_24
-		jmp     __L_8
-__L_12:
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     r12, %local_r12
-		mov     rax, %varDef_44
-		ret     
-
-__vector_scalarInPlaceMultiply:
-		mov     %local_rbx, rbx
-		mov     %local_r15, r15
-		mov     %local_r14, r14
-		mov     %local_r13, r13
-		mov     %local_r12, r12
-		mov     %thisVal_0, rdi
-		mov     %argVal_2, rsi
-		mov     %memberAddr_5, %thisVal_0
-		add     %memberAddr_5, 0
-		mov     %idVal_6, qword [%memberAddr_5]
-		cmp     %idVal_6, 0
-		jne     __L_14
-__L_15:
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     r12, %local_r12
-		mov     rax, 0
-		ret     
-__L_14:
-		mov     %varDef_45, 0
-__L_16:
-		mov     %cmemberAddr_35, %thisVal_0
-		add     %cmemberAddr_35, 0
-		mov     %cidVal_36, qword [%cmemberAddr_35]
-		cmp     %cidVal_36, 0
-		jne     __L_17
-__L_18:
-		mov     %varDef_51, 0
-		jmp     __L_19
-__L_17:
-		mov     %cmemberAddr_39, %thisVal_0
-		add     %cmemberAddr_39, 0
-		mov     %cclassPtr_40, qword [%cmemberAddr_39]
-		mov     rdi, %cclassPtr_40
-		call    __arraySize
-		mov     %cres_41, rax
-		mov     %varDef_51, %cres_41
-__L_19:
-		cmp     %varDef_45, %varDef_51
-		jge     __L_20
-__L_21:
-		mov     %memberAddr_15, %thisVal_0
-		add     %memberAddr_15, 0
-		mov     %arrayBase_16, qword [%memberAddr_15]
-		mov     %offset_18, %varDef_45
-		shl     %offset_18, 3
-		mov     %elementAddr_19, %arrayBase_16
-		add     %elementAddr_19, %offset_18
-		mov     %elementVal_20, qword [%elementAddr_19]
-		mov     %res_21, %argVal_2
-		imul    %res_21, %elementVal_20
-		mov     %arrayBase_24, qword [%memberAddr_15]
-		mov     %elementAddr_27, %arrayBase_24
-		add     %elementAddr_27, %offset_18
-		mov     qword [%elementAddr_27], %res_21
-		mov     %newVal_30, %varDef_45
-		inc     %newVal_30
-		mov     %varDef_45, %newVal_30
-		jmp     __L_16
-__L_20:
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     r12, %local_r12
-		mov     rax, %thisVal_0
-		ret     
-
-__vector_add:
-		mov     %local_rbx, rbx
-		mov     %local_r15, r15
-		mov     %local_r14, r14
-		mov     %local_r13, r13
-		mov     %local_r12, r12
-		mov     %thisVal_0, rdi
-		mov     %argVal_2, rsi
-__L_22:
-		mov     %cmemberAddr_55, %thisVal_0
-		add     %cmemberAddr_55, 0
-		mov     %cidVal_56, qword [%cmemberAddr_55]
-		cmp     %cidVal_56, 0
-		jne     __L_23
-__L_24:
-		mov     %varDef_107, 0
-		jmp     __L_25
-__L_23:
-		mov     %cmemberAddr_59, %thisVal_0
-		add     %cmemberAddr_59, 0
-		mov     %cclassPtr_60, qword [%cmemberAddr_59]
-		mov     rdi, %cclassPtr_60
-		call    __arraySize
-		mov     %cres_61, rax
-		mov     %varDef_107, %cres_61
-__L_25:
-		mov     %cmemberAddr_65, %argVal_2
-		add     %cmemberAddr_65, 0
-		mov     %cidVal_66, qword [%cmemberAddr_65]
-		cmp     %cidVal_66, 0
-		jne     __L_26
-__L_27:
-		mov     %varDef_111, 0
-		jmp     __L_28
+		cmp     %elementVal_16, -1
+		je      __L_25
 __L_26:
-		mov     %cmemberAddr_69, %argVal_2
-		add     %cmemberAddr_69, 0
-		mov     %cclassPtr_70, qword [%cmemberAddr_69]
-		mov     rdi, %cclassPtr_70
-		call    __arraySize
-		mov     %cres_71, rax
-		mov     %varDef_111, %cres_71
+		mov     %varDef_112, %tmp_77
+		mov     %varDef_113, %tmp_79
+		jmp     __L_18
+__L_25:
+		mov     %newVal_21, %tmp_77
+		inc     %newVal_21
+		mov     %offset_25, %newVal_21
+		shl     %offset_25, 3
+		mov     %elementAddr_26, %tmp_80
+		add     %elementAddr_26, %offset_25
+		mov     qword [%elementAddr_26], %argVal_0
+		mov     %elementAddr_31, %tmp_81
+		add     %elementAddr_31, %offset_25
+		mov     qword [%elementAddr_31], %argVal_2
+		mov     %res_33, %tmp_75
+		add     %res_33, 1
+		mov     %offset_36, %argVal_0
+		shl     %offset_36, 3
+		mov     %elementAddr_37, %tmp_83
+		add     %elementAddr_37, %offset_36
+		mov     %arrayBase_38, qword [%elementAddr_37]
+		mov     %offset_40, %argVal_2
+		shl     %offset_40, 3
+		mov     %elementAddr_41, %arrayBase_38
+		add     %elementAddr_41, %offset_40
+		mov     qword [%elementAddr_41], %res_33
+		cmp     %argVal_0, %tmp_82
+		je      __L_27
 __L_28:
-		cmp     %varDef_107, %varDef_111
-		jne     __L_29
+		mov     %varDef_112, %newVal_21
+		mov     %varDef_113, %tmp_79
+		jmp     __L_18
+__L_27:
+		cmp     %argVal_2, %tmp_78
+		je      __L_29
 __L_30:
-		mov     %cmemberAddr_75, %thisVal_0
-		add     %cmemberAddr_75, 0
-		mov     %cidVal_76, qword [%cmemberAddr_75]
-		cmp     %cidVal_76, 0
-		jne     __L_31
-__L_32:
-		mov     %varDef_115, 0
-		jmp     __L_33
-__L_31:
-		mov     %cmemberAddr_79, %thisVal_0
-		add     %cmemberAddr_79, 0
-		mov     %cclassPtr_80, qword [%cmemberAddr_79]
-		mov     rdi, %cclassPtr_80
-		call    __arraySize
-		mov     %cres_81, rax
-		mov     %varDef_115, %cres_81
-__L_33:
-		cmp     %varDef_115, 0
-		jne     __L_34
+		mov     %varDef_112, %newVal_21
+		mov     %varDef_113, %tmp_79
+		jmp     __L_18
 __L_29:
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
+		mov     %varDef_113, 1
+		mov     %varDef_112, %newVal_21
+__L_18:
+		mov     qword [rel _tail], %varDef_112
+		mov     qword [rel _ok], %varDef_113
 		mov     r13, %local_r13
-		mov     r12, %local_r12
-		mov     rax, 0
-		ret     
-__L_34:
-		mov     rdi, 8
-		call    malloc
-		mov     %classPtr_13, rax
-		mov     %cmemberAddr_85, %thisVal_0
-		add     %cmemberAddr_85, 0
-		mov     %cidVal_86, qword [%cmemberAddr_85]
-		cmp     %cidVal_86, 0
-		jne     __L_35
-__L_36:
-		mov     %varDef_120, 0
-		jmp     __L_37
-__L_35:
-		mov     %cmemberAddr_89, %thisVal_0
-		add     %cmemberAddr_89, 0
-		mov     %cclassPtr_90, qword [%cmemberAddr_89]
-		mov     rdi, %cclassPtr_90
-		call    __arraySize
-		mov     %cres_91, rax
-		mov     %varDef_120, %cres_91
-__L_37:
-		mov     %memberLength_18, %varDef_120
-		shl     %memberLength_18, 3
-		mov     %arrayLength_19, %memberLength_18
-		add     %arrayLength_19, 8
-		mov     rdi, %arrayLength_19
-		call    malloc
-		mov     %arrayPtr_17, rax
-		mov     qword [%arrayPtr_17], %varDef_120
-		mov     %arrayBase_20, %arrayPtr_17
-		add     %arrayBase_20, 8
-		mov     %memberAddr_22, %classPtr_13
-		add     %memberAddr_22, 0
-		mov     qword [%memberAddr_22], %arrayBase_20
-		mov     %varDef_122, 0
-__L_38:
-		mov     %cmemberAddr_95, %thisVal_0
-		add     %cmemberAddr_95, 0
-		mov     %cidVal_96, qword [%cmemberAddr_95]
-		cmp     %cidVal_96, 0
-		jne     __L_39
-__L_40:
-		mov     %varDef_128, 0
-		jmp     __L_41
-__L_39:
-		mov     %cmemberAddr_99, %thisVal_0
-		add     %cmemberAddr_99, 0
-		mov     %cclassPtr_100, qword [%cmemberAddr_99]
-		mov     rdi, %cclassPtr_100
-		call    __arraySize
-		mov     %cres_101, rax
-		mov     %varDef_128, %cres_101
-__L_41:
-		cmp     %varDef_122, %varDef_128
-		jge     __L_42
-__L_43:
-		mov     %memberAddr_28, %thisVal_0
-		add     %memberAddr_28, 0
-		mov     %arrayBase_29, qword [%memberAddr_28]
-		mov     %offset_31, %varDef_122
-		shl     %offset_31, 3
-		mov     %elementAddr_32, %arrayBase_29
-		add     %elementAddr_32, %offset_31
-		mov     %elementVal_33, qword [%elementAddr_32]
-		mov     %memberAddr_35, %argVal_2
-		add     %memberAddr_35, 0
-		mov     %arrayBase_36, qword [%memberAddr_35]
-		mov     %elementAddr_39, %arrayBase_36
-		add     %elementAddr_39, %offset_31
-		mov     %elementVal_40, qword [%elementAddr_39]
-		mov     %res_41, %elementVal_33
-		add     %res_41, %elementVal_40
-		mov     %memberAddr_43, %classPtr_13
-		add     %memberAddr_43, 0
-		mov     %arrayBase_44, qword [%memberAddr_43]
-		mov     %elementAddr_47, %arrayBase_44
-		add     %elementAddr_47, %offset_31
-		mov     qword [%elementAddr_47], %res_41
-		mov     %newVal_50, %varDef_122
-		inc     %newVal_50
-		mov     %varDef_122, %newVal_50
-		jmp     __L_38
-__L_42:
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
 		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     r12, %local_r12
-		mov     rax, %classPtr_13
-		ret     
-
-__vector_set:
-		mov     %local_rbx, rbx
-		mov     %local_r15, r15
-		mov     %local_r14, r14
-		mov     %local_r13, r13
-		mov     %local_r12, r12
-		mov     %thisVal_0, rdi
-		mov     %argVal_2, rsi
-		mov     %argVal_4, rdx
-__L_44:
-		mov     %cmemberAddr_20, %thisVal_0
-		add     %cmemberAddr_20, 0
-		mov     %cidVal_21, qword [%cmemberAddr_20]
-		cmp     %cidVal_21, 0
-		jne     __L_45
-__L_46:
-		mov     %varDef_33, 0
-		jmp     __L_47
-__L_45:
-		mov     %cmemberAddr_24, %thisVal_0
-		add     %cmemberAddr_24, 0
-		mov     %cclassPtr_25, qword [%cmemberAddr_24]
-		mov     rdi, %cclassPtr_25
-		call    __arraySize
-		mov     %cres_26, rax
-		mov     %varDef_33, %cres_26
-__L_47:
-		cmp     %varDef_33, %argVal_2
-		jge     __L_48
-__L_49:
-		mov     rbx, %local_rbx
 		mov     r15, %local_r15
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     r12, %local_r12
-		mov     rax, 0
-		ret     
-__L_48:
-		mov     %memberAddr_12, %thisVal_0
-		add     %memberAddr_12, 0
-		mov     %arrayBase_13, qword [%memberAddr_12]
-		mov     %offset_15, %argVal_2
-		shl     %offset_15, 3
-		mov     %elementAddr_16, %arrayBase_13
-		add     %elementAddr_16, %offset_15
-		mov     qword [%elementAddr_16], %argVal_4
 		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
-		mov     r13, %local_r13
 		mov     r12, %local_r12
-		mov     rax, 1
-		ret     
-
-__vector_tostring:
-		mov     %local_rbx, rbx
-		mov     %local_r15, r15
-		mov     %local_r14, r14
-		mov     %local_r13, r13
-		mov     %local_r12, r12
-		mov     %thisVal_0, rdi
-__L_50:
-		mov     %cmemberAddr_40, %thisVal_0
-		add     %cmemberAddr_40, 0
-		mov     %cidVal_41, qword [%cmemberAddr_40]
-		cmp     %cidVal_41, 0
-		jne     __L_51
-__L_52:
-		mov     %varDef_62, 0
-		jmp     __L_53
-__L_51:
-		mov     %cmemberAddr_44, %thisVal_0
-		add     %cmemberAddr_44, 0
-		mov     %cclassPtr_45, qword [%cmemberAddr_44]
-		mov     rdi, %cclassPtr_45
-		call    __arraySize
-		mov     %cres_46, rax
-		mov     %varDef_62, %cres_46
-__L_53:
-		cmp     %varDef_62, 0
-		jg      __L_54
-__L_55:
-		mov     %varDef_64, __str_0
-		jmp     __L_56
-__L_54:
-		mov     %memberAddr_9, %thisVal_0
-		add     %memberAddr_9, 0
-		mov     %arrayBase_10, qword [%memberAddr_9]
-		mov     %elementAddr_12, %arrayBase_10
-		add     %elementAddr_12, 0
-		mov     %elementVal_13, qword [%elementAddr_12]
-		mov     rdi, %elementVal_13
-		call    toString
-		mov     %res_7, rax
-		mov     rdi, __str_0
-		mov     rsi, %res_7
-		call    __stringAdd
-		mov     %res_14, rax
-		mov     %varDef_64, %res_14
-__L_56:
-		mov     %varDef_67, 1
-		mov     %varDef_66, %varDef_64
-__L_57:
-		mov     %cmemberAddr_50, %thisVal_0
-		add     %cmemberAddr_50, 0
-		mov     %cidVal_51, qword [%cmemberAddr_50]
-		cmp     %cidVal_51, 0
-		jne     __L_58
-__L_59:
-		mov     %varDef_73, 0
-		jmp     __L_60
-__L_58:
-		mov     %cmemberAddr_54, %thisVal_0
-		add     %cmemberAddr_54, 0
-		mov     %cclassPtr_55, qword [%cmemberAddr_54]
-		mov     rdi, %cclassPtr_55
-		call    __arraySize
-		mov     %cres_56, rax
-		mov     %varDef_73, %cres_56
-__L_60:
-		cmp     %varDef_67, %varDef_73
-		jge     __L_61
-__L_62:
-		mov     rdi, %varDef_66
-		mov     rsi, __str_1
-		call    __stringAdd
-		mov     %res_21, rax
-		mov     %memberAddr_24, %thisVal_0
-		add     %memberAddr_24, 0
-		mov     %arrayBase_25, qword [%memberAddr_24]
-		mov     %offset_27, %varDef_67
-		shl     %offset_27, 3
-		mov     %elementAddr_28, %arrayBase_25
-		add     %elementAddr_28, %offset_27
-		mov     %elementVal_29, qword [%elementAddr_28]
-		mov     rdi, %elementVal_29
-		call    toString
-		mov     %res_22, rax
-		mov     rdi, %res_21
-		mov     rsi, %res_22
-		call    __stringAdd
-		mov     %res_30, rax
-		mov     %newVal_33, %varDef_67
-		inc     %newVal_33
-		mov     %varDef_66, %res_30
-		mov     %varDef_67, %newVal_33
-		jmp     __L_57
-__L_61:
-		mov     rdi, %varDef_66
-		mov     rsi, __str_2
-		call    __stringAdd
-		mov     %res_35, rax
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     r12, %local_r12
-		mov     rax, %res_35
-		ret     
-
-__vector_copy:
-		mov     %local_rbx, rbx
-		mov     %local_r15, r15
-		mov     %local_r14, r14
-		mov     %local_r13, r13
-		mov     %local_r12, r12
-		mov     %thisVal_0, rdi
-		mov     %argVal_2, rsi
-		cmp     %argVal_2, 0
-		jne     __L_63
-__L_64:
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     r12, %local_r12
-		mov     rax, 0
-		ret     
-__L_63:
-		mov     %cmemberAddr_43, %argVal_2
-		add     %cmemberAddr_43, 0
-		mov     %cidVal_44, qword [%cmemberAddr_43]
-		cmp     %cidVal_44, 0
-		jne     __L_65
-__L_66:
-		mov     %varDef_75, 0
-		jmp     __L_67
-__L_65:
-		mov     %cmemberAddr_47, %argVal_2
-		add     %cmemberAddr_47, 0
-		mov     %cclassPtr_48, qword [%cmemberAddr_47]
-		mov     rdi, %cclassPtr_48
-		call    __arraySize
-		mov     %cres_49, rax
-		mov     %varDef_75, %cres_49
-__L_67:
-		cmp     %varDef_75, 0
-		jne     __L_68
-__L_69:
-		mov     %memberAddr_10, %thisVal_0
-		add     %memberAddr_10, 0
-		mov     qword [%memberAddr_10], 0
-		jmp     __L_70
-__L_68:
-		mov     %cmemberAddr_53, %argVal_2
-		add     %cmemberAddr_53, 0
-		mov     %cidVal_54, qword [%cmemberAddr_53]
-		cmp     %cidVal_54, 0
-		jne     __L_71
-__L_72:
-		mov     %varDef_79, 0
-		jmp     __L_73
-__L_71:
-		mov     %cmemberAddr_57, %argVal_2
-		add     %cmemberAddr_57, 0
-		mov     %cclassPtr_58, qword [%cmemberAddr_57]
-		mov     rdi, %cclassPtr_58
-		call    __arraySize
-		mov     %cres_59, rax
-		mov     %varDef_79, %cres_59
-__L_73:
-		mov     %memberLength_14, %varDef_79
-		shl     %memberLength_14, 3
-		mov     %arrayLength_15, %memberLength_14
-		add     %arrayLength_15, 8
-		mov     rdi, %arrayLength_15
-		call    malloc
-		mov     %arrayPtr_13, rax
-		mov     qword [%arrayPtr_13], %varDef_79
-		mov     %arrayBase_16, %arrayPtr_13
-		add     %arrayBase_16, 8
-		mov     %memberAddr_18, %thisVal_0
-		add     %memberAddr_18, 0
-		mov     qword [%memberAddr_18], %arrayBase_16
-		mov     %varDef_81, 0
-__L_74:
-		mov     %cmemberAddr_63, %thisVal_0
-		add     %cmemberAddr_63, 0
-		mov     %cidVal_64, qword [%cmemberAddr_63]
-		cmp     %cidVal_64, 0
-		jne     __L_75
-__L_76:
-		mov     %varDef_87, 0
-		jmp     __L_77
-__L_75:
-		mov     %cmemberAddr_67, %thisVal_0
-		add     %cmemberAddr_67, 0
-		mov     %cclassPtr_68, qword [%cmemberAddr_67]
-		mov     rdi, %cclassPtr_68
-		call    __arraySize
-		mov     %cres_69, rax
-		mov     %varDef_87, %cres_69
-__L_77:
-		cmp     %varDef_81, %varDef_87
-		jge     __L_70
-__L_78:
-		mov     %memberAddr_25, %argVal_2
-		add     %memberAddr_25, 0
-		mov     %arrayBase_26, qword [%memberAddr_25]
-		mov     %offset_28, %varDef_81
-		shl     %offset_28, 3
-		mov     %elementAddr_29, %arrayBase_26
-		add     %elementAddr_29, %offset_28
-		mov     %elementVal_30, qword [%elementAddr_29]
-		mov     %memberAddr_32, %thisVal_0
-		add     %memberAddr_32, 0
-		mov     %arrayBase_33, qword [%memberAddr_32]
-		mov     %elementAddr_36, %arrayBase_33
-		add     %elementAddr_36, %offset_28
-		mov     qword [%elementAddr_36], %elementVal_30
-		mov     %newVal_39, %varDef_81
-		inc     %newVal_39
-		mov     %varDef_81, %newVal_39
-		jmp     __L_74
-__L_70:
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
-		mov     r13, %local_r13
-		mov     r12, %local_r12
-		mov     rax, 1
 		ret     
 
 main:
-		mov     %local_rbx, rbx
-		mov     %local_r15, r15
-		mov     %local_r14, r14
 		mov     %local_r13, r13
+		mov     %local_r14, r14
+		mov     %local_r15, r15
+		mov     %local_rbx, rbx
 		mov     %local_r12, r12
-		call    __globalInit
-		mov     rdi, 8
+		mov     %tmp_248, qword [rel _y]
+		mov     %tmp_247, qword [rel _x]
+		mov     %tmp_246, qword [rel _i]
+		mov     %tmp_243, qword [rel _now]
+		mov     %tmp_242, qword [rel _j]
+		mov     %tmp_240, qword [rel _head]
+		mov     %tmp_237, qword [rel _ok]
+		mov     %tmp_236, qword [rel _tail]
+__L_31:
+		mov     rdi, 96008
 		call    malloc
-		mov     %classPtr_1, rax
-		mov     rdi, 88
+		mov     %carrayPtr_140, rax
+		mov     qword [%carrayPtr_140], 12000
+		mov     %carrayBase_141, %carrayPtr_140
+		add     %carrayBase_141, 8
+		mov     rdi, 96008
 		call    malloc
-		mov     %arrayPtr_3, rax
-		mov     qword [%arrayPtr_3], 10
-		mov     %arrayBase_6, %arrayPtr_3
-		add     %arrayBase_6, 8
-		mov     %varDef_70, 0
-__L_79:
-		cmp     %varDef_70, 10
-		jge     __L_80
-__L_81:
-		mov     %res_11, 9
-		sub     %res_11, %varDef_70
-		mov     %offset_14, %varDef_70
-		shl     %offset_14, 3
-		mov     %elementAddr_15, %arrayBase_6
-		add     %elementAddr_15, %offset_14
-		mov     qword [%elementAddr_15], %res_11
-		mov     %newVal_18, %varDef_70
-		inc     %newVal_18
-		mov     %varDef_70, %newVal_18
-		jmp     __L_79
-__L_80:
-		mov     rdi, %classPtr_1
-		mov     rsi, %arrayBase_6
-		call    __vector_init
-		mov     rdi, __str_3
-		call    print
-		mov     rdi, %classPtr_1
-		call    __vector_tostring
-		mov     %res_21, rax
-		mov     rdi, %res_21
-		call    println
-		mov     rdi, 8
+		mov     %carrayPtr_144, rax
+		mov     qword [%carrayPtr_144], 12000
+		mov     %carrayBase_145, %carrayPtr_144
+		add     %carrayBase_145, 8
+		mov     rdi, 72
 		call    malloc
-		mov     %classPtr_24, rax
-		mov     rdi, %classPtr_24
-		mov     rsi, %classPtr_1
-		call    __vector_copy
-		mov     %res_25, rax
-		mov     %cmemberAddr_60, %classPtr_24
-		add     %cmemberAddr_60, 0
-		mov     %cidVal_61, qword [%cmemberAddr_60]
-		cmp     %cidVal_61, 0
-		jne     __L_82
-__L_83:
-		mov     %varDef_79, 0
-		jmp     __L_84
-__L_82:
-		mov     %cmemberAddr_64, %classPtr_24
-		add     %cmemberAddr_64, 0
-		mov     %cclassPtr_65, qword [%cmemberAddr_64]
-		mov     rdi, %cclassPtr_65
-		call    __arraySize
-		mov     %cres_66, rax
-		mov     %varDef_79, %cres_66
-__L_84:
-		cmp     %varDef_79, 3
-		jge     __L_85
-__L_86:
-		mov     %varDef_82, 0
-		jmp     __L_87
-__L_85:
-		mov     %cmemberAddr_52, %classPtr_24
-		add     %cmemberAddr_52, 0
-		mov     %carrayBase_53, qword [%cmemberAddr_52]
-		mov     %celementAddr_56, %carrayBase_53
-		add     %celementAddr_56, 24
-		mov     qword [%celementAddr_56], 817
-		mov     %varDef_82, 1
-__L_87:
-		cmp     %varDef_82, 0
-		je      __L_88
-__L_89:
-		mov     rdi, __str_4
-		call    println
-__L_88:
-		mov     rdi, __str_5
-		call    print
-		mov     rdi, %classPtr_24
-		call    __vector_tostring
-		mov     %res_30, rax
-		mov     rdi, %res_30
-		call    println
-		mov     rdi, __str_6
-		call    print
-		mov     rdi, %classPtr_1
-		mov     rsi, %classPtr_24
-		call    __vector_add
-		mov     %res_33, rax
-		mov     rdi, %res_33
-		call    __vector_tostring
-		mov     %res_32, rax
-		mov     rdi, %res_32
-		call    println
-		mov     rdi, __str_7
-		call    print
-		mov     rdi, %classPtr_1
-		mov     rsi, %classPtr_24
-		call    __vector_dot
-		mov     %res_36, rax
-		mov     rdi, %res_36
+		mov     %carrayPtr_148, rax
+		mov     qword [%carrayPtr_148], 8
+		mov     %carrayBase_149, %carrayPtr_148
+		add     %carrayBase_149, 8
+		mov     rdi, 80
+		call    malloc
+		mov     %carrayPtr_152, rax
+		mov     qword [%carrayPtr_152], 9
+		mov     %carrayBase_153, %carrayPtr_152
+		add     %carrayBase_153, 8
+		mov     qword [rel _tail], %tmp_236
+		mov     qword [rel _head], %tmp_240
+		mov     qword [rel _j], %tmp_242
+		mov     qword [rel _i], %tmp_246
+		mov     rdi, 106
+		call    origin
+		mov     %tmp_256, qword [rel _j]
+		mov     %tmp_254, qword [rel _step]
+		mov     %tmp_253, qword [rel _head]
+		mov     %tmp_251, qword [rel _tail]
+		call    getInt
+		mov     %res_0, rax
+		mov     %res_2, %res_0
+		sub     %res_2, 1
+		mov     %varDef_304, 0
+		mov     %varDef_303, %tmp_256
+__L_32:
+		cmp     %varDef_304, %res_0
+		jge     __L_33
+__L_34:
+		mov     %varDef_306, 0
+__L_35:
+		cmp     %varDef_306, %res_0
+		jge     __L_36
+__L_37:
+		mov     %offset_13, %varDef_304
+		shl     %offset_13, 3
+		mov     %elementAddr_14, %tmp_254
+		add     %elementAddr_14, %offset_13
+		mov     %arrayBase_15, qword [%elementAddr_14]
+		mov     %offset_17, %varDef_306
+		shl     %offset_17, 3
+		mov     %elementAddr_18, %arrayBase_15
+		add     %elementAddr_18, %offset_17
+		mov     qword [%elementAddr_18], -1
+		mov     %newVal_21, %varDef_306
+		inc     %newVal_21
+		mov     %varDef_306, %newVal_21
+		jmp     __L_35
+__L_36:
+		mov     %newVal_24, %varDef_304
+		inc     %newVal_24
+		mov     %varDef_304, %newVal_24
+		mov     %varDef_303, %varDef_306
+		jmp     __L_32
+__L_33:
+		mov     %elementAddr_28, %carrayBase_149
+		add     %elementAddr_28, 0
+		mov     qword [%elementAddr_28], -2
+		mov     %elementAddr_32, %carrayBase_153
+		add     %elementAddr_32, 0
+		mov     qword [%elementAddr_32], -1
+		mov     %elementAddr_36, %carrayBase_149
+		add     %elementAddr_36, 8
+		mov     qword [%elementAddr_36], -2
+		mov     %elementAddr_39, %carrayBase_153
+		add     %elementAddr_39, 8
+		mov     qword [%elementAddr_39], 1
+		mov     %elementAddr_42, %carrayBase_149
+		add     %elementAddr_42, 16
+		mov     qword [%elementAddr_42], 2
+		mov     %elementAddr_46, %carrayBase_153
+		add     %elementAddr_46, 16
+		mov     qword [%elementAddr_46], -1
+		mov     %elementAddr_49, %carrayBase_149
+		add     %elementAddr_49, 24
+		mov     qword [%elementAddr_49], 2
+		mov     %elementAddr_52, %carrayBase_153
+		add     %elementAddr_52, 24
+		mov     qword [%elementAddr_52], 1
+		mov     %elementAddr_56, %carrayBase_149
+		add     %elementAddr_56, 32
+		mov     qword [%elementAddr_56], -1
+		mov     %elementAddr_60, %carrayBase_153
+		add     %elementAddr_60, 32
+		mov     qword [%elementAddr_60], -2
+		mov     %elementAddr_64, %carrayBase_149
+		add     %elementAddr_64, 40
+		mov     qword [%elementAddr_64], -1
+		mov     %elementAddr_67, %carrayBase_153
+		add     %elementAddr_67, 40
+		mov     qword [%elementAddr_67], 2
+		mov     %elementAddr_70, %carrayBase_149
+		add     %elementAddr_70, 48
+		mov     qword [%elementAddr_70], 1
+		mov     %elementAddr_74, %carrayBase_153
+		add     %elementAddr_74, 48
+		mov     qword [%elementAddr_74], -2
+		mov     %elementAddr_77, %carrayBase_149
+		add     %elementAddr_77, 56
+		mov     qword [%elementAddr_77], 1
+		mov     %elementAddr_80, %carrayBase_153
+		add     %elementAddr_80, 56
+		mov     qword [%elementAddr_80], 2
+		mov     %varDef_323, %tmp_248
+		mov     %varDef_318, %tmp_237
+		mov     %varDef_322, %tmp_247
+		mov     %varDef_317, %tmp_251
+		mov     %varDef_319, %tmp_253
+		mov     %varDef_321, %tmp_243
+		mov     %varDef_320, %varDef_303
+__L_38:
+		cmp     %varDef_319, %varDef_317
+		jle     __L_39
+__L_40:
+		mov     %varDef_370, %varDef_320
+		mov     %varDef_371, %varDef_321
+		mov     %varDef_372, %varDef_322
+		mov     %varDef_373, %varDef_323
+		mov     %varDef_368, %varDef_317
+		mov     %varDef_369, %varDef_318
+		jmp     __L_41
+__L_39:
+		mov     %offset_86, %varDef_319
+		shl     %offset_86, 3
+		mov     %elementAddr_87, %carrayBase_141
+		add     %elementAddr_87, %offset_86
+		mov     %elementVal_88, qword [%elementAddr_87]
+		mov     %elementAddr_92, %carrayBase_145
+		add     %elementAddr_92, %offset_86
+		mov     %elementVal_93, qword [%elementAddr_92]
+		mov     %offset_96, %elementVal_88
+		shl     %offset_96, 3
+		mov     %elementAddr_97, %tmp_254
+		add     %elementAddr_97, %offset_96
+		mov     %arrayBase_98, qword [%elementAddr_97]
+		mov     %offset_100, %elementVal_93
+		shl     %offset_100, 3
+		mov     %elementAddr_101, %arrayBase_98
+		add     %elementAddr_101, %offset_100
+		mov     %elementVal_102, qword [%elementAddr_101]
+		mov     %varDef_337, %varDef_318
+		mov     %varDef_338, 0
+		mov     %varDef_336, %varDef_317
+__L_42:
+		cmp     %varDef_338, 8
+		jge     __L_43
+__L_44:
+		mov     %offset_108, %varDef_338
+		shl     %offset_108, 3
+		mov     %elementAddr_109, %carrayBase_149
+		add     %elementAddr_109, %offset_108
+		mov     %elementVal_110, qword [%elementAddr_109]
+		mov     %res_111, %elementVal_88
+		add     %res_111, %elementVal_110
+		mov     %elementAddr_116, %carrayBase_153
+		add     %elementAddr_116, %offset_108
+		mov     %elementVal_117, qword [%elementAddr_116]
+		mov     %res_118, %elementVal_93
+		add     %res_118, %elementVal_117
+		cmp     %res_111, %res_0
+		jge     __L_45
+__L_46:
+		cmp     %res_111, 0
+		jl      __L_45
+__L_47:
+		mov     %varDef_344, 1
+		jmp     __L_48
+__L_45:
+		mov     %varDef_344, 0
+__L_48:
+		cmp     %varDef_344, 0
+		jne     __L_49
+__L_50:
+		mov     %varDef_355, %varDef_335
+		mov     %varDef_353, %varDef_333
+		mov     %varDef_354, %varDef_334
+		mov     %varDef_356, %varDef_336
+		mov     %varDef_357, %varDef_337
+		jmp     __L_51
+__L_49:
+		cmp     %res_118, %res_0
+		jge     __L_52
+__L_53:
+		cmp     %res_118, 0
+		jl      __L_52
+__L_54:
+		mov     %varDef_349, 1
+		jmp     __L_55
+__L_52:
+		mov     %varDef_349, 0
+__L_55:
+		cmp     %varDef_349, 0
+		jne     __L_56
+__L_57:
+		mov     %varDef_356, %varDef_336
+		mov     %varDef_353, %varDef_349
+		mov     %varDef_354, %varDef_349
+		mov     %varDef_357, %varDef_337
+		mov     %varDef_355, %res_118
+		jmp     __L_51
+__L_56:
+		mov     %coffset_162, %res_111
+		shl     %coffset_162, 3
+		mov     %celementAddr_163, %tmp_254
+		add     %celementAddr_163, %coffset_162
+		mov     %carrayBase_164, qword [%celementAddr_163]
+		mov     %coffset_166, %res_118
+		shl     %coffset_166, 3
+		mov     %celementAddr_167, %carrayBase_164
+		add     %celementAddr_167, %coffset_166
+		mov     %celementVal_168, qword [%celementAddr_167]
+		cmp     %celementVal_168, -1
+		je      __L_58
+__L_59:
+		mov     %varDef_355, %res_118
+		mov     %varDef_357, %varDef_337
+		mov     %varDef_356, %varDef_336
+		mov     %varDef_353, %varDef_349
+		mov     %varDef_354, %varDef_349
+		jmp     __L_51
+__L_58:
+		mov     %cnewVal_173, %varDef_336
+		inc     %cnewVal_173
+		mov     %coffset_177, %cnewVal_173
+		shl     %coffset_177, 3
+		mov     %celementAddr_178, %carrayBase_141
+		add     %celementAddr_178, %coffset_177
+		mov     qword [%celementAddr_178], %res_111
+		mov     %celementAddr_183, %carrayBase_145
+		add     %celementAddr_183, %coffset_177
+		mov     qword [%celementAddr_183], %res_118
+		mov     %cres_185, %elementVal_102
+		add     %cres_185, 1
+		mov     %coffset_188, %res_111
+		shl     %coffset_188, 3
+		mov     %celementAddr_189, %tmp_254
+		add     %celementAddr_189, %coffset_188
+		mov     %carrayBase_190, qword [%celementAddr_189]
+		mov     %coffset_192, %res_118
+		shl     %coffset_192, 3
+		mov     %celementAddr_193, %carrayBase_190
+		add     %celementAddr_193, %coffset_192
+		mov     qword [%celementAddr_193], %cres_185
+		cmp     %res_111, %res_2
+		je      __L_60
+__L_61:
+		mov     %varDef_356, %cnewVal_173
+		mov     %varDef_354, %varDef_349
+		mov     %varDef_353, %varDef_349
+		mov     %varDef_357, %varDef_337
+		mov     %varDef_355, %res_118
+		jmp     __L_51
+__L_60:
+		cmp     %res_118, %res_2
+		je      __L_62
+__L_63:
+		mov     %varDef_354, %varDef_349
+		mov     %varDef_357, %varDef_337
+		mov     %varDef_353, %varDef_349
+		mov     %varDef_355, %res_118
+		mov     %varDef_356, %cnewVal_173
+		jmp     __L_51
+__L_62:
+		mov     %varDef_353, %varDef_349
+		mov     %varDef_356, %cnewVal_173
+		mov     %varDef_355, %res_118
+		mov     %varDef_357, 1
+		mov     %varDef_354, %varDef_349
+__L_51:
+		mov     %newVal_121, %varDef_338
+		inc     %newVal_121
+		mov     %varDef_329, %res_111
+		mov     %varDef_328, %res_118
+		mov     %varDef_336, %varDef_356
+		mov     %varDef_332, %res_111
+		mov     %varDef_335, %varDef_355
+		mov     %varDef_331, %varDef_344
+		mov     %varDef_333, %varDef_353
+		mov     %varDef_334, %varDef_354
+		mov     %varDef_337, %varDef_357
+		mov     %varDef_338, %newVal_121
+		mov     %varDef_330, %varDef_344
+		jmp     __L_42
+__L_43:
+		cmp     %varDef_337, 1
+		jne     __L_64
+__L_65:
+		mov     %varDef_368, %varDef_336
+		mov     %varDef_371, %elementVal_102
+		mov     %varDef_373, %elementVal_93
+		mov     %varDef_370, %varDef_338
+		mov     %varDef_369, %varDef_337
+		mov     %varDef_372, %elementVal_88
+		jmp     __L_41
+__L_64:
+		mov     %newVal_126, %varDef_319
+		inc     %newVal_126
+		mov     %varDef_323, %elementVal_93
+		mov     %varDef_318, %varDef_337
+		mov     %varDef_317, %varDef_336
+		mov     %varDef_321, %elementVal_102
+		mov     %varDef_322, %elementVal_88
+		mov     %varDef_319, %newVal_126
+		mov     %varDef_320, %varDef_338
+		jmp     __L_38
+__L_41:
+		cmp     %varDef_369, 1
+		jne     __L_66
+__L_67:
+		mov     %offset_131, %res_2
+		shl     %offset_131, 3
+		mov     %elementAddr_132, %tmp_254
+		add     %elementAddr_132, %offset_131
+		mov     %arrayBase_133, qword [%elementAddr_132]
+		mov     %elementAddr_136, %arrayBase_133
+		add     %elementAddr_136, %offset_131
+		mov     %elementVal_137, qword [%elementAddr_136]
+		mov     rdi, %elementVal_137
 		call    __printlnInt
-		mov     rdi, __str_8
+		jmp     __L_68
+__L_66:
+		mov     rdi, __str_0
 		call    print
-		mov     rdi, %classPtr_24
-		mov     rsi, 8
-		call    __vector_scalarInPlaceMultiply
-		mov     %res_40, rax
-		mov     rdi, %res_40
-		call    __vector_tostring
-		mov     %res_39, rax
-		mov     rdi, %res_39
-		call    println
-		mov     rbx, %local_rbx
-		mov     r15, %local_r15
-		mov     r14, %local_r14
+__L_68:
+		mov     qword [rel _dx], %carrayBase_149
+		mov     qword [rel _targety], %res_2
+		mov     qword [rel _tail], %varDef_368
+		mov     qword [rel _ok], %varDef_369
+		mov     qword [rel _xlist], %carrayBase_141
+		mov     qword [rel _ylist], %carrayBase_145
+		mov     qword [rel _head], %varDef_319
+		mov     qword [rel _j], %varDef_370
+		mov     qword [rel _now], %varDef_371
+		mov     qword [rel _N], %res_0
+		mov     qword [rel _targetx], %res_2
+		mov     qword [rel _i], %varDef_304
+		mov     qword [rel _x], %varDef_372
+		mov     qword [rel _y], %varDef_373
+		mov     qword [rel _dy], %carrayBase_153
 		mov     r13, %local_r13
+		mov     r14, %local_r14
+		mov     r15, %local_r15
+		mov     rbx, %local_rbx
 		mov     r12, %local_r12
 		mov     rax, 0
 		ret     
@@ -868,42 +696,58 @@ __L_88:
 SECTION .data
 
 __str_0:
-		dq      2
-		db      28H, 20H, 00H
-
-__str_1:
-		dq      2
-		db      2CH, 20H, 00H
-
-__str_2:
-		dq      2
-		db      20H, 29H, 00H
-
-__str_3:
-		dq      10
-		db      76H, 65H, 63H, 74H, 6FH, 72H, 20H, 78H, 3AH, 20H, 00H
-
-__str_4:
-		dq      8
-		db      65H, 78H, 63H, 69H, 74H, 65H, 64H, 21H, 00H
-
-__str_5:
-		dq      10
-		db      76H, 65H, 63H, 74H, 6FH, 72H, 20H, 79H, 3AH, 20H, 00H
-
-__str_6:
-		dq      7
-		db      78H, 20H, 2BH, 20H, 79H, 3AH, 20H, 00H
-
-__str_7:
-		dq      7
-		db      78H, 20H, 2AH, 20H, 79H, 3AH, 20H, 00H
-
-__str_8:
-		dq      14
-		db      28H, 31H, 20H, 3CH, 3CH, 20H, 33H, 29H, 20H, 2AH, 20H, 79H, 3AH, 20H, 00H
+		dq      13
+		db      6EH, 6FH, 20H, 73H, 6FH, 6CH, 75H, 74H, 69H, 6FH, 6EH, 21H, 0AH, 00H
 
 SECTION .bss
+
+_N:
+		resb    8
+
+_head:
+		resb    8
+
+_targetx:
+		resb    8
+
+_targety:
+		resb    8
+
+_x:
+		resb    8
+
+_y:
+		resb    8
+
+_xlist:
+		resb    8
+
+_ylist:
+		resb    8
+
+_tail:
+		resb    8
+
+_ok:
+		resb    8
+
+_now:
+		resb    8
+
+_dx:
+		resb    8
+
+_dy:
+		resb    8
+
+_step:
+		resb    8
+
+_i:
+		resb    8
+
+_j:
+		resb    8
 
 
 SECTION .text   6

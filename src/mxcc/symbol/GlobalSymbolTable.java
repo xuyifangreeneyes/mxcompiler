@@ -64,6 +64,9 @@ public class GlobalSymbolTable extends BaseScope {
     public final static FunctionSymbol PRINTLN_INT
             = new FunctionSymbol("#printlnInt", VOID_TYPE, null, new VariableSymbol("num", INT_TYPE));
 
+    public final static FunctionSymbol GLOBAL_INIT
+            = new FunctionSymbol("#globalInit", VOID_TYPE, null);
+
     private void initTypeSystem() {
         define(INT_TYPE);
         define(BOOL_TYPE);

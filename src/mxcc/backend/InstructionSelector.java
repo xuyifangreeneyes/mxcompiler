@@ -191,9 +191,9 @@ public class InstructionSelector implements IRVisitor {
                 curNasmBlock.addInst(new Mov(getVirtualReg(arg), physicalRegMap.get(paramRegs[i])));
             }
 
-            if (bb.getParentFunc().getName().equals("main")) {
-                curNasmBlock.addInst(new FuncCall("__globalInit", 0));
-            }
+//            if (bb.getParentFunc().getName().equals("main")) {
+//                curNasmBlock.addInst(new FuncCall("__globalInit", 0));
+//            }
         }
         Instruction inst = bb.getFirstInst();
         while (inst != null) {
