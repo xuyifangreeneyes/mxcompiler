@@ -1,94 +1,80 @@
-int N;
-int head;
-int startx;
-int starty;
-int targetx;
-int targety;
-int x;
-int y;
-int[] xlist = new int[12000];
-int[] ylist = new int[12000];
-int tail;
-int ok;
-int now;
-int[] dx = new int[8];
-int[] dy = new int[9];
-int[][] step;
-int i;
-int j;
+//让你们知道真正的残忍
+int i = 0;
+int a0 = 0;
+int a1 = 0;
+int a2 = 0;
+int a3 = 0;
+int a4 = 0;
+int a5 = 0;
+int a6 = 0;
+int a7 = 0;
+int a8 = 0;
+int a9 = 0;
+int a10 = 0;
+int b0 = 0;
+int b1 = 0;
+int b2 = 0;
+int b3 = 0;
+int b4 = 0;
+int b5 = 0;
+int b6 = 0;
+int b7 = 0;
+int b8 = 0;
+int b9 = 0;
+int b10 = 0;
 
-void origin(int N)
-{
-    head = 0;
-    tail = 0;
-	step = new int[N][];
-    for (i = 0; i < N; i ++ ) {
-		step[i] = new int[N];
-        for (j = 0; j < N; j ++ )
-        step[i][j] = 0;
-    }
-}
-
-bool check(int a) {
-    return ((a < N) && (a >= 0));
-}
-
-void addList(int x, int y) {
-    if (check(x) && check(y) && step[x][y] == -1) {
-        tail ++;
-        xlist[tail] = x;
-        ylist[tail] = y;
-        step[x][y] = now + 1;
-        if ((x == targetx) && (y == targety)) ok = 1;
-    }
-}
 int main() {
-	origin(106);
-    N = getInt();
-    targety  = N - 1;
-    targetx = targety;
-    for (i = 0; i < N; i ++)
-        for (j = 0; j < N; j ++)
-        step[i][j] = -1;
-    dx[0] = -2; dy[0] = -1;
-    dx[1] = -2; dy[1] = 1;
-    dx[2] = 2; dy[2] = -1;
-    dx[3] = 2; dy[3] = 1;
-    dx[4] = -1; dy[4] = -2;
-    dx[5] = -1; dy[5] = 2;
-    dx[6] = 1; dy[6] = -2;
-    dx[7] = 1; dy[7] = 2;
-    while (head <= tail) {
-        x = xlist[head];
-        y = ylist[head];
-        now = step[x][y];
-        for (j = 0;j < 8;j ++)
-            addList(x + dx[j], y + dy[j]);
-        if (ok == 1) break;
-        head ++;
+    int sum = 0;
+    int n = getInt();
+    for (i = 0; i < n; i = i + 1) {
+        a0 = a0 + 1;
+        a1 = a1 + 1;
+        a2 = a2 + 1;
+        a3 = a0 + 1;
+        a4 = a1 + 1;
+        a5 = a2 + 1;
+        a6 = a0 + 1;
+        a7 = a1 + 1;
+        a8 = a2 + 1;
+        a9 = a0 + 1;
+        a10 = a1 + 0;
+        b0 = a0;
+        b1 = a1;
+        b2 = a2;
+        b3 = a3;
+        b4 = a4;
+        b5 = a5;
+        b6 = a6;
+        b7 = a7;
+        b8 = a8;
+        b9 = a9;
+        b10 = a10;
+        if (i % 10000000 == 0) sum = (sum + a0 + a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8 + a9 + a10
+            + b0 + b1 + b2 + b3 + b4 + b5 + b6 + b7 + b8 + b9 + b10) & (32767 << 16 | 32767);
     }
-    if (ok == 1) println(toString(step[targetx][targety]));
-    else print("no solution!\n");
+    println(toString(sum));
     return 0;
 }
 
 
 
+
 /*!! metadata:
 === comment ===
-horse3-5100309153-yanghuan.mx
-=== input ===
-103
+范裕达 Gift for SSA & Coalesce
+=== is_public ===
+True
 === assert ===
 output
 === timeout ===
-0.4
-=== output ===
-67
+10.0
+=== input ===
+300000000
 === phase ===
-codegen pretest
-=== is_public ===
-True
+optim pretest
+=== output ===
+1210196280
+=== exitcode ===
+0
 
 !!*/
-

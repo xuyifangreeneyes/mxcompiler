@@ -1,36 +1,48 @@
-@N
-
-@head
-
-@targetx
-
-@targety
-
-@x
-
-@y
-
-@xlist
-
-@ylist
-
-@tail
-
-@ok
-
-@now
-
-@dx
-
-@dy
-
-@step
-
 @i
 
-@j
+@a0
 
-$str_0 "no solution!\n"
+@a1
+
+@a2
+
+@a3
+
+@a4
+
+@a5
+
+@a6
+
+@a7
+
+@a8
+
+@a9
+
+@a10
+
+@b0
+
+@b1
+
+@b2
+
+@b3
+
+@b4
+
+@b5
+
+@b6
+
+@b7
+
+@b8
+
+@b9
+
+@b10
 
 define print
 
@@ -72,862 +84,431 @@ define __printlnInt
 
 define __globalInit ( ) {
 <0> entry
+	%global2local_22 = alloca 8
+	%global2local_21 = alloca 8
+	%global2local_20 = alloca 8
 	%global2local_19 = alloca 8
 	%global2local_18 = alloca 8
 	%global2local_17 = alloca 8
 	%global2local_16 = alloca 8
-	%tmp_23 = load @dy
-	store %tmp_23 %global2local_19
-	%tmp_22 = load @ylist
-	store %tmp_22 %global2local_18
-	%tmp_21 = load @xlist
-	store %tmp_21 %global2local_17
-	%tmp_20 = load @dx
-	store %tmp_20 %global2local_16
-	%memberLength_1 = mul 12000 8
-	%arrayLength_2 = add %memberLength_1 8
-	%arrayPtr_0 = malloc %arrayLength_2
-	store 12000 %arrayPtr_0
-	%arrayBase_3 = add %arrayPtr_0 8
-	store %arrayBase_3 %global2local_17
-	%memberLength_5 = mul 12000 8
-	%arrayLength_6 = add %memberLength_5 8
-	%arrayPtr_4 = malloc %arrayLength_6
-	store 12000 %arrayPtr_4
-	%arrayBase_7 = add %arrayPtr_4 8
-	store %arrayBase_7 %global2local_18
-	%memberLength_9 = mul 8 8
-	%arrayLength_10 = add %memberLength_9 8
-	%arrayPtr_8 = malloc %arrayLength_10
-	store 8 %arrayPtr_8
-	%arrayBase_11 = add %arrayPtr_8 8
-	store %arrayBase_11 %global2local_16
-	%memberLength_13 = mul 9 8
-	%arrayLength_14 = add %memberLength_13 8
-	%arrayPtr_12 = malloc %arrayLength_14
-	store 9 %arrayPtr_12
-	%arrayBase_15 = add %arrayPtr_12 8
-	store %arrayBase_15 %global2local_19
-	%tmp_24 = load %global2local_16
-	store %tmp_24 @dx
-	%tmp_25 = load %global2local_17
-	store %tmp_25 @xlist
-	%tmp_26 = load %global2local_18
-	store %tmp_26 @ylist
-	%tmp_27 = load %global2local_19
-	store %tmp_27 @dy
-	ret 
-
-}
-
-define origin ( %argVal_0 ) {
-<0> entry
-	%global2local_40 = alloca 8
-	%global2local_39 = alloca 8
-	%global2local_38 = alloca 8
-	%global2local_37 = alloca 8
-	%global2local_36 = alloca 8
-	%argAddr_1 = alloca 8
-	%tmp_45 = load @j
-	store %tmp_45 %global2local_40
-	%tmp_44 = load @step
-	store %tmp_44 %global2local_39
-	%tmp_43 = load @head
-	store %tmp_43 %global2local_38
-	%tmp_42 = load @i
-	store %tmp_42 %global2local_37
-	%tmp_41 = load @tail
-	store %tmp_41 %global2local_36
-	store %argVal_0 %argAddr_1
-	store 0 %global2local_38
-	store 0 %global2local_36
-	%idVal_2 = load %argAddr_1
-	%memberLength_4 = mul %idVal_2 8
-	%arrayLength_5 = add %memberLength_4 8
-	%arrayPtr_3 = malloc %arrayLength_5
-	store %idVal_2 %arrayPtr_3
-	%arrayBase_6 = add %arrayPtr_3 8
-	store %arrayBase_6 %global2local_39
-	store 0 %global2local_37
-	br <1>
-
-<1> for_cond
-	%idVal_7 = load %global2local_37
-	%idVal_8 = load %argAddr_1
-	%res_9 = lt %idVal_7 %idVal_8
-	br %res_9 <2> <4>
-
-<2> for_body
-	%idVal_10 = load %argAddr_1
-	%memberLength_12 = mul %idVal_10 8
-	%arrayLength_13 = add %memberLength_12 8
-	%arrayPtr_11 = malloc %arrayLength_13
-	store %idVal_10 %arrayPtr_11
-	%arrayBase_14 = add %arrayPtr_11 8
-	%arrayBase_15 = load %global2local_39
-	%idVal_16 = load %global2local_37
-	%offset_17 = mul %idVal_16 8
-	%elementAddr_18 = add %arrayBase_15 %offset_17
-	store %arrayBase_14 %elementAddr_18
-	store 0 %global2local_40
-	br <5>
-
-<5> for_cond
-	%idVal_19 = load %global2local_40
-	%idVal_20 = load %argAddr_1
-	%res_21 = lt %idVal_19 %idVal_20
-	br %res_21 <6> <8>
-
-<6> for_body
-	%arrayBase_22 = load %global2local_39
-	%idVal_23 = load %global2local_37
-	%offset_24 = mul %idVal_23 8
-	%elementAddr_25 = add %arrayBase_22 %offset_24
-	%arrayBase_26 = load %elementAddr_25
-	%idVal_27 = load %global2local_40
-	%offset_28 = mul %idVal_27 8
-	%elementAddr_29 = add %arrayBase_26 %offset_28
-	store 0 %elementAddr_29
-	br <7>
-
-<7> for_step
-	%idVal_30 = load %global2local_40
-	%oldVal_31 = load %global2local_40
-	%newVal_32 = inc %oldVal_31
-	store %newVal_32 %global2local_40
-	br <5>
-
-<8> for_end
-	br <3>
-
-<3> for_step
-	%idVal_33 = load %global2local_37
-	%oldVal_34 = load %global2local_37
-	%newVal_35 = inc %oldVal_34
-	store %newVal_35 %global2local_37
-	br <1>
-
-<4> for_end
-	%tmp_46 = load %global2local_36
-	store %tmp_46 @tail
-	%tmp_47 = load %global2local_37
-	store %tmp_47 @i
-	%tmp_48 = load %global2local_38
-	store %tmp_48 @head
-	%tmp_49 = load %global2local_39
-	store %tmp_49 @step
-	%tmp_50 = load %global2local_40
-	store %tmp_50 @j
-	ret 
-
-}
-
-define check ( %argVal_0 ) {
-<0> entry
+	%global2local_15 = alloca 8
+	%global2local_14 = alloca 8
+	%global2local_13 = alloca 8
+	%global2local_12 = alloca 8
+	%global2local_11 = alloca 8
+	%global2local_10 = alloca 8
 	%global2local_9 = alloca 8
-	%boolValAddr_2 = alloca 8
-	%argAddr_1 = alloca 8
-	%tmp_10 = load @N
-	store %tmp_10 %global2local_9
-	store %argVal_0 %argAddr_1
-	%idVal_3 = load %argAddr_1
-	%idVal_4 = load %global2local_9
-	%res_5 = lt %idVal_3 %idVal_4
-	br %res_5 <4> <2>
-
-<4> lhs_true
-	%idVal_6 = load %argAddr_1
-	%res_7 = ge %idVal_6 0
-	br %res_7 <1> <2>
-
-<1> bool_true
-	store 1 %boolValAddr_2
-	br <3>
-
-<2> bool_false
-	store 0 %boolValAddr_2
-	br <3>
-
-<3> bool_merge
-	%boolVal_8 = load %boolValAddr_2
-	ret %boolVal_8
-
-}
-
-define addList ( %argVal_0 %argVal_2 ) {
-<0> entry
-	%global2local_74 = alloca 8
-	%global2local_73 = alloca 8
-	%global2local_72 = alloca 8
-	%global2local_71 = alloca 8
-	%global2local_70 = alloca 8
-	%global2local_69 = alloca 8
-	%global2local_68 = alloca 8
-	%global2local_67 = alloca 8
-	%global2local_66 = alloca 8
-	%cargAddr_59 = alloca 8
-	%cboolValAddr_58 = alloca 8
-	%retValAddr_57 = alloca 8
-	%cargAddr_50 = alloca 8
-	%cboolValAddr_49 = alloca 8
-	%retValAddr_48 = alloca 8
-	%argAddr_3 = alloca 8
-	%argAddr_1 = alloca 8
-	%tmp_83 = load @step
-	store %tmp_83 %global2local_74
-	%tmp_82 = load @targetx
-	store %tmp_82 %global2local_73
-	%tmp_81 = load @ylist
-	store %tmp_81 %global2local_72
-	%tmp_80 = load @xlist
-	store %tmp_80 %global2local_71
-	%tmp_79 = load @ok
-	store %tmp_79 %global2local_70
-	%tmp_78 = load @targety
-	store %tmp_78 %global2local_69
-	%tmp_77 = load @tail
-	store %tmp_77 %global2local_68
-	%tmp_76 = load @N
-	store %tmp_76 %global2local_67
-	%tmp_75 = load @now
-	store %tmp_75 %global2local_66
-	store %argVal_0 %argAddr_1
-	store %argVal_2 %argAddr_3
-	%idVal_5 = load %argAddr_1
-	br <9>
-
-<9> centry
-	store %idVal_5 %cargAddr_50
-	%cidVal_51 = load %cargAddr_50
-	%cidVal_52 = load %global2local_67
-	%cres_53 = lt %cidVal_51 %cidVal_52
-	br %cres_53 <10> <12>
-
-<10> clhs_true
-	%cidVal_54 = load %cargAddr_50
-	%cres_55 = ge %cidVal_54 0
-	br %cres_55 <11> <12>
-
-<11> cbool_true
-	store 1 %cboolValAddr_49
-	br <13>
-
-<12> cbool_false
-	store 0 %cboolValAddr_49
-	br <13>
-
-<13> cbool_merge
-	%cboolVal_56 = load %cboolValAddr_49
-	store %cboolVal_56 %retValAddr_48
-	br <8>
-
-<8> after_call
-	%res_4 = load %retValAddr_48
-	br %res_4 <4> <2>
-
-<4> lhs_true
-	%idVal_7 = load %argAddr_3
-	br <15>
-
-<15> centry
-	store %idVal_7 %cargAddr_59
-	%cidVal_60 = load %cargAddr_59
-	%cidVal_61 = load %global2local_67
-	%cres_62 = lt %cidVal_60 %cidVal_61
-	br %cres_62 <16> <18>
-
-<16> clhs_true
-	%cidVal_63 = load %cargAddr_59
-	%cres_64 = ge %cidVal_63 0
-	br %cres_64 <17> <18>
-
-<17> cbool_true
-	store 1 %cboolValAddr_58
-	br <19>
-
-<18> cbool_false
-	store 0 %cboolValAddr_58
-	br <19>
-
-<19> cbool_merge
-	%cboolVal_65 = load %cboolValAddr_58
-	store %cboolVal_65 %retValAddr_57
-	br <14>
-
-<14> after_call
-	%res_6 = load %retValAddr_57
-	br %res_6 <3> <2>
-
-<3> lhs_true
-	%arrayBase_8 = load %global2local_74
-	%idVal_9 = load %argAddr_1
-	%offset_10 = mul %idVal_9 8
-	%elementAddr_11 = add %arrayBase_8 %offset_10
-	%arrayBase_12 = load %elementAddr_11
-	%idVal_13 = load %argAddr_3
-	%offset_14 = mul %idVal_13 8
-	%elementAddr_15 = add %arrayBase_12 %offset_14
-	%elementVal_16 = load %elementAddr_15
-	%res_17 = neg 1
-	%res_18 = eq %elementVal_16 %res_17
-	br %res_18 <1> <2>
-
-<1> if_true
-	%idVal_19 = load %global2local_68
-	%oldVal_20 = load %global2local_68
-	%newVal_21 = inc %oldVal_20
-	store %newVal_21 %global2local_68
-	%idVal_22 = load %argAddr_1
-	%arrayBase_23 = load %global2local_71
-	%idVal_24 = load %global2local_68
-	%offset_25 = mul %idVal_24 8
-	%elementAddr_26 = add %arrayBase_23 %offset_25
-	store %idVal_22 %elementAddr_26
-	%idVal_27 = load %argAddr_3
-	%arrayBase_28 = load %global2local_72
-	%idVal_29 = load %global2local_68
-	%offset_30 = mul %idVal_29 8
-	%elementAddr_31 = add %arrayBase_28 %offset_30
-	store %idVal_27 %elementAddr_31
-	%idVal_32 = load %global2local_66
-	%res_33 = add %idVal_32 1
-	%arrayBase_34 = load %global2local_74
-	%idVal_35 = load %argAddr_1
-	%offset_36 = mul %idVal_35 8
-	%elementAddr_37 = add %arrayBase_34 %offset_36
-	%arrayBase_38 = load %elementAddr_37
-	%idVal_39 = load %argAddr_3
-	%offset_40 = mul %idVal_39 8
-	%elementAddr_41 = add %arrayBase_38 %offset_40
-	store %res_33 %elementAddr_41
-	%idVal_42 = load %argAddr_1
-	%idVal_43 = load %global2local_73
-	%res_44 = eq %idVal_42 %idVal_43
-	br %res_44 <7> <6>
-
-<7> lhs_true
-	%idVal_45 = load %argAddr_3
-	%idVal_46 = load %global2local_69
-	%res_47 = eq %idVal_45 %idVal_46
-	br %res_47 <5> <6>
-
-<5> if_true
-	store 1 %global2local_70
-	br <6>
-
-<6> if_merge
-	br <2>
-
-<2> if_merge
-	%tmp_84 = load %global2local_68
-	store %tmp_84 @tail
-	%tmp_85 = load %global2local_70
-	store %tmp_85 @ok
+	%global2local_8 = alloca 8
+	%global2local_7 = alloca 8
+	%global2local_6 = alloca 8
+	%global2local_5 = alloca 8
+	%global2local_4 = alloca 8
+	%global2local_3 = alloca 8
+	%global2local_2 = alloca 8
+	%global2local_1 = alloca 8
+	%global2local_0 = alloca 8
+	%tmp_45 = load @b7
+	store %tmp_45 %global2local_22
+	%tmp_44 = load @a6
+	store %tmp_44 %global2local_21
+	%tmp_43 = load @a2
+	store %tmp_43 %global2local_20
+	%tmp_42 = load @a4
+	store %tmp_42 %global2local_19
+	%tmp_41 = load @b9
+	store %tmp_41 %global2local_18
+	%tmp_40 = load @b0
+	store %tmp_40 %global2local_17
+	%tmp_39 = load @a5
+	store %tmp_39 %global2local_16
+	%tmp_38 = load @a9
+	store %tmp_38 %global2local_15
+	%tmp_37 = load @a3
+	store %tmp_37 %global2local_14
+	%tmp_36 = load @b5
+	store %tmp_36 %global2local_13
+	%tmp_35 = load @a10
+	store %tmp_35 %global2local_12
+	%tmp_34 = load @b10
+	store %tmp_34 %global2local_11
+	%tmp_33 = load @b8
+	store %tmp_33 %global2local_10
+	%tmp_32 = load @b2
+	store %tmp_32 %global2local_9
+	%tmp_31 = load @a8
+	store %tmp_31 %global2local_8
+	%tmp_30 = load @i
+	store %tmp_30 %global2local_7
+	%tmp_29 = load @b4
+	store %tmp_29 %global2local_6
+	%tmp_28 = load @b6
+	store %tmp_28 %global2local_5
+	%tmp_27 = load @b3
+	store %tmp_27 %global2local_4
+	%tmp_26 = load @a0
+	store %tmp_26 %global2local_3
+	%tmp_25 = load @a1
+	store %tmp_25 %global2local_2
+	%tmp_24 = load @b1
+	store %tmp_24 %global2local_1
+	%tmp_23 = load @a7
+	store %tmp_23 %global2local_0
+	store 0 %global2local_7
+	store 0 %global2local_3
+	store 0 %global2local_2
+	store 0 %global2local_20
+	store 0 %global2local_14
+	store 0 %global2local_19
+	store 0 %global2local_16
+	store 0 %global2local_21
+	store 0 %global2local_0
+	store 0 %global2local_8
+	store 0 %global2local_15
+	store 0 %global2local_12
+	store 0 %global2local_17
+	store 0 %global2local_1
+	store 0 %global2local_9
+	store 0 %global2local_4
+	store 0 %global2local_6
+	store 0 %global2local_13
+	store 0 %global2local_5
+	store 0 %global2local_22
+	store 0 %global2local_10
+	store 0 %global2local_18
+	store 0 %global2local_11
+	%tmp_46 = load %global2local_0
+	store %tmp_46 @a7
+	%tmp_47 = load %global2local_1
+	store %tmp_47 @b1
+	%tmp_48 = load %global2local_2
+	store %tmp_48 @a1
+	%tmp_49 = load %global2local_3
+	store %tmp_49 @a0
+	%tmp_50 = load %global2local_4
+	store %tmp_50 @b3
+	%tmp_51 = load %global2local_5
+	store %tmp_51 @b6
+	%tmp_52 = load %global2local_6
+	store %tmp_52 @b4
+	%tmp_53 = load %global2local_7
+	store %tmp_53 @i
+	%tmp_54 = load %global2local_8
+	store %tmp_54 @a8
+	%tmp_55 = load %global2local_9
+	store %tmp_55 @b2
+	%tmp_56 = load %global2local_10
+	store %tmp_56 @b8
+	%tmp_57 = load %global2local_11
+	store %tmp_57 @b10
+	%tmp_58 = load %global2local_12
+	store %tmp_58 @a10
+	%tmp_59 = load %global2local_13
+	store %tmp_59 @b5
+	%tmp_60 = load %global2local_14
+	store %tmp_60 @a3
+	%tmp_61 = load %global2local_15
+	store %tmp_61 @a9
+	%tmp_62 = load %global2local_16
+	store %tmp_62 @a5
+	%tmp_63 = load %global2local_17
+	store %tmp_63 @b0
+	%tmp_64 = load %global2local_18
+	store %tmp_64 @b9
+	%tmp_65 = load %global2local_19
+	store %tmp_65 @a4
+	%tmp_66 = load %global2local_20
+	store %tmp_66 @a2
+	%tmp_67 = load %global2local_21
+	store %tmp_67 @a6
+	%tmp_68 = load %global2local_22
+	store %tmp_68 @b7
 	ret 
 
 }
 
 define main ( ) {
 <0> entry
-	%global2local_233 = alloca 8
-	%global2local_232 = alloca 8
-	%global2local_231 = alloca 8
-	%global2local_230 = alloca 8
-	%global2local_229 = alloca 8
-	%global2local_228 = alloca 8
-	%global2local_227 = alloca 8
-	%global2local_226 = alloca 8
-	%global2local_225 = alloca 8
-	%global2local_224 = alloca 8
-	%global2local_223 = alloca 8
-	%global2local_222 = alloca 8
-	%global2local_221 = alloca 8
-	%global2local_220 = alloca 8
-	%global2local_219 = alloca 8
-	%global2local_218 = alloca 8
-	%cargAddr_211 = alloca 8
-	%cboolValAddr_210 = alloca 8
-	%retValAddr_209 = alloca 8
-	%cargAddr_202 = alloca 8
-	%cboolValAddr_201 = alloca 8
-	%retValAddr_200 = alloca 8
-	%cargAddr_155 = alloca 8
-	%cargAddr_154 = alloca 8
-	%tmp_249 = load @dy
-	store %tmp_249 %global2local_233
-	%tmp_248 = load @y
-	store %tmp_248 %global2local_232
-	%tmp_247 = load @x
-	store %tmp_247 %global2local_231
-	%tmp_246 = load @i
-	store %tmp_246 %global2local_230
-	%tmp_245 = load @targetx
-	store %tmp_245 %global2local_229
-	%tmp_244 = load @N
-	store %tmp_244 %global2local_228
-	%tmp_243 = load @now
-	store %tmp_243 %global2local_227
-	%tmp_242 = load @j
-	store %tmp_242 %global2local_226
-	%tmp_241 = load @step
-	store %tmp_241 %global2local_225
-	%tmp_240 = load @head
-	store %tmp_240 %global2local_224
-	%tmp_239 = load @ylist
-	store %tmp_239 %global2local_223
-	%tmp_238 = load @xlist
-	store %tmp_238 %global2local_222
-	%tmp_237 = load @ok
-	store %tmp_237 %global2local_221
-	%tmp_236 = load @tail
-	store %tmp_236 %global2local_220
-	%tmp_235 = load @targety
-	store %tmp_235 %global2local_219
-	%tmp_234 = load @dx
-	store %tmp_234 %global2local_218
-	br <22>
+	%global2local_113 = alloca 8
+	%global2local_112 = alloca 8
+	%global2local_111 = alloca 8
+	%global2local_110 = alloca 8
+	%global2local_109 = alloca 8
+	%global2local_108 = alloca 8
+	%global2local_107 = alloca 8
+	%global2local_106 = alloca 8
+	%global2local_105 = alloca 8
+	%global2local_104 = alloca 8
+	%global2local_103 = alloca 8
+	%global2local_102 = alloca 8
+	%global2local_101 = alloca 8
+	%global2local_100 = alloca 8
+	%global2local_99 = alloca 8
+	%global2local_98 = alloca 8
+	%global2local_97 = alloca 8
+	%global2local_96 = alloca 8
+	%global2local_95 = alloca 8
+	%global2local_94 = alloca 8
+	%global2local_93 = alloca 8
+	%global2local_92 = alloca 8
+	%global2local_91 = alloca 8
+	%varAddr_1 = alloca 8
+	%varAddr_0 = alloca 8
+	%tmp_136 = load @b7
+	store %tmp_136 %global2local_113
+	%tmp_135 = load @a6
+	store %tmp_135 %global2local_112
+	%tmp_134 = load @a2
+	store %tmp_134 %global2local_111
+	%tmp_133 = load @a4
+	store %tmp_133 %global2local_110
+	%tmp_132 = load @b9
+	store %tmp_132 %global2local_109
+	%tmp_131 = load @b0
+	store %tmp_131 %global2local_108
+	%tmp_130 = load @a5
+	store %tmp_130 %global2local_107
+	%tmp_129 = load @a9
+	store %tmp_129 %global2local_106
+	%tmp_128 = load @a3
+	store %tmp_128 %global2local_105
+	%tmp_127 = load @b5
+	store %tmp_127 %global2local_104
+	%tmp_126 = load @a10
+	store %tmp_126 %global2local_103
+	%tmp_125 = load @b10
+	store %tmp_125 %global2local_102
+	%tmp_124 = load @b8
+	store %tmp_124 %global2local_101
+	%tmp_123 = load @b2
+	store %tmp_123 %global2local_100
+	%tmp_122 = load @a8
+	store %tmp_122 %global2local_99
+	%tmp_121 = load @i
+	store %tmp_121 %global2local_98
+	%tmp_120 = load @b4
+	store %tmp_120 %global2local_97
+	%tmp_119 = load @b6
+	store %tmp_119 %global2local_96
+	%tmp_118 = load @b3
+	store %tmp_118 %global2local_95
+	%tmp_117 = load @a0
+	store %tmp_117 %global2local_94
+	%tmp_116 = load @a1
+	store %tmp_116 %global2local_93
+	%tmp_115 = load @b1
+	store %tmp_115 %global2local_92
+	%tmp_114 = load @a7
+	store %tmp_114 %global2local_91
+	br <8>
 
-<22> centry
-	%cmemberLength_138 = mul 12000 8
-	%carrayLength_139 = add %cmemberLength_138 8
-	%carrayPtr_140 = malloc %carrayLength_139
-	store 12000 %carrayPtr_140
-	%carrayBase_141 = add %carrayPtr_140 8
-	store %carrayBase_141 %global2local_222
-	%cmemberLength_142 = mul 12000 8
-	%carrayLength_143 = add %cmemberLength_142 8
-	%carrayPtr_144 = malloc %carrayLength_143
-	store 12000 %carrayPtr_144
-	%carrayBase_145 = add %carrayPtr_144 8
-	store %carrayBase_145 %global2local_223
-	%cmemberLength_146 = mul 8 8
-	%carrayLength_147 = add %cmemberLength_146 8
-	%carrayPtr_148 = malloc %carrayLength_147
-	store 8 %carrayPtr_148
-	%carrayBase_149 = add %carrayPtr_148 8
-	store %carrayBase_149 %global2local_218
-	%cmemberLength_150 = mul 9 8
-	%carrayLength_151 = add %cmemberLength_150 8
-	%carrayPtr_152 = malloc %carrayLength_151
-	store 9 %carrayPtr_152
-	%carrayBase_153 = add %carrayPtr_152 8
-	store %carrayBase_153 %global2local_233
-	br <21>
+<8> centry
+	store 0 %global2local_98
+	store 0 %global2local_94
+	store 0 %global2local_93
+	store 0 %global2local_111
+	store 0 %global2local_105
+	store 0 %global2local_110
+	store 0 %global2local_107
+	store 0 %global2local_112
+	store 0 %global2local_91
+	store 0 %global2local_99
+	store 0 %global2local_106
+	store 0 %global2local_103
+	store 0 %global2local_108
+	store 0 %global2local_92
+	store 0 %global2local_100
+	store 0 %global2local_95
+	store 0 %global2local_97
+	store 0 %global2local_104
+	store 0 %global2local_96
+	store 0 %global2local_113
+	store 0 %global2local_101
+	store 0 %global2local_109
+	store 0 %global2local_102
+	br <7>
 
-<21> after_call
-	%tmp_250 = load %global2local_220
-	store %tmp_250 @tail
-	%tmp_252 = load %global2local_224
-	store %tmp_252 @head
-	%tmp_255 = load %global2local_226
-	store %tmp_255 @j
-	%tmp_257 = load %global2local_230
-	store %tmp_257 @i
-	origin ( 106 )
-	%tmp_258 = load @i
-	store %tmp_258 %global2local_230
-	%tmp_256 = load @j
-	store %tmp_256 %global2local_226
-	%tmp_254 = load @step
-	store %tmp_254 %global2local_225
-	%tmp_253 = load @head
-	store %tmp_253 %global2local_224
-	%tmp_251 = load @tail
-	store %tmp_251 %global2local_220
-	%res_0 = getInt ( )
-	store %res_0 %global2local_228
-	%idVal_1 = load %global2local_228
-	%res_2 = sub %idVal_1 1
-	store %res_2 %global2local_219
-	%idVal_3 = load %global2local_219
-	store %idVal_3 %global2local_229
-	store 0 %global2local_230
+<7> after_call
+	store 0 %varAddr_0
+	%res_2 = getInt ( )
+	store %res_2 %varAddr_1
+	store 0 %global2local_98
 	br <1>
 
 <1> for_cond
-	%idVal_4 = load %global2local_230
-	%idVal_5 = load %global2local_228
-	%res_6 = lt %idVal_4 %idVal_5
-	br %res_6 <2> <4>
+	%idVal_3 = load %global2local_98
+	%idVal_4 = load %varAddr_1
+	%res_5 = lt %idVal_3 %idVal_4
+	br %res_5 <2> <4>
 
 <2> for_body
-	store 0 %global2local_226
-	br <5>
+	%idVal_6 = load %global2local_94
+	%res_7 = add %idVal_6 1
+	store %res_7 %global2local_94
+	%idVal_8 = load %global2local_93
+	%res_9 = add %idVal_8 1
+	store %res_9 %global2local_93
+	%idVal_10 = load %global2local_111
+	%res_11 = add %idVal_10 1
+	store %res_11 %global2local_111
+	%idVal_12 = load %global2local_94
+	%res_13 = add %idVal_12 1
+	store %res_13 %global2local_105
+	%idVal_14 = load %global2local_93
+	%res_15 = add %idVal_14 1
+	store %res_15 %global2local_110
+	%idVal_16 = load %global2local_111
+	%res_17 = add %idVal_16 1
+	store %res_17 %global2local_107
+	%idVal_18 = load %global2local_94
+	%res_19 = add %idVal_18 1
+	store %res_19 %global2local_112
+	%idVal_20 = load %global2local_93
+	%res_21 = add %idVal_20 1
+	store %res_21 %global2local_91
+	%idVal_22 = load %global2local_111
+	%res_23 = add %idVal_22 1
+	store %res_23 %global2local_99
+	%idVal_24 = load %global2local_94
+	%res_25 = add %idVal_24 1
+	store %res_25 %global2local_106
+	%idVal_26 = load %global2local_93
+	%res_27 = add %idVal_26 0
+	store %res_27 %global2local_103
+	%idVal_28 = load %global2local_94
+	store %idVal_28 %global2local_108
+	%idVal_29 = load %global2local_93
+	store %idVal_29 %global2local_92
+	%idVal_30 = load %global2local_111
+	store %idVal_30 %global2local_100
+	%idVal_31 = load %global2local_105
+	store %idVal_31 %global2local_95
+	%idVal_32 = load %global2local_110
+	store %idVal_32 %global2local_97
+	%idVal_33 = load %global2local_107
+	store %idVal_33 %global2local_104
+	%idVal_34 = load %global2local_112
+	store %idVal_34 %global2local_96
+	%idVal_35 = load %global2local_91
+	store %idVal_35 %global2local_113
+	%idVal_36 = load %global2local_99
+	store %idVal_36 %global2local_101
+	%idVal_37 = load %global2local_106
+	store %idVal_37 %global2local_109
+	%idVal_38 = load %global2local_103
+	store %idVal_38 %global2local_102
+	%idVal_39 = load %global2local_98
+	%res_40 = mod %idVal_39 10000000
+	%res_41 = eq %res_40 0
+	br %res_41 <5> <6>
 
-<5> for_cond
-	%idVal_7 = load %global2local_226
-	%idVal_8 = load %global2local_228
-	%res_9 = lt %idVal_7 %idVal_8
-	br %res_9 <6> <8>
+<5> if_true
+	%idVal_42 = load %varAddr_0
+	%idVal_43 = load %global2local_94
+	%res_44 = add %idVal_42 %idVal_43
+	%idVal_45 = load %global2local_93
+	%res_46 = add %res_44 %idVal_45
+	%idVal_47 = load %global2local_111
+	%res_48 = add %res_46 %idVal_47
+	%idVal_49 = load %global2local_105
+	%res_50 = add %res_48 %idVal_49
+	%idVal_51 = load %global2local_110
+	%res_52 = add %res_50 %idVal_51
+	%idVal_53 = load %global2local_107
+	%res_54 = add %res_52 %idVal_53
+	%idVal_55 = load %global2local_112
+	%res_56 = add %res_54 %idVal_55
+	%idVal_57 = load %global2local_91
+	%res_58 = add %res_56 %idVal_57
+	%idVal_59 = load %global2local_99
+	%res_60 = add %res_58 %idVal_59
+	%idVal_61 = load %global2local_106
+	%res_62 = add %res_60 %idVal_61
+	%idVal_63 = load %global2local_103
+	%res_64 = add %res_62 %idVal_63
+	%idVal_65 = load %global2local_108
+	%res_66 = add %res_64 %idVal_65
+	%idVal_67 = load %global2local_92
+	%res_68 = add %res_66 %idVal_67
+	%idVal_69 = load %global2local_100
+	%res_70 = add %res_68 %idVal_69
+	%idVal_71 = load %global2local_95
+	%res_72 = add %res_70 %idVal_71
+	%idVal_73 = load %global2local_97
+	%res_74 = add %res_72 %idVal_73
+	%idVal_75 = load %global2local_104
+	%res_76 = add %res_74 %idVal_75
+	%idVal_77 = load %global2local_96
+	%res_78 = add %res_76 %idVal_77
+	%idVal_79 = load %global2local_113
+	%res_80 = add %res_78 %idVal_79
+	%idVal_81 = load %global2local_101
+	%res_82 = add %res_80 %idVal_81
+	%idVal_83 = load %global2local_109
+	%res_84 = add %res_82 %idVal_83
+	%idVal_85 = load %global2local_102
+	%res_86 = add %res_84 %idVal_85
+	%res_87 = bit_and %res_86 2147450879
+	store %res_87 %varAddr_0
+	br <6>
 
-<6> for_body
-	%res_10 = neg 1
-	%arrayBase_11 = load %global2local_225
-	%idVal_12 = load %global2local_230
-	%offset_13 = mul %idVal_12 8
-	%elementAddr_14 = add %arrayBase_11 %offset_13
-	%arrayBase_15 = load %elementAddr_14
-	%idVal_16 = load %global2local_226
-	%offset_17 = mul %idVal_16 8
-	%elementAddr_18 = add %arrayBase_15 %offset_17
-	store %res_10 %elementAddr_18
-	br <7>
-
-<7> for_step
-	%idVal_19 = load %global2local_226
-	%oldVal_20 = load %global2local_226
-	%newVal_21 = inc %oldVal_20
-	store %newVal_21 %global2local_226
-	br <5>
-
-<8> for_end
+<6> if_merge
 	br <3>
 
 <3> for_step
-	%idVal_22 = load %global2local_230
-	%oldVal_23 = load %global2local_230
-	%newVal_24 = inc %oldVal_23
-	store %newVal_24 %global2local_230
+	%idVal_88 = load %global2local_98
+	%res_89 = add %idVal_88 1
+	store %res_89 %global2local_98
 	br <1>
 
 <4> for_end
-	%res_25 = neg 2
-	%arrayBase_26 = load %global2local_218
-	%offset_27 = mul 0 8
-	%elementAddr_28 = add %arrayBase_26 %offset_27
-	store %res_25 %elementAddr_28
-	%res_29 = neg 1
-	%arrayBase_30 = load %global2local_233
-	%offset_31 = mul 0 8
-	%elementAddr_32 = add %arrayBase_30 %offset_31
-	store %res_29 %elementAddr_32
-	%res_33 = neg 2
-	%arrayBase_34 = load %global2local_218
-	%offset_35 = mul 1 8
-	%elementAddr_36 = add %arrayBase_34 %offset_35
-	store %res_33 %elementAddr_36
-	%arrayBase_37 = load %global2local_233
-	%offset_38 = mul 1 8
-	%elementAddr_39 = add %arrayBase_37 %offset_38
-	store 1 %elementAddr_39
-	%arrayBase_40 = load %global2local_218
-	%offset_41 = mul 2 8
-	%elementAddr_42 = add %arrayBase_40 %offset_41
-	store 2 %elementAddr_42
-	%res_43 = neg 1
-	%arrayBase_44 = load %global2local_233
-	%offset_45 = mul 2 8
-	%elementAddr_46 = add %arrayBase_44 %offset_45
-	store %res_43 %elementAddr_46
-	%arrayBase_47 = load %global2local_218
-	%offset_48 = mul 3 8
-	%elementAddr_49 = add %arrayBase_47 %offset_48
-	store 2 %elementAddr_49
-	%arrayBase_50 = load %global2local_233
-	%offset_51 = mul 3 8
-	%elementAddr_52 = add %arrayBase_50 %offset_51
-	store 1 %elementAddr_52
-	%res_53 = neg 1
-	%arrayBase_54 = load %global2local_218
-	%offset_55 = mul 4 8
-	%elementAddr_56 = add %arrayBase_54 %offset_55
-	store %res_53 %elementAddr_56
-	%res_57 = neg 2
-	%arrayBase_58 = load %global2local_233
-	%offset_59 = mul 4 8
-	%elementAddr_60 = add %arrayBase_58 %offset_59
-	store %res_57 %elementAddr_60
-	%res_61 = neg 1
-	%arrayBase_62 = load %global2local_218
-	%offset_63 = mul 5 8
-	%elementAddr_64 = add %arrayBase_62 %offset_63
-	store %res_61 %elementAddr_64
-	%arrayBase_65 = load %global2local_233
-	%offset_66 = mul 5 8
-	%elementAddr_67 = add %arrayBase_65 %offset_66
-	store 2 %elementAddr_67
-	%arrayBase_68 = load %global2local_218
-	%offset_69 = mul 6 8
-	%elementAddr_70 = add %arrayBase_68 %offset_69
-	store 1 %elementAddr_70
-	%res_71 = neg 2
-	%arrayBase_72 = load %global2local_233
-	%offset_73 = mul 6 8
-	%elementAddr_74 = add %arrayBase_72 %offset_73
-	store %res_71 %elementAddr_74
-	%arrayBase_75 = load %global2local_218
-	%offset_76 = mul 7 8
-	%elementAddr_77 = add %arrayBase_75 %offset_76
-	store 1 %elementAddr_77
-	%arrayBase_78 = load %global2local_233
-	%offset_79 = mul 7 8
-	%elementAddr_80 = add %arrayBase_78 %offset_79
-	store 2 %elementAddr_80
-	br <9>
-
-<9> while_cond
-	%idVal_81 = load %global2local_224
-	%idVal_82 = load %global2local_220
-	%res_83 = le %idVal_81 %idVal_82
-	br %res_83 <10> <11>
-
-<10> while_body
-	%arrayBase_84 = load %global2local_222
-	%idVal_85 = load %global2local_224
-	%offset_86 = mul %idVal_85 8
-	%elementAddr_87 = add %arrayBase_84 %offset_86
-	%elementVal_88 = load %elementAddr_87
-	store %elementVal_88 %global2local_231
-	%arrayBase_89 = load %global2local_223
-	%idVal_90 = load %global2local_224
-	%offset_91 = mul %idVal_90 8
-	%elementAddr_92 = add %arrayBase_89 %offset_91
-	%elementVal_93 = load %elementAddr_92
-	store %elementVal_93 %global2local_232
-	%arrayBase_94 = load %global2local_225
-	%idVal_95 = load %global2local_231
-	%offset_96 = mul %idVal_95 8
-	%elementAddr_97 = add %arrayBase_94 %offset_96
-	%arrayBase_98 = load %elementAddr_97
-	%idVal_99 = load %global2local_232
-	%offset_100 = mul %idVal_99 8
-	%elementAddr_101 = add %arrayBase_98 %offset_100
-	%elementVal_102 = load %elementAddr_101
-	store %elementVal_102 %global2local_227
-	store 0 %global2local_226
-	br <12>
-
-<12> for_cond
-	%idVal_103 = load %global2local_226
-	%res_104 = lt %idVal_103 8
-	br %res_104 <13> <15>
-
-<13> for_body
-	%idVal_105 = load %global2local_231
-	%arrayBase_106 = load %global2local_218
-	%idVal_107 = load %global2local_226
-	%offset_108 = mul %idVal_107 8
-	%elementAddr_109 = add %arrayBase_106 %offset_108
-	%elementVal_110 = load %elementAddr_109
-	%res_111 = add %idVal_105 %elementVal_110
-	%idVal_112 = load %global2local_232
-	%arrayBase_113 = load %global2local_233
-	%idVal_114 = load %global2local_226
-	%offset_115 = mul %idVal_114 8
-	%elementAddr_116 = add %arrayBase_113 %offset_115
-	%elementVal_117 = load %elementAddr_116
-	%res_118 = add %idVal_112 %elementVal_117
-	br <24>
-
-<24> centry
-	store %res_111 %cargAddr_155
-	store %res_118 %cargAddr_154
-	%cidVal_156 = load %cargAddr_155
-	br <33>
-
-<33> centry
-	store %cidVal_156 %cargAddr_202
-	%cidVal_203 = load %cargAddr_202
-	%cidVal_204 = load %global2local_228
-	%cres_205 = lt %cidVal_203 %cidVal_204
-	br %cres_205 <34> <36>
-
-<34> clhs_true
-	%cidVal_206 = load %cargAddr_202
-	%cres_207 = ge %cidVal_206 0
-	br %cres_207 <35> <36>
-
-<35> cbool_true
-	store 1 %cboolValAddr_201
-	br <37>
-
-<36> cbool_false
-	store 0 %cboolValAddr_201
-	br <37>
-
-<37> cbool_merge
-	%cboolVal_208 = load %cboolValAddr_201
-	store %cboolVal_208 %retValAddr_200
-	br <32>
-
-<32> after_call
-	%cres_157 = load %retValAddr_200
-	br %cres_157 <25> <31>
-
-<25> clhs_true
-	%cidVal_158 = load %cargAddr_154
-	br <39>
-
-<39> centry
-	store %cidVal_158 %cargAddr_211
-	%cidVal_212 = load %cargAddr_211
-	%cidVal_213 = load %global2local_228
-	%cres_214 = lt %cidVal_212 %cidVal_213
-	br %cres_214 <40> <42>
-
-<40> clhs_true
-	%cidVal_215 = load %cargAddr_211
-	%cres_216 = ge %cidVal_215 0
-	br %cres_216 <41> <42>
-
-<41> cbool_true
-	store 1 %cboolValAddr_210
-	br <43>
-
-<42> cbool_false
-	store 0 %cboolValAddr_210
-	br <43>
-
-<43> cbool_merge
-	%cboolVal_217 = load %cboolValAddr_210
-	store %cboolVal_217 %retValAddr_209
-	br <38>
-
-<38> after_call
-	%cres_159 = load %retValAddr_209
-	br %cres_159 <26> <31>
-
-<26> clhs_true
-	%carrayBase_160 = load %global2local_225
-	%cidVal_161 = load %cargAddr_155
-	%coffset_162 = mul %cidVal_161 8
-	%celementAddr_163 = add %carrayBase_160 %coffset_162
-	%carrayBase_164 = load %celementAddr_163
-	%cidVal_165 = load %cargAddr_154
-	%coffset_166 = mul %cidVal_165 8
-	%celementAddr_167 = add %carrayBase_164 %coffset_166
-	%celementVal_168 = load %celementAddr_167
-	%cres_169 = neg 1
-	%cres_170 = eq %celementVal_168 %cres_169
-	br %cres_170 <27> <31>
-
-<27> cif_true
-	%cidVal_171 = load %global2local_220
-	%coldVal_172 = load %global2local_220
-	%cnewVal_173 = inc %coldVal_172
-	store %cnewVal_173 %global2local_220
-	%cidVal_174 = load %cargAddr_155
-	%carrayBase_175 = load %global2local_222
-	%cidVal_176 = load %global2local_220
-	%coffset_177 = mul %cidVal_176 8
-	%celementAddr_178 = add %carrayBase_175 %coffset_177
-	store %cidVal_174 %celementAddr_178
-	%cidVal_179 = load %cargAddr_154
-	%carrayBase_180 = load %global2local_223
-	%cidVal_181 = load %global2local_220
-	%coffset_182 = mul %cidVal_181 8
-	%celementAddr_183 = add %carrayBase_180 %coffset_182
-	store %cidVal_179 %celementAddr_183
-	%cidVal_184 = load %global2local_227
-	%cres_185 = add %cidVal_184 1
-	%carrayBase_186 = load %global2local_225
-	%cidVal_187 = load %cargAddr_155
-	%coffset_188 = mul %cidVal_187 8
-	%celementAddr_189 = add %carrayBase_186 %coffset_188
-	%carrayBase_190 = load %celementAddr_189
-	%cidVal_191 = load %cargAddr_154
-	%coffset_192 = mul %cidVal_191 8
-	%celementAddr_193 = add %carrayBase_190 %coffset_192
-	store %cres_185 %celementAddr_193
-	%cidVal_194 = load %cargAddr_155
-	%cidVal_195 = load %global2local_229
-	%cres_196 = eq %cidVal_194 %cidVal_195
-	br %cres_196 <28> <30>
-
-<28> clhs_true
-	%cidVal_197 = load %cargAddr_154
-	%cidVal_198 = load %global2local_219
-	%cres_199 = eq %cidVal_197 %cidVal_198
-	br %cres_199 <29> <30>
-
-<29> cif_true
-	store 1 %global2local_221
-	br <30>
-
-<30> cif_merge
-	br <31>
-
-<31> cif_merge
-	br <23>
-
-<23> after_call
-	br <14>
-
-<14> for_step
-	%idVal_119 = load %global2local_226
-	%oldVal_120 = load %global2local_226
-	%newVal_121 = inc %oldVal_120
-	store %newVal_121 %global2local_226
-	br <12>
-
-<15> for_end
-	%idVal_122 = load %global2local_221
-	%res_123 = eq %idVal_122 1
-	br %res_123 <16> <17>
-
-<16> if_true
-	br <11>
-
-<17> if_merge
-	%idVal_124 = load %global2local_224
-	%oldVal_125 = load %global2local_224
-	%newVal_126 = inc %oldVal_125
-	store %newVal_126 %global2local_224
-	br <9>
-
-<11> while_end
-	%idVal_127 = load %global2local_221
-	%res_128 = eq %idVal_127 1
-	br %res_128 <18> <19>
-
-<18> if_true
-	%arrayBase_129 = load %global2local_225
-	%idVal_130 = load %global2local_229
-	%offset_131 = mul %idVal_130 8
-	%elementAddr_132 = add %arrayBase_129 %offset_131
-	%arrayBase_133 = load %elementAddr_132
-	%idVal_134 = load %global2local_219
-	%offset_135 = mul %idVal_134 8
-	%elementAddr_136 = add %arrayBase_133 %offset_135
-	%elementVal_137 = load %elementAddr_136
-	__printlnInt ( %elementVal_137 )
-	br <20>
-
-<19> if_false
-	print ( $str_0 )
-	br <20>
-
-<20> if_merge
-	%tmp_259 = load %global2local_218
-	store %tmp_259 @dx
-	%tmp_260 = load %global2local_219
-	store %tmp_260 @targety
-	%tmp_261 = load %global2local_220
-	store %tmp_261 @tail
-	%tmp_262 = load %global2local_221
-	store %tmp_262 @ok
-	%tmp_263 = load %global2local_222
-	store %tmp_263 @xlist
-	%tmp_264 = load %global2local_223
-	store %tmp_264 @ylist
-	%tmp_265 = load %global2local_224
-	store %tmp_265 @head
-	%tmp_266 = load %global2local_226
-	store %tmp_266 @j
-	%tmp_267 = load %global2local_227
-	store %tmp_267 @now
-	%tmp_268 = load %global2local_228
-	store %tmp_268 @N
-	%tmp_269 = load %global2local_229
-	store %tmp_269 @targetx
-	%tmp_270 = load %global2local_230
-	store %tmp_270 @i
-	%tmp_271 = load %global2local_231
-	store %tmp_271 @x
-	%tmp_272 = load %global2local_232
-	store %tmp_272 @y
-	%tmp_273 = load %global2local_233
-	store %tmp_273 @dy
+	%idVal_90 = load %varAddr_0
+	__printlnInt ( %idVal_90 )
+	%tmp_137 = load %global2local_91
+	store %tmp_137 @a7
+	%tmp_138 = load %global2local_92
+	store %tmp_138 @b1
+	%tmp_139 = load %global2local_93
+	store %tmp_139 @a1
+	%tmp_140 = load %global2local_94
+	store %tmp_140 @a0
+	%tmp_141 = load %global2local_95
+	store %tmp_141 @b3
+	%tmp_142 = load %global2local_96
+	store %tmp_142 @b6
+	%tmp_143 = load %global2local_97
+	store %tmp_143 @b4
+	%tmp_144 = load %global2local_98
+	store %tmp_144 @i
+	%tmp_145 = load %global2local_99
+	store %tmp_145 @a8
+	%tmp_146 = load %global2local_100
+	store %tmp_146 @b2
+	%tmp_147 = load %global2local_101
+	store %tmp_147 @b8
+	%tmp_148 = load %global2local_102
+	store %tmp_148 @b10
+	%tmp_149 = load %global2local_103
+	store %tmp_149 @a10
+	%tmp_150 = load %global2local_104
+	store %tmp_150 @b5
+	%tmp_151 = load %global2local_105
+	store %tmp_151 @a3
+	%tmp_152 = load %global2local_106
+	store %tmp_152 @a9
+	%tmp_153 = load %global2local_107
+	store %tmp_153 @a5
+	%tmp_154 = load %global2local_108
+	store %tmp_154 @b0
+	%tmp_155 = load %global2local_109
+	store %tmp_155 @b9
+	%tmp_156 = load %global2local_110
+	store %tmp_156 @a4
+	%tmp_157 = load %global2local_111
+	store %tmp_157 @a2
+	%tmp_158 = load %global2local_112
+	store %tmp_158 @a6
+	%tmp_159 = load %global2local_113
+	store %tmp_159 @b7
 	ret 0
 
 }
