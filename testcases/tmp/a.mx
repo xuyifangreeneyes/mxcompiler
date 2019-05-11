@@ -1,0 +1,179 @@
+int MAXN = 10500;
+int mod;
+int[] a  =new int[MAXN];
+class node {
+    int left;
+    int right;
+    int max;
+    int sum;
+    node() {
+        left = 0;
+        right = 0;
+        max = 0;
+        sum = 0;
+    }
+}
+
+node [] num = new node[4*MAXN];
+
+int max(int a, int b){
+    if (a < b)
+        return b;
+    else
+        return a;
+}
+
+int buildmax(int left, int right, int cnt){
+    int mid;
+    num[cnt].left = left;
+    num[cnt].right = right;
+    if (left == right){
+        num[cnt].max = a[left];
+        return a[left];
+    }
+    mid = (left + right) >> 1;
+    num[cnt].max = max(buildmax(left,mid,cnt*2),buildmax(mid+1, right, cnt*2+1));
+    return num[cnt].max;
+}
+
+int buildsum(int left, int right, int cnt){
+    int mid;
+    num[cnt].left = left;
+    num[cnt].right = right;
+    if (left == right){
+        num[cnt].sum = a[left];
+        return a[left];
+    }
+    mid = (left + right) >> 1;
+    int kk = buildsum(left,mid,cnt*2)+buildsum(mid+1, right, cnt*2+1);
+    num[cnt].sum = kk % mod;
+    return num[cnt].sum;
+}
+
+
+int worka(int left,int right,int cnt)
+ {
+ 	int mid;
+ 	if(left==num[cnt].left&&right==num[cnt].right)
+ 		return num[cnt].max;
+ 	mid= (num[cnt].left+num[cnt].right) >> 1;
+ 	if(right<=mid)
+ 		return worka(left,right,cnt*2);
+ 	else if(left>mid)
+ 		return worka(left,right,cnt*2+1);
+ 	else
+ 		return max(worka(left,mid,cnt*2),worka(mid+1,right,cnt*2+1));
+ }
+
+int workb(int left,int right,int cnt)
+{
+	int mid;
+	if(left==num[cnt].left&&right==num[cnt].right)
+		return num[cnt].sum;
+	mid=(num[cnt].left+num[cnt].right)>>1;
+	if(right<=mid)
+		return workb(left,right,cnt*2);
+	else if(left>mid)
+		return workb(left,right,cnt*2+1);
+	else
+		return (workb(left,mid,cnt*2) + workb(mid+1,right,cnt*2+1)) % mod;
+}
+
+
+int workc(int left, int right, int cnt){
+    return worka(left, right, cnt) & workb(left, right, cnt);;
+}
+
+int main(){
+   mod = getInt();
+   int n = getInt();
+   int i;
+   for (i=0;i<4*MAXN;i++) num[i] = new node;
+   for (i=1;i<=n;i++){
+    a[i] = getInt() % mod ;
+   }
+   buildmax(1,n,1);
+   buildsum(1,n,1);
+
+   int m = getInt();
+   int l;
+   int r;
+   while (m-->0){
+    l = getInt();
+    r = getInt();
+    println(toString(workc(l, r, 1)));
+   }
+   return 0;
+}
+
+
+
+/*!! metadata:
+=== comment ===
+苏起冬 我和你吻别
+=== is_public ===
+True
+=== assert ===
+output
+=== timeout ===
+1.0
+=== input ===
+10007
+400
+124 872 624 640 558 491 932 562 267 607 997 108 795 290 789 609 10 699 919 431 455 164 766 360 700 762 970 283 478 337 940 779 786 967 439 968 754 773 422 893 205 899 617 8 997 262 317 655 727 300
+257 768 787 906 593 164 902 26 795 48 101 493 881 179 132 846 785 903 680 555 881 903 738 622 995 912 9 635 827 626 984 949 736 300 357 431 256 606 684 371 85 794 824 792 368 619 155 714 806 236
+131 434 421 956 658 649 486 318 964 737 257 333 122 381 659 186 264 567 133 263 180 166 98 28 604 928 137 630 861 39 561 605 703 629 776 210 88 282 873 294 296 743 732 487 594 109 832 98 518 963
+106 95 47 971 207 524 883 607 492 772 666 517 104 41 112 433 400 518 305 873 72 663 546 419 317 611 225 922 433 94 431 73 762 100 666 184 994 453 196 66 690 966 174 398 559 650 623 153 298 448
+151 382 723 924 883 485 18 585 667 155 366 470 993 43 986 825 523 814 523 275 92 437 103 799 999 734 216 223 973 447 865 69 999 578 199 857 112 96 968 635 349 721 599 292 595 639 488 933 1000 228
+849 344 525 589 764 585 879 201 781 585 928 162 398 625 523 61 201 819 313 624 231 361 406 278 101 931 872 168 981 244 26 985 973 482 200 344 -137 17 518 523 571 268 214 816 162 717 736 703 507 105
+433 774 430 572 110 125 588 543 558 917 424 853 626 893 162 36 197 665 957 689 625 171 21 124 757 833 88 680 482 412 414 998 147 429 530 715 628 630 639 604 774 29 503 905 545 863 922 630 276 672
+646 352 650 963 653 280 922 926 543 158 33 948 584 52 908 408 859 835 425 442 159 260 848 801 602 160 485 630 645 303 463 652 417 300 396 541 156 51 190 408 836 269 518 688 694 573 465 844 715 564
+20
+74 331
+241 377
+191 243
+263 325
+297 315
+387 392
+136 361
+374 381
+268 374
+130 212
+199 230
+12 332
+376 388
+304 371
+66 250
+315 339
+111 328
+4 385
+293 378
+191 344
+
+=== phase ===
+codegen extended
+=== output ===
+544
+328
+614
+905
+20
+836
+672
+801
+132
+898
+385
+552
+12
+518
+704
+998
+872
+640
+934
+480
+=== exitcode ===
+0
+
+!!*/
