@@ -26,6 +26,13 @@ public class Memory extends Var {
         this.valid = true;
     }
 
+    public Memory(VirtualReg base, VirtualReg index, int scale) {
+        this.base = base;
+        this.index = index;
+        this.scale = scale;
+        this.valid = true;
+    }
+
     public Memory(Label label) {
         this.label = label;
         this.valid = true;
@@ -103,6 +110,12 @@ public class Memory extends Var {
 //            assert base != null;
             if (base == null) return "qword [ ]";
             StringBuilder builder = new StringBuilder("qword [" + base.getName());
+            if (index != null) {
+                builder.append(" + ").append(index.getName());
+                if (scale != 1) {
+                    builder.append("*").append(scale);
+                }
+            }
             if (displacement != 0) {
                 if (displacement > 0) {
                     builder.append(" + ").append(displacement);

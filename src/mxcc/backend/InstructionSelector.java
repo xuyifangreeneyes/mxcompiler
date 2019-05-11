@@ -168,6 +168,58 @@ public class InstructionSelector implements IRVisitor {
         return true;
     }
 
+    private boolean calculateAddr(Instruction inst) {
+        if (!(inst instanceof BinaryOperation)) return false;
+        BinaryOperation mul = (BinaryOperation) inst;
+        if (mul.getOp() != BinaryOperation.BinaryOp.MUL || !(mul.getLhs() instanceof LocalReg) ||
+                !(mul.getRhs() instanceof IntImmediate) || ((IntImmediate) mul.getRhs()).getVal() != 8) return false;
+        LocalReg index = (LocalReg) mul.getLhs();
+        LocalReg offset = mul.getDst();
+        if (regCounter.get(offset) != 2) return false;
+        if (!(inst.next instanceof BinaryOperation)) return false;
+        BinaryOperation add = (BinaryOperation) inst.next;
+        if (add.getOp() != BinaryOperation.BinaryOp.ADD || !(add.getLhs() instanceof LocalReg)
+                || add.getRhs() != offset) return false;
+        LocalReg base = (LocalReg) add.getLhs();
+        LocalReg addr = add.getDst();
+        if (regCounter.get(addr) != 2) return false;
+        if (!(inst.next.next instanceof Load) && !(inst.next.next instanceof Store)) return false;
+        Memory memory = new Memory(getVirtualReg(base), getVirtualReg(index), 8);
+        if (inst.next.next instanceof Load) {
+            Load load = (Load) inst.next.next;
+            if (load.getAddr() != addr) return false;
+            curNasmBlock.addInst(new Mov(getVirtualReg(load.getDst()), memory));
+        } else {
+            Store store = (Store) inst.next.next;
+            if (store.getAddr() != addr) return false;
+            curNasmBlock.addInst(new Mov(memory, getVar(store.getVal())));
+        }
+        return true;
+    }
+
+    private boolean calculateConstIndexAddr(Instruction inst) {
+        if (!(inst instanceof BinaryOperation)) return false;
+        BinaryOperation add = (BinaryOperation) inst;
+        if (add.getOp() != BinaryOperation.BinaryOp.ADD || !(add.getLhs() instanceof LocalReg)
+                || !(add.getRhs() instanceof IntImmediate)) return false;
+        LocalReg addr = add.getDst();
+        if (regCounter.get(addr) != 2) return false;
+        LocalReg base = (LocalReg) add.getLhs();
+        int displacement = ((IntImmediate) add.getRhs()).getVal();
+        if (!(inst.next instanceof Load) && !(inst.next instanceof Store)) return false;
+        Memory memory = new Memory(getVirtualReg(base), displacement);
+        if (inst.next instanceof Load) {
+            Load load = (Load) inst.next;
+            if (load.getAddr() != addr) return false;
+            curNasmBlock.addInst(new Mov(getVirtualReg(load.getDst()), memory));
+        } else {
+            Store store = (Store) inst.next;
+            if (store.getAddr() != addr) return false;
+            curNasmBlock.addInst(new Mov(memory, getVar(store.getVal())));
+        }
+        return true;
+    }
+
     public void visit(BasicBlock bb) {
         curNasmBlock = getBlock(bb);
         curNasmFunc.addBlock(curNasmBlock);
@@ -198,6 +250,10 @@ public class InstructionSelector implements IRVisitor {
         Instruction inst = bb.getFirstInst();
         while (inst != null) {
             if (processCmpAndJmp(inst)) {
+                inst = inst.next.next;
+            } else if (calculateAddr(inst)) {
+                inst = inst.next.next.next;
+            } else if (calculateConstIndexAddr(inst)) {
                 inst = inst.next.next;
             } else {
                 visit(inst);

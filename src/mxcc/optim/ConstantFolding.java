@@ -52,6 +52,20 @@ public class ConstantFolding extends Pass {
                         }
                         Move moveInst = new Move(binaryInst.getParentBB(), binaryInst.getDst(), new IntImmediate(res));
                         binaryInst.replacedBy(moveInst);
+                    } else if (binaryInst.getLhs() instanceof IntImmediate) {
+                        int lhs = ((IntImmediate) binaryInst.getLhs()).getVal();
+                        if ((lhs == 0 && binaryInst.getOp() == BinaryOperation.BinaryOp.ADD) ||
+                                (lhs == 1 && binaryInst.getOp() == BinaryOperation.BinaryOp.MUL)) {
+                            Move moveInst = new Move(binaryInst.getParentBB(), binaryInst.getDst(), binaryInst.getRhs());
+                            binaryInst.replacedBy(moveInst);
+                        }
+                    } else if (binaryInst.getRhs() instanceof IntImmediate) {
+                        int rhs = ((IntImmediate) binaryInst.getRhs()).getVal();
+                        if ((rhs == 0 && binaryInst.getOp() == BinaryOperation.BinaryOp.ADD) ||
+                                (rhs == 1 && binaryInst.getOp() == BinaryOperation.BinaryOp.MUL)) {
+                            Move moveInst = new Move(binaryInst.getParentBB(), binaryInst.getDst(), binaryInst.getLhs());
+                            binaryInst.replacedBy(moveInst);
+                        }
                     }
                 }
                 if (inst instanceof UnaryOperation) {
