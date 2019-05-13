@@ -1,8 +1,8 @@
 package mxcc.optim;
 
-import javafx.util.Pair;
 import mxcc.ir.*;
 import mxcc.utility.Config;
+import mxcc.utility.Pair;
 
 import java.util.HashSet;
 import java.util.LinkedList;

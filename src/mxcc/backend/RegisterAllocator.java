@@ -1,8 +1,8 @@
 package mxcc.backend;
 
-import javafx.util.Pair;
 import mxcc.nasm.*;
 import mxcc.utility.Config;
+import mxcc.utility.Pair;
 
 import java.io.File;
 import java.io.IOException;

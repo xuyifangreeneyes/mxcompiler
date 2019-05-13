@@ -1,6 +1,5 @@
 package mxcc.optim;
 
-import javafx.util.Pair;
 import mxcc.ir.*;
 
 import java.util.*;

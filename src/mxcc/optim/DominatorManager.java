@@ -1,8 +1,8 @@
 package mxcc.optim;
 
-import javafx.util.Pair;
 import mxcc.ir.BasicBlock;
 import mxcc.ir.Function;
+import mxcc.utility.Pair;
 
 import java.util.*;
 

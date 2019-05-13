@@ -1,179 +1,241 @@
-int MAXN = 10500;
-int mod;
-int[] a  =new int[MAXN];
-class node {
-    int left;
-    int right;
-    int max;
-    int sum;
-    node() {
-        left = 0;
-        right = 0;
-        max = 0;
-        sum = 0;
-    }
+int N = 100000;
+int n;
+int[] a = new int[N];
+int[] bak = new int[N];
+int[] a_left = new int[N];
+int[] a_right = new int[N];
+int[] heap = new int[N];
+int i1;int i2;int i3;int i4;int i5;int i6;int i7;int i8;
+int i9;int i10;int i11;int i12; int i13; int i14;
+class A{
+	int[][][][][][][][][][] A_arr;
+	void Optimizer(){
+		int[][][][][][][][][][] arr= new int[2][2][2][2][2][2][2][2][2][2];
+		int i1;int i2;int i3;int i4;int i5;int i6;int i7;int i8;
+		int i9;int i10;int i11;int i12; int i13; int i14;
+		int i;
+		int sum = 0;
+		for(i = 1; i <= 1000; i++){
+			arr[0][1][0][1][0][1][0][1][0][1] = 123 + i;
+			sum = sum + arr[0][1][0][1][0][1][0][1][0][1];
+		}
+		println(toString(sum));
+		for(i = 1; i <= 1000000; i++){
+			sum = sum + (9876 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234
+            			* 2345 % 1234 * 2345 % 1234 * 2345 % 1234 * 2345 % 1234) % 11;
+		}
+		println(toString(sum));
+		for(i = 1; i <= 200000000; i++);
+	}
+	A(){
+		A_arr = new int[2][2][3][2][3][2][2][3][2][2];
+	}
 }
-
-node [] num = new node[4*MAXN];
-
-int max(int a, int b){
-    if (a < b)
-        return b;
-    else
-        return a;
+void restore(){
+	int i;
+	for(i = 1; i <= n; i++)
+		a[i] = bak[i];
 }
-
-int buildmax(int left, int right, int cnt){
-    int mid;
-    num[cnt].left = left;
-    num[cnt].right = right;
-    if (left == right){
-        num[cnt].max = a[left];
-        return a[left];
-    }
-    mid = (left + right) >> 1;
-    num[cnt].max = max(buildmax(left,mid,cnt*2),buildmax(mid+1, right, cnt*2+1));
-    return num[cnt].max;
+int quicksort(int l, int r){
+	int i1;int i2;int i3;int i4;int i5;int i6;int i7;int i8;
+	int i9;int i10;int i11;int i12; int i13; int i14;
+	int sum = 0;
+	int x = a[l];
+	int z_l = 0;
+	int z_r = 0;
+	int i;
+	for(i = l + 1; i < r; i++){
+		sum++;
+		if(a[i] < x)
+			a_left[z_l++] = a[i];
+		else
+			a_right[z_r++] = a[i];
+	}
+	int p = l;
+	for(i = 0; i < z_l; i++)
+		a[p++] = a_left[i];
+	a[p++] = x;
+	for(i = 0; i < z_r; i++)
+		a[p++] = a_right[i];
+	if(z_l > 1)
+		sum = sum + quicksort(l, l + z_l);
+	if(z_r > 1)
+		sum = sum + quicksort(r - z_r, r);
+	return sum;
 }
-
-int buildsum(int left, int right, int cnt){
-    int mid;
-    num[cnt].left = left;
-    num[cnt].right = right;
-    if (left == right){
-        num[cnt].sum = a[left];
-        return a[left];
-    }
-    mid = (left + right) >> 1;
-    int kk = buildsum(left,mid,cnt*2)+buildsum(mid+1, right, cnt*2+1);
-    num[cnt].sum = kk % mod;
-    return num[cnt].sum;
+int calc(){
+	int i1;int i2;int i3;int i4;int i5;int i6;int i7;int i8;
+	int i9;int i10;int i11;int i12; int i13; int i14;
+	int i;
+	for(i = 1; i <= n; i++){
+		a_left[i] = i - 1;
+		a_right[i] = i + 1;
+	}
+	int sum = 0;
+	for(i = n; i >= 1; i--){
+		int l = a_left[a[i]];
+		int r = a_right[a[i]];
+		a_right[l] = r;
+		a_left[r] = l;
+		sum = sum + r - l - 2;
+	}
+	return sum;
 }
-
-
-int worka(int left,int right,int cnt)
- {
- 	int mid;
- 	if(left==num[cnt].left&&right==num[cnt].right)
- 		return num[cnt].max;
- 	mid= (num[cnt].left+num[cnt].right) >> 1;
- 	if(right<=mid)
- 		return worka(left,right,cnt*2);
- 	else if(left>mid)
- 		return worka(left,right,cnt*2+1);
- 	else
- 		return max(worka(left,mid,cnt*2),worka(mid+1,right,cnt*2+1));
- }
-
-int workb(int left,int right,int cnt)
-{
-	int mid;
-	if(left==num[cnt].left&&right==num[cnt].right)
-		return num[cnt].sum;
-	mid=(num[cnt].left+num[cnt].right)>>1;
-	if(right<=mid)
-		return workb(left,right,cnt*2);
-	else if(left>mid)
-		return workb(left,right,cnt*2+1);
-	else
-		return (workb(left,mid,cnt*2) + workb(mid+1,right,cnt*2+1)) % mod;
+int mergesort(int l, int r){
+	int i1;int i2;int i3;int i4;int i5;int i6;int i7;int i8;
+	int i9;int i10;int i11;int i12; int i13; int i14;
+	if(l + 1 == r) return 0;
+	int mid = l + r >> 1;
+	int sum = 0;
+	sum = sum + mergesort(l, mid);
+	sum = sum + mergesort(mid, r);
+	int n_l = 0;
+	int n_r = 0;
+	int i;
+	for(i = l; i < mid; i++)
+		a_left[n_l++] = a[i];
+	for(i = mid; i < r; i++)
+		a_right[n_r++] = a[i];
+	int z_l = 0;
+	int z_r = 0;
+	int z = l;
+	while(z_l < n_l && z_r < n_r){
+		sum++;
+		if(a_left[z_l] < a_right[z_r])
+			a[z++] = a_left[z_l++];
+		else
+			a[z++] = a_right[z_r++];
+	}
+	while(z_l < n_l)
+		a[z++] = a_left[z_l++];
+	while(z_r < n_r)
+		a[z++] = a_right[z_r++];
+	return sum;
 }
-
-
-int workc(int left, int right, int cnt){
-    return worka(left, right, cnt) & workb(left, right, cnt);;
+int heapsort(){
+	int i1;int i2;int i3;int i4;int i5;int i6;int i7;int i8;
+	int i9;int i10;int i11;int i12; int i13; int i14;
+	int sum = 0;
+	int i;
+	int tmp;
+	for(i = 1; i <= n; i++){
+		heap[i] = a[i];
+		int x = i;
+		while(x != 1){
+			sum++;
+			if(heap[x] > heap[x >> 1])
+				break;
+			tmp = heap[x];
+			heap[x] = heap[x >> 1];
+			heap[x >> 1] = tmp;
+			x = x >> 1;
+		}
+	}
+	int heap_size = n;
+	for(i = 1; i <= n; i++){
+		a[i] = heap[1];
+		heap[1] = heap[heap_size--];
+		int x = 1;
+		while((x << 1) <= heap_size){
+			int l = x << 1;
+			int r = l + 1;
+			int y = l;
+			if(r <= heap_size){
+				sum++;
+				if(heap[r] < heap[l])
+					y = r;
+			}
+			sum++;
+			if(heap[x] < heap[y])
+				break;
+			tmp = heap[x];
+			heap[x] = heap[y];
+			heap[y] = tmp;
+			tmp = x;
+			x = y;
+			y = tmp;
+		}
+	}
+	return sum;
 }
-
 int main(){
-   mod = getInt();
-   int n = getInt();
-   int i;
-   for (i=0;i<4*MAXN;i++) num[i] = new node;
-   for (i=1;i<=n;i++){
-    a[i] = getInt() % mod ;
-   }
-   buildmax(1,n,1);
-   buildsum(1,n,1);
+	int i1;int i2;int i3;int i4;int i5;int i6;int i7;int i8;
+	int i9;int i10;int i11;int i12; int i13; int i14;
+	n = getInt();
+	int k = getInt();
+	int i;
+	for(i = 1; i <= n; i++){
+		a[i] = i;
+		if(i <= k){
+			a[i] = k + 1 - i;
+		}
+		bak[i] = a[i];
+	}
+	int ans1 = quicksort(1, n + 1);
 
-   int m = getInt();
-   int l;
-   int r;
-   while (m-->0){
-    l = getInt();
-    r = getInt();
-    println(toString(workc(l, r, 1)));
-   }
-   return 0;
+	restore();
+	int ans2 = calc();
+
+	restore();
+	int ans3 = mergesort(1, n + 1);
+
+	restore();
+	int ans4 = heapsort();
+
+	println(toString(ans1));
+	println(toString(ans2));
+	println(toString(ans3));
+	println(toString(ans4));
+	A a = new A;
+	a.Optimizer();
+    return 0;
 }
+
 
 
 
 /*!! metadata:
 === comment ===
-苏起冬 我和你吻别
+optim-515030910637-xuzhenjia.txt
 === is_public ===
 True
 === assert ===
 output
 === timeout ===
-1.0
+2.0
 === input ===
-10007
-400
-124 872 624 640 558 491 932 562 267 607 997 108 795 290 789 609 10 699 919 431 455 164 766 360 700 762 970 283 478 337 940 779 786 967 439 968 754 773 422 893 205 899 617 8 997 262 317 655 727 300
-257 768 787 906 593 164 902 26 795 48 101 493 881 179 132 846 785 903 680 555 881 903 738 622 995 912 9 635 827 626 984 949 736 300 357 431 256 606 684 371 85 794 824 792 368 619 155 714 806 236
-131 434 421 956 658 649 486 318 964 737 257 333 122 381 659 186 264 567 133 263 180 166 98 28 604 928 137 630 861 39 561 605 703 629 776 210 88 282 873 294 296 743 732 487 594 109 832 98 518 963
-106 95 47 971 207 524 883 607 492 772 666 517 104 41 112 433 400 518 305 873 72 663 546 419 317 611 225 922 433 94 431 73 762 100 666 184 994 453 196 66 690 966 174 398 559 650 623 153 298 448
-151 382 723 924 883 485 18 585 667 155 366 470 993 43 986 825 523 814 523 275 92 437 103 799 999 734 216 223 973 447 865 69 999 578 199 857 112 96 968 635 349 721 599 292 595 639 488 933 1000 228
-849 344 525 589 764 585 879 201 781 585 928 162 398 625 523 61 201 819 313 624 231 361 406 278 101 931 872 168 981 244 26 985 973 482 200 344 -137 17 518 523 571 268 214 816 162 717 736 703 507 105
-433 774 430 572 110 125 588 543 558 917 424 853 626 893 162 36 197 665 957 689 625 171 21 124 757 833 88 680 482 412 414 998 147 429 530 715 628 630 639 604 774 29 503 905 545 863 922 630 276 672
-646 352 650 963 653 280 922 926 543 158 33 948 584 52 908 408 859 835 425 442 159 260 848 801 602 160 485 630 645 303 463 652 417 300 396 541 156 51 190 408 836 269 518 688 694 573 465 844 715 564
-20
-74 331
-241 377
-191 243
-263 325
-297 315
-387 392
-136 361
-374 381
-268 374
-130 212
-199 230
-12 332
-376 388
-304 371
-66 250
-315 339
-111 328
-4 385
-293 378
-191 344
-
+10000 1000
 === phase ===
-codegen extended
+optim pretest
 === output ===
-544
-328
-614
-905
-20
-836
-672
-801
-132
-898
-385
-552
-12
-518
-704
-998
-872
-640
-934
-480
+41004000
+41004000
+65513
+233628
+623500
+8623500
 === exitcode ===
-0
+
 
 !!*/
